@@ -83,17 +83,26 @@ export async function treeCommand(filePath: string, nodeId: string): Promise<voi
   }
 }
 
-function printNodeTree(ast: SourceFileAST, nodeId: string, depth: number): void {
+function printNodeTree(ast: SourceFileAST, nodeId: string, depth: number, isLast: boolean = true, prefix: string = ''): void {
   const node = ast.nodes[nodeId];
   if (!node) return;
 
-  const indent = '  '.repeat(depth);
   const kindName = getSyntaxKindName(node.kind);
-  console.log(`${indent}${nodeId}: ${kindName}`);
+  
+  // Print current node
+  if (depth === 0) {
+    console.log(`+ ${nodeId}: ${kindName}`);
+  } else {
+    const connector = isLast ? '\\' : '|';
+    console.log(`${prefix}${connector}-+ ${nodeId}: ${kindName}`);
+  }
 
   if (node.children && node.children.length > 0) {
-    node.children.forEach(childId => {
-      printNodeTree(ast, childId, depth + 1);
+    const newPrefix = depth === 0 ? '' : prefix + (isLast ? ' ' : '| ') + ' ';
+    
+    node.children.forEach((childId, index) => {
+      const isLastChild = index === node.children!.length - 1;
+      printNodeTree(ast, childId, depth + 1, isLastChild, newPrefix);
     });
   }
 } 
