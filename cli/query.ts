@@ -98,7 +98,7 @@ function printNodeTree(ast: SourceFileAST, nodeId: string, depth: number, isLast
   }
 
   if (node.children && node.children.length > 0) {
-    const newPrefix = depth === 0 ? '' : prefix + (isLast ? ' ' : '| ') + ' ';
+    const newPrefix = depth === 0 ? ' ' : prefix + (isLast ? ' ' : '|') + ' ';
     
     node.children.forEach((childId, index) => {
       const isLastChild = index === node.children!.length - 1;
