@@ -92,15 +92,15 @@ function printNodeTree(ast: SourceFileAST, nodeId: string, depth: number, isLast
   
   // Print current node
   if (depth === 0) {
-    console.log(`+ ${nodeId}: ${kindName}`);
+    console.log(`${nodeId}: ${kindName}`);
   } else {
     const connector = isLast ? '\\' : '|';
-    const nodeConnector = hasChildren ? '+' : '-';
-    console.log(`${prefix}${connector}-${nodeConnector} ${nodeId}: ${kindName}`);
+    // const nodeConnector = hasChildren ? '+' : '-';
+    console.log(`${prefix}${connector}- ${nodeId}: ${kindName}`);
   }
 
   if (hasChildren) {
-    const newPrefix = depth === 0 ? '  ' : prefix + (isLast ? '  ' : '| ') + ' ';
+    const newPrefix = depth === 0 ? '' : prefix + (isLast ? '  ' : '| ') + ' ';
     
     node.children!.forEach((childId, index) => {
       const isLastChild = index === node.children!.length - 1;
