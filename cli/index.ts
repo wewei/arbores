@@ -3,6 +3,7 @@
 import { Command } from 'commander';
 import { parseCommand } from './parse';
 import { stringifyCommand } from './stringify';
+import { rootCommand, childCommand, treeCommand } from './query';
 
 const program = new Command();
 
@@ -29,5 +30,29 @@ program
   .argument('<node-id>', 'Node ID to stringify')
   .option('-f, --format <format>', 'Output format (compact|readable|minified)', 'readable')
   .action(stringifyCommand);
+
+// 添加 root 命令
+program
+  .command('root')
+  .description('Get root node IDs from AST JSON file')
+  .argument('<file>', 'AST JSON file')
+  .option('--latest', 'Output only the latest version root node ID')
+  .action(rootCommand);
+
+// 添加 child 命令
+program
+  .command('child')
+  .description('Get children of a node from AST JSON file')
+  .argument('<file>', 'AST JSON file')
+  .argument('<node-id>', 'Node ID to get children for')
+  .action(childCommand);
+
+// 添加 tree 命令
+program
+  .command('tree')
+  .description('Display tree structure of a node from AST JSON file')
+  .argument('<file>', 'AST JSON file')
+  .argument('<node-id>', 'Node ID to display tree for')
+  .action(treeCommand);
 
 program.parse(); 
