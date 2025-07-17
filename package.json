@@ -13,6 +13,9 @@
     "@types/node": "^24.0.14",
     "commander": "^14.0.0"
   },
+  "scripts": {
+    "generate:syntax-kinds": "bun run scripts/generate-syntax-kind-names.ts"
+  },
   "bin": {
     "arbores": "./cli/index.ts"
   }
