@@ -88,19 +88,21 @@ function printNodeTree(ast: SourceFileAST, nodeId: string, depth: number, isLast
   if (!node) return;
 
   const kindName = getSyntaxKindName(node.kind);
+  const hasChildren = node.children && node.children.length > 0;
   
   // Print current node
   if (depth === 0) {
     console.log(`+ ${nodeId}: ${kindName}`);
   } else {
     const connector = isLast ? '\\' : '|';
-    console.log(`${prefix}${connector}-+ ${nodeId}: ${kindName}`);
+    const nodeConnector = hasChildren ? '+' : '-';
+    console.log(`${prefix}${connector}-${nodeConnector} ${nodeId}: ${kindName}`);
   }
 
-  if (node.children && node.children.length > 0) {
-    const newPrefix = depth === 0 ? ' ' : prefix + (isLast ? ' ' : '|') + ' ';
+  if (hasChildren) {
+    const newPrefix = depth === 0 ? '  ' : prefix + (isLast ? '  ' : '| ') + ' ';
     
-    node.children.forEach((childId, index) => {
+    node.children!.forEach((childId, index) => {
       const isLastChild = index === node.children!.length - 1;
       printNodeTree(ast, childId, depth + 1, isLastChild, newPrefix);
     });
