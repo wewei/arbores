@@ -110,6 +110,30 @@ function createTSNode(node: ASTNode, ast: SourceFileAST): ts.Node {
       return createPropertyAccessExpressionNode(node, ast);
     case ts.SyntaxKind.ParenthesizedExpression:
       return createParenthesizedExpressionNode(node, ast);
+    // 关键字节点
+    case ts.SyntaxKind.StringKeyword:
+      return ts.factory.createKeywordTypeNode(ts.SyntaxKind.StringKeyword);
+    case ts.SyntaxKind.NumberKeyword:
+      return ts.factory.createKeywordTypeNode(ts.SyntaxKind.NumberKeyword);
+    case ts.SyntaxKind.BooleanKeyword:
+      return ts.factory.createKeywordTypeNode(ts.SyntaxKind.BooleanKeyword);
+    case ts.SyntaxKind.AnyKeyword:
+      return ts.factory.createKeywordTypeNode(ts.SyntaxKind.AnyKeyword);
+    case ts.SyntaxKind.VoidKeyword:
+      return ts.factory.createKeywordTypeNode(ts.SyntaxKind.VoidKeyword);
+    case ts.SyntaxKind.ConstKeyword:
+      return ts.factory.createToken(ts.SyntaxKind.ConstKeyword);
+    case ts.SyntaxKind.LetKeyword:
+      return ts.factory.createToken(ts.SyntaxKind.LetKeyword);
+    case ts.SyntaxKind.VarKeyword:
+      return ts.factory.createToken(ts.SyntaxKind.VarKeyword);
+    case ts.SyntaxKind.FunctionKeyword:
+      return ts.factory.createToken(ts.SyntaxKind.FunctionKeyword);
+    case ts.SyntaxKind.ReturnKeyword:
+      return ts.factory.createToken(ts.SyntaxKind.ReturnKeyword);
+    case ts.SyntaxKind.AwaitKeyword:
+      return ts.factory.createToken(ts.SyntaxKind.AwaitKeyword);
+    // Token 节点
     case ts.SyntaxKind.PlusToken:
     case ts.SyntaxKind.MinusToken:
     case ts.SyntaxKind.AsteriskToken:
@@ -124,7 +148,16 @@ function createTSNode(node: ASTNode, ast: SourceFileAST): ts.Node {
     case ts.SyntaxKind.CloseBraceToken:
     case ts.SyntaxKind.OpenBracketToken:
     case ts.SyntaxKind.CloseBracketToken:
+    case ts.SyntaxKind.ColonToken:
+    case ts.SyntaxKind.LessThanToken:
+    case ts.SyntaxKind.GreaterThanToken:
+    case ts.SyntaxKind.FirstAssignment: // 等号赋值
+    case ts.SyntaxKind.FirstBinaryOperator: // 小于号
+    case ts.SyntaxKind.FirstPunctuation: // 左大括号
       return createTokenNode(node);
+    // 语句类型
+    case ts.SyntaxKind.FirstStatement: // 变量声明语句
+      return createVariableStatementNode(node, ast);
     default:
       // 对于不支持的节点类型，返回一个占位符
       return ts.factory.createIdentifier(`/* Unsupported node type: ${ts.SyntaxKind[node.kind]} */`);

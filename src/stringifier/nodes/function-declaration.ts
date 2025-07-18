@@ -13,13 +13,30 @@ export function createFunctionDeclarationNode(node: ASTNode, ast: SourceFileAST)
   const parameters = findChildByKind(children, ast, ts.SyntaxKind.SyntaxList);
   const bodyNode = findChildByKind(children, ast, ts.SyntaxKind.Block);
 
-  // 解析参数列表
+  // 解析参数列表 - 查找在 OpenParenToken 和 CloseParenToken 之间的 SyntaxList
   const parameterList: ts.ParameterDeclaration[] = [];
-  if (parameters && parameters.children) {
-    for (const childId of parameters.children) {
-      const childNode = ast.nodes[childId];
-      if (childNode && childNode.kind === ts.SyntaxKind.Parameter) {
-        parameterList.push(createParameterNode(childNode, ast));
+  const openParenIndex = children.findIndex(childId => {
+    const childNode = ast.nodes[childId];
+    return childNode && childNode.kind === ts.SyntaxKind.OpenParenToken;
+  });
+  const closeParenIndex = children.findIndex(childId => {
+    const childNode = ast.nodes[childId];
+    return childNode && childNode.kind === ts.SyntaxKind.CloseParenToken;
+  });
+  
+  if (openParenIndex !== -1 && closeParenIndex !== -1) {
+    for (let i = openParenIndex + 1; i < closeParenIndex; i++) {
+      const childId = children[i];
+      if (childId) {
+        const childNode = ast.nodes[childId];
+        if (childNode && childNode.kind === ts.SyntaxKind.SyntaxList && childNode.children) {
+          for (const paramChildId of childNode.children) {
+            const paramChildNode = ast.nodes[paramChildId];
+            if (paramChildNode && paramChildNode.kind === ts.SyntaxKind.Parameter) {
+              parameterList.push(createParameterNode(paramChildNode, ast));
+            }
+          }
+        }
       }
     }
   }

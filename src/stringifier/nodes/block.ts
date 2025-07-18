@@ -29,6 +29,30 @@ export function createBlockNode(node: ASTNode, ast: SourceFileAST): ts.Block {
           case ts.SyntaxKind.VariableStatement:
             statements.push(createVariableStatementNode(stmtNode, ast));
             break;
+          case ts.SyntaxKind.FirstStatement:
+            // FirstStatement 包含实际的语句，递归处理其子节点
+            if (stmtNode.children && stmtNode.children.length > 0) {
+              const firstChildId = stmtNode.children[0];
+              if (firstChildId) {
+                const actualStmtNode = ast.nodes[firstChildId];
+                if (actualStmtNode) {
+                  switch (actualStmtNode.kind) {
+                    case ts.SyntaxKind.VariableDeclarationList:
+                      statements.push(createVariableStatementNode(actualStmtNode, ast));
+                      break;
+                    case ts.SyntaxKind.ReturnStatement:
+                      statements.push(createReturnStatementNode(actualStmtNode, ast));
+                      break;
+                    case ts.SyntaxKind.ExpressionStatement:
+                      statements.push(createExpressionStatementNode(actualStmtNode, ast));
+                      break;
+                    default:
+                      statements.push(ts.factory.createEmptyStatement());
+                  }
+                }
+              }
+            }
+            break;
           default:
             // 对于不支持的语句类型，创建空语句
             statements.push(ts.factory.createEmptyStatement());

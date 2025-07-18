@@ -3,20 +3,38 @@ import type { ASTNode, SourceFileAST } from '../types';
 
 // 辅助函数：获取修饰符
 export function getModifiers(children: string[], ast: SourceFileAST): ts.NodeArray<ts.Modifier> | undefined {
-  const modifiers = children
-    .map(childId => ast.nodes[childId])
-    .filter((childNode): childNode is ASTNode => {
-      if (!childNode) return false;
-      return (
-        childNode.kind === ts.SyntaxKind.AsyncKeyword ||
+  const modifiers: ts.Modifier[] = [];
+  
+  for (const childId of children) {
+    const childNode = ast.nodes[childId];
+    if (!childNode) continue;
+    
+    // 直接的修饰符节点
+    if (childNode.kind === ts.SyntaxKind.AsyncKeyword ||
         childNode.kind === ts.SyntaxKind.PrivateKeyword ||
         childNode.kind === ts.SyntaxKind.PublicKeyword ||
         childNode.kind === ts.SyntaxKind.ProtectedKeyword ||
         childNode.kind === ts.SyntaxKind.StaticKeyword ||
-        childNode.kind === ts.SyntaxKind.ReadonlyKeyword
-      );
-    })
-    .map(childNode => createModifierNode(childNode));
+        childNode.kind === ts.SyntaxKind.ReadonlyKeyword) {
+      modifiers.push(createModifierNode(childNode));
+    }
+    // 在 SyntaxList 中的修饰符
+    else if (childNode.kind === ts.SyntaxKind.SyntaxList && childNode.children) {
+      for (const grandChildId of childNode.children) {
+        const grandChildNode = ast.nodes[grandChildId];
+        if (grandChildNode && (
+          grandChildNode.kind === ts.SyntaxKind.AsyncKeyword ||
+          grandChildNode.kind === ts.SyntaxKind.PrivateKeyword ||
+          grandChildNode.kind === ts.SyntaxKind.PublicKeyword ||
+          grandChildNode.kind === ts.SyntaxKind.ProtectedKeyword ||
+          grandChildNode.kind === ts.SyntaxKind.StaticKeyword ||
+          grandChildNode.kind === ts.SyntaxKind.ReadonlyKeyword
+        )) {
+          modifiers.push(createModifierNode(grandChildNode));
+        }
+      }
+    }
+  }
   
   return modifiers.length > 0 ? ts.factory.createNodeArray(modifiers) : undefined;
 }
@@ -30,21 +48,37 @@ export function findChildByKind(children: string[], ast: SourceFileAST, kind: ts
 
 // 辅助函数：创建修饰符节点
 export function createModifierNode(node: ASTNode): ts.Modifier {
-  switch (node.text) {
-    case 'async':
+  switch (node.kind) {
+    case ts.SyntaxKind.AsyncKeyword:
       return ts.factory.createToken(ts.SyntaxKind.AsyncKeyword);
-    case 'private':
+    case ts.SyntaxKind.PrivateKeyword:
       return ts.factory.createToken(ts.SyntaxKind.PrivateKeyword);
-    case 'public':
+    case ts.SyntaxKind.PublicKeyword:
       return ts.factory.createToken(ts.SyntaxKind.PublicKeyword);
-    case 'protected':
+    case ts.SyntaxKind.ProtectedKeyword:
       return ts.factory.createToken(ts.SyntaxKind.ProtectedKeyword);
-    case 'static':
+    case ts.SyntaxKind.StaticKeyword:
       return ts.factory.createToken(ts.SyntaxKind.StaticKeyword);
-    case 'readonly':
+    case ts.SyntaxKind.ReadonlyKeyword:
       return ts.factory.createToken(ts.SyntaxKind.ReadonlyKeyword);
     default:
-      return ts.factory.createToken(ts.SyntaxKind.AsyncKeyword);
+      // 向后兼容：根据文本内容创建修饰符
+      switch (node.text) {
+        case 'async':
+          return ts.factory.createToken(ts.SyntaxKind.AsyncKeyword);
+        case 'private':
+          return ts.factory.createToken(ts.SyntaxKind.PrivateKeyword);
+        case 'public':
+          return ts.factory.createToken(ts.SyntaxKind.PublicKeyword);
+        case 'protected':
+          return ts.factory.createToken(ts.SyntaxKind.ProtectedKeyword);
+        case 'static':
+          return ts.factory.createToken(ts.SyntaxKind.StaticKeyword);
+        case 'readonly':
+          return ts.factory.createToken(ts.SyntaxKind.ReadonlyKeyword);
+        default:
+          return ts.factory.createToken(ts.SyntaxKind.AsyncKeyword);
+      }
   }
 }
 

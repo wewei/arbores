@@ -97,6 +97,22 @@ function createTSNode(node: ASTNode, ast: SourceFileAST): ts.Node {
       return ts.factory.createTrue();
     case ts.SyntaxKind.FalseKeyword:
       return ts.factory.createFalse();
+    case ts.SyntaxKind.StringKeyword:
+      return ts.factory.createKeywordTypeNode(ts.SyntaxKind.StringKeyword);
+    case ts.SyntaxKind.NumberKeyword:
+      return ts.factory.createKeywordTypeNode(ts.SyntaxKind.NumberKeyword);
+    case ts.SyntaxKind.AnyKeyword:
+      return ts.factory.createKeywordTypeNode(ts.SyntaxKind.AnyKeyword);
+    case ts.SyntaxKind.AsyncKeyword:
+      return ts.factory.createToken(ts.SyntaxKind.AsyncKeyword);
+    case ts.SyntaxKind.AwaitKeyword:
+      return ts.factory.createToken(ts.SyntaxKind.AwaitKeyword);
+    case ts.SyntaxKind.ConstKeyword:
+      return ts.factory.createToken(ts.SyntaxKind.ConstKeyword);
+    case ts.SyntaxKind.VarKeyword:
+      return ts.factory.createToken(ts.SyntaxKind.VarKeyword);
+    case ts.SyntaxKind.LetKeyword:
+      return ts.factory.createToken(ts.SyntaxKind.LetKeyword);
     case ts.SyntaxKind.ReturnStatement:
       return createReturnStatementNode(node, ast);
     case ts.SyntaxKind.IfStatement:
@@ -160,6 +176,13 @@ function createTSNode(node: ASTNode, ast: SourceFileAST): ts.Node {
     case ts.SyntaxKind.CloseBraceToken:
     case ts.SyntaxKind.OpenBracketToken:
     case ts.SyntaxKind.CloseBracketToken:
+    case ts.SyntaxKind.ColonToken:
+    case ts.SyntaxKind.LessThanToken:
+    case ts.SyntaxKind.GreaterThanToken:
+    case ts.SyntaxKind.FirstPunctuation:
+    case ts.SyntaxKind.FirstStatement:
+    case ts.SyntaxKind.FirstAssignment:
+    case ts.SyntaxKind.FirstBinaryOperator:
       return createTokenNode(node);
     default:
       // 对于不支持的节点类型，返回一个占位符

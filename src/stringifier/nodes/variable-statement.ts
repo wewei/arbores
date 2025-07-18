@@ -1,6 +1,7 @@
 import * as ts from 'typescript';
 import type { ASTNode, SourceFileAST } from '../../types';
 import { getModifiers, findChildByKind } from '../utils';
+import { createVariableDeclarationListNode } from './variable-declaration-list';
 
 // 创建变量语句节点
 export function createVariableStatementNode(node: ASTNode, ast: SourceFileAST): ts.VariableStatement {
@@ -10,7 +11,7 @@ export function createVariableStatementNode(node: ASTNode, ast: SourceFileAST): 
   
   return ts.factory.createVariableStatement(
     modifiers,
-    declarationList ? ts.factory.createVariableDeclarationList([], ts.NodeFlags.None) : 
+    declarationList ? createVariableDeclarationListNode(declarationList, ast) : 
                      ts.factory.createVariableDeclarationList([], ts.NodeFlags.None)
   );
 } 
