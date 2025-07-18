@@ -32,14 +32,19 @@ export async function rootCommand(filePath: string, options: QueryOptions): Prom
   }
 }
 
-export async function childCommand(filePath: string, nodeId: string): Promise<void> {
+export async function childCommand(filePath: string, options: { node?: string }): Promise<void> {
   try {
     const content = await readFile(filePath);
     const ast: SourceFileAST = JSON.parse(content);
 
-    const node = ast.nodes[nodeId];
+    if (!options.node) {
+      console.error('Node ID is required');
+      process.exit(1);
+    }
+
+    const node = ast.nodes[options.node];
     if (!node) {
-      console.error(`Node with ID '${nodeId}' not found`);
+      console.error(`Node with ID '${options.node}' not found`);
       process.exit(1);
     }
 
@@ -64,21 +69,21 @@ export async function childCommand(filePath: string, nodeId: string): Promise<vo
   }
 }
 
-export async function treeCommand(filePath: string, nodeId: string | undefined): Promise<void> {
+export async function treeCommand(filePath: string, options: { node?: string }): Promise<void> {
   try {
     const content = await readFile(filePath);
     const ast: SourceFileAST = JSON.parse(content);
 
     // 如果没有提供 nodeId，使用 latest root
     let targetNodeId: string;
-    if (!nodeId) {
+    if (!options.node) {
       const latestVersion = ast.versions[ast.versions.length - 1];
       if (!latestVersion) {
         throw new Error('No versions found in AST file');
       }
       targetNodeId = latestVersion.root_node_id;
     } else {
-      targetNodeId = nodeId;
+      targetNodeId = options.node;
     }
 
     const node = ast.nodes[targetNodeId];

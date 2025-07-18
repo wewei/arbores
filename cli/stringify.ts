@@ -4,8 +4,7 @@ import { readFile } from '../src/utils';
 
 export async function stringifyCommand(
   filePath: string,
-  nodeId: string | undefined,
-  options: { format?: string }
+  options: { node?: string; format?: string }
 ): Promise<void> {
   try {
     // 读取 AST JSON 文件
@@ -14,14 +13,14 @@ export async function stringifyCommand(
     
     // 如果没有提供 nodeId，使用 latest root
     let targetNodeId: string;
-    if (!nodeId) {
+    if (!options.node) {
       const latestVersion = ast.versions[ast.versions.length - 1];
       if (!latestVersion) {
         throw new Error('No versions found in AST file');
       }
       targetNodeId = latestVersion.root_node_id;
     } else {
-      targetNodeId = nodeId;
+      targetNodeId = options.node;
     }
     
     // 验证格式选项
