@@ -11,6 +11,15 @@ import { createVariableDeclaration } from './nodes/variable-declaration';
 import { createReturnStatement } from './nodes/return-statement';
 import { createBlock } from './nodes/block';
 import { createCallExpression } from './nodes/call-expression';
+import { createBinaryExpression } from './nodes/binary-expression';
+import { createAwaitExpression } from './nodes/await-expression';
+import { createPropertyAccessExpression } from './nodes/property-access-expression';
+import { createNumericLiteral } from './nodes/numeric-literal';
+import { createStringLiteral } from './nodes/string-literal';
+import { createBooleanLiteral } from './nodes/boolean-literal';
+import { createPropertyAssignment } from './nodes/property-assignment';
+import { createObjectLiteralExpression } from './nodes/object-literal-expression';
+import { createArrayLiteralExpression } from './nodes/array-literal-expression';
 import { createIdentifier } from './nodes/identifier';
 import { createLiteral } from './nodes/literal';
 import { createToken } from './nodes/token';
@@ -49,6 +58,27 @@ export function createNode<T extends ts.Node = ts.Node>(
     // 表达式节点
     case ts.SyntaxKind.CallExpression:
       return createCallExpression(createNode)(sourceFile, node) as unknown as T;
+    case ts.SyntaxKind.BinaryExpression:
+      return createBinaryExpression(createNode)(sourceFile, node) as unknown as T;
+    case ts.SyntaxKind.AwaitExpression:
+      return createAwaitExpression(createNode)(sourceFile, node) as unknown as T;
+    case ts.SyntaxKind.PropertyAccessExpression:
+      return createPropertyAccessExpression(createNode)(sourceFile, node) as unknown as T;
+    
+    // 字面量节点
+    case ts.SyntaxKind.NumericLiteral:
+      return createNumericLiteral(createNode)(sourceFile, node) as unknown as T;
+    case ts.SyntaxKind.StringLiteral:
+      return createStringLiteral(createNode)(sourceFile, node) as unknown as T;
+    case ts.SyntaxKind.TrueKeyword:
+    case ts.SyntaxKind.FalseKeyword:
+      return createBooleanLiteral(createNode)(sourceFile, node) as unknown as T;
+    case ts.SyntaxKind.ObjectLiteralExpression:
+      return createObjectLiteralExpression(createNode)(sourceFile, node) as unknown as T;
+    case ts.SyntaxKind.ArrayLiteralExpression:
+      return createArrayLiteralExpression(createNode)(sourceFile, node) as unknown as T;
+    case ts.SyntaxKind.PropertyAssignment:
+      return createPropertyAssignment(createNode)(sourceFile, node) as unknown as T;
     
     // 基础节点
     case ts.SyntaxKind.Identifier:
@@ -96,6 +126,7 @@ export function createNode<T extends ts.Node = ts.Node>(
     // 未支持的节点类型
     default:
       console.warn(`Unsupported node type: ${ts.SyntaxKind[node.kind]} (${node.kind})`);
+      console.warn(`Node details:`, { id: node.id, kind: node.kind, text: node.text, children: node.children });
       return ts.factory.createIdentifier(`/* Unsupported: ${ts.SyntaxKind[node.kind]} */`) as unknown as T;
   }
 }
