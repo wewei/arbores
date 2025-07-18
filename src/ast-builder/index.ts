@@ -20,6 +20,14 @@ import { createBooleanLiteral } from './nodes/boolean-literal';
 import { createPropertyAssignment } from './nodes/property-assignment';
 import { createObjectLiteralExpression } from './nodes/object-literal-expression';
 import { createArrayLiteralExpression } from './nodes/array-literal-expression';
+import { createArrowFunction } from './nodes/arrow-function';
+import { createParameter } from './nodes/parameter';
+import { createTypeReference } from './nodes/type-reference';
+import { createClassDeclaration } from './nodes/class-declaration';
+import { createInterfaceDeclaration } from './nodes/interface-declaration';
+import { createPropertyDeclaration } from './nodes/property-declaration';
+import { createMethodDeclaration } from './nodes/method-declaration';
+import { createPropertySignature } from './nodes/property-signature';
 import { createIdentifier } from './nodes/identifier';
 import { createLiteral } from './nodes/literal';
 import { createToken } from './nodes/token';
@@ -79,10 +87,28 @@ export function createNode<T extends ts.Node = ts.Node>(
       return createArrayLiteralExpression(createNode)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.PropertyAssignment:
       return createPropertyAssignment(createNode)(sourceFile, node) as unknown as T;
+    case ts.SyntaxKind.ArrowFunction:
+      return createArrowFunction(createNode)(sourceFile, node) as unknown as T;
+    case ts.SyntaxKind.Parameter:
+      return createParameter(createNode)(sourceFile, node) as unknown as T;
+    case ts.SyntaxKind.TypeReference:
+      return createTypeReference(createNode)(sourceFile, node) as unknown as T;
+    case ts.SyntaxKind.ClassDeclaration:
+      return createClassDeclaration(createNode)(sourceFile, node) as unknown as T;
+    case ts.SyntaxKind.InterfaceDeclaration:
+      return createInterfaceDeclaration(createNode)(sourceFile, node) as unknown as T;
+    case ts.SyntaxKind.PropertyDeclaration:
+      return createPropertyDeclaration(createNode)(sourceFile, node) as unknown as T;
+    case ts.SyntaxKind.MethodDeclaration:
+      return createMethodDeclaration(createNode)(sourceFile, node) as unknown as T;
+    case ts.SyntaxKind.PropertySignature:
+      return createPropertySignature(createNode)(sourceFile, node) as unknown as T;
     
     // 基础节点
     case ts.SyntaxKind.Identifier:
       return createIdentifier(createNode)(sourceFile, node) as unknown as T;
+    case ts.SyntaxKind.ThisKeyword:
+      return ts.factory.createThis() as unknown as T;
     
     // 字面量节点
     case ts.SyntaxKind.StringLiteral:
