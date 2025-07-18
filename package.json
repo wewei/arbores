@@ -7,12 +7,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yourusername/arbores.git"
+    "url": "git+https://github.com/wewei/arbores.git"
   },
   "bugs": {
-    "url": "https://github.com/yourusername/arbores/issues"
+    "url": "https://github.com/wewei/arbores/issues"
   },
-  "homepage": "https://github.com/yourusername/arbores#readme",
+  "homepage": "https://github.com/wewei/arbores#readme",
   "module": "index.ts",
   "type": "module",
   "devDependencies": {
