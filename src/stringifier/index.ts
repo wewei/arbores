@@ -135,7 +135,9 @@ function createTSNode(node: ASTNode, ast: SourceFileAST): ts.Node {
     case ts.SyntaxKind.ReadonlyKeyword:
       return createModifierNode(node);
     case ts.SyntaxKind.SyntaxList:
-      return createSyntaxListNode(node, ast);
+      // SyntaxList nodes contain multiple statements/expressions
+      // We need to process them individually, not as a single node
+      throw new Error('SyntaxList nodes should be processed by their parent nodes, not directly');
     case ts.SyntaxKind.ExpressionStatement:
       return createExpressionStatementNode(node, ast);
     case ts.SyntaxKind.AwaitExpression:
