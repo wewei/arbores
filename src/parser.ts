@@ -11,7 +11,6 @@ function processNode(
   
   // 检查节点是否已存在
   if (nodes[nodeId]) {
-    nodes[nodeId].usage_count++;
     return nodeId;
   }
   
@@ -24,9 +23,7 @@ function processNode(
     kind: node.kind,
     text: isTokenNode(node.kind) ? node.getText() : undefined,
     properties: extractNodeProperties(node),
-    children: childIds.length > 0 ? childIds : undefined,
-    created_at: new Date().toISOString(),
-    usage_count: 1
+    children: childIds.length > 0 ? childIds : undefined
   };
   
   nodes[nodeId] = astNode;

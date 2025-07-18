@@ -7,8 +7,6 @@ export type ASTNode = {
   text?: string;
   properties?: Record<string, any>;
   children?: string[];
-  created_at: string;
-  usage_count: number;
 };
 
 // 文件版本类型
