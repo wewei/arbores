@@ -159,22 +159,22 @@ function printAlignedTree(lines: TreeLine[]): void {
   // Find the maximum base line length
   const maxBaseLineLength = Math.max(...lines.map(line => line.baseLine.length));
   
-  // Calculate the aligned position for semicolons
-  const semicolonPosition = maxBaseLineLength + 2; // 2 spaces after the longest line
+  // Calculate the aligned position for hash symbols
+  const hashPosition = maxBaseLineLength + 2; // 2 spaces after the longest line
   
   // Check if we have enough space for text display
-  const availableTextSpace = terminalWidth - semicolonPosition - 1; // 1 for space after semicolon
+  const availableTextSpace = terminalWidth - hashPosition - 1; // 1 for space after hash
   const canDisplayText = availableTextSpace >= minTextSpace;
   
-  // Print all lines with aligned semicolons
+  // Print all lines with aligned hash symbols
   lines.forEach(line => {
     let outputLine = line.baseLine;
     
     if (line.text && canDisplayText) {
-      // Pad the base line to align with semicolon position
-      const padding = ' '.repeat(semicolonPosition - line.baseLine.length);
+      // Pad the base line to align with hash position
+      const padding = ' '.repeat(hashPosition - line.baseLine.length);
       const displayText = truncateText(line.text, availableTextSpace);
-      outputLine = line.baseLine + padding + '; ' + displayText;
+      outputLine = line.baseLine + padding + '# ' + displayText;
     }
     
     console.log(outputLine);
