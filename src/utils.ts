@@ -62,7 +62,11 @@ export async function writeFile(filePath: string, content: string): Promise<void
   const path = await import('path');
   
   // 确保目录存在
-  await fs.mkdir(path.dirname(filePath), { recursive: true });
+  const dir = path.dirname(filePath);
+  // 只有当目录不是当前目录时才创建
+  if (dir !== '.' && dir !== '') {
+    await fs.mkdir(dir, { recursive: true });
+  }
   await fs.writeFile(filePath, content);
 }
 
