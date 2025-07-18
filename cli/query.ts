@@ -64,19 +64,31 @@ export async function childCommand(filePath: string, nodeId: string): Promise<vo
   }
 }
 
-export async function treeCommand(filePath: string, nodeId: string): Promise<void> {
+export async function treeCommand(filePath: string, nodeId: string | undefined): Promise<void> {
   try {
     const content = await readFile(filePath);
     const ast: SourceFileAST = JSON.parse(content);
 
-    const node = ast.nodes[nodeId];
+    // 如果没有提供 nodeId，使用 latest root
+    let targetNodeId: string;
+    if (!nodeId) {
+      const latestVersion = ast.versions[ast.versions.length - 1];
+      if (!latestVersion) {
+        throw new Error('No versions found in AST file');
+      }
+      targetNodeId = latestVersion.root_node_id;
+    } else {
+      targetNodeId = nodeId;
+    }
+
+    const node = ast.nodes[targetNodeId];
     if (!node) {
-      console.error(`Node with ID '${nodeId}' not found`);
+      console.error(`Node with ID '${targetNodeId}' not found`);
       process.exit(1);
     }
 
     // Collect all tree lines
-    const lines = printNodeTree(ast, nodeId, 0);
+    const lines = printNodeTree(ast, targetNodeId, 0);
     
     // Print aligned tree
     printAlignedTree(lines);

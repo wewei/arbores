@@ -27,7 +27,7 @@ program
   .command('stringify')
   .description('Convert AST node back to TypeScript code')
   .argument('<file>', 'AST JSON file')
-  .argument('<node-id>', 'Node ID to stringify')
+  .argument('[node-id]', 'Node ID to stringify (defaults to latest root)')
   .option('-f, --format <format>', 'Output format (compact|readable|minified)', 'readable')
   .action(stringifyCommand);
 
@@ -52,7 +52,7 @@ program
   .command('tree')
   .description('Display tree structure of a node from AST JSON file')
   .argument('<file>', 'AST JSON file')
-  .argument('<node-id>', 'Node ID to display tree for')
+  .argument('[node-id]', 'Node ID to display tree for (defaults to latest root)')
   .action(treeCommand);
 
 program.parse(); 

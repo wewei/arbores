@@ -4,13 +4,25 @@ import { readFile } from '../src/utils';
 
 export async function stringifyCommand(
   filePath: string,
-  nodeId: string,
+  nodeId: string | undefined,
   options: { format?: string }
 ): Promise<void> {
   try {
     // 读取 AST JSON 文件
     const content = await readFile(filePath);
     const ast = JSON.parse(content);
+    
+    // 如果没有提供 nodeId，使用 latest root
+    let targetNodeId: string;
+    if (!nodeId) {
+      const latestVersion = ast.versions[ast.versions.length - 1];
+      if (!latestVersion) {
+        throw new Error('No versions found in AST file');
+      }
+      targetNodeId = latestVersion.root_node_id;
+    } else {
+      targetNodeId = nodeId;
+    }
     
     // 验证格式选项
     const format = options.format as 'compact' | 'readable' | 'minified';
@@ -19,7 +31,7 @@ export async function stringifyCommand(
     }
     
     // 字符串化节点
-    const result = stringifyNode(nodeId, ast, format);
+    const result = stringifyNode(targetNodeId, ast, format);
     
     // 输出到 stdout
     console.log(result);
