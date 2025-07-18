@@ -1,9 +1,20 @@
 {
   "name": "arbores",
   "version": "0.0.1",
+  "description": "A TypeScript AST parser and stringifier CLI tool",
+  "keywords": ["typescript", "ast", "parser", "stringifier", "cli", "compiler"],
+  "author": "Your Name",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yourusername/arbores.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/arbores/issues"
+  },
+  "homepage": "https://github.com/yourusername/arbores#readme",
   "module": "index.ts",
   "type": "module",
-  "private": true,
   "devDependencies": {
     "@types/bun": "latest"
   },
@@ -15,6 +26,9 @@
     "commander": "^14.0.0"
   },
   "scripts": {
+    "build": "tsc",
+    "dev": "bun run --watch index.ts",
+    "test": "bun test",
     "generate:syntax-kinds": "bun run scripts/generate-syntax-kind-names.ts"
   },
   "bin": {
