@@ -70,6 +70,9 @@ export function createSourceFileNode(node: ASTNode, ast: SourceFileAST): ts.Sour
 }
 
 // 使用现有的节点工厂创建 TypeScript 节点
+// TODO: 重构 - 这个函数与 index.ts 中的 createTSNode 重复
+// 建议：将 createTSNode 作为参数传递，避免代码重复
+// 或者创建一个共享的 createTSNode 函数供所有模块使用
 function createTSNode(node: ASTNode, ast: SourceFileAST): ts.Node {
   switch (node.kind) {
     case ts.SyntaxKind.SourceFile:

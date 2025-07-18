@@ -75,6 +75,12 @@ export function stringifyNode(
 }
 
 // 使用 TypeScript Factory API 创建节点
+// 注意：这个函数在多个文件中重复实现（syntax-list.ts, source-file.ts, node-factory.ts）
+// 推荐的重构方案：
+// 1. 将这个函数移到一个单独的模块 (如 node-factory.ts)
+// 2. 更新所有节点创建函数接受 CreateTSNodeFn 参数
+// 3. 在各个文件中导入并使用统一的函数
+// 4. 这样可以避免重复代码并提高可维护性
 function createTSNode(node: ASTNode, ast: SourceFileAST): ts.Node {
   switch (node.kind) {
     case ts.SyntaxKind.SourceFile:
