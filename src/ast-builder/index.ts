@@ -92,7 +92,10 @@ export function createNode<T extends ts.Node = ts.Node>(
     case ts.SyntaxKind.Parameter:
       return createParameter(createNode)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.TypeReference:
-      return createTypeReference(createNode)(sourceFile, node) as unknown as T;
+      // TypeReference 是类型节点，不是表达式节点
+      // 暂时跳过，避免在表达式上下文中使用
+      console.warn(`TypeReference should be handled in type context, not expression context`);
+      return ts.factory.createIdentifier('any') as unknown as T;
     case ts.SyntaxKind.ClassDeclaration:
       return createClassDeclaration(createNode)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.InterfaceDeclaration:
