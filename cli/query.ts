@@ -75,17 +75,11 @@ export async function treeCommand(filePath: string, nodeId: string): Promise<voi
       process.exit(1);
     }
 
-    // Check if terminal is too narrow for text display
-    const terminalWidth = getTerminalWidth();
-    const hasNarrowTerminal = terminalWidth < 80; // Threshold for narrow terminal
-
-    // Output tree structure
-    printNodeTree(ast, nodeId, 0);
+    // Collect all tree lines
+    const lines = printNodeTree(ast, nodeId, 0);
     
-    // Add warning if terminal is too narrow
-    if (hasNarrowTerminal) {
-      console.log('\nNote: Terminal width is limited. Some token text may not be displayed.');
-    }
+    // Print aligned tree
+    printAlignedTree(lines);
   } catch (error) {
     console.error('Error reading AST file:', error);
     process.exit(1);
@@ -114,40 +108,80 @@ function isTokenNode(kind: number): boolean {
   return kind >= 1 && kind <= 200; // Rough range for token kinds
 }
 
-function printNodeTree(ast: SourceFileAST, nodeId: string, depth: number, isLast: boolean = true, prefix: string = ''): void {
+// Tree line structure
+type TreeLine = {
+  baseLine: string;
+  text?: string;
+  depth: number;
+};
+
+function printNodeTree(ast: SourceFileAST, nodeId: string, depth: number, isLast: boolean = true, prefix: string = '', lines: TreeLine[] = []): TreeLine[] {
   const node = ast.nodes[nodeId];
-  if (!node) return;
+  if (!node) return lines;
 
   const kindName = getSyntaxKindName(node.kind);
   const hasChildren = node.children && node.children.length > 0;
-  const terminalWidth = getTerminalWidth();
   
   // Calculate the base line content (without text)
   const baseLine = depth === 0 
     ? `${nodeId}: ${kindName}`
     : `${prefix}${isLast ? '\\' : '|'}- ${nodeId}: ${kindName}`;
   
-  // Calculate available space for text
-  const baseLineLength = baseLine.length;
-  const minTextSpace = 8; // Minimum space needed for text display
-  const availableTextSpace = terminalWidth - baseLineLength - 3; // 3 for " ; "
+  // Add line to array
+  const line: TreeLine = {
+    baseLine,
+    depth
+  };
   
-  let outputLine = baseLine;
-  
-  // Add text for token nodes if there's enough space
-  if (node.text && isTokenNode(node.kind) && availableTextSpace >= minTextSpace) {
-    const displayText = truncateText(node.text, availableTextSpace);
-    outputLine += ` ; {${displayText}}`;
+  // Add text for token nodes
+  if (node.text && isTokenNode(node.kind)) {
+    line.text = node.text;
   }
   
-  console.log(outputLine);
+  lines.push(line);
 
   if (hasChildren) {
     const newPrefix = depth === 0 ? '' : prefix + (isLast ? '  ' : '| ') + ' ';
     
     node.children!.forEach((childId, index) => {
       const isLastChild = index === node.children!.length - 1;
-      printNodeTree(ast, childId, depth + 1, isLastChild, newPrefix);
+      printNodeTree(ast, childId, depth + 1, isLastChild, newPrefix, lines);
     });
+  }
+  
+  return lines;
+}
+
+function printAlignedTree(lines: TreeLine[]): void {
+  const terminalWidth = getTerminalWidth();
+  const minTextSpace = 8; // Minimum space needed for text display
+  
+  // Find the maximum base line length
+  const maxBaseLineLength = Math.max(...lines.map(line => line.baseLine.length));
+  
+  // Calculate the aligned position for semicolons
+  const semicolonPosition = maxBaseLineLength + 2; // 2 spaces after the longest line
+  
+  // Check if we have enough space for text display
+  const availableTextSpace = terminalWidth - semicolonPosition - 1; // 1 for space after semicolon
+  const canDisplayText = availableTextSpace >= minTextSpace;
+  
+  // Print all lines with aligned semicolons
+  lines.forEach(line => {
+    let outputLine = line.baseLine;
+    
+    if (line.text && canDisplayText) {
+      // Pad the base line to align with semicolon position
+      const padding = ' '.repeat(semicolonPosition - line.baseLine.length);
+      const displayText = truncateText(line.text, availableTextSpace);
+      outputLine = line.baseLine + padding + '; ' + displayText;
+    }
+    
+    console.log(outputLine);
+  });
+  
+  // Add warning if terminal is too narrow
+  if (!canDisplayText) {
+    console.log('\nNote: Terminal width is limited. Some token text may not be displayed.');
   }
 } 
