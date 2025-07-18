@@ -75,12 +75,43 @@ export async function treeCommand(filePath: string, nodeId: string): Promise<voi
       process.exit(1);
     }
 
+    // Check if terminal is too narrow for text display
+    const terminalWidth = getTerminalWidth();
+    const hasNarrowTerminal = terminalWidth < 80; // Threshold for narrow terminal
+
     // Output tree structure
     printNodeTree(ast, nodeId, 0);
+    
+    // Add warning if terminal is too narrow
+    if (hasNarrowTerminal) {
+      console.log('\nNote: Terminal width is limited. Some token text may not be displayed.');
+    }
   } catch (error) {
     console.error('Error reading AST file:', error);
     process.exit(1);
   }
+}
+
+// Get terminal width
+function getTerminalWidth(): number {
+  try {
+    return process.stdout.columns || 80;
+  } catch {
+    return 80; // fallback width
+  }
+}
+
+// Truncate text with ellipsis
+function truncateText(text: string, maxLength: number): string {
+  if (text.length <= maxLength) {
+    return text;
+  }
+  return text.substring(0, maxLength - 3) + '...';
+}
+
+// Check if node is a token node (has text)
+function isTokenNode(kind: number): boolean {
+  return kind >= 1 && kind <= 200; // Rough range for token kinds
 }
 
 function printNodeTree(ast: SourceFileAST, nodeId: string, depth: number, isLast: boolean = true, prefix: string = ''): void {
@@ -89,15 +120,27 @@ function printNodeTree(ast: SourceFileAST, nodeId: string, depth: number, isLast
 
   const kindName = getSyntaxKindName(node.kind);
   const hasChildren = node.children && node.children.length > 0;
+  const terminalWidth = getTerminalWidth();
   
-  // Print current node
-  if (depth === 0) {
-    console.log(`${nodeId}: ${kindName}`);
-  } else {
-    const connector = isLast ? '\\' : '|';
-    // const nodeConnector = hasChildren ? '+' : '-';
-    console.log(`${prefix}${connector}- ${nodeId}: ${kindName}`);
+  // Calculate the base line content (without text)
+  const baseLine = depth === 0 
+    ? `${nodeId}: ${kindName}`
+    : `${prefix}${isLast ? '\\' : '|'}- ${nodeId}: ${kindName}`;
+  
+  // Calculate available space for text
+  const baseLineLength = baseLine.length;
+  const minTextSpace = 8; // Minimum space needed for text display
+  const availableTextSpace = terminalWidth - baseLineLength - 3; // 3 for " ; "
+  
+  let outputLine = baseLine;
+  
+  // Add text for token nodes if there's enough space
+  if (node.text && isTokenNode(node.kind) && availableTextSpace >= minTextSpace) {
+    const displayText = truncateText(node.text, availableTextSpace);
+    outputLine += ` ; {${displayText}}`;
   }
+  
+  console.log(outputLine);
 
   if (hasChildren) {
     const newPrefix = depth === 0 ? '' : prefix + (isLast ? '  ' : '| ') + ' ';
