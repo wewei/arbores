@@ -93,3 +93,34 @@ bun run cli/index.ts stringify samples/basic-expressions.ast.json
 - **TemplateMiddle** 包含 `}...${`（包含前后的分隔符）
 
 AST 在生成时，text 包含了 `${`、`}` 这些字符。除了最后一个字符区段，其他的都天然包含了 `${` 后缀；除了第一个区段，其他都包含了 `}` 前缀。
+
+## 推荐的测试流程
+
+### 完整测试工作流
+
+1. **创建测试文件** - 在 `samples/` 目录下创建包含目标语法的 TypeScript 文件
+2. **解析测试** - 运行 `bun run cli/index.ts parse <file>.ts` 查看 AST 结构
+3. **实现节点** - 根据解析结果在 `src/ast-builder/nodes/` 下实现缺失的节点类型
+4. **注册节点** - 在 `src/ast-builder/index.ts` 中导入并添加 case 分支
+5. **生成测试** - 运行 `bun run cli/index.ts stringify <parsed>.json` 生成代码
+6. **对比验证** - 使用 `diff` 命令比较原始文件与生成文件
+7. **修复问题** - 根据差异调整节点实现逻辑
+8. **提交代码** - 更新文档并提交改进
+
+### 调试技巧
+
+**查看节点结构：**
+```bash
+# 查看特定节点类型
+bun run cli/index.ts parse file.ts | grep -A 5 "kind.*XXX"
+
+# 查看节点详细信息
+bun run cli/index.ts parse file.ts | grep -A 10 '"nodeId"'
+```
+
+**常见问题排查：**
+- 导入/展开语法问题：检查 SyntaxList 的递归处理
+- 模板字符串问题：注意 TemplateSpan 和 token 的处理顺序
+- 解构赋值问题：确保 ObjectBindingPattern 和 BindingElement 的正确映射
+- 类型注解问题：检查 TypeReference 和各种类型关键字的支持
+```

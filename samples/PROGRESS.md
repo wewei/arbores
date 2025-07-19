@@ -191,3 +191,30 @@
 2. 测试验证
 3. 继续实现 PropertyAccessExpression
 4. 重复测试驱动开发流程
+
+## 已支持的节点类型进度
+
+### 最新更新 (2025-01-19)
+
+**新支持的节点类型：**
+- SpreadElement (230) - 展开语法 `...array`
+- ObjectBindingPattern (206) - 对象解构模式 `{ id, title }`
+- BindingElement (208) - 解构绑定元素
+- ImportDeclaration (272) - 导入声明 `import { readFile } from '...'`
+- ImportClause (273) - 导入子句
+- NamedImports (275) - 具名导入 `{ readFile }`
+- ImportSpecifier (276) - 导入说明符
+- TryStatement (258) - try 语句
+- CatchClause (299) - catch 子句
+- MethodSignature (173) - 方法签名（接口中的方法）
+- NullKeyword (106) - null 关键字
+
+**修复的问题：**
+- 修复了导入语句中 NamedImports 的处理，现在能正确生成 `import { readFile } from "fs/promises"`
+- 修复了展开语法 SpreadElement 的处理，现在能正确生成 `[...numbers, 4, 5]`
+- 完善了 ArrayLiteralExpression 对 SpreadElement 的支持
+
+**测试样例：**
+- ✅ `samples/advanced-features.ts` - 完全支持，包括复杂的导入、解构、展开语法、try-catch、模板字符串等
+
+### 历史记录

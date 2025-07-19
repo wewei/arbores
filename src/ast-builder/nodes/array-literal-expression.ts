@@ -43,7 +43,8 @@ export const createArrayLiteralExpression: NodeBuilderFn<ts.ArrayLiteralExpressi
         child.kind === ts.SyntaxKind.CallExpression ||
         child.kind === ts.SyntaxKind.PropertyAccessExpression ||
         child.kind === ts.SyntaxKind.ObjectLiteralExpression ||
-        child.kind === ts.SyntaxKind.ArrayLiteralExpression) {
+        child.kind === ts.SyntaxKind.ArrayLiteralExpression ||
+        child.kind === ts.SyntaxKind.SpreadElement) {
       const element = createNode(sourceFile, child) as ts.Expression;
       elements.push(element);
     } else if (child.children) {

@@ -27,6 +27,7 @@ import { createClassDeclaration } from './nodes/class-declaration';
 import { createInterfaceDeclaration } from './nodes/interface-declaration';
 import { createPropertyDeclaration } from './nodes/property-declaration';
 import { createMethodDeclaration } from './nodes/method-declaration';
+import { createMethodSignature } from './nodes/method-signature';
 import { createPropertySignature } from './nodes/property-signature';
 import { createIdentifier } from './nodes/identifier';
 import { createLiteral } from './nodes/literal';
@@ -41,6 +42,16 @@ import { createConditionalExpression } from './nodes/conditional-expression';
 import { createTypeAliasDeclaration } from './nodes/type-alias-declaration';
 import { createUnionType } from './nodes/union-type';
 import { createLiteralType } from './nodes/literal-type';
+import { createSpreadElement } from './nodes/spread-element';
+import { createObjectBindingPattern } from './nodes/object-binding-pattern';
+import { createBindingElement } from './nodes/binding-element';
+import { createImportDeclaration } from './nodes/import-declaration';
+import { createImportClause } from './nodes/import-clause';
+import { createNamedImports } from './nodes/named-imports';
+import { createImportSpecifier } from './nodes/import-specifier';
+import { createTryStatement } from './nodes/try-statement';
+import { createCatchClause } from './nodes/catch-clause';
+import { createNullKeyword } from './nodes/null-keyword';
 
 // 类型关键字节点
 import { createNumberKeyword } from './nodes/number-keyword';
@@ -73,6 +84,14 @@ export function createNode<T extends ts.Node = ts.Node>(
       return createVariableDeclaration(createNode)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.TypeAliasDeclaration:
       return createTypeAliasDeclaration(createNode)(sourceFile, node) as unknown as T;
+    case ts.SyntaxKind.ImportDeclaration:
+      return createImportDeclaration(createNode)(sourceFile, node) as unknown as T;
+    case ts.SyntaxKind.ImportClause:
+      return createImportClause(createNode)(sourceFile, node) as unknown as T;
+    case ts.SyntaxKind.NamedImports:
+      return createNamedImports(createNode)(sourceFile, node) as unknown as T;
+    case ts.SyntaxKind.ImportSpecifier:
+      return createImportSpecifier(createNode)(sourceFile, node) as unknown as T;
     
     // 语句节点
     case ts.SyntaxKind.Block:
@@ -81,6 +100,10 @@ export function createNode<T extends ts.Node = ts.Node>(
       return createReturnStatement(createNode)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.ExpressionStatement:
       return createExpressionStatement(createNode)(sourceFile, node) as unknown as T;
+    case ts.SyntaxKind.TryStatement:
+      return createTryStatement(createNode)(sourceFile, node) as unknown as T;
+    case ts.SyntaxKind.CatchClause:
+      return createCatchClause(createNode)(sourceFile, node) as unknown as T;
     
     // 表达式节点
     case ts.SyntaxKind.CallExpression:
@@ -99,6 +122,8 @@ export function createNode<T extends ts.Node = ts.Node>(
       return createPrefixUnaryExpression(createNode)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.ConditionalExpression:
       return createConditionalExpression(createNode)(sourceFile, node) as unknown as T;
+    case ts.SyntaxKind.SpreadElement:
+      return createSpreadElement(createNode)(sourceFile, node) as unknown as T;
     
     // 字面量节点
     case ts.SyntaxKind.NumericLiteral:
@@ -124,6 +149,10 @@ export function createNode<T extends ts.Node = ts.Node>(
       return createUnionType(createNode)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.LiteralType:
       return createLiteralType(createNode)(sourceFile, node) as unknown as T;
+    case ts.SyntaxKind.ObjectBindingPattern:
+      return createObjectBindingPattern(createNode)(sourceFile, node) as unknown as T;
+    case ts.SyntaxKind.BindingElement:
+      return createBindingElement(createNode)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.ClassDeclaration:
       return createClassDeclaration(createNode)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.InterfaceDeclaration:
@@ -132,6 +161,8 @@ export function createNode<T extends ts.Node = ts.Node>(
       return createPropertyDeclaration(createNode)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.MethodDeclaration:
       return createMethodDeclaration(createNode)(sourceFile, node) as unknown as T;
+    case ts.SyntaxKind.MethodSignature:
+      return createMethodSignature(createNode)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.PropertySignature:
       return createPropertySignature(createNode)(sourceFile, node) as unknown as T;
     
@@ -193,6 +224,8 @@ export function createNode<T extends ts.Node = ts.Node>(
       return createAnyKeyword(createNode)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.VoidKeyword:
       return createVoidKeyword(createNode)(sourceFile, node) as unknown as T;
+    case ts.SyntaxKind.NullKeyword:
+      return createNullKeyword(createNode)(sourceFile, node) as unknown as T;
     
     // 未支持的节点类型
     default:
