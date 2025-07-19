@@ -123,4 +123,127 @@ bun run cli/index.ts parse file.ts | grep -A 10 '"nodeId"'
 - 模板字符串问题：注意 TemplateSpan 和 token 的处理顺序
 - 解构赋值问题：确保 ObjectBindingPattern 和 BindingElement 的正确映射
 - 类型注解问题：检查 TypeReference 和各种类型关键字的支持
+
+## 🎯 高级调试经验教训
+
+### 分治调试法 (Divide & Conquer Debugging)
+
+当面对复杂的 AST 处理错误时，采用分治法可以快速定位问题：
+
+#### 1. 错误现象识别
+```bash
+# 当看到类似错误时：
+# Error: Debug Failure. Unhandled SyntaxKind: Unknown.
+# 这通常意味着某个节点的 SyntaxKind 没有被正确设置
+```
+
+#### 2. 分治调试脚本
+创建调试脚本逐个测试AST子树：
+```typescript
+// debug-subtree.ts 示例
+const topLevelNodes = [
+  { id: 'node1', type: 'TypeAliasDeclaration', name: 'NonNullable' },
+  { id: 'node2', type: 'ClassDeclaration', name: 'Circle' }
+];
+
+for (const node of topLevelNodes) {
+  try {
+    // 创建只包含当前节点的子树AST
+    const subtreeAST = createSubtreeAST(node.id);
+    const result = stringify(subtreeAST);
+    console.log(`✅ ${node.name} 成功`);
+  } catch (error) {
+    console.log(`❌ ${node.name} 失败: ${error.message}`);
+  }
+}
+```
+
+#### 3. 渐进式问题定位
+```bash
+# Step 1: 定位出错的顶级节点
+bun debug-subtree.ts
+
+# Step 2: 分析出错节点的结构  
+bun run cli tree samples/file.ast.json -n problemNodeId
+
+# Step 3: 创建最简复现案例
+echo "class Circle { constructor(private radius: number) {} }" > simple-test.ts
+bun run cli parse simple-test.ts
+```
+
+### 经验教训总结
+
+#### ✅ 成功经验
+1. **仔细观察，大胆假设，认真求证**
+   - 观察：错误发生在参数处理阶段
+   - 假设：问题出在构造函数参数的修饰符处理
+   - 求证：创建简化测试用例验证假设
+
+2. **分治法调试的威力**
+   - 将复杂问题分解为可管理的小问题
+   - 系统性地排除可能性，快速定位根因
+   - 避免盲目猜测，提高调试效率
+
+3. **渐进式测试策略**
+   - 先测试简单情况，再测试复杂情况
+   - 确保修复不会引入新问题
+   - 建立完整的回归测试机制
+
+#### ⚠️ 避免的陷阱
+1. **忽视节点结构的复杂性**
+   - 构造函数参数的 `private` 修饰符被包装在 `SyntaxList` 中
+   - 不能假设第一个子节点就是参数名
+   - 需要动态检测和处理不同的节点结构
+
+2. **错误的调试方式**
+   - ❌ 直接修改复杂文件试图解决问题
+   - ❌ 盲目添加 console.log 而不系统化调试
+   - ✅ 创建最简复现案例，专注核心问题
+
+3. **忽视边界情况**
+   - 处理修饰符时要考虑空修饰符列表的情况
+   - 确保 `modifiers.length > 0 ? modifiers : undefined` 的正确处理
+
+#### 🔧 实用调试工具模板
+
+```bash
+# 快速创建子树调试脚本模板
+cat > debug-template.ts << 'EOF'
+#!/usr/bin/env bun
+import { execSync } from 'child_process';
+import { readFileSync, writeFileSync } from 'fs';
+
+const nodes = [
+  // 添加需要测试的节点
+];
+
+for (const node of nodes) {
+  try {
+    // 子树AST创建和测试逻辑
+  } catch (error) {
+    console.log(`❌ ${node.name}: ${error.message}`);
+  }
+}
+EOF
+```
+
+#### 📋 问题解决检查清单
+
+- [ ] 使用分治法定位具体出错的节点
+- [ ] 创建最简复现案例
+- [ ] 分析节点的完整子树结构
+- [ ] 检查是否有被忽略的包装节点（如 SyntaxList）
+- [ ] 确保所有子节点都有正确的 SyntaxKind
+- [ ] 验证修复不影响其他功能
+- [ ] 更新相关文档和进度文件
+- [ ] 提交代码并清理临时调试文件
+
+#### 💡 最佳实践
+
+1. **预防为主**: 在实现新节点时，考虑所有可能的子节点组合
+2. **文档驱动**: 及时更新 PROGRESS.md，记录支持的语法特性
+3. **测试优先**: 为复杂逻辑编写单元测试，避免依赖手工验证
+4. **工具化调试**: 将常用的调试逻辑封装为可重用的工具脚本
+
+> **核心理念**: 通过系统化的方法论和工具，将复杂的 AST 调试问题转化为可管理、可重现的小问题，从而高效地定位和解决根本问题。
 ```
