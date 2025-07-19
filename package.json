@@ -1,8 +1,8 @@
 {
   "name": "arbores",
-  "version": "0.0.2",
-  "description": "A TypeScript AST parser and stringifier CLI tool",
-  "keywords": ["typescript", "ast", "parser", "stringifier", "cli", "compiler"],
+  "version": "0.0.3",
+  "description": "High-performance TypeScript AST parser and code generator with complete syntax support",
+  "keywords": ["typescript", "ast", "parser", "stringifier", "cli", "compiler", "code-generation", "syntax-analysis"],
   "author": "Your Name",
   "license": "MIT",
   "repository": {
