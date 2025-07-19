@@ -15,21 +15,21 @@
 ### 2. 生成 AST JSON
 使用 CLI 工具解析示例代码生成 AST：
 ```bash
-bun cli\index parse samples/basic-expressions.ts --file samples/basic-expressions.ast.json
+bun run cli/index.ts parse samples/basic-expressions.ts -a samples/basic-expressions.ast.json -O
 # 这会生成 samples/basic-expressions.ast.json
 ```
 
 ### 3. 尝试代码生成
 使用 stringify 命令测试代码生成，识别缺失的节点类型：
 ```bash
-bun cli\index stringify samples/basic-expressions.ast.json
+bun run cli/index.ts stringify samples/basic-expressions.ast.json
 # 输出会显示 "Unsupported node type: XXX" 错误
 ```
 
 ### 4. 检查 AST 结构
 使用 tree 命令查看特定节点的 AST 结构：
 ```bash
-bun cli\index tree samples/basic-expressions.ast.json some-node-id
+bun run cli/index.ts tree samples/basic-expressions.ast.json -n some-node-id
 # 这帮助理解如何实现缺失的节点类型
 ```
 
@@ -56,7 +56,7 @@ case ts.SyntaxKind.BinaryExpression:
 ### 7. 测试验证
 重新运行 stringify 命令验证实现：
 ```bash
-bun cli\index stringify samples/basic-expressions.ast.json
+bun run cli/index.ts stringify samples/basic-expressions.ast.json
 # 应该生成正确的 TypeScript 代码
 ```
 
