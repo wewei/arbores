@@ -159,14 +159,14 @@ function printNodeTree(ast: SourceFileAST, nodeId: string, depth: number, isLast
   const kindName = getSyntaxKindName(node.kind);
   const hasChildren = node.children && node.children.length > 0;
   
-  // Calculate the base line content (without text) using beautiful Unicode box drawing characters
+  // Calculate the base line content using format: "Type(code): hash-id"
   let baseLine: string;
   if (depth === 0) {
-    baseLine = `${nodeId}: ${kindName}`;
+    baseLine = `${kindName}(${node.kind}): ${nodeId}`;
   } else {
     // Use beautiful Unicode box drawing characters
     const treeChar = isLast ? '└─' : '├─';
-    baseLine = `${prefix}${treeChar} ${nodeId}: ${kindName}`;
+    baseLine = `${prefix}${treeChar} ${kindName}(${node.kind}): ${nodeId}`;
   }
   
   // Add line to array
