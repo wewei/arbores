@@ -6,10 +6,24 @@
 
 **✅ SIMPLE-EXPRESSIONS.TS 完全完成！**
 
+**🔄 BASIC-EXPRESSIONS.TS 基本完成，但类型信息缺失**
+
+代码结构能正确生成，但以下类型相关功能需要改进：
+- 函数参数和返回类型注解
+- 类属性的类型注解和默认值
+- 接口属性的类型注解和可选性 
+- 变量类型注解
+- 对象字面量的完整属性
+
 **✅ 已完成实现的节点类型:**
 - BinaryExpression (226) - 二元表达式 ✅ 
 - AwaitExpression (223) - await 表达式 ✅  
 - PropertyAccessExpression (211) - 属性访问表达式 ✅
+- CallExpression (213) - 调用表达式 ✅
+- ClassDeclaration (263) - 类声明 ✅ (结构正确，缺类型信息)
+- InterfaceDeclaration (264) - 接口声明 ✅ (结构正确，缺类型信息)
+- MethodDeclaration (174) - 方法声明 ✅ (结构正确，缺类型信息)
+- PropertyDeclaration (172) - 属性声明 ✅ (结构正确，缺类型信息)
 - NumericLiteral (9) - 数字字面量 ✅
 - StringLiteral (11) - 字符串字面量 ✅
 - BooleanLiteral (112) - 布尔字面量 ✅
@@ -19,9 +33,7 @@
 - VariableDeclaration (260) - 变量声明 ✅
 - VariableDeclarationList (261) - 变量声明列表 ✅
 
-**🔄 测试结果:** simple-expressions.ts 能够完美生成所有代码！
-
-**🎯 下一步:** 回到 basic-expressions.ts 处理剩余的 ClassDeclaration (263), InterfaceDeclaration (264)
+**🎯 当前重点:** 改进类型信息处理，特别是 TypeReference (183) 和类型注解的正确生成
 
 ### 缺失的节点类型
 
