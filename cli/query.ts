@@ -159,10 +159,15 @@ function printNodeTree(ast: SourceFileAST, nodeId: string, depth: number, isLast
   const kindName = getSyntaxKindName(node.kind);
   const hasChildren = node.children && node.children.length > 0;
   
-  // Calculate the base line content (without text)
-  const baseLine = depth === 0 
-    ? `${nodeId}: ${kindName}`
-    : `${prefix}${isLast ? '\\' : '|'}- ${nodeId}: ${kindName}`;
+  // Calculate the base line content (without text) using beautiful Unicode box drawing characters
+  let baseLine: string;
+  if (depth === 0) {
+    baseLine = `${nodeId}: ${kindName}`;
+  } else {
+    // Use beautiful Unicode box drawing characters
+    const treeChar = isLast ? '└─' : '├─';
+    baseLine = `${prefix}${treeChar} ${nodeId}: ${kindName}`;
+  }
   
   // Add line to array
   const line: TreeLine = {
@@ -178,7 +183,8 @@ function printNodeTree(ast: SourceFileAST, nodeId: string, depth: number, isLast
   lines.push(line);
 
   if (hasChildren) {
-    const newPrefix = depth === 0 ? '' : prefix + (isLast ? '  ' : '| ') + ' ';
+    // Use Unicode box drawing characters for the prefix
+    const newPrefix = depth === 0 ? '' : prefix + (isLast ? '   ' : '│  ');
     
     node.children!.forEach((childId, index) => {
       const isLastChild = index === node.children!.length - 1;
