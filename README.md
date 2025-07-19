@@ -39,21 +39,25 @@ Options:
 #### Get root node IDs
 
 ```bash
-arbores root <file> [options]
+arbores roots <file> [options]
 ```
 
 Options:
 
 - `--latest` - Output only the latest version root node ID
+- `-v, --verbose` - Show detailed information (timestamp and description)
 
 Examples:
 
 ```bash
-# Get all root node IDs
-arbores root test.ast.json
+# Get all root node IDs (simple format)
+arbores roots test.ast.json
+
+# Get all root node IDs with detailed information
+arbores roots -v test.ast.json
 
 # Get only the latest version root node ID
-arbores root test.ast.json --latest
+arbores roots --latest test.ast.json
 ```
 
 #### Get children of a node
@@ -64,14 +68,18 @@ arbores children <file> [options]
 
 Options:
 
-- `-n, --node <id>` - Node ID to get children for
+- `-n, --node <id>` - Node ID to get children for (defaults to latest root)
 
 Outputs children as "id: human readable kind"
 
-Example:
+Examples:
 
 ```bash
+# Get children of a specific node
 arbores children -n b8871ff790a6d157 test.ast.json
+
+# Get children of the latest root node
+arbores children test.ast.json
 ```
 
 #### Display tree structure
@@ -111,7 +119,7 @@ arbores parse -O -a output.ast.json -D "Initial version" src/main.ts
 
 ```bash
 # Get root node ID
-arbores root --latest output.ast.json
+arbores roots --latest output.ast.json
 
 # Get children of a function declaration
 arbores children -n <function-node-id> output.ast.json

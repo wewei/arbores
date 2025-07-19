@@ -4,9 +4,10 @@ import { readFile, getFormatFromPath, parseASTFile } from '../src/utils';
 
 type QueryOptions = {
   latest?: boolean;
+  verbose?: boolean;
 };
 
-export async function rootCommand(filePath: string, options: QueryOptions): Promise<void> {
+export async function rootsCommand(filePath: string, options: QueryOptions): Promise<void> {
   try {
     const content = await readFile(filePath);
     const format = getFormatFromPath(filePath);
@@ -22,12 +23,18 @@ export async function rootCommand(filePath: string, options: QueryOptions): Prom
         process.exit(1);
       }
     } else {
-      // Output all root node IDs with timestamps
+      // Output all root node IDs
       ast.versions.forEach((version, index) => {
-        const versionLabel = `v${index + 1}`;
-        const timestamp = new Date(version.created_at).toLocaleString();
-        const description = version.description ? ` (${version.description})` : '';
-        console.log(`${versionLabel} [${timestamp}]${description}: ${version.root_node_id}`);
+        if (options.verbose) {
+          // Verbose: show version label, timestamp, description, and root node ID
+          const versionLabel = `v${index + 1}`;
+          const timestamp = new Date(version.created_at).toLocaleString();
+          const description = version.description ? ` (${version.description})` : '';
+          console.log(`${versionLabel} [${timestamp}]${description}: ${version.root_node_id}`);
+        } else {
+          // Simple: show only root node ID
+          console.log(version.root_node_id);
+        }
       });
     }
   } catch (error) {
@@ -42,14 +49,21 @@ export async function childrenCommand(filePath: string, options: { node?: string
     const format = getFormatFromPath(filePath);
     const ast: SourceFileAST = parseASTFile(content, format);
 
-    if (!options.node) {
-      console.error('Node ID is required');
-      process.exit(1);
+    let nodeId = options.node;
+    
+    // If no node ID specified, use the latest version's root node
+    if (!nodeId) {
+      const latestVersion = ast.versions[ast.versions.length - 1];
+      if (!latestVersion) {
+        console.error('No versions found in AST file');
+        process.exit(1);
+      }
+      nodeId = latestVersion.root_node_id;
     }
 
-    const node = ast.nodes[options.node];
+    const node = ast.nodes[nodeId];
     if (!node) {
-      console.error(`Node with ID '${options.node}' not found`);
+      console.error(`Node with ID '${nodeId}' not found`);
       process.exit(1);
     }
 

@@ -3,7 +3,7 @@
 import { Command } from 'commander';
 import { parseCommand } from './parse';
 import { stringifyCommand } from './stringify';
-import { rootCommand, childrenCommand, treeCommand } from './query';
+import { rootsCommand, childrenCommand, treeCommand } from './query';
 
 const program = new Command();
 
@@ -33,20 +33,21 @@ program
   .option('-f, --format <format>', 'Output format (compact|readable|minified)', 'readable')
   .action(stringifyCommand);
 
-// 添加 root 命令
+// 添加 roots 命令
 program
-  .command('root')
+  .command('roots')
   .description('Get root node IDs from AST file (supports JSON and YAML)')
   .argument('<file>', 'AST file (format auto-detected from extension)')
   .option('--latest', 'Output only the latest version root node ID')
-  .action(rootCommand);
+  .option('-v, --verbose', 'Show detailed information (timestamp and description)')
+  .action(rootsCommand);
 
 // 添加 children 命令
 program
   .command('children')
   .description('Get children of a node from AST file (supports JSON and YAML)')
   .argument('<file>', 'AST file (format auto-detected from extension)')
-  .option('-n, --node <id>', 'Node ID to get children for')
+  .option('-n, --node <id>', 'Node ID to get children for (defaults to latest root)')
   .action(childrenCommand);
 
 // 添加 tree 命令
