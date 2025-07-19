@@ -22,6 +22,12 @@ export function stringifyNode(
   try {
     const tsNode = createNode(ast, node);
     
+    // 检查节点是否正确创建
+    if (!tsNode || tsNode.kind === ts.SyntaxKind.Unknown) {
+      console.error(`Created node has Unknown SyntaxKind. Node ID: ${nodeId}, Original kind: ${node.kind} (${ts.SyntaxKind[node.kind]})`);
+      return `/* ${ts.SyntaxKind[node.kind]} node - Unknown SyntaxKind */`;
+    }
+    
     // 使用 TypeScript Printer API 生成代码
     const printer = ts.createPrinter({
       newLine: format === 'minified' ? ts.NewLineKind.CarriageReturnLineFeed : ts.NewLineKind.LineFeed,
@@ -44,6 +50,7 @@ export function stringifyNode(
     );
   } catch (error) {
     // 如果 Factory API 失败，返回节点信息
-    return `/* ${ts.SyntaxKind[node.kind]} node */`;
+    console.error(`Error stringifying node ${nodeId} (${ts.SyntaxKind[node.kind]}):`, error);
+    return `/* ${ts.SyntaxKind[node.kind]} node - Error */`;
   }
 }

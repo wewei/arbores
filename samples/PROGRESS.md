@@ -76,7 +76,16 @@
 
 ## 版本历史
 
-### v1.4.0 (2025-01-19) - 高级语法支持
+### v1.4.1 (2025-07-19) - 构造函数参数修饰符支持
+**重要修复:**
+- 修复 Parameter 节点对构造函数参数修饰符的支持
+- 正确处理 `private`, `public`, `protected` 等修饰符
+- 修复 PrivateKeyword (123) 在构造函数参数中的 "Unhandled SyntaxKind: Unknown" 错误
+
+**测试验证:**
+- ✅ samples/advanced-typescript.ts 完全支持 (100% 通过)
+- ✅ 构造函数参数修饰符正确处理
+- ✅ 类的私有属性和方法正确生成
 **新增节点类型:**
 - SpreadElement (230) - 展开语法支持
 - ObjectBindingPattern (206) - 对象解构模式

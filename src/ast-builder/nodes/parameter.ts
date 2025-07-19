@@ -21,13 +21,38 @@ export const createParameter: NodeBuilderFn<ts.ParameterDeclaration> = (
   const children = node.children || [];
   
   if (children.length < 1) {
-    throw new Error(`Parameter requires at least 1 child (name), got ${children.length}`);
+    throw new Error(`Parameter requires at least 1 child, got ${children.length}`);
   }
 
-  // children[0] 通常是参数名
-  const nameNode = sourceFile.nodes[children[0]!];
+  let modifiers: ts.Modifier[] = [];
+  let nameNode: ASTNode | undefined;
+  let nameIndex = 0;
+
+  // 检查第一个子节点是否是修饰符列表 (SyntaxList)
+  const firstChildId = children[0]!;
+  const firstChild = sourceFile.nodes[firstChildId];
+  
+  if (firstChild && firstChild.kind === ts.SyntaxKind.SyntaxList && firstChild.children) {
+    // 处理修饰符
+    for (const modifierId of firstChild.children) {
+      const modifierNode = sourceFile.nodes[modifierId];
+      if (modifierNode) {
+        const modifier = createNode(sourceFile, modifierNode) as ts.Modifier;
+        modifiers.push(modifier);
+      }
+    }
+    nameIndex = 1; // 名称在第二个位置
+  }
+  
+  // 获取参数名
+  if (nameIndex >= children.length) {
+    throw new Error(`Cannot find parameter name node after modifiers`);
+  }
+  
+  const nameNodeId = children[nameIndex]!;
+  nameNode = sourceFile.nodes[nameNodeId];
   if (!nameNode) {
-    throw new Error(`Cannot find parameter name node with id: ${children[0]}`);
+    throw new Error(`Cannot find parameter name node with id: ${nameNodeId}`);
   }
   
   const name = createNode(sourceFile, nameNode) as ts.BindingName;
@@ -36,8 +61,8 @@ export const createParameter: NodeBuilderFn<ts.ParameterDeclaration> = (
   let type: ts.TypeNode | undefined;
   let initializer: ts.Expression | undefined;
   
-  // 遍历其余子节点查找类型和初始值
-  for (let i = 1; i < children.length; i++) {
+  // 遍历剩余子节点查找类型和初始值
+  for (let i = nameIndex + 1; i < children.length; i++) {
     const childId = children[i];
     if (!childId) continue;
     
@@ -53,7 +78,15 @@ export const createParameter: NodeBuilderFn<ts.ParameterDeclaration> = (
               typeNode.kind === ts.SyntaxKind.StringKeyword ||
               typeNode.kind === ts.SyntaxKind.NumberKeyword ||
               typeNode.kind === ts.SyntaxKind.BooleanKeyword ||
-              typeNode.kind === ts.SyntaxKind.TypeReference
+              typeNode.kind === ts.SyntaxKind.TypeReference ||
+              typeNode.kind === ts.SyntaxKind.UnionType ||
+              typeNode.kind === ts.SyntaxKind.LiteralType ||
+              typeNode.kind === ts.SyntaxKind.AnyKeyword ||
+              typeNode.kind === ts.SyntaxKind.VoidKeyword ||
+              typeNode.kind === ts.SyntaxKind.UnknownKeyword ||
+              typeNode.kind === ts.SyntaxKind.NeverKeyword ||
+              typeNode.kind === ts.SyntaxKind.ArrayType ||
+              typeNode.kind === ts.SyntaxKind.TypeLiteral
             )) {
               type = createNode(sourceFile, typeNode) as ts.TypeNode;
               i++; // 跳过已处理的类型节点
@@ -77,7 +110,7 @@ export const createParameter: NodeBuilderFn<ts.ParameterDeclaration> = (
   }
   
   return ts.factory.createParameterDeclaration(
-    undefined, // modifiers
+    modifiers.length > 0 ? modifiers : undefined, // modifiers
     undefined, // dotDotDotToken
     name,
     undefined, // questionToken

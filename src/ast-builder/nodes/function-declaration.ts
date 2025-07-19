@@ -64,7 +64,14 @@ export const createFunctionDeclaration: NodeBuilderFn<ts.FunctionDeclaration> = 
             typeNode.kind === ts.SyntaxKind.StringKeyword ||
             typeNode.kind === ts.SyntaxKind.NumberKeyword ||
             typeNode.kind === ts.SyntaxKind.BooleanKeyword ||
-            typeNode.kind === ts.SyntaxKind.TypeReference
+            typeNode.kind === ts.SyntaxKind.TypeReference ||
+            typeNode.kind === ts.SyntaxKind.TypePredicate ||
+            typeNode.kind === ts.SyntaxKind.UnionType ||
+            typeNode.kind === ts.SyntaxKind.LiteralType ||
+            typeNode.kind === ts.SyntaxKind.AnyKeyword ||
+            typeNode.kind === ts.SyntaxKind.VoidKeyword ||
+            typeNode.kind === ts.SyntaxKind.UnknownKeyword ||
+            typeNode.kind === ts.SyntaxKind.NeverKeyword
           )) {
             type = createNode(sourceFile, typeNode) as ts.TypeNode;
             break;
