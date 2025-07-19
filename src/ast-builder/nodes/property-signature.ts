@@ -20,13 +20,29 @@ export const createPropertySignature: NodeBuilderFn<ts.PropertySignature> = (
 ): ts.PropertySignature => {
   const children = node.children || [];
   let propertyName: ts.PropertyName | undefined;
+  let typeNode: ts.TypeNode | undefined;
+  let questionToken: ts.Token<ts.SyntaxKind.QuestionToken> | undefined;
   
-  // 查找属性名 (通常是第一个 Identifier)
+  // 查找属性名和类型
   for (const childId of children) {
     const child = sourceFile.nodes[childId];
-    if (child && child.kind === ts.SyntaxKind.Identifier) {
+    if (!child) continue;
+    
+    if (child.kind === ts.SyntaxKind.Identifier && !propertyName) {
       propertyName = createNode(sourceFile, child) as ts.PropertyName;
-      break;
+    } else if (child.kind === ts.SyntaxKind.QuestionToken) {
+      questionToken = createNode(sourceFile, child) as ts.Token<ts.SyntaxKind.QuestionToken>;
+    } else if (
+      // 类型关键字节点
+      child.kind === ts.SyntaxKind.NumberKeyword ||
+      child.kind === ts.SyntaxKind.StringKeyword ||
+      child.kind === ts.SyntaxKind.BooleanKeyword ||
+      child.kind === ts.SyntaxKind.AnyKeyword ||
+      child.kind === ts.SyntaxKind.VoidKeyword ||
+      // 或者类型引用
+      child.kind === ts.SyntaxKind.TypeReference
+    ) {
+      typeNode = createNode(sourceFile, child) as ts.TypeNode;
     }
   }
   
@@ -34,11 +50,11 @@ export const createPropertySignature: NodeBuilderFn<ts.PropertySignature> = (
     propertyName = ts.factory.createIdentifier('property');
   }
   
-  // 简化实现：创建基本的属性签名
+  // 创建属性签名，包含类型信息
   return ts.factory.createPropertySignature(
     undefined, // modifiers
     propertyName,
-    undefined, // question token
-    undefined  // type
+    questionToken,
+    typeNode
   );
 };

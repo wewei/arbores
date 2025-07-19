@@ -34,6 +34,13 @@ import { createToken } from './nodes/token';
 import { createModifier } from './nodes/modifier';
 import { createSyntaxList } from './nodes/syntax-list';
 
+// 类型关键字节点
+import { createNumberKeyword } from './nodes/number-keyword';
+import { createStringKeyword } from './nodes/string-keyword';
+import { createBooleanKeyword } from './nodes/boolean-keyword';
+import { createAnyKeyword } from './nodes/any-keyword';
+import { createVoidKeyword } from './nodes/void-keyword';
+
 /**
  * 主要的节点创建函数
  * 这是整个系统的核心，根据 node.kind 调用相应的构建函数
@@ -146,11 +153,24 @@ export function createNode<T extends ts.Node = ts.Node>(
     case ts.SyntaxKind.MinusToken:
     case ts.SyntaxKind.AsteriskToken:
     case ts.SyntaxKind.SlashToken:
+    case ts.SyntaxKind.QuestionToken:
       return createToken(createNode)(sourceFile, node) as unknown as T;
     
     // 特殊节点
     case ts.SyntaxKind.SyntaxList:
       return createSyntaxList(createNode)(sourceFile, node) as unknown as T;
+    
+    // 类型关键字节点
+    case ts.SyntaxKind.NumberKeyword:
+      return createNumberKeyword(createNode)(sourceFile, node) as unknown as T;
+    case ts.SyntaxKind.StringKeyword:
+      return createStringKeyword(createNode)(sourceFile, node) as unknown as T;
+    case ts.SyntaxKind.BooleanKeyword:
+      return createBooleanKeyword(createNode)(sourceFile, node) as unknown as T;
+    case ts.SyntaxKind.AnyKeyword:
+      return createAnyKeyword(createNode)(sourceFile, node) as unknown as T;
+    case ts.SyntaxKind.VoidKeyword:
+      return createVoidKeyword(createNode)(sourceFile, node) as unknown as T;
     
     // 未支持的节点类型
     default:

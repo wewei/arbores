@@ -32,15 +32,56 @@ export const createParameter: NodeBuilderFn<ts.ParameterDeclaration> = (
   
   const name = createNode(sourceFile, nameNode) as ts.BindingName;
   
-  // TODO: 处理类型注解和默认值
-  // 目前只处理简单的参数名
+  // 处理类型注解和默认值
+  let type: ts.TypeNode | undefined;
+  let initializer: ts.Expression | undefined;
+  
+  // 遍历其余子节点查找类型和初始值
+  for (let i = 1; i < children.length; i++) {
+    const childId = children[i];
+    if (!childId) continue;
+    
+    const childNode = sourceFile.nodes[childId];
+    if (childNode) {
+      if (childNode.kind === ts.SyntaxKind.ColonToken) {
+        // 下一个节点应该是类型
+        if (i + 1 < children.length) {
+          const nextChildId = children[i + 1];
+          if (nextChildId) {
+            const typeNode = sourceFile.nodes[nextChildId];
+            if (typeNode && (
+              typeNode.kind === ts.SyntaxKind.StringKeyword ||
+              typeNode.kind === ts.SyntaxKind.NumberKeyword ||
+              typeNode.kind === ts.SyntaxKind.BooleanKeyword ||
+              typeNode.kind === ts.SyntaxKind.TypeReference
+            )) {
+              type = createNode(sourceFile, typeNode) as ts.TypeNode;
+              i++; // 跳过已处理的类型节点
+            }
+          }
+        }
+      } else if (childNode.kind === ts.SyntaxKind.FirstAssignment) {
+        // 下一个节点应该是初始值
+        if (i + 1 < children.length) {
+          const nextChildId = children[i + 1];
+          if (nextChildId) {
+            const initNode = sourceFile.nodes[nextChildId];
+            if (initNode) {
+              initializer = createNode(sourceFile, initNode) as ts.Expression;
+              i++; // 跳过已处理的初始值节点
+            }
+          }
+        }
+      }
+    }
+  }
   
   return ts.factory.createParameterDeclaration(
     undefined, // modifiers
     undefined, // dotDotDotToken
     name,
     undefined, // questionToken
-    undefined, // type
-    undefined  // initializer
+    type,      // type
+    initializer // initializer
   );
 };
