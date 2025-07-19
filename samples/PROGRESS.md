@@ -6,14 +6,23 @@
 
 **✅ SIMPLE-EXPRESSIONS.TS 完全完成！**
 
-**🔄 BASIC-EXPRESSIONS.TS 基本完成，但类型信息缺失**
+**🎉 BASIC-EXPRESSIONS.TS 基本完成，类型信息已修复！**
 
-代码结构能正确生成，但以下类型相关功能需要改进：
-- 函数参数和返回类型注解
-- 类属性的类型注解和默认值
-- 接口属性的类型注解和可选性 
-- 变量类型注解
-- 对象字面量的完整属性
+代码结构能正确生成，类型相关功能已实现：
+
+- ✅ 函数参数和返回类型注解 (number, string 类型正确生成)
+- ✅ 接口属性的类型注解和可选性 (id: number, name: string, email?: string)
+- 🔄 类属性的类型注解和默认值 (需要进一步测试)
+- 🔄 变量类型注解 (需要进一步测试)
+- ✅ 对象字面量的完整属性
+
+**✅ 新增类型关键字节点支持:**
+
+- NumberKeyword (150) - number 类型 ✅
+- StringKeyword (154) - string 类型 ✅ 
+- BooleanKeyword (136) - boolean 类型 ✅
+- AnyKeyword (133) - any 类型 ✅
+- VoidKeyword (116) - void 类型 ✅
 
 **✅ 已完成实现的节点类型:**
 - BinaryExpression (226) - 二元表达式 ✅ 
