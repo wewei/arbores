@@ -33,6 +33,14 @@ import { createLiteral } from './nodes/literal';
 import { createToken } from './nodes/token';
 import { createModifier } from './nodes/modifier';
 import { createSyntaxList } from './nodes/syntax-list';
+import { createTemplateExpression } from './nodes/template-expression';
+import { createTemplateSpan } from './nodes/template-span';
+import { createPrefixUnaryExpression } from './nodes/prefix-unary-expression';
+import { createExpressionStatement } from './nodes/expression-statement';
+import { createConditionalExpression } from './nodes/conditional-expression';
+import { createTypeAliasDeclaration } from './nodes/type-alias-declaration';
+import { createUnionType } from './nodes/union-type';
+import { createLiteralType } from './nodes/literal-type';
 
 // 类型关键字节点
 import { createNumberKeyword } from './nodes/number-keyword';
@@ -63,12 +71,16 @@ export function createNode<T extends ts.Node = ts.Node>(
       return createVariableDeclarationList(createNode)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.VariableDeclaration:
       return createVariableDeclaration(createNode)(sourceFile, node) as unknown as T;
+    case ts.SyntaxKind.TypeAliasDeclaration:
+      return createTypeAliasDeclaration(createNode)(sourceFile, node) as unknown as T;
     
     // 语句节点
     case ts.SyntaxKind.Block:
       return createBlock(createNode)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.ReturnStatement:
       return createReturnStatement(createNode)(sourceFile, node) as unknown as T;
+    case ts.SyntaxKind.ExpressionStatement:
+      return createExpressionStatement(createNode)(sourceFile, node) as unknown as T;
     
     // 表达式节点
     case ts.SyntaxKind.CallExpression:
@@ -79,6 +91,14 @@ export function createNode<T extends ts.Node = ts.Node>(
       return createAwaitExpression(createNode)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.PropertyAccessExpression:
       return createPropertyAccessExpression(createNode)(sourceFile, node) as unknown as T;
+    case ts.SyntaxKind.TemplateExpression:
+      return createTemplateExpression(createNode)(sourceFile, node) as unknown as T;
+    case ts.SyntaxKind.TemplateSpan:
+      return createTemplateSpan(createNode)(sourceFile, node) as unknown as T;
+    case ts.SyntaxKind.PrefixUnaryExpression:
+      return createPrefixUnaryExpression(createNode)(sourceFile, node) as unknown as T;
+    case ts.SyntaxKind.ConditionalExpression:
+      return createConditionalExpression(createNode)(sourceFile, node) as unknown as T;
     
     // 字面量节点
     case ts.SyntaxKind.NumericLiteral:
@@ -100,6 +120,10 @@ export function createNode<T extends ts.Node = ts.Node>(
       return createParameter(createNode)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.TypeReference:
       return createTypeReference(createNode)(sourceFile, node) as unknown as T;
+    case ts.SyntaxKind.UnionType:
+      return createUnionType(createNode)(sourceFile, node) as unknown as T;
+    case ts.SyntaxKind.LiteralType:
+      return createLiteralType(createNode)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.ClassDeclaration:
       return createClassDeclaration(createNode)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.InterfaceDeclaration:
@@ -151,6 +175,7 @@ export function createNode<T extends ts.Node = ts.Node>(
     case ts.SyntaxKind.AsteriskToken:
     case ts.SyntaxKind.SlashToken:
     case ts.SyntaxKind.QuestionToken:
+    case ts.SyntaxKind.BarToken:
       return createToken(createNode)(sourceFile, node) as unknown as T;
     
     // 特殊节点

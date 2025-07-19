@@ -24,6 +24,7 @@ export const createToken: NodeBuilderFn<ts.Node> = (createNode: CreateNodeFn) =>
       case ts.SyntaxKind.SlashToken:
       case ts.SyntaxKind.QuestionToken:
         return ts.factory.createToken(node.kind as ts.PunctuationSyntaxKind);
+      
       default:
         // 对于其他类型，尝试创建标识符
         return ts.factory.createIdentifier(`/* Token: ${ts.SyntaxKind[node.kind]} */`);

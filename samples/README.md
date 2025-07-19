@@ -81,3 +81,15 @@ bun run cli/index.ts stringify samples/basic-expressions.ast.json
 2. 使用 tree 命令深入理解复杂节点的结构
 3. 实现节点构建器时，遵循现有的 `CreateNodeFn<T>` 依赖注入模式
 4. 测试时注意检查生成的代码是否语法正确且语义等价
+5. **使用 `bun test` 给比较复杂的代码逻辑加单测进行验证**，以替代写随机的测试脚本
+6. **参考 TypeScript package 提供的 `typescript.d.ts`**，从中搜索可能会用到的函数和类型定义
+
+## 实现技巧
+
+### Template 字符串处理
+在实现模板字符串相关节点时，需要注意：
+- **TemplateHead** 包含 `` `Hello, ${` ``（包含开始反引号和 `${`）
+- **TemplateTail** 包含 `}!` ``（包含 `}` 和结束反引号）
+- **TemplateMiddle** 包含 `}...${`（包含前后的分隔符）
+
+AST 在生成时，text 包含了 `${`、`}` 这些字符。除了最后一个字符区段，其他的都天然包含了 `${` 后缀；除了第一个区段，其他都包含了 `}` 前缀。
