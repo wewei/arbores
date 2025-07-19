@@ -1,6 +1,6 @@
 {
   "name": "arbores",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A TypeScript AST parser and stringifier CLI tool",
   "keywords": ["typescript", "ast", "parser", "stringifier", "cli", "compiler"],
   "author": "Your Name",

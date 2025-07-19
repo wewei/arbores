@@ -10,7 +10,7 @@ const program = new Command();
 program
   .name('arbores')
   .description('TypeScript AST parser and query tool')
-  .version('1.0.0');
+  .version('0.0.2');
 
 // 添加 parse 命令
 program
