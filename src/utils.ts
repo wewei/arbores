@@ -1,5 +1,41 @@
 import * as ts from 'typescript';
 import * as crypto from 'crypto';
+import * as yaml from 'js-yaml';
+
+// 支持的 AST 文件格式
+export type ASTFileFormat = 'json' | 'yaml' | 'yml';
+
+// 根据文件扩展名判断格式
+export function getFormatFromPath(filePath: string): ASTFileFormat {
+  const ext = filePath.split('.').pop()?.toLowerCase();
+  if (ext === 'yaml' || ext === 'yml') {
+    return 'yaml';
+  }
+  return 'json';
+}
+
+// 解析 AST 文件内容
+export function parseASTFile(content: string, format: ASTFileFormat): any {
+  if (format === 'yaml' || format === 'yml') {
+    return yaml.load(content);
+  }
+  return JSON.parse(content);
+}
+
+// 序列化 AST 数据
+export function stringifyASTData(data: any, format: ASTFileFormat): string {
+  if (format === 'yaml' || format === 'yml') {
+    return yaml.dump(data, {
+      indent: 2,
+      lineWidth: -1,
+      noRefs: true,
+      sortKeys: false,
+      flowLevel: -1,  // 使用标准 YAML 块格式而非流格式
+      condenseFlow: false
+    });
+  }
+  return JSON.stringify(data, null, 2);
+}
 
 // 生成节点 ID
 export function generateNodeId(node: ts.Node): string {
@@ -79,4 +115,4 @@ export async function fileExists(filePath: string): Promise<boolean> {
   } catch {
     return false;
   }
-} 
+}

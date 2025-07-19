@@ -1,6 +1,6 @@
 import type { SourceFileAST, ASTNode } from '../src/types';
 import { getSyntaxKindName } from '../src/syntax-kind-names';
-import { readFile } from '../src/utils';
+import { readFile, getFormatFromPath, parseASTFile } from '../src/utils';
 
 type QueryOptions = {
   latest?: boolean;
@@ -9,7 +9,8 @@ type QueryOptions = {
 export async function rootCommand(filePath: string, options: QueryOptions): Promise<void> {
   try {
     const content = await readFile(filePath);
-    const ast: SourceFileAST = JSON.parse(content);
+    const format = getFormatFromPath(filePath);
+    const ast: SourceFileAST = parseASTFile(content, format);
 
     if (options.latest) {
       // Output only the latest version's root node ID
@@ -35,7 +36,8 @@ export async function rootCommand(filePath: string, options: QueryOptions): Prom
 export async function childCommand(filePath: string, options: { node?: string }): Promise<void> {
   try {
     const content = await readFile(filePath);
-    const ast: SourceFileAST = JSON.parse(content);
+    const format = getFormatFromPath(filePath);
+    const ast: SourceFileAST = parseASTFile(content, format);
 
     if (!options.node) {
       console.error('Node ID is required');
@@ -72,7 +74,8 @@ export async function childCommand(filePath: string, options: { node?: string })
 export async function treeCommand(filePath: string, options: { node?: string }): Promise<void> {
   try {
     const content = await readFile(filePath);
-    const ast: SourceFileAST = JSON.parse(content);
+    const format = getFormatFromPath(filePath);
+    const ast: SourceFileAST = parseASTFile(content, format);
 
     // 如果没有提供 nodeId，使用 latest root
     let targetNodeId: string;

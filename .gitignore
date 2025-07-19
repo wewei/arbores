@@ -33,5 +33,7 @@ report.[0-9]_.[0-9]_.[0-9]_.[0-9]_.json
 # Finder (MacOS) folder config
 .DS_Store
 
-# Temporary AST JSON files in samples folder
-samples/*.ast.json
+# Generated AST files (all formats)
+*.ast.json
+*.ast.yaml
+*.ast.yml
