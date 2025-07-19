@@ -11,7 +11,6 @@ export type ASTNode = {
 
 // 文件版本类型
 export type FileVersion = {
-  version_id: string;
   created_at: string;
   root_node_id: string;
   description?: string;

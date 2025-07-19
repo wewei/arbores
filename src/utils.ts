@@ -51,14 +51,6 @@ export function generateNodeId(node: ts.Node): string {
     .substring(0, 16);
 }
 
-// 生成版本 ID
-export function generateVersionId(sourceFile: ts.SourceFile): string {
-  return crypto.createHash('sha256')
-    .update(sourceFile.getFullText())
-    .digest('hex')
-    .substring(0, 8);
-}
-
 // 判断是否为 token 节点
 export function isTokenNode(kind: number): boolean {
   return kind >= ts.SyntaxKind.FirstToken && kind <= ts.SyntaxKind.LastToken;

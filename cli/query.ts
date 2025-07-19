@@ -22,9 +22,12 @@ export async function rootCommand(filePath: string, options: QueryOptions): Prom
         process.exit(1);
       }
     } else {
-      // Output all root node IDs
-      ast.versions.forEach(version => {
-        console.log(`${version.version_id}: ${version.root_node_id}`);
+      // Output all root node IDs with timestamps
+      ast.versions.forEach((version, index) => {
+        const versionLabel = `v${index + 1}`;
+        const timestamp = new Date(version.created_at).toLocaleString();
+        const description = version.description ? ` (${version.description})` : '';
+        console.log(`${versionLabel} [${timestamp}]${description}: ${version.root_node_id}`);
       });
     }
   } catch (error) {

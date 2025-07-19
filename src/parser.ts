@@ -1,6 +1,6 @@
 import * as ts from 'typescript';
 import type { ASTNode, FileVersion, SourceFileAST } from './types';
-import { generateNodeId, generateVersionId, isTokenNode, extractNodeProperties } from './utils';
+import { generateNodeId, isTokenNode, extractNodeProperties } from './utils';
 
 // 处理节点（支持复用）
 function processNode(
@@ -46,7 +46,6 @@ export function parseTypeScriptFile(
   const rootNodeId = processNode(sourceFile, nodes);
   
   const version: FileVersion = {
-    version_id: generateVersionId(sourceFile),
     created_at: new Date().toISOString(),
     root_node_id: rootNodeId
   };
@@ -67,8 +66,16 @@ export function mergeAST(
   const newNodes: Record<string, ASTNode> = { ...existingAST.nodes };
   const newRootNodeId = processNode(newSourceFile, newNodes);
   
+  // 检查是否已有相同的根节点ID
+  const existingVersion = existingAST.versions.find(v => v.root_node_id === newRootNodeId);
+  
+  if (existingVersion && !description) {
+    // 如果已存在相同的根节点且没有新描述，直接返回现有数据
+    console.log('No structural changes detected, skipping version creation');
+    return existingAST;
+  }
+  
   const newVersion: FileVersion = {
-    version_id: generateVersionId(newSourceFile),
     created_at: new Date().toISOString(),
     root_node_id: newRootNodeId,
     description
