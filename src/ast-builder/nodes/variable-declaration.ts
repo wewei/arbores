@@ -5,12 +5,11 @@ import type { CreateNodeFn, NodeBuilderFn } from '../types';
 /**
  * 创建变量声明节点
  * 
- * VariableDeclaration 结构:
- * - children[0]: 变量名 (Identifier)
- * - children[1]: 等号 (EqualsToken) 
- * - children[2]: 初始化表达式
+ * VariableDeclaration 结构 (可能的组合):
+ * - 简单形式: [name, equals, initializer]
+ * - 带类型: [name, colon, type, equals, initializer]
  * 
- * 示例: a = 1, name = "hello"
+ * 示例: a = 1, name: string = "hello", user: User = {...}
  */
 export const createVariableDeclaration: NodeBuilderFn<ts.VariableDeclaration> = (
   createNode: CreateNodeFn<any>
@@ -24,22 +23,59 @@ export const createVariableDeclaration: NodeBuilderFn<ts.VariableDeclaration> = 
     throw new Error(`VariableDeclaration requires at least 1 child (name), got ${children.length}`);
   }
 
-  // children[0] 是变量名
+  // children[0] 总是变量名
   const nameNode = sourceFile.nodes[children[0]!];
   if (!nameNode) {
     throw new Error(`Cannot find variable name node with id: ${children[0]}`);
   }
   
   const name = createNode(sourceFile, nameNode) as ts.Identifier;
-  
-  // children[2] 是初始化表达式（如果有的话）
+  let typeNode: ts.TypeNode | undefined;
   let initializer: ts.Expression | undefined;
-  if (children.length >= 3) {
-    const initializerNode = sourceFile.nodes[children[2]!];
-    if (initializerNode) {
-      initializer = createNode(sourceFile, initializerNode) as ts.Expression;
+  
+  // 解析后续的节点
+  let currentIndex = 1;
+  
+  while (currentIndex < children.length) {
+    const childId = children[currentIndex];
+    const childNode = sourceFile.nodes[childId!];
+    if (!childNode) {
+      currentIndex++;
+      continue;
     }
+    
+    if (childNode.kind === ts.SyntaxKind.ColonToken) {
+      // 跳过冒号，下一个应该是类型
+      currentIndex++;
+      if (currentIndex < children.length) {
+        const typeChildId = children[currentIndex];
+        const typeChildNode = sourceFile.nodes[typeChildId!];
+        if (typeChildNode && (
+          typeChildNode.kind === ts.SyntaxKind.TypeReference ||
+          typeChildNode.kind === ts.SyntaxKind.NumberKeyword ||
+          typeChildNode.kind === ts.SyntaxKind.StringKeyword ||
+          typeChildNode.kind === ts.SyntaxKind.BooleanKeyword ||
+          typeChildNode.kind === ts.SyntaxKind.AnyKeyword ||
+          typeChildNode.kind === ts.SyntaxKind.VoidKeyword
+        )) {
+          typeNode = createNode(sourceFile, typeChildNode) as ts.TypeNode;
+        }
+      }
+    } else if (childNode.kind === ts.SyntaxKind.EqualsToken) {
+      // 跳过等号，下一个应该是初始化表达式
+      currentIndex++;
+      if (currentIndex < children.length) {
+        const initChildId = children[currentIndex];
+        const initChildNode = sourceFile.nodes[initChildId!];
+        if (initChildNode) {
+          initializer = createNode(sourceFile, initChildNode) as ts.Expression;
+        }
+      }
+      break; // 找到初始化表达式后停止
+    }
+    
+    currentIndex++;
   }
 
-  return ts.factory.createVariableDeclaration(name, undefined, undefined, initializer);
+  return ts.factory.createVariableDeclaration(name, undefined, typeNode, initializer);
 };
