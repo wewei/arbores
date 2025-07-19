@@ -3,7 +3,7 @@
 import { Command } from 'commander';
 import { parseCommand } from './parse';
 import { stringifyCommand } from './stringify';
-import { rootCommand, childCommand, treeCommand } from './query';
+import { rootCommand, childrenCommand, treeCommand } from './query';
 
 const program = new Command();
 
@@ -41,13 +41,13 @@ program
   .option('--latest', 'Output only the latest version root node ID')
   .action(rootCommand);
 
-// 添加 child 命令
+// 添加 children 命令
 program
-  .command('child')
+  .command('children')
   .description('Get children of a node from AST file (supports JSON and YAML)')
   .argument('<file>', 'AST file (format auto-detected from extension)')
   .option('-n, --node <id>', 'Node ID to get children for')
-  .action(childCommand);
+  .action(childrenCommand);
 
 // 添加 tree 命令
 program

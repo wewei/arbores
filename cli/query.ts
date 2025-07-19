@@ -36,7 +36,7 @@ export async function rootCommand(filePath: string, options: QueryOptions): Prom
   }
 }
 
-export async function childCommand(filePath: string, options: { node?: string }): Promise<void> {
+export async function childrenCommand(filePath: string, options: { node?: string }): Promise<void> {
   try {
     const content = await readFile(filePath);
     const format = getFormatFromPath(filePath);
