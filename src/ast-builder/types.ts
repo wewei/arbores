@@ -1,5 +1,5 @@
 import * as ts from 'typescript';
-import type { SourceFileAST, ASTNode } from '../types';
+import type { SourceFileAST, ASTNode } from '../core/types';
 
 // 通用节点创建函数类型
 export type CreateNodeFn<T extends ts.Node = ts.Node> = (sourceFile: SourceFileAST, node: ASTNode) => T;

@@ -1,19 +1,56 @@
 /**
  * API Types - Core types for Arbores API v5
  * 
- * This module defines the core types used throughout the Arbores API,
- * including the Result<T> type for functional error handling.
- * Data types are re-exported from src/types.ts to avoid duplication.
+ * This module defines all core types used throughout the Arbores API,
+ * including data types and the Result<T> type for functional error handling.
  */
 
-// Re-export all existing types from src/types.ts
-export type {
-  CommentInfo,
-  ASTNode,
-  FileVersion,
-  SourceFileAST,
-  ParseOptions
-} from '../types.js';
+// =============================================================================
+// Core Data Types (formerly from src/types.ts)
+// =============================================================================
+
+// Comment 信息类型 - 不包含位置信息，只关心内容
+export type CommentInfo = {
+  kind: 'SingleLineCommentTrivia' | 'MultiLineCommentTrivia';
+  text: string;
+};
+
+// AST 节点类型
+export type ASTNode = {
+  id: string;
+  kind: number;
+  text?: string;
+  properties?: Record<string, any>;
+  children?: string[];
+  leadingComments?: CommentInfo[];
+  trailingComments?: CommentInfo[];
+};
+
+// 文件版本类型
+export type FileVersion = {
+  created_at: string;
+  root_node_id: string;
+  description?: string;
+};
+
+// 源文件 AST 存储类型
+export type SourceFileAST = {
+  file_name: string;
+  versions: FileVersion[];
+  nodes: Record<string, ASTNode>;
+};
+
+// 解析选项类型
+export type ParseOptions = {
+  outputFile?: string;
+  dryRun?: boolean;
+  description?: string;
+};
+
+// 字符串化选项类型 (basic version, extended in stringify.ts)
+export type StringifyOptions = {
+  format?: 'compact' | 'readable' | 'minified';
+};
 
 // =============================================================================
 // Error Handling Types
@@ -105,7 +142,7 @@ export interface ParseStats {
  * Result of parsing operations
  */
 export interface ParseResult {
-  ast: import('../types.js').SourceFileAST;
+  ast: SourceFileAST;
   rootNodeId: string;
   stats: ParseStats;
 }

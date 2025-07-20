@@ -6,7 +6,7 @@
  */
 
 import * as ts from 'typescript';
-import type { SourceFileAST, ASTNode, FileVersion } from '../types.js';
+import type { SourceFileAST, ASTNode, FileVersion } from './types.js';
 import { generateNodeId, isTokenNode, extractNodeProperties, extractComments } from '../utils.js';
 import { 
   success, 

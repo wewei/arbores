@@ -82,8 +82,8 @@ export function extractNodeProperties(node: ts.Node): Record<string, any> | unde
 export function extractComments(
   node: ts.Node, 
   sourceText: string
-): { leadingComments?: import('./types').CommentInfo[], trailingComments?: import('./types').CommentInfo[] } {
-  const result: { leadingComments?: import('./types').CommentInfo[], trailingComments?: import('./types').CommentInfo[] } = {};
+): { leadingComments?: import('./core/types').CommentInfo[], trailingComments?: import('./core/types').CommentInfo[] } {
+  const result: { leadingComments?: import('./core/types').CommentInfo[], trailingComments?: import('./core/types').CommentInfo[] } = {};
   
   // 获取 leading comments
   const leadingCommentRanges = ts.getLeadingCommentRanges(sourceText, node.pos);
