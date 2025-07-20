@@ -340,6 +340,16 @@ function getCommentType(comment: any): string {
  */
 function getTerminalWidth(): number {
   try {
+    // 优先使用环境变量（用于测试和CI环境）
+    const envColumns = process.env.COLUMNS;
+    if (envColumns) {
+      const width = parseInt(envColumns, 10);
+      if (!isNaN(width) && width > 0) {
+        return width;
+      }
+    }
+    
+    // 然后尝试从stdout获取
     return process.stdout.columns || 80;
   } catch {
     return 80; // fallback width

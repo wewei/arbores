@@ -1,0 +1,226 @@
+file_name: src/cli/__tests__/fixtures/simple.ts
+versions:
+  - created_at: '{{TIMESTAMP}}'
+    root_node_id: {{NODE_ID}}
+nodes:
+  {{NODE_ID}}:
+    id: {{NODE_ID}}
+    kind: 87
+    text: const
+    leadingComments:
+      - kind: SingleLineCommentTrivia
+        text: // Simple TypeScript code for testing
+  {{NODE_ID}}:
+    id: {{NODE_ID}}
+    kind: 80
+    text: message
+  {{NODE_ID}}:
+    id: {{NODE_ID}}
+    kind: 59
+    text: ':'
+  {{NODE_ID}}:
+    id: {{NODE_ID}}
+    kind: 154
+    text: string
+  {{NODE_ID}}:
+    id: {{NODE_ID}}
+    kind: 64
+    text: '='
+  {{NODE_ID}}:
+    id: {{NODE_ID}}
+    kind: 11
+    text: '"Hello, World!"'
+  {{NODE_ID}}:
+    id: {{NODE_ID}}
+    kind: 260
+    properties:
+      name: message
+      hasInitializer: true
+    children:
+      - {{NODE_ID}}
+      - {{NODE_ID}}
+      - {{NODE_ID}}
+      - {{NODE_ID}}
+      - {{NODE_ID}}
+  {{NODE_ID}}:
+    id: {{NODE_ID}}
+    kind: 352
+    children:
+      - {{NODE_ID}}
+  {{NODE_ID}}:
+    id: {{NODE_ID}}
+    kind: 261
+    children:
+      - {{NODE_ID}}
+      - {{NODE_ID}}
+    leadingComments:
+      - kind: SingleLineCommentTrivia
+        text: // Simple TypeScript code for testing
+  {{NODE_ID}}:
+    id: {{NODE_ID}}
+    kind: 27
+    text: ;
+  {{NODE_ID}}:
+    id: {{NODE_ID}}
+    kind: 243
+    children:
+      - {{NODE_ID}}
+      - {{NODE_ID}}
+    leadingComments:
+      - kind: SingleLineCommentTrivia
+        text: // Simple TypeScript code for testing
+  {{NODE_ID}}:
+    id: {{NODE_ID}}
+    kind: 100
+    text: function
+  {{NODE_ID}}:
+    id: {{NODE_ID}}
+    kind: 80
+    text: greet
+  {{NODE_ID}}:
+    id: {{NODE_ID}}
+    kind: 21
+    text: (
+  {{NODE_ID}}:
+    id: {{NODE_ID}}
+    kind: 80
+    text: name
+  {{NODE_ID}}:
+    id: {{NODE_ID}}
+    kind: 169
+    children:
+      - {{NODE_ID}}
+      - {{NODE_ID}}
+      - {{NODE_ID}}
+  {{NODE_ID}}:
+    id: {{NODE_ID}}
+    kind: 352
+    children:
+      - {{NODE_ID}}
+  {{NODE_ID}}:
+    id: {{NODE_ID}}
+    kind: 22
+    text: )
+  {{NODE_ID}}:
+    id: {{NODE_ID}}
+    kind: 19
+    text: '{'
+  {{NODE_ID}}:
+    id: {{NODE_ID}}
+    kind: 107
+    text: return
+  {{NODE_ID}}:
+    id: {{NODE_ID}}
+    kind: 16
+    text: '`Hello, ${'
+  {{NODE_ID}}:
+    id: {{NODE_ID}}
+    kind: 18
+    text: '}!`'
+  {{NODE_ID}}:
+    id: {{NODE_ID}}
+    kind: 239
+    children:
+      - {{NODE_ID}}
+      - {{NODE_ID}}
+  {{NODE_ID}}:
+    id: {{NODE_ID}}
+    kind: 352
+    children:
+      - {{NODE_ID}}
+  {{NODE_ID}}:
+    id: {{NODE_ID}}
+    kind: 228
+    children:
+      - {{NODE_ID}}
+      - {{NODE_ID}}
+  {{NODE_ID}}:
+    id: {{NODE_ID}}
+    kind: 253
+    children:
+      - {{NODE_ID}}
+      - {{NODE_ID}}
+      - {{NODE_ID}}
+  {{NODE_ID}}:
+    id: {{NODE_ID}}
+    kind: 352
+    children:
+      - {{NODE_ID}}
+  {{NODE_ID}}:
+    id: {{NODE_ID}}
+    kind: 20
+    text: '}'
+  {{NODE_ID}}:
+    id: {{NODE_ID}}
+    kind: 241
+    children:
+      - {{NODE_ID}}
+      - {{NODE_ID}}
+      - {{NODE_ID}}
+  {{NODE_ID}}:
+    id: {{NODE_ID}}
+    kind: 262
+    properties:
+      name: greet
+      parameters: 1
+    children:
+      - {{NODE_ID}}
+      - {{NODE_ID}}
+      - {{NODE_ID}}
+      - {{NODE_ID}}
+      - {{NODE_ID}}
+      - {{NODE_ID}}
+      - {{NODE_ID}}
+      - {{NODE_ID}}
+  {{NODE_ID}}:
+    id: {{NODE_ID}}
+    kind: 95
+    text: export
+  {{NODE_ID}}:
+    id: {{NODE_ID}}
+    kind: 281
+    children:
+      - {{NODE_ID}}
+  {{NODE_ID}}:
+    id: {{NODE_ID}}
+    kind: 352
+    children:
+      - {{NODE_ID}}
+  {{NODE_ID}}:
+    id: {{NODE_ID}}
+    kind: 279
+    children:
+      - {{NODE_ID}}
+      - {{NODE_ID}}
+      - {{NODE_ID}}
+  {{NODE_ID}}:
+    id: {{NODE_ID}}
+    kind: 278
+    children:
+      - {{NODE_ID}}
+      - {{NODE_ID}}
+      - {{NODE_ID}}
+  {{NODE_ID}}:
+    id: {{NODE_ID}}
+    kind: 352
+    children:
+      - {{NODE_ID}}
+      - {{NODE_ID}}
+      - {{NODE_ID}}
+    leadingComments:
+      - kind: SingleLineCommentTrivia
+        text: // Simple TypeScript code for testing
+  {{NODE_ID}}:
+    id: {{NODE_ID}}
+    kind: 1
+    text: ''
+  {{NODE_ID}}:
+    id: {{NODE_ID}}
+    kind: 307
+    children:
+      - {{NODE_ID}}
+      - {{NODE_ID}}
+    leadingComments:
+      - kind: SingleLineCommentTrivia
+        text: // Simple TypeScript code for testing
+

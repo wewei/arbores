@@ -37,15 +37,19 @@ export async function parseCommand(
 ): Promise<void> {
   try {
     // Validate and normalize options
+    if (options.format && !isValidQueryFormat(options.format)) {
+      throw new Error(`Invalid format: ${options.format}. Valid formats are: json, yaml, markdown`);
+    }
+    
     const format = options.format && isValidQueryFormat(options.format) 
       ? options.format 
       : getDefaultQueryFormat();
 
     if (options.verbose) {
-      console.log(`Parsing: ${sourceFilePath}`);
-      console.log(`Format: ${format}`);
+      console.error(`Parsing: ${sourceFilePath}`);
+      console.error(`Format: ${format}`);
       if (options.ast) {
-        console.log(`Existing AST: ${options.ast}`);
+        console.error(`Existing AST: ${options.ast}`);
       }
     }
 
@@ -81,13 +85,13 @@ export async function parseCommand(
 
     // Parse the source code
     const parseResult = handleResult(
-      parseCode(sourceCode, baseAST),
+      parseCode(sourceCode, baseAST, options.description),
       { verbose: options.verbose }
     );
 
     if (options.verbose) {
-      console.log(`Parse completed. Generated ${parseResult.stats.nodeCount} nodes.`);
-      console.log(`Root node ID: ${parseResult.rootNodeId}`);
+      console.error(`Parse completed. Generated ${parseResult.stats.nodeCount} nodes.`);
+      console.error(`Root node ID: ${parseResult.rootNodeId}`);
     }
 
     // Format output
@@ -105,11 +109,11 @@ export async function parseCommand(
 
     // Success message
     if (options.verbose && options.output) {
-      console.log(`Successfully parsed ${sourceFilePath}`);
-      console.log(`AST saved to: ${options.output}`);
-      console.log(`Nodes: ${parseResult.stats.nodeCount}`);
-      console.log(`Comments: ${parseResult.stats.commentCount}`);
-      console.log(`Parse time: ${parseResult.stats.parseTime}ms`);
+      console.error(`Successfully parsed ${sourceFilePath}`);
+      console.error(`AST saved to: ${options.output}`);
+      console.error(`Nodes: ${parseResult.stats.nodeCount}`);
+      console.error(`Comments: ${parseResult.stats.commentCount}`);
+      console.error(`Parse time: ${parseResult.stats.parseTime}ms`);
     }
 
   } catch (error) {

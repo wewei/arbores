@@ -1,0 +1,10 @@
+description: Parse command with verbose output
+command:
+  - parse
+  - src/cli/__tests__/fixtures/simple.ts
+  - "--verbose"
+exitCode: 0
+environment:
+  MOCK_TIMESTAMP: "2025-01-01T00:00:00.000Z"
+created: "2025-07-20T23:03:36.950Z"
+updated: "2025-07-20T23:03:36.950Z"

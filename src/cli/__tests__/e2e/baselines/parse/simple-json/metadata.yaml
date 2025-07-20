@@ -1,0 +1,12 @@
+description: Execute parse command with json format
+command:
+  - parse
+  - src/cli/__tests__/fixtures/simple.ts
+  - "--format"
+  - json
+exitCode: 0
+environment:
+  COLUMNS: "80"
+  MOCK_TIMESTAMP: "2025-01-01T00:00:00.000Z"
+created: "2025-07-20T22:54:39.495Z"
+updated: "2025-07-20T23:00:26.423Z"

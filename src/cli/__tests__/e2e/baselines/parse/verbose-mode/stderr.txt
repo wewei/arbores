@@ -1,0 +1,4 @@
+Parsing: src/cli/__tests__/fixtures/simple.ts
+Format: json
+Parse completed. Generated 38 nodes.
+Root node ID: {{NODE_ID}}

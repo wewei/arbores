@@ -60,7 +60,8 @@ function processNode(
  */
 function parseTypeScriptFile(
   filePath: string, 
-  sourceText: string
+  sourceText: string,
+  description?: string
 ): SourceFileAST {
   const sourceFile = ts.createSourceFile(
     filePath,
@@ -73,8 +74,9 @@ function parseTypeScriptFile(
   const rootNodeId = processNode(sourceFile, nodes, sourceText);
   
   const version: FileVersion = {
-    created_at: new Date().toISOString(),
-    root_node_id: rootNodeId
+    created_at: process.env.MOCK_TIMESTAMP || new Date().toISOString(),
+    root_node_id: rootNodeId,
+    ...(description && { description })
   };
   
   return {
@@ -103,7 +105,8 @@ function parseTypeScriptFile(
  */
 export function parseCode(
   sourceCode: string, 
-  baseAST: SourceFileAST
+  baseAST: SourceFileAST,
+  description?: string
 ): Result<ParseResult> {
   try {
     const startTime = performance.now();
@@ -126,7 +129,7 @@ export function parseCode(
 
     // Parse TypeScript code to create new AST
     const tempFileName = baseAST.file_name || 'temp.ts';
-    const newAST = parseTypeScriptFile(tempFileName, sourceCode);
+    const newAST = parseTypeScriptFile(tempFileName, sourceCode, description);
     
     // Validate that parsing was successful
     if (!newAST.versions || newAST.versions.length === 0) {

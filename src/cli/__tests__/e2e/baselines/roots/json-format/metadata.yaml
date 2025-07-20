@@ -1,0 +1,10 @@
+description: Get root nodes in JSON format
+command:
+  - roots
+  - /tmp/function-test.ast.json
+  - "--format"
+  - json
+exitCode: 0
+environment: {}
+created: "2025-07-20T22:58:13.502Z"
+updated: "2025-07-20T22:58:13.502Z"

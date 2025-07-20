@@ -1,0 +1,8 @@
+description: Parse command with non-existent file (error case)
+command:
+  - parse
+  - /nonexistent/file.ts
+exitCode: 1
+environment: {}
+created: "2025-07-20T22:58:17.933Z"
+updated: "2025-07-20T22:58:17.933Z"

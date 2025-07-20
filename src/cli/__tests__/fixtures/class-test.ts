@@ -1,0 +1,29 @@
+// Class and interface TypeScript code for stringify testing
+interface User {
+  id: number;
+  name: string;
+  email?: string;
+}
+
+class UserService {
+  private users: User[] = [];
+
+  constructor(initialUsers: User[] = []) {
+    this.users = [...initialUsers];
+  }
+
+  addUser(user: User): void {
+    this.users.push(user);
+  }
+
+  getUserById(id: number): User | undefined {
+    return this.users.find(u => u.id === id);
+  }
+
+  getAllUsers(): User[] {
+    return [...this.users];
+  }
+}
+
+export type { User };
+export { UserService };

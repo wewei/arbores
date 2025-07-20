@@ -1,0 +1,81 @@
+// Complex TypeScript code with multiple features
+import { EventEmitter } from 'events';
+
+/**
+ * User interface with optional properties
+ */
+interface User {
+  id: number;
+  name: string;
+  email?: string;
+}
+
+/**
+ * Generic utility type
+ */
+type ApiResponse<T> = {
+  data: T;
+  status: 'success' | 'error';
+  message?: string;
+};
+
+/**
+ * Abstract base class
+ */
+abstract class BaseService extends EventEmitter {
+  protected abstract serviceName: string;
+  
+  constructor(private config: Record<string, any>) {
+    super();
+  }
+  
+  abstract initialize(): Promise<void>;
+}
+
+/**
+ * User service implementation
+ */
+class UserService extends BaseService {
+  protected serviceName = 'UserService';
+  private users: Map<number, User> = new Map();
+  
+  async initialize(): Promise<void> {
+    this.emit('initialized', this.serviceName);
+  }
+  
+  async getUser(id: number): Promise<ApiResponse<User>> {
+    const user = this.users.get(id);
+    
+    if (!user) {
+      return {
+        data: null as any,
+        status: 'error',
+        message: `User with id ${id} not found`
+      };
+    }
+    
+    return {
+      data: user,
+      status: 'success'
+    };
+  }
+  
+  async createUser<T extends Partial<User>>(userData: T): Promise<ApiResponse<User>> {
+    const user: User = {
+      id: Date.now(),
+      name: userData.name || 'Unknown',
+      email: userData.email
+    };
+    
+    this.users.set(user.id, user);
+    
+    return {
+      data: user,
+      status: 'success'
+    };
+  }
+}
+
+// Export for testing
+export type { User, ApiResponse };
+export { UserService };
