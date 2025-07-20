@@ -5,7 +5,9 @@
  * All functions are stateless and return Result<T> for error handling.
  */
 
-import type { SourceFileAST } from '../types.js';
+import * as ts from 'typescript';
+import type { SourceFileAST, ASTNode, FileVersion } from '../types.js';
+import { generateNodeId, isTokenNode, extractNodeProperties, extractComments } from '../utils.js';
 import { 
   success, 
   error, 
@@ -13,7 +15,74 @@ import {
   type ParseResult, 
   type ParseStats 
 } from './types.js';
-import { parseTypeScriptFile, mergeAST } from '../parser.js';
+
+/**
+ * Internal TypeScript parsing functions
+ */
+
+/**
+ * Process a TypeScript AST node and its children recursively
+ */
+function processNode(
+  node: ts.Node, 
+  nodes: Record<string, ASTNode>,
+  sourceText: string
+): string {
+  const nodeId = generateNodeId(node);
+  
+  // Check if node already exists
+  if (nodes[nodeId]) {
+    return nodeId;
+  }
+  
+  // Create new node
+  const children = node.getChildren();
+  const childIds = children.map(child => processNode(child, nodes, sourceText));
+  
+  // Extract comments
+  const comments = extractComments(node, sourceText);
+  
+  const astNode: ASTNode = {
+    id: nodeId,
+    kind: node.kind,
+    text: isTokenNode(node.kind) ? node.getText() : undefined,
+    properties: extractNodeProperties(node),
+    children: childIds.length > 0 ? childIds : undefined,
+    ...comments  // Add leadingComments and trailingComments if they exist
+  };
+  
+  nodes[nodeId] = astNode;
+  return nodeId;
+}
+
+/**
+ * Parse TypeScript source code into AST structure
+ */
+function parseTypeScriptFile(
+  filePath: string, 
+  sourceText: string
+): SourceFileAST {
+  const sourceFile = ts.createSourceFile(
+    filePath,
+    sourceText,
+    ts.ScriptTarget.Latest,
+    true
+  );
+  
+  const nodes: Record<string, ASTNode> = {};
+  const rootNodeId = processNode(sourceFile, nodes, sourceText);
+  
+  const version: FileVersion = {
+    created_at: new Date().toISOString(),
+    root_node_id: rootNodeId
+  };
+  
+  return {
+    file_name: filePath,
+    versions: [version],
+    nodes
+  };
+}
 
 /**
  * Parse TypeScript source code into AST
