@@ -1,84 +1,84 @@
 Unsupported node type: PostfixUnaryExpression (225)
 Node details: {
-  id: "{{NODE_ID}}",
+  id: "ad1746b44bc254e1",
   kind: 225,
   text: undefined,
-  children: [ "{{NODE_ID}}", "{{NODE_ID}}" ],
+  children: [ "5626015738e90c46", "f7148803ddff4f08" ],
 }
 Created placeholder with kind: 80 Identifier
 Unsupported node type: NewExpression (214)
 Node details: {
-  id: "{{NODE_ID}}",
+  id: "dff5b2e6021a2b3b",
   kind: 214,
   text: undefined,
-  children: [ "{{NODE_ID}}", "{{NODE_ID}}", "{{NODE_ID}}", "{{NODE_ID}}",
-    "{{NODE_ID}}"
+  children: [ "e358c89d8e881138", "8d3123f9be62a1da", "07ee93ce4048c9ad", "8a0c34f938413d96",
+    "8701a925e96e4ed0"
   ],
 }
 Created placeholder with kind: 80 Identifier
 Unsupported node type: YieldExpression (229)
 Node details: {
-  id: "{{NODE_ID}}",
+  id: "a6ddcb31b6c624d5",
   kind: 229,
   text: undefined,
-  children: [ "{{NODE_ID}}", "{{NODE_ID}}" ],
+  children: [ "a8e80e60ff00c186", "5626015738e90c46" ],
 }
 Created placeholder with kind: 80 Identifier
 Unsupported node type: IndexSignature (181)
 Node details: {
-  id: "{{NODE_ID}}",
+  id: "ca72a6069aa6d274",
   kind: 181,
   text: undefined,
-  children: [ "{{NODE_ID}}", "{{NODE_ID}}", "{{NODE_ID}}", "{{NODE_ID}}",
-    "{{NODE_ID}}"
+  children: [ "5d212bc1126d6f4f", "f908d75708f28052", "b56fa109a286f125", "f05c96a2e9e9f31e",
+    "c6808388d5231ffe"
   ],
 }
 Created placeholder with kind: 80 Identifier
 Unsupported node type: ArrayBindingPattern (207)
 Node details: {
-  id: "{{NODE_ID}}",
+  id: "5ec8c2ffc0b1b7fe",
   kind: 207,
   text: undefined,
-  children: [ "{{NODE_ID}}", "{{NODE_ID}}", "{{NODE_ID}}" ],
+  children: [ "5d212bc1126d6f4f", "b4506bf096f61f7b", "b56fa109a286f125" ],
 }
 Created placeholder with kind: 80 Identifier
 Unsupported node type: TemplateLiteralType (203)
 Node details: {
-  id: "{{NODE_ID}}",
+  id: "4198ca7f13e4227d",
   kind: 203,
   text: undefined,
-  children: [ "{{NODE_ID}}", "{{NODE_ID}}" ],
+  children: [ "672588e094755141", "07b3f573416427ff" ],
 }
 Created placeholder with kind: 80 Identifier
 Unsupported node type: ElementAccessExpression (212)
 Node details: {
-  id: "{{NODE_ID}}",
+  id: "0d5ff9fee6ec7fc8",
   kind: 212,
   text: undefined,
-  children: [ "{{NODE_ID}}", "{{NODE_ID}}", "{{NODE_ID}}", "{{NODE_ID}}" ],
+  children: [ "0d7e711bafd0a857", "5d212bc1126d6f4f", "d64df1c397e67cef", "b56fa109a286f125" ],
 }
 Created placeholder with kind: 80 Identifier
 Unsupported node type: ElementAccessExpression (212)
 Node details: {
-  id: "{{NODE_ID}}",
+  id: "0d5ff9fee6ec7fc8",
   kind: 212,
   text: undefined,
-  children: [ "{{NODE_ID}}", "{{NODE_ID}}", "{{NODE_ID}}", "{{NODE_ID}}" ],
+  children: [ "0d7e711bafd0a857", "5d212bc1126d6f4f", "d64df1c397e67cef", "b56fa109a286f125" ],
 }
 Created placeholder with kind: 80 Identifier
 Unsupported node type: NonNullExpression (235)
 Node details: {
-  id: "{{NODE_ID}}",
+  id: "351dad851de41bcd",
   kind: 235,
   text: undefined,
-  children: [ "{{NODE_ID}}", "{{NODE_ID}}" ],
+  children: [ "0d5ff9fee6ec7fc8", "1ef1657032ac4a78" ],
 }
 Created placeholder with kind: 80 Identifier
 Unsupported node type: ElementAccessExpression (212)
 Node details: {
-  id: "{{NODE_ID}}",
+  id: "0d5ff9fee6ec7fc8",
   kind: 212,
   text: undefined,
-  children: [ "{{NODE_ID}}", "{{NODE_ID}}", "{{NODE_ID}}", "{{NODE_ID}}" ],
+  children: [ "0d7e711bafd0a857", "5d212bc1126d6f4f", "d64df1c397e67cef", "b56fa109a286f125" ],
 }
 Created placeholder with kind: 80 Identifier

@@ -180,20 +180,13 @@ async function executeCommand(
 function normalizeOutput(content: string, timestamp?: string): string {
   let normalized = content;
   
-  // 替换时间戳
-  if (timestamp) {
-    // 替换 ISO 8601 格式的时间戳
-    const timestampRegex = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z/g;
-    normalized = normalized.replace(timestampRegex, '{{TIMESTAMP}}');
-  }
+  // 只替换临时路径和项目路径，不替换时间戳和节点ID
+  // 时间戳通过 MOCK_TIMESTAMP 环境变量控制，应该是确定性的
+  // 节点ID基于内容哈希生成，对相同内容应该是稳定的
   
   // 替换临时路径
   const tempPathRegex = /\/(?:var\/folders|tmp)\/[^\/\s"]+(?:\/[^\/\s"]+)*/g;
   normalized = normalized.replace(tempPathRegex, '{{TEMP_PATH}}');
-  
-  // 替换节点 ID（8字节十六进制）
-  const nodeIdRegex = /[a-f0-9]{16}/g;
-  normalized = normalized.replace(nodeIdRegex, '{{NODE_ID}}');
   
   // 替换文件路径（相对于项目根目录）
   const currentDir = process.cwd();

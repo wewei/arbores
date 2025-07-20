@@ -2,13 +2,13 @@
   "file_name": "src/cli/__tests__/fixtures/simple.ts",
   "versions": [
     {
-      "created_at": "{{TIMESTAMP}}",
-      "root_node_id": "{{NODE_ID}}"
+      "created_at": "2025-01-01T00:00:00.000Z",
+      "root_node_id": "5abe5dc8c795b94c"
     }
   ],
   "nodes": {
-    "{{NODE_ID}}": {
-      "id": "{{NODE_ID}}",
+    "617d70a2fe95ecaa": {
+      "id": "617d70a2fe95ecaa",
       "kind": 87,
       "text": "const",
       "leadingComments": [
@@ -18,59 +18,59 @@
         }
       ]
     },
-    "{{NODE_ID}}": {
-      "id": "{{NODE_ID}}",
+    "06439e04901fdecc": {
+      "id": "06439e04901fdecc",
       "kind": 80,
       "text": "message"
     },
-    "{{NODE_ID}}": {
-      "id": "{{NODE_ID}}",
+    "f05c96a2e9e9f31e": {
+      "id": "f05c96a2e9e9f31e",
       "kind": 59,
       "text": ":"
     },
-    "{{NODE_ID}}": {
-      "id": "{{NODE_ID}}",
+    "b39318c43f936282": {
+      "id": "b39318c43f936282",
       "kind": 154,
       "text": "string"
     },
-    "{{NODE_ID}}": {
-      "id": "{{NODE_ID}}",
+    "ae59a5457d3f2a59": {
+      "id": "ae59a5457d3f2a59",
       "kind": 64,
       "text": "="
     },
-    "{{NODE_ID}}": {
-      "id": "{{NODE_ID}}",
+    "add93f97f2ad71cd": {
+      "id": "add93f97f2ad71cd",
       "kind": 11,
       "text": "\"Hello, World!\""
     },
-    "{{NODE_ID}}": {
-      "id": "{{NODE_ID}}",
+    "71fc5c60f4ae7b22": {
+      "id": "71fc5c60f4ae7b22",
       "kind": 260,
       "properties": {
         "name": "message",
         "hasInitializer": true
       },
       "children": [
-        "{{NODE_ID}}",
-        "{{NODE_ID}}",
-        "{{NODE_ID}}",
-        "{{NODE_ID}}",
-        "{{NODE_ID}}"
+        "06439e04901fdecc",
+        "f05c96a2e9e9f31e",
+        "b39318c43f936282",
+        "ae59a5457d3f2a59",
+        "add93f97f2ad71cd"
       ]
     },
-    "{{NODE_ID}}": {
-      "id": "{{NODE_ID}}",
+    "7d63946ee1df43dd": {
+      "id": "7d63946ee1df43dd",
       "kind": 352,
       "children": [
-        "{{NODE_ID}}"
+        "71fc5c60f4ae7b22"
       ]
     },
-    "{{NODE_ID}}": {
-      "id": "{{NODE_ID}}",
+    "f8538355c91441e7": {
+      "id": "f8538355c91441e7",
       "kind": 261,
       "children": [
-        "{{NODE_ID}}",
-        "{{NODE_ID}}"
+        "617d70a2fe95ecaa",
+        "7d63946ee1df43dd"
       ],
       "leadingComments": [
         {
@@ -79,17 +79,17 @@
         }
       ]
     },
-    "{{NODE_ID}}": {
-      "id": "{{NODE_ID}}",
+    "32cd11979c3cbcde": {
+      "id": "32cd11979c3cbcde",
       "kind": 27,
       "text": ";"
     },
-    "{{NODE_ID}}": {
-      "id": "{{NODE_ID}}",
+    "e660bbd0b7acee95": {
+      "id": "e660bbd0b7acee95",
       "kind": 243,
       "children": [
-        "{{NODE_ID}}",
-        "{{NODE_ID}}"
+        "f8538355c91441e7",
+        "32cd11979c3cbcde"
       ],
       "leadingComments": [
         {
@@ -98,182 +98,182 @@
         }
       ]
     },
-    "{{NODE_ID}}": {
-      "id": "{{NODE_ID}}",
+    "d58640a0128d853c": {
+      "id": "d58640a0128d853c",
       "kind": 100,
       "text": "function"
     },
-    "{{NODE_ID}}": {
-      "id": "{{NODE_ID}}",
+    "2cf5ad0c313a4c72": {
+      "id": "2cf5ad0c313a4c72",
       "kind": 80,
       "text": "greet"
     },
-    "{{NODE_ID}}": {
-      "id": "{{NODE_ID}}",
+    "07ee93ce4048c9ad": {
+      "id": "07ee93ce4048c9ad",
       "kind": 21,
       "text": "("
     },
-    "{{NODE_ID}}": {
-      "id": "{{NODE_ID}}",
+    "ca1117ceb5846350": {
+      "id": "ca1117ceb5846350",
       "kind": 80,
       "text": "name"
     },
-    "{{NODE_ID}}": {
-      "id": "{{NODE_ID}}",
+    "5e2f54e3f1c980cf": {
+      "id": "5e2f54e3f1c980cf",
       "kind": 169,
       "children": [
-        "{{NODE_ID}}",
-        "{{NODE_ID}}",
-        "{{NODE_ID}}"
+        "ca1117ceb5846350",
+        "f05c96a2e9e9f31e",
+        "b39318c43f936282"
       ]
     },
-    "{{NODE_ID}}": {
-      "id": "{{NODE_ID}}",
+    "3a593271746cbe65": {
+      "id": "3a593271746cbe65",
       "kind": 352,
       "children": [
-        "{{NODE_ID}}"
+        "5e2f54e3f1c980cf"
       ]
     },
-    "{{NODE_ID}}": {
-      "id": "{{NODE_ID}}",
+    "8701a925e96e4ed0": {
+      "id": "8701a925e96e4ed0",
       "kind": 22,
       "text": ")"
     },
-    "{{NODE_ID}}": {
-      "id": "{{NODE_ID}}",
+    "4713eebfd36a6d5e": {
+      "id": "4713eebfd36a6d5e",
       "kind": 19,
       "text": "{"
     },
-    "{{NODE_ID}}": {
-      "id": "{{NODE_ID}}",
+    "7edb62074756b3b6": {
+      "id": "7edb62074756b3b6",
       "kind": 107,
       "text": "return"
     },
-    "{{NODE_ID}}": {
-      "id": "{{NODE_ID}}",
+    "3b174f2df31a1d8c": {
+      "id": "3b174f2df31a1d8c",
       "kind": 16,
       "text": "`Hello, ${"
     },
-    "{{NODE_ID}}": {
-      "id": "{{NODE_ID}}",
+    "aa62ec1e6548f852": {
+      "id": "aa62ec1e6548f852",
       "kind": 18,
       "text": "}!`"
     },
-    "{{NODE_ID}}": {
-      "id": "{{NODE_ID}}",
+    "8c25f57fd03280e7": {
+      "id": "8c25f57fd03280e7",
       "kind": 239,
       "children": [
-        "{{NODE_ID}}",
-        "{{NODE_ID}}"
+        "ca1117ceb5846350",
+        "aa62ec1e6548f852"
       ]
     },
-    "{{NODE_ID}}": {
-      "id": "{{NODE_ID}}",
+    "0dbe3960b9ea93bf": {
+      "id": "0dbe3960b9ea93bf",
       "kind": 352,
       "children": [
-        "{{NODE_ID}}"
+        "8c25f57fd03280e7"
       ]
     },
-    "{{NODE_ID}}": {
-      "id": "{{NODE_ID}}",
+    "692a16520c15f752": {
+      "id": "692a16520c15f752",
       "kind": 228,
       "children": [
-        "{{NODE_ID}}",
-        "{{NODE_ID}}"
+        "3b174f2df31a1d8c",
+        "0dbe3960b9ea93bf"
       ]
     },
-    "{{NODE_ID}}": {
-      "id": "{{NODE_ID}}",
+    "2ec8de82ea1f85b7": {
+      "id": "2ec8de82ea1f85b7",
       "kind": 253,
       "children": [
-        "{{NODE_ID}}",
-        "{{NODE_ID}}",
-        "{{NODE_ID}}"
+        "7edb62074756b3b6",
+        "692a16520c15f752",
+        "32cd11979c3cbcde"
       ]
     },
-    "{{NODE_ID}}": {
-      "id": "{{NODE_ID}}",
+    "6f6786a0ff879548": {
+      "id": "6f6786a0ff879548",
       "kind": 352,
       "children": [
-        "{{NODE_ID}}"
+        "2ec8de82ea1f85b7"
       ]
     },
-    "{{NODE_ID}}": {
-      "id": "{{NODE_ID}}",
+    "6e0340aa5cf0f794": {
+      "id": "6e0340aa5cf0f794",
       "kind": 20,
       "text": "}"
     },
-    "{{NODE_ID}}": {
-      "id": "{{NODE_ID}}",
+    "a79d2323ac7169a7": {
+      "id": "a79d2323ac7169a7",
       "kind": 241,
       "children": [
-        "{{NODE_ID}}",
-        "{{NODE_ID}}",
-        "{{NODE_ID}}"
+        "4713eebfd36a6d5e",
+        "6f6786a0ff879548",
+        "6e0340aa5cf0f794"
       ]
     },
-    "{{NODE_ID}}": {
-      "id": "{{NODE_ID}}",
+    "73bc64330bbb02b7": {
+      "id": "73bc64330bbb02b7",
       "kind": 262,
       "properties": {
         "name": "greet",
         "parameters": 1
       },
       "children": [
-        "{{NODE_ID}}",
-        "{{NODE_ID}}",
-        "{{NODE_ID}}",
-        "{{NODE_ID}}",
-        "{{NODE_ID}}",
-        "{{NODE_ID}}",
-        "{{NODE_ID}}",
-        "{{NODE_ID}}"
+        "d58640a0128d853c",
+        "2cf5ad0c313a4c72",
+        "07ee93ce4048c9ad",
+        "3a593271746cbe65",
+        "8701a925e96e4ed0",
+        "f05c96a2e9e9f31e",
+        "b39318c43f936282",
+        "a79d2323ac7169a7"
       ]
     },
-    "{{NODE_ID}}": {
-      "id": "{{NODE_ID}}",
+    "81d8d5ca18555a48": {
+      "id": "81d8d5ca18555a48",
       "kind": 95,
       "text": "export"
     },
-    "{{NODE_ID}}": {
-      "id": "{{NODE_ID}}",
+    "eb64da51a3692c54": {
+      "id": "eb64da51a3692c54",
       "kind": 281,
       "children": [
-        "{{NODE_ID}}"
+        "2cf5ad0c313a4c72"
       ]
     },
-    "{{NODE_ID}}": {
-      "id": "{{NODE_ID}}",
+    "3511b4008bf8b735": {
+      "id": "3511b4008bf8b735",
       "kind": 352,
       "children": [
-        "{{NODE_ID}}"
+        "eb64da51a3692c54"
       ]
     },
-    "{{NODE_ID}}": {
-      "id": "{{NODE_ID}}",
+    "fdc3da918b434e19": {
+      "id": "fdc3da918b434e19",
       "kind": 279,
       "children": [
-        "{{NODE_ID}}",
-        "{{NODE_ID}}",
-        "{{NODE_ID}}"
+        "4713eebfd36a6d5e",
+        "3511b4008bf8b735",
+        "6e0340aa5cf0f794"
       ]
     },
-    "{{NODE_ID}}": {
-      "id": "{{NODE_ID}}",
+    "a83e1d8b7e768ff8": {
+      "id": "a83e1d8b7e768ff8",
       "kind": 278,
       "children": [
-        "{{NODE_ID}}",
-        "{{NODE_ID}}",
-        "{{NODE_ID}}"
+        "81d8d5ca18555a48",
+        "fdc3da918b434e19",
+        "32cd11979c3cbcde"
       ]
     },
-    "{{NODE_ID}}": {
-      "id": "{{NODE_ID}}",
+    "0c24ecc9f9453f71": {
+      "id": "0c24ecc9f9453f71",
       "kind": 352,
       "children": [
-        "{{NODE_ID}}",
-        "{{NODE_ID}}",
-        "{{NODE_ID}}"
+        "e660bbd0b7acee95",
+        "73bc64330bbb02b7",
+        "a83e1d8b7e768ff8"
       ],
       "leadingComments": [
         {
@@ -282,17 +282,17 @@
         }
       ]
     },
-    "{{NODE_ID}}": {
-      "id": "{{NODE_ID}}",
+    "e73ad5df286d28d6": {
+      "id": "e73ad5df286d28d6",
       "kind": 1,
       "text": ""
     },
-    "{{NODE_ID}}": {
-      "id": "{{NODE_ID}}",
+    "5abe5dc8c795b94c": {
+      "id": "5abe5dc8c795b94c",
       "kind": 307,
       "children": [
-        "{{NODE_ID}}",
-        "{{NODE_ID}}"
+        "0c24ecc9f9453f71",
+        "e73ad5df286d28d6"
       ],
       "leadingComments": [
         {

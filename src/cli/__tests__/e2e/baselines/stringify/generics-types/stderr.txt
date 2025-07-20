@@ -1,33 +1,33 @@
 Unsupported node type: MappedType (200)
 Node details: {
-  id: "{{NODE_ID}}",
+  id: "668c85fa287564ad",
   kind: 200,
   text: undefined,
-  children: [ "{{NODE_ID}}", "{{NODE_ID}}", "{{NODE_ID}}", "{{NODE_ID}}",
-    "{{NODE_ID}}", "{{NODE_ID}}", "{{NODE_ID}}", "{{NODE_ID}}", "{{NODE_ID}}",
-    "{{NODE_ID}}"
+  children: [ "4713eebfd36a6d5e", "5d212bc1126d6f4f", "7ec7c958a554f5cb", "b56fa109a286f125",
+    "c13aa3702d5b0d21", "f05c96a2e9e9f31e", "e623ce6e53f9de8c", "32cd11979c3cbcde", "5efa38399ae7872c",
+    "6e0340aa5cf0f794"
   ],
 }
 Created placeholder with kind: 80 Identifier
 Unsupported node type: MappedType (200)
 Node details: {
-  id: "{{NODE_ID}}",
+  id: "016d7a9668924000",
   kind: 200,
   text: undefined,
   children: [
-    "{{NODE_ID}}", "{{NODE_ID}}", "{{NODE_ID}}", "{{NODE_ID}}", "{{NODE_ID}}",
-    "{{NODE_ID}}", "{{NODE_ID}}", "{{NODE_ID}}", "{{NODE_ID}}", "{{NODE_ID}}",
-    "{{NODE_ID}}"
+    "4713eebfd36a6d5e", "5d212bc1126d6f4f", "7ec7c958a554f5cb", "b56fa109a286f125", "b061edc10810343e",
+    "c13aa3702d5b0d21", "f05c96a2e9e9f31e", "e623ce6e53f9de8c", "32cd11979c3cbcde", "5efa38399ae7872c",
+    "6e0340aa5cf0f794"
   ],
 }
 Created placeholder with kind: 80 Identifier
 Unsupported node type: NewExpression (214)
 Node details: {
-  id: "{{NODE_ID}}",
+  id: "eb04e226199717ae",
   kind: 214,
   text: undefined,
-  children: [ "{{NODE_ID}}", "{{NODE_ID}}", "{{NODE_ID}}", "{{NODE_ID}}",
-    "{{NODE_ID}}"
+  children: [ "e358c89d8e881138", "eee022af28d22f73", "07ee93ce4048c9ad", "2cd5dc9642a1fa61",
+    "8701a925e96e4ed0"
   ],
 }
 Created placeholder with kind: 80 Identifier

@@ -1,24 +1,24 @@
 Unsupported node type: AsExpression (234)
 Node details: {
-  id: "{{NODE_ID}}",
+  id: "86b751f4ca809ae1",
   kind: 234,
   text: undefined,
-  children: [ "{{NODE_ID}}", "{{NODE_ID}}", "{{NODE_ID}}" ],
+  children: [ "65146f071bacc3fd", "ef583f91c92cb606", "f49cc6a3247cdeae" ],
 }
 Created placeholder with kind: 80 Identifier
 Unsupported node type: ExportDeclaration (278)
 Node details: {
-  id: "{{NODE_ID}}",
+  id: "c5f4790c766dbc3d",
   kind: 278,
   text: undefined,
-  children: [ "{{NODE_ID}}", "{{NODE_ID}}", "{{NODE_ID}}", "{{NODE_ID}}" ],
+  children: [ "81d8d5ca18555a48", "76b02ec6ef6745d2", "f84e597ca5615dd0", "32cd11979c3cbcde" ],
 }
 Created placeholder with kind: 80 Identifier
 Unsupported node type: ExportDeclaration (278)
 Node details: {
-  id: "{{NODE_ID}}",
+  id: "a98a84c431009f16",
   kind: 278,
   text: undefined,
-  children: [ "{{NODE_ID}}", "{{NODE_ID}}", "{{NODE_ID}}" ],
+  children: [ "81d8d5ca18555a48", "aa2fefd059dfe552", "32cd11979c3cbcde" ],
 }
 Created placeholder with kind: 80 Identifier
