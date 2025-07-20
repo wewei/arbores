@@ -10,7 +10,7 @@ import {
   stringifyVersion,
   stringifyLatestVersion,
   isValidStringifyFormat
-} from '../../src/api';
+} from '../../api';
 import { 
   readFile, 
   fileExists, 

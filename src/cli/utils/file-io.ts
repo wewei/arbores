@@ -4,7 +4,7 @@
 
 import * as fs from 'fs/promises';
 import * as path from 'path';
-import type { SourceFileAST } from '../../src/api/types';
+import type { SourceFileAST } from '../../api/types';
 
 /**
  * Supported output formats

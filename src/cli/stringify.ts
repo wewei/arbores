@@ -1,6 +1,6 @@
-import type { StringifyOptions } from '../src/types';
-import { stringifyNode } from '../src/stringifier';
-import { readFile } from '../src/utils';
+import type { StringifyOptions } from '../types';
+import { stringifyNode } from '../stringifier';
+import { readFile } from '../utils';
 
 export async function stringifyCommand(
   filePath: string,

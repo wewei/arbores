@@ -2,8 +2,8 @@
  * Tree Command - Display tree structure of a node from AST file
  */
 
-import { getNode, getLatestRoot } from '../../src/api';
-import { getSyntaxKindName } from '../../src/syntax-kind-names';
+import { getNode, getLatestRoot } from '../../api';
+import { getSyntaxKindName } from '../../syntax-kind-names';
 import { 
   readFile, 
   fileExists, 

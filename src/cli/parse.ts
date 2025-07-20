@@ -1,6 +1,6 @@
-import type { ParseOptions } from '../src/types';
-import { parseFile, mergeAST } from '../src/parser';
-import { readFile, writeFile, fileExists, getFormatFromPath, parseASTFile, stringifyASTData, type ASTFileFormat } from '../src/utils';
+import type { ParseOptions } from '../types';
+import { parseFile, mergeAST } from '../parser';
+import { readFile, writeFile, fileExists, getFormatFromPath, parseASTFile, stringifyASTData, type ASTFileFormat } from '../utils';
 import * as ts from 'typescript';
 
 export async function parseCommand(

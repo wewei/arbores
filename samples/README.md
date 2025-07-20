@@ -15,21 +15,21 @@
 ### 2. 生成 AST JSON
 使用 CLI 工具解析示例代码生成 AST：
 ```bash
-bun run cli/index.ts parse samples/basic-expressions.ts -a samples/basic-expressions.ast.json -O
+bun run src/cli/index.ts parse samples/basic-expressions.ts -a samples/basic-expressions.ast.json -O
 # 这会生成 samples/basic-expressions.ast.json
 ```
 
 ### 3. 尝试代码生成
 使用 stringify 命令测试代码生成，识别缺失的节点类型：
 ```bash
-bun run cli/index.ts stringify samples/basic-expressions.ast.json
+bun run src/cli/index.ts stringify samples/basic-expressions.ast.json
 # 输出会显示 "Unsupported node type: XXX" 错误
 ```
 
 ### 4. 检查 AST 结构
 使用 tree 命令查看特定节点的 AST 结构：
 ```bash
-bun run cli/index.ts tree samples/basic-expressions.ast.json -n some-node-id
+bun run src/cli/index.ts tree samples/basic-expressions.ast.json -n some-node-id
 # 这帮助理解如何实现缺失的节点类型
 ```
 
@@ -56,7 +56,7 @@ case ts.SyntaxKind.BinaryExpression:
 ### 7. 测试验证
 重新运行 stringify 命令验证实现：
 ```bash
-bun run cli/index.ts stringify samples/basic-expressions.ast.json
+bun run src/cli/index.ts stringify samples/basic-expressions.ast.json
 # 应该生成正确的 TypeScript 代码
 ```
 
@@ -99,10 +99,10 @@ AST 在生成时，text 包含了 `${`、`}` 这些字符。除了最后一个�
 ### 完整测试工作流
 
 1. **创建测试文件** - 在 `samples/` 目录下创建包含目标语法的 TypeScript 文件
-2. **解析测试** - 运行 `bun run cli/index.ts parse <file>.ts` 查看 AST 结构
+2. **解析测试** - 运行 `bun run src/cli/index.ts parse <file>.ts` 查看 AST 结构
 3. **实现节点** - 根据解析结果在 `src/ast-builder/nodes/` 下实现缺失的节点类型
 4. **注册节点** - 在 `src/ast-builder/index.ts` 中导入并添加 case 分支
-5. **生成测试** - 运行 `bun run cli/index.ts stringify <parsed>.json` 生成代码
+5. **生成测试** - 运行 `bun run src/cli/index.ts stringify <parsed>.json` 生成代码
 6. **对比验证** - 使用 `diff` 命令比较原始文件与生成文件
 7. **修复问题** - 根据差异调整节点实现逻辑
 8. **提交代码** - 更新文档并提交改进
@@ -112,10 +112,10 @@ AST 在生成时，text 包含了 `${`、`}` 这些字符。除了最后一个�
 **查看节点结构：**
 ```bash
 # 查看特定节点类型
-bun run cli/index.ts parse file.ts | grep -A 5 "kind.*XXX"
+bun run src/cli/index.ts parse file.ts | grep -A 5 "kind.*XXX"
 
 # 查看节点详细信息
-bun run cli/index.ts parse file.ts | grep -A 10 '"nodeId"'
+bun run src/cli/index.ts parse file.ts | grep -A 10 '"nodeId"'
 ```
 
 **常见问题排查：**

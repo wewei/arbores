@@ -2,7 +2,7 @@
  * CLI error handling utilities
  */
 
-import { ArborError, type ErrorCode } from '../../src/api/types';
+import { ArborError, type ErrorCode } from '../../api/types';
 import { formatError, formatWarning } from './format';
 
 /**

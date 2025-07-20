@@ -2,7 +2,7 @@
  * Roots Command - Get root node IDs from AST file
  */
 
-import { getRoots } from '../../src/api';
+import { getRoots } from '../../api';
 import { 
   readFile, 
   fileExists, 

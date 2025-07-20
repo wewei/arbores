@@ -4,7 +4,7 @@
  * This command wraps the Parser API to provide CLI access to parsing functionality.
  */
 
-import { parseCode } from '../../src/api';
+import { parseCode } from '../../api';
 import { 
   readFile, 
   writeFile, 

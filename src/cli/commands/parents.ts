@@ -1,9 +1,9 @@
 /**
- * Children Command - Get children of a node from AST file
+ * Parents Command - Get parent nodes of a node from AST file
  */
 
-import { getChildren, getLatestRoot } from '../../src/api';
-import { getSyntaxKindName } from '../../src/syntax-kind-names';
+import { getParents, getLatestRoot } from '../../api';
+import { getSyntaxKindName } from '../../syntax-kind-names';
 import { 
   readFile, 
   fileExists, 
@@ -18,27 +18,27 @@ import {
 } from '../utils';
 
 /**
- * Children command options
+ * Parents command options
  */
-export interface ChildrenCommandOptions extends QueryOptions {
-  node?: string;   // Node ID to get children for (defaults to latest root)
+export interface ParentsCommandOptions extends QueryOptions {
+  node?: string;   // Node ID to get parents for (defaults to latest root)
 }
 
 /**
- * Execute children command
+ * Execute parents command
  */
-export async function childrenCommand(
+export async function parentsCommand(
   astFilePath: string,
-  options: ChildrenCommandOptions = {}
+  options: ParentsCommandOptions = {}
 ): Promise<void> {
   try {
     // Validate and normalize options
     const format = options.format && isValidQueryFormat(options.format) 
       ? options.format 
-      : 'markdown'; // Default to markdown for children command
+      : 'markdown'; // Default to markdown for parents command
 
     if (options.verbose) {
-      console.log(`Getting children from AST: ${astFilePath}`);
+      console.log(`Getting parents from AST: ${astFilePath}`);
       console.log(`Format: ${format}`);
     }
 
@@ -67,47 +67,47 @@ export async function childrenCommand(
       }
     }
 
-    // Get children
-    const children = handleResult(getChildren(ast, nodeId), { verbose: options.verbose });
+    // Get parents
+    const parents = handleResult(getParents(ast, nodeId), { verbose: options.verbose });
 
     let outputContent;
-    if (children.length === 0) {
+    if (parents.length === 0) {
       if (format === 'markdown') {
-        outputContent = 'No children found';
+        outputContent = 'No parent nodes found (this might be a root node)';
       } else {
-        outputContent = formatQueryOutput({ children: [] }, format);
+        outputContent = formatQueryOutput({ parents: [] }, format);
       }
     } else {
       if (format === 'markdown') {
         if (options.output) {
           // Markdown table format for file output
-          let md = '| Child ID | Kind | Kind Name | Text |\n';
-          md += '|----------|------|-----------|------|\n';
-          children.forEach(child => {
-            const kindName = getSyntaxKindName(child.kind);
-            const text = child.text ? `\`${child.text.replace(/`/g, '\\`')}\`` : '_None_';
-            md += `| \`${child.id}\` | ${child.kind} | ${kindName} | ${text} |\n`;
+          let md = '| Parent ID | Kind | Kind Name | Text |\n';
+          md += '|-----------|------|-----------|------|\n';
+          parents.forEach(parent => {
+            const kindName = getSyntaxKindName(parent.kind);
+            const text = parent.text ? `\`${parent.text.replace(/`/g, '\\`')}\`` : '_None_';
+            md += `| \`${parent.id}\` | ${parent.kind} | ${kindName} | ${text} |\n`;
           });
           outputContent = md;
         } else {
           // Aligned table for terminal output
-          const headers = ['Child ID', 'Kind', 'Kind Name', 'Text'];
-          const rows = children.map(child => {
-            const kindName = getSyntaxKindName(child.kind);
-            const text = child.text || 'None';
-            return [child.id, child.kind.toString(), kindName, text];
+          const headers = ['Parent ID', 'Kind', 'Kind Name', 'Text'];
+          const rows = parents.map(parent => {
+            const kindName = getSyntaxKindName(parent.kind);
+            const text = parent.text || 'None';
+            return [parent.id, parent.kind.toString(), kindName, text];
           });
           outputContent = formatAlignedTable(headers, rows);
         }
       } else {
         // JSON/YAML format
         const formattedResult = {
-          parent_node_id: nodeId,
-          children: children.map(child => ({
-            id: child.id,
-            kind: child.kind,
-            kind_name: getSyntaxKindName(child.kind),
-            text: child.text || null
+          child_node_id: nodeId,
+          parents: parents.map(parent => ({
+            id: parent.id,
+            kind: parent.kind,
+            kind_name: getSyntaxKindName(parent.kind),
+            text: parent.text || null
           }))
         };
         outputContent = formatQueryOutput(formattedResult, format);
@@ -118,7 +118,7 @@ export async function childrenCommand(
     await outputData(outputContent, options.output);
 
     if (options.verbose) {
-      console.log(`Found ${children.length} children for node ${nodeId}`);
+      console.log(`Found ${parents.length} parent nodes for node ${nodeId}`);
       if (options.output) {
         console.log(`Results saved to: ${options.output}`);
       }

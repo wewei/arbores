@@ -1,6 +1,6 @@
-import type { SourceFileAST, ASTNode } from '../src/types';
-import { getSyntaxKindName } from '../src/syntax-kind-names';
-import { readFile, getFormatFromPath, parseASTFile } from '../src/utils';
+import type { SourceFileAST, ASTNode } from '../types';
+import { getSyntaxKindName } from '../syntax-kind-names';
+import { readFile, getFormatFromPath, parseASTFile } from '../utils';
 import * as yaml from 'js-yaml';
 
 type NodeCommandOptions = {

@@ -2,7 +2,7 @@
  * Output formatting utilities for CLI
  */
 
-import type { ASTNode, FileVersion, SourceFileAST } from '../../src/api/types';
+import type { ASTNode, FileVersion, SourceFileAST } from '../../api/types';
 import type { OutputFormat } from './file-io';
 
 /**
