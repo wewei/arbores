@@ -1,4 +1,4 @@
-# API 设计 - v5
+# API 设计
 
 基于讨论和现有代码结构，本文档定义了arbores项目的Node.js API层设计。
 
