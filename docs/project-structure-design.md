@@ -48,16 +48,7 @@ arbores/
 │       ├── format.ts          # 输出格式处理(JSON/YAML/表格)
 │       └── error.ts           # CLI错误处理
 ├── tests/                     # 测试文件
-│   ├── api/                   # API层单元测试
-│   │   ├── parser.test.ts
-│   │   ├── query.test.ts
-│   │   ├── stringify.test.ts
-│   │   └── types.test.ts
-│   ├── cli/                   # CLI集成测试
-│   │   ├── parse.test.ts
-│   │   ├── query.test.ts
-│   │   └── stringify.test.ts
-│   ├── fixtures/              # 测试数据
+│   ├── fixtures/              # 共享测试数据
 │   │   ├── ast-samples/
 │   │   ├── ts-samples/
 │   │   └── expected/
@@ -246,41 +237,23 @@ export function formatOutput(data: any, options: OutputOptions): void {
 
 ### 单元测试结构
 ```
-tests/api/
+src/api/__tests__/
+├── types.test.ts           # Result<T>类型和错误处理测试
 ├── parser.test.ts          # Parser API纯函数测试
 ├── query.test.ts           # Query API纯函数测试  
-├── stringify.test.ts       # Stringify API纯函数测试
-└── types.test.ts          # Result<T>类型和错误处理测试
+└── stringify.test.ts       # Stringify API纯函数测试
+
+cli/__tests__/
+├── parse.test.ts           # CLI解析命令端到端测试
+├── query.test.ts           # CLI查询命令端到端测试  
+└── stringify.test.ts       # CLI代码生成命令端到端测试
 ```
 
-**测试重点**:
-- API函数的正常情况和边界情况
-- Result<T>类型的错误处理流程
-- 数据转换的正确性验证
-- 性能基准测试
-
-### 集成测试结构  
-```
-tests/cli/
-├── parse.test.ts          # CLI解析命令端到端测试
-├── query.test.ts          # CLI查询命令端到端测试  
-└── stringify.test.ts      # CLI代码生成命令端到端测试
-```
-
-**测试重点**:
-- CLI命令的完整流程测试
-- 文件I/O操作验证
-- 输出格式正确性检查
-- 错误场景的处理验证
-
-### 测试数据管理
-```
-tests/fixtures/
-├── ts-samples/            # 各种TypeScript代码示例
-├── ast-samples/           # 对应的AST文件
-├── expected/              # 预期的输出结果
-└── large-files/           # 性能测试用的大文件
-```
+**测试组织原则**:
+- 测试文件与被测文件同目录下的`__tests__`文件夹
+- 便于IDE代码导航和关联检索
+- 单元测试覆盖API层纯函数
+- 集成测试覆盖CLI端到端流程
 
 ## 迁移策略
 

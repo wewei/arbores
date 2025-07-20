@@ -163,26 +163,36 @@ export async function parseCommand(sourceFile: string, options: ParseOptions) {
 ### 阶段 3：测试框架构建 (Priority: High)
 
 #### 3.1 测试结构设计
-**目标结构**: `tests/`
+**目标结构**: 测试文件与被测文件同目录下的`__tests__`文件夹
 ```
-tests/
-├── api/               # API层单元测试
-│   ├── parser.test.ts # Parser API测试
-│   ├── query.test.ts  # Query API测试
-│   ├── stringify.test.ts # Stringify API测试
-│   └── types.test.ts  # 类型和错误处理测试
-├── cli/               # CLI集成测试
+src/
+├── api/               # API层
+│   ├── __tests__/     # API层单元测试
+│   │   ├── types.test.ts     # 类型和错误处理测试
+│   │   ├── parser.test.ts    # Parser API测试
+│   │   ├── query.test.ts     # Query API测试
+│   │   └── stringify.test.ts # Stringify API测试
+│   ├── types.ts
+│   ├── parser.ts
+│   ├── query.ts
+│   └── stringify.ts
+├── core/              # 核心逻辑
+│   └── __tests__/     # 核心逻辑测试
+└── ...
+
+cli/                   # CLI适配器层
+├── __tests__/         # CLI集成测试
 │   ├── parse.test.ts  # CLI解析命令测试
 │   ├── query.test.ts  # CLI查询命令测试
 │   └── stringify.test.ts # CLI代码生成测试
-├── fixtures/          # 测试数据
-│   ├── ast-samples/   # AST示例文件
-│   ├── ts-samples/    # TypeScript示例文件
-│   └── expected/      # 预期输出结果
-└── utils/             # 测试工具
-    ├── helpers.ts     # 测试助手函数
-    └── mock.ts        # Mock工具
+└── ...
 ```
+
+**测试文件组织原则**:
+- 测试文件放在被测文件相同目录的`__tests__`文件夹下
+- 便于关联检索和代码导航
+- 测试文件命名为`*.test.ts`格式
+- 每个测试文件对应一个主要模块
 
 #### 3.2 测试重点
 1. **API层纯函数测试**
