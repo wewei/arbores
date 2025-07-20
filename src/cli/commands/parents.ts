@@ -2,7 +2,7 @@
  * Parents Command - Get parent nodes of a node from AST file
  */
 
-import { getParents, getLatestRoot } from '../../api';
+import { getParents, getLatestRoot } from '../../core';
 import { getSyntaxKindName } from '../../syntax-kind-names';
 import { 
   readFile, 

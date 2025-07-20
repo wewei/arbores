@@ -37,7 +37,7 @@
 ## 核心类型定义
 
 ```typescript
-// src/api/types.ts
+// src/core/types.ts
 
 /** 错误代码枚举 - 只包含AST/数据层错误 */
 export type ErrorCode = 
@@ -116,7 +116,7 @@ export type ParseResult = {
 ## Parser API - 解析模块
 
 ```typescript
-// src/api/parser.ts
+// src/core/parser.ts
 
 /**
  * 解析TypeScript代码到AST
@@ -133,7 +133,7 @@ export function parseCode(
 ## Query API - 查询模块
 
 ```typescript
-// src/api/query.ts
+// src/core/query.ts
 
 /**
  * 获取AST中所有版本的根节点信息
@@ -179,7 +179,7 @@ export function getParents(
 ## Stringify API - 代码生成模块
 
 ```typescript
-// src/api/stringify.ts
+// src/core/stringify.ts
 
 /** 字符串化选项 - 与现有StringifyOptions对齐 */
 export type StringifyOptions = {
@@ -217,25 +217,25 @@ export function stringifyAST(
 
 ### Phase 1: 核心类型和错误处理
 
-- [ ] 实现 `src/api/types.ts`
+- [ ] 实现 `src/core/types.ts`
 - [ ] 实现统一的错误处理机制
 - [ ] 编写类型定义的单元测试
 
 ### Phase 2: Parser API
 
-- [ ] 实现 `src/api/parser.ts` 的核心函数
+- [ ] 实现 `src/core/parser.ts` 的核心函数
 - [ ] 集成现有的 `src/parser.ts` 逻辑
 - [ ] 编写解析功能的单元测试
 
 ### Phase 3: Query API
 
-- [ ] 实现 `src/api/query.ts` 的所有查询函数
+- [ ] 实现 `src/core/query.ts` 的所有查询函数
 - [ ] 重构现有CLI查询逻辑使用新API
 - [ ] 编写查询功能的单元测试
 
 ### Phase 4: Stringify API
 
-- [ ] 实现 `src/api/stringify.ts` 的代码生成函数
+- [ ] 实现 `src/core/stringify.ts` 的代码生成函数
 - [ ] 集成现有的stringifier逻辑
 - [ ] 编写代码生成的单元测试
 

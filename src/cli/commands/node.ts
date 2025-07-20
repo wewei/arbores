@@ -2,7 +2,7 @@
  * Node Command - Display detailed information about a specific node
  */
 
-import { getNodeWithKindName } from '../../api';
+import { getNodeWithKindName } from '../../core';
 import { getSyntaxKindName } from '../../syntax-kind-names';
 import { 
   readFile, 

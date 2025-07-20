@@ -102,15 +102,15 @@ export function stringifyNode(ast: SourceFileAST, nodeId: string, options?: Stri
 ### ✅ 已完成的工作
 
 #### 1.1 API基础设施创建
-- ✅ 创建了`src/api/`目录结构
-- ✅ 实现了`src/api/types.ts` - Result<T>类型系统和错误处理
-- ✅ 实现了`src/api/parser.ts` - parseCode()函数
-- ✅ 创建了`src/api/index.ts` - API统一导出
+- ✅ 创建了`src/core/`目录结构
+- ✅ 实现了`src/core/types.ts` - Result<T>类型系统和错误处理
+- ✅ 实现了`src/core/parser.ts` - parseCode()函数
+- ✅ 创建了`src/core/index.ts` - API统一导出
 
 #### 1.2 测试框架建立
 - ✅ 建立了`__tests__`文件夹组织结构（与被测文件同目录）
-- ✅ 完成了`src/api/__tests__/types.test.ts` - 类型系统测试
-- ✅ 完成了`src/api/__tests__/parser.test.ts` - Parser API测试
+- ✅ 完成了`src/core/__tests__/types.test.ts` - 类型系统测试
+- ✅ 完成了`src/core/__tests__/parser.test.ts` - Parser API测试
 - ✅ 所有测试通过（22个测试用例，76个断言）
 
 #### 1.3 核心功能验证
@@ -134,14 +134,14 @@ export function stringifyNode(ast: SourceFileAST, nodeId: string, options?: Stri
 ### Phase 2 任务清单 (Week 3-4)
 
 #### 2.1 Query API实现
-- [ ] 实现`src/api/query.ts`的所有查询函数:
+- [ ] 实现`src/core/query.ts`的所有查询函数:
   - `getRoots(ast: SourceFileAST): Result<VersionInfo[]>`
   - `getNode(ast: SourceFileAST, nodeId: string): Result<NodeInfo>`
   - `getChildren(ast: SourceFileAST, nodeId: string): Result<NodeInfo[]>`
   - `getParents(ast: SourceFileAST, nodeId: string): Result<NodeInfo[]>`
 
 #### 2.2 Stringify API实现  
-- [ ] 实现`src/api/stringify.ts`的代码生成函数:
+- [ ] 实现`src/core/stringify.ts`的代码生成函数:
   - `stringifyNode(ast: SourceFileAST, nodeId: string, options?: StringifyOptions): Result<string>`
   - `stringifyAST(ast: SourceFileAST, version?: string, options?: StringifyOptions): Result<string>`
 
@@ -150,8 +150,8 @@ export function stringifyNode(ast: SourceFileAST, nodeId: string, options?: Stri
 - [ ] 重构现有stringifier集成到新API
 
 #### 2.4 测试完善
-- [ ] 创建`src/api/__tests__/query.test.ts`
-- [ ] 创建`src/api/__tests__/stringify.test.ts`
+- [ ] 创建`src/core/__tests__/query.test.ts`
+- [ ] 创建`src/core/__tests__/stringify.test.ts`
 - [ ] 确保Query和Stringify API的单元测试覆盖率>95%
 
 ## 预期收益

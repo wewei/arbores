@@ -2,7 +2,7 @@
  * Children Command - Get children of a node from AST file
  */
 
-import { getChildren, getLatestRoot } from '../../api';
+import { getChildren, getLatestRoot } from '../../core';
 import { getSyntaxKindName } from '../../syntax-kind-names';
 import { 
   readFile, 

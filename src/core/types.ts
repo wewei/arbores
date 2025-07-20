@@ -105,7 +105,7 @@ export interface ParseStats {
  * Result of parsing operations
  */
 export interface ParseResult {
-  ast: import('../types').SourceFileAST;
+  ast: import('../types.js').SourceFileAST;
   rootNodeId: string;
   stats: ParseStats;
 }

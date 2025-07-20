@@ -79,9 +79,9 @@ arbores/
 ### 阶段 1：核心API层实现 (Priority: High)
 
 #### 1.1 创建API基础设施
-**目标目录**: `src/api/`
+**目标目录**: `src/core/`
 ```
-src/api/
+src/core/
 ├── types.ts           # API类型定义和Result<T>
 ├── parser.ts          # 解析API实现
 ├── query.ts           # 查询API实现
@@ -91,21 +91,21 @@ src/api/
 
 **核心实现**:
 ```typescript
-// src/api/types.ts - 实现API设计v5的类型定义
+// src/core/types.ts - 实现API设计v5的类型定义
 export type ErrorCode = 'PARSE_ERROR' | 'NODE_NOT_FOUND' | 'INVALID_JSON' | 'INVALID_AST_STRUCTURE';
 export class ArborError extends Error;
 export type Result<T> = { success: true; data: T; } | { success: false; error: ArborError; };
 
-// src/api/parser.ts - 纯函数式解析API
+// src/core/parser.ts - 纯函数式解析API
 export function parseCode(sourceCode: string, baseAST: SourceFileAST): Result<ParseResult>;
 
-// src/api/query.ts - 统一查询API
+// src/core/query.ts - 统一查询API
 export function getRoots(ast: SourceFileAST): Result<VersionInfo[]>;
 export function getNode(ast: SourceFileAST, nodeId: string): Result<NodeInfo>;
 export function getChildren(ast: SourceFileAST, nodeId: string): Result<NodeInfo[]>;
 export function getParents(ast: SourceFileAST, nodeId: string): Result<NodeInfo[]>;
 
-// src/api/stringify.ts - 代码生成API
+// src/core/stringify.ts - 代码生成API
 export function stringifyNode(ast: SourceFileAST, nodeId: string, options?: StringifyOptions): Result<string>;
 export function stringifyAST(ast: SourceFileAST, version?: string, options?: StringifyOptions): Result<string>;
 ```
@@ -134,7 +134,7 @@ cli/
 **适配器模式实现**:
 ```typescript
 // cli/parse.ts - 使用新的Parser API
-import { parseCode } from '../src/api/parser';
+import { parseCode } from '../src/core/parser';
 import { loadAST, saveAST } from './utils/file-io';
 
 export async function parseCommand(sourceFile: string, options: ParseOptions) {
@@ -215,7 +215,7 @@ cli/                   # CLI适配器层
 由于API层采用纯函数设计，HTTP服务器可以直接使用：
 ```typescript
 // server/routes/parse.ts
-import { parseCode } from '../../src/api/parser';
+import { parseCode } from '../../src/core/parser';
 
 export async function parseRoute(req: Request, res: Response) {
   const { sourceCode, baseAST } = req.body;
@@ -250,14 +250,14 @@ export async function parseRoute(req: Request, res: Response) {
 ## 实施路线图
 
 ### Phase 1 (Week 1-2): 核心API类型和解析器
-- [x] 创建`src/api/types.ts`实现Result<T>和错误类型
-- [x] 实现`src/api/parser.ts`的parseCode函数
+- [x] 创建`src/core/types.ts`实现Result<T>和错误类型
+- [x] 实现`src/core/parser.ts`的parseCode函数
 - [x] 集成现有parser逻辑到新API
 - [x] 编写Parser API的单元测试
 
 ### Phase 2 (Week 3-4): 查询和代码生成API  
-- [ ] 实现`src/api/query.ts`的所有查询函数
-- [ ] 实现`src/api/stringify.ts`的代码生成函数
+- [ ] 实现`src/core/query.ts`的所有查询函数
+- [ ] 实现`src/core/stringify.ts`的代码生成函数
 - [ ] 从CLI代码中提取查询逻辑
 - [ ] 完成Query和Stringify API的单元测试
 

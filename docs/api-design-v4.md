@@ -81,7 +81,7 @@ const roots = await api.getRoots(); // 直接查询内存数据
 ### 1. 基础类型定义
 
 ```typescript
-// src/api/types.ts
+// src/core/types.ts
 
 /** API 操作结果的通用格式 */
 export interface APIResult<T> {
@@ -178,7 +178,7 @@ export interface NodeInfo {
 ### 2. Parser API 详细设计
 
 ```typescript
-// src/api/parser.ts
+// src/core/parser.ts
 
 export interface ParseOptions extends BaseQueryOptions {
   /** 输出文件路径 */
@@ -261,7 +261,7 @@ export class ParserAPI {
 ### 3. Query API 详细设计
 
 ```typescript
-// src/api/query.ts
+// src/core/query.ts
 
 export interface QueryOptions extends BaseQueryOptions {
   /** 只查询最新版本 */
@@ -389,7 +389,7 @@ export interface ASTStats {
 ### 4. 统一入口设计
 
 ```typescript
-// src/api/index.ts
+// src/core/index.ts
 
 export class ArborAPI {
   private _parser?: ParserAPI;

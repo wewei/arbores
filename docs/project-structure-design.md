@@ -69,7 +69,7 @@ arbores/
 ### Phase 1: API层基础设施
 
 #### 1.1 核心类型定义
-**创建 `src/api/types.ts`**
+**创建 `src/core/types.ts`**
 ```typescript
 // 错误处理类型
 export type ErrorCode = 'PARSE_ERROR' | 'NODE_NOT_FOUND' | 'INVALID_JSON' | 'INVALID_AST_STRUCTURE';
@@ -110,7 +110,7 @@ export type ParseResult = {
 ```
 
 #### 1.2 Parser API实现
-**创建 `src/api/parser.ts`**
+**创建 `src/core/parser.ts`**
 ```typescript
 import { Result, ParseResult, ArborError } from './types';
 import { parseTypeScriptCode } from '../core/parser'; // 重构现有parser
@@ -134,7 +134,7 @@ export function parseCode(
 ### Phase 2: 查询和代码生成API
 
 #### 2.1 Query API实现
-**创建 `src/api/query.ts`**
+**创建 `src/core/query.ts`**
 ```typescript
 export function getRoots(ast: SourceFileAST): Result<VersionInfo[]> {
   // 从现有CLI代码中提取逻辑
@@ -154,7 +154,7 @@ export function getParents(ast: SourceFileAST, nodeId: string): Result<NodeInfo[
 ```
 
 #### 2.2 Stringify API实现  
-**创建 `src/api/stringify.ts`**
+**创建 `src/core/stringify.ts`**
 ```typescript
 export function stringifyNode(
   ast: SourceFileAST,
@@ -178,7 +178,7 @@ export function stringifyAST(
 #### 3.1 CLI命令适配器化
 **重构 `cli/parse.ts`**
 ```typescript
-import { parseCode } from '../src/api/parser';
+import { parseCode } from '../src/core/parser';
 import { loadAST, saveAST } from './utils/file-io';
 import { formatOutput } from './utils/format';
 import { handleCLIError } from './utils/error';
@@ -237,7 +237,7 @@ export function formatOutput(data: any, options: OutputOptions): void {
 
 ### 单元测试结构
 ```
-src/api/__tests__/
+src/core/__tests__/
 ├── types.test.ts           # Result<T>类型和错误处理测试
 ├── parser.test.ts          # Parser API纯函数测试
 ├── query.test.ts           # Query API纯函数测试  

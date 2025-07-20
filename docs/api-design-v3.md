@@ -32,7 +32,7 @@
 ## 核心类型定义
 
 ```typescript
-// src/api/types.ts
+// src/core/types.ts
 
 /** 统一的结果类型 */
 export type ArborResult<T> = 
@@ -104,7 +104,7 @@ export interface VersionInfo {
 ## Parser API - 解析模块
 
 ```typescript
-// src/api/parser.ts
+// src/core/parser.ts
 
 export interface ParseOptions {
   /** 版本描述 */
@@ -186,7 +186,7 @@ export function validateAST(ast: SourceFileAST): ArborResult<{
 ## Query API - 查询模块
 
 ```typescript
-// src/api/query.ts
+// src/core/query.ts
 
 /**
  * 获取 AST 中所有版本的根节点信息
@@ -300,7 +300,7 @@ export function findByText(
 ## Stringifier API - 代码生成模块
 
 ```typescript
-// src/api/stringifier.ts
+// src/core/stringifier.ts
 
 export interface StringifyOptions {
   /** 格式化风格 */
@@ -355,7 +355,7 @@ export function stringifyNodes(
 ## 文件操作 API
 
 ```typescript
-// src/api/file.ts
+// src/core/file.ts
 
 /**
  * 从文件加载 AST 数据
@@ -392,7 +392,7 @@ export function detectFormat(filePath: string): 'json' | 'yaml' | 'unknown';
 ```typescript
 // cli/adapters/query.ts
 
-import { loadAST, getRoots, getChildren } from '../src/api';
+import { loadAST, getRoots, getChildren } from '../src/core';
 import { formatOutput } from './format-adapter';
 
 export async function rootsCommand(filePath: string, options: {
@@ -449,14 +449,14 @@ export async function rootsCommand(filePath: string, options: {
 ## 实现计划
 
 ### 第一阶段：核心 API
-1. `src/api/types.ts` - 基础类型定义
-2. `src/api/parser.ts` - 解析 API
-3. `src/api/query.ts` - 查询 API (基础功能)
-4. `src/api/file.ts` - 文件操作 API
+1. `src/core/types.ts` - 基础类型定义
+2. `src/core/parser.ts` - 解析 API
+3. `src/core/query.ts` - 查询 API (基础功能)
+4. `src/core/file.ts` - 文件操作 API
 
 ### 第二阶段：扩展功能
-1. `src/api/stringifier.ts` - 代码生成 API
-2. `src/api/query.ts` - 查询 API (高级功能)
+1. `src/core/stringifier.ts` - 代码生成 API
+2. `src/core/query.ts` - 查询 API (高级功能)
 3. 完善错误处理和边界情况
 
 ### 第三阶段：CLI 适配

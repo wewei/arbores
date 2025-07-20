@@ -11,7 +11,7 @@
 负责将 TypeScript 代码解析为 AST 格式。
 
 ```typescript
-// src/api/parser.ts
+// src/core/parser.ts
 export interface ParseOptions {
   /** 输出格式 */
   format?: 'json' | 'yaml';
@@ -64,7 +64,7 @@ export class ParserAPI {
 负责 AST 查询和导航功能。
 
 ```typescript
-// src/api/query.ts
+// src/core/query.ts
 export interface QueryOptions {
   /** 输出格式 */
   format?: 'object' | 'json' | 'yaml' | 'markdown';
@@ -158,7 +158,7 @@ export interface TreeNode extends NodeInfo {
 负责将 AST 转换回 TypeScript 代码。
 
 ```typescript
-// src/api/stringifier.ts
+// src/core/stringifier.ts
 export interface StringifyOptions {
   /** 格式化风格 */
   format?: 'compact' | 'readable' | 'minified';
@@ -214,7 +214,7 @@ export class StringifierAPI {
 负责统一的输出格式处理。
 
 ```typescript
-// src/api/format.ts
+// src/core/format.ts
 export type OutputFormat = 'object' | 'json' | 'yaml' | 'markdown';
 
 export interface FormatOptions {
@@ -251,7 +251,7 @@ export class FormatAPI {
 提供便捷的统一接口，封装所有功能模块。
 
 ```typescript
-// src/api/index.ts
+// src/core/index.ts
 export class ArborAPI {
   /**
    * 创建 API 实例

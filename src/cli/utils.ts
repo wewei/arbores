@@ -7,7 +7,7 @@
 
 import * as fs from 'fs';
 import * as yaml from 'js-yaml';
-import { ArborError, type Result } from '../api';
+import { ArborError, type Result } from '../core';
 
 // =============================================================================
 // Types
