@@ -181,7 +181,7 @@ function getCommentTypeDisplay(kind: string): string {
     case 'SingleLineCommentTrivia':
       return '//';
     case 'MultiLineCommentTrivia':
-      return '/**/';
+      return '/*';
     default:
       return '??';
   }
@@ -221,7 +221,7 @@ function getCommentTypeDisplayForFormatting(text: string): string {
   if (text.startsWith('/**')) {
     return '**';
   } else if (text.startsWith('/*')) {
-    return '/**/';
+    return '/*';
   } else if (text.startsWith('//')) {
     return '//';
   } else {

@@ -25,6 +25,38 @@ function isMarkdownFormat(format?: string): boolean {
   return !format || format.toLowerCase() === 'markdown' || format.toLowerCase() === 'md';
 }
 
+// Table formatting utilities
+function formatMarkdownTable(headers: string[], rows: string[][]): void {
+  if (headers.length === 0 || rows.length === 0) {
+    return;
+  }
+
+  // Calculate maximum width for each column
+  const columnWidths = headers.map((header, index) => {
+    const headerWidth = header.length;
+    const maxRowWidth = Math.max(...rows.map(row => (row[index] || '').length));
+    return Math.max(headerWidth, maxRowWidth);
+  });
+
+  // Format header row
+  const formattedHeaders = headers.map((header, index) => 
+    header.padEnd(columnWidths[index] || 0)
+  );
+  console.log(`| ${formattedHeaders.join(' | ')} |`);
+
+  // Format separator row
+  const separators = columnWidths.map(width => '-'.repeat(width));
+  console.log(`| ${separators.join(' | ')} |`);
+
+  // Format data rows
+  rows.forEach(row => {
+    const formattedCells = headers.map((_, index) => 
+      (row[index] || '').padEnd(columnWidths[index] || 0)
+    );
+    console.log(`| ${formattedCells.join(' | ')} |`);
+  });
+}
+
 type QueryOptions = {
   latest?: boolean;
   verbose?: boolean;
@@ -57,14 +89,14 @@ export async function rootsCommand(filePath: string, options: QueryOptions): Pro
       if (isMarkdownFormat(outputFormat)) {
         if (options.verbose) {
           // Markdown table format for verbose output
-          console.log('| Version | Root Node ID | Created At | Description |');
-          console.log('|---------|--------------|------------|-------------|');
-          ast.versions.forEach((version, index) => {
+          const headers = ['Version', 'Root Node ID', 'Created At', 'Description'];
+          const rows = ast.versions.map((version, index) => {
             const versionLabel = `v${index + 1}`;
             const timestamp = new Date(version.created_at).toLocaleString();
             const description = version.description || '_None_';
-            console.log(`| ${versionLabel} | \`${version.root_node_id}\` | ${timestamp} | ${description} |`);
+            return [versionLabel, `\`${version.root_node_id}\``, timestamp, description];
           });
+          formatMarkdownTable(headers, rows);
         } else {
           // Simple list format
           ast.versions.forEach((version) => {
@@ -124,18 +156,18 @@ export async function childrenCommand(filePath: string, options: { node?: string
 
     if (isMarkdownFormat(outputFormat)) {
       // Markdown table format
-      console.log('| Child ID | Kind | Kind Name | Text |');
-      console.log('|----------|------|-----------|------|');
-      node.children.forEach(childId => {
+      const headers = ['Child ID', 'Kind', 'Kind Name', 'Text'];
+      const rows = node.children.map(childId => {
         const childNode = ast.nodes[childId];
         if (childNode) {
           const kindName = getSyntaxKindName(childNode.kind);
           const text = childNode.text ? `\`${childNode.text.replace(/`/g, '\\`')}\`` : '_None_';
-          console.log(`| \`${childId}\` | ${childNode.kind} | ${kindName} | ${text} |`);
+          return [`\`${childId}\``, childNode.kind.toString(), kindName, text];
         } else {
-          console.log(`| \`${childId}\` | - | Unknown | _Missing_ |`);
+          return [`\`${childId}\``, '-', 'Unknown', '_Missing_'];
         }
       });
+      formatMarkdownTable(headers, rows);
     } else {
       // JSON/YAML format
       const result = {

@@ -25,6 +25,38 @@ function isMarkdownFormat(format?: string): boolean {
   return !format || format.toLowerCase() === 'markdown' || format.toLowerCase() === 'md';
 }
 
+// Table formatting utilities
+function formatMarkdownTable(headers: string[], rows: string[][]): void {
+  if (headers.length === 0 || rows.length === 0) {
+    return;
+  }
+
+  // Calculate maximum width for each column
+  const columnWidths = headers.map((header, index) => {
+    const headerWidth = header.length;
+    const maxRowWidth = Math.max(...rows.map(row => (row[index] || '').length));
+    return Math.max(headerWidth, maxRowWidth);
+  });
+
+  // Format header row
+  const formattedHeaders = headers.map((header, index) => 
+    header.padEnd(columnWidths[index] || 0)
+  );
+  console.log(`| ${formattedHeaders.join(' | ')} |`);
+
+  // Format separator row
+  const separators = columnWidths.map(width => '-'.repeat(width));
+  console.log(`| ${separators.join(' | ')} |`);
+
+  // Format data rows
+  rows.forEach(row => {
+    const formattedCells = headers.map((_, index) => 
+      (row[index] || '').padEnd(columnWidths[index] || 0)
+    );
+    console.log(`| ${formattedCells.join(' | ')} |`);
+  });
+}
+
 export async function parentsCommand(filePath: string, options: { node?: string, verbose?: boolean, format?: string }): Promise<void> {
   try {
     const content = await readFile(filePath);
@@ -65,33 +97,33 @@ export async function parentsCommand(filePath: string, options: { node?: string,
     if (isMarkdownFormat(outputFormat)) {
       if (options.verbose) {
         // Verbose markdown table format
-        console.log('| Parent ID | Kind | Kind Name | Text | Properties | Children Count |');
-        console.log('|-----------|------|-----------|------|------------|----------------|');
-        parentIds.forEach(parentId => {
+        const headers = ['Parent ID', 'Kind', 'Kind Name', 'Text', 'Properties', 'Children Count'];
+        const rows = parentIds.map(parentId => {
           const parentNode = ast.nodes[parentId];
           if (parentNode) {
             const kindName = getSyntaxKindName(parentNode.kind);
             const text = parentNode.text ? `\`${parentNode.text.replace(/`/g, '\\`')}\`` : '_None_';
             const properties = parentNode.properties ? `\`${JSON.stringify(parentNode.properties)}\`` : '_None_';
-            const childrenCount = parentNode.children?.length || 0;
-            console.log(`| \`${parentId}\` | ${parentNode.kind} | ${kindName} | ${text} | ${properties} | ${childrenCount} |`);
+            const childrenCount = (parentNode.children?.length || 0).toString();
+            return [`\`${parentId}\``, parentNode.kind.toString(), kindName, text, properties, childrenCount];
           } else {
-            console.log(`| \`${parentId}\` | - | Unknown | _Missing_ | - | - |`);
+            return [`\`${parentId}\``, '-', 'Unknown', '_Missing_', '-', '-'];
           }
         });
+        formatMarkdownTable(headers, rows);
       } else {
         // Simple markdown table format
-        console.log('| Parent ID | Kind Name |');
-        console.log('|-----------|-----------|');
-        parentIds.forEach(parentId => {
+        const headers = ['Parent ID', 'Kind Name'];
+        const rows = parentIds.map(parentId => {
           const parentNode = ast.nodes[parentId];
           if (parentNode) {
             const kindName = getSyntaxKindName(parentNode.kind);
-            console.log(`| \`${parentId}\` | ${kindName} |`);
+            return [`\`${parentId}\``, kindName];
           } else {
-            console.log(`| \`${parentId}\` | Unknown |`);
+            return [`\`${parentId}\``, 'Unknown'];
           }
         });
+        formatMarkdownTable(headers, rows);
       }
     } else {
       // JSON/YAML format
