@@ -3,7 +3,7 @@
  */
 
 import { getNodeWithKindName } from '../../core';
-import { getSyntaxKindName } from '../../syntax-kind-names';
+import { getSyntaxKindName } from '../../core/syntax-kind-names';
 import { 
   readFile, 
   fileExists, 

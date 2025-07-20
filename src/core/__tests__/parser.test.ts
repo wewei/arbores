@@ -7,7 +7,7 @@
 import { describe, it, expect, beforeEach } from 'bun:test';
 import { parseCode } from '../parser';
 import { isSuccess, isError } from '../types';
-import type { SourceFileAST } from '../../types';
+import type { SourceFileAST } from '../types';
 
 describe('Parser API', () => {
   let emptyAST: SourceFileAST;

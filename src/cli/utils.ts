@@ -61,10 +61,17 @@ export async function readFile(filePath: string): Promise<string> {
 }
 
 /**
- * Write file content asynchronously
+ * Write file content asynchronously with directory creation
  */
 export async function writeFile(filePath: string, content: string): Promise<void> {
   try {
+    // 确保目录存在
+    const path = await import('path');
+    const dir = path.dirname(filePath);
+    // 只有当目录不是当前目录时才创建
+    if (dir !== '.' && dir !== '') {
+      await fs.promises.mkdir(dir, { recursive: true });
+    }
     await fs.promises.writeFile(filePath, content, 'utf-8');
   } catch (error) {
     throw new Error(`Failed to write file ${filePath}: ${error instanceof Error ? error.message : 'Unknown error'}`);

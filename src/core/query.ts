@@ -8,7 +8,7 @@
 import { success, error, type Result, ArborError } from './types';
 import type { SourceFileAST, ASTNode, FileVersion } from './types';
 import * as ts from 'typescript';
-import { getSyntaxKindName } from '../syntax-kind-names';
+import { getSyntaxKindName } from './syntax-kind-names';
 
 /**
  * Get all version information from AST

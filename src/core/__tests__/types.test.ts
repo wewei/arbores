@@ -14,7 +14,7 @@ import {
   type Result,
   type ErrorCode
 } from '../types.ts';
-import type { ASTNode, FileVersion } from '../../types.ts';
+import type { ASTNode, FileVersion } from '../types.ts';
 
 describe('Result<T> Type System', () => {
   describe('success()', () => {

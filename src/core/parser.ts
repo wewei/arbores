@@ -7,7 +7,7 @@
 
 import * as ts from 'typescript';
 import type { SourceFileAST, ASTNode, FileVersion } from './types.js';
-import { generateNodeId, isTokenNode, extractNodeProperties, extractComments } from '../utils.js';
+import { generateNodeId, isTokenNode, extractNodeProperties, extractComments } from './utils/index.js';
 import { 
   success, 
   error, 
