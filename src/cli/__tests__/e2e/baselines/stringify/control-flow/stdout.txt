@@ -1,0 +1,24 @@
+const x = 10;
+const y = 20;
+const sum = x + y;
+const isGreater = x > y;
+if (isGreater) {
+    console.log("x is greater");
+}
+else
+    /* Unsupported: ElseKeyword */
+for (let i = 0; i < 5; /* Unsupported: PostfixUnaryExpression */) {
+    console.log(i);
+}
+const items = [1, 2, 3];
+/* Unsupported: ForOfStatement */
+try {
+    /* Unsupported: ThrowStatement */
+}
+catch (e) {
+    console.error(e);
+}
+finally {
+    console.log("cleanup");
+}
+

@@ -1,0 +1,9 @@
+description: Stringify command with non-existent file (error case)
+command:
+  - stringify
+  - /nonexistent/file.ast.json
+exitCode: 1
+environment:
+  MOCK_TIMESTAMP: "2025-01-01T00:00:00.000Z"
+created: "2025-07-20T23:07:27.975Z"
+updated: "2025-07-20T23:07:27.975Z"

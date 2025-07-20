@@ -1,0 +1,28 @@
+// Basic expressions and statements
+const x = 10;
+const y = 20;
+const sum = x + y;
+const isGreater = x > y;
+
+if (isGreater) {
+  console.log("x is greater");
+} else {
+  console.log("y is greater or equal");
+}
+
+for (let i = 0; i < 5; i++) {
+  console.log(i);
+}
+
+const items = [1, 2, 3];
+for (const item of items) {
+  console.log(item);
+}
+
+try {
+  throw new Error("test error");
+} catch (e) {
+  console.error(e);
+} finally {
+  console.log("cleanup");
+}

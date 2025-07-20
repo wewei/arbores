@@ -1,0 +1,84 @@
+Unsupported node type: PostfixUnaryExpression (225)
+Node details: {
+  id: "{{NODE_ID}}",
+  kind: 225,
+  text: undefined,
+  children: [ "{{NODE_ID}}", "{{NODE_ID}}" ],
+}
+Created placeholder with kind: 80 Identifier
+Unsupported node type: NewExpression (214)
+Node details: {
+  id: "{{NODE_ID}}",
+  kind: 214,
+  text: undefined,
+  children: [ "{{NODE_ID}}", "{{NODE_ID}}", "{{NODE_ID}}", "{{NODE_ID}}",
+    "{{NODE_ID}}"
+  ],
+}
+Created placeholder with kind: 80 Identifier
+Unsupported node type: YieldExpression (229)
+Node details: {
+  id: "{{NODE_ID}}",
+  kind: 229,
+  text: undefined,
+  children: [ "{{NODE_ID}}", "{{NODE_ID}}" ],
+}
+Created placeholder with kind: 80 Identifier
+Unsupported node type: IndexSignature (181)
+Node details: {
+  id: "{{NODE_ID}}",
+  kind: 181,
+  text: undefined,
+  children: [ "{{NODE_ID}}", "{{NODE_ID}}", "{{NODE_ID}}", "{{NODE_ID}}",
+    "{{NODE_ID}}"
+  ],
+}
+Created placeholder with kind: 80 Identifier
+Unsupported node type: ArrayBindingPattern (207)
+Node details: {
+  id: "{{NODE_ID}}",
+  kind: 207,
+  text: undefined,
+  children: [ "{{NODE_ID}}", "{{NODE_ID}}", "{{NODE_ID}}" ],
+}
+Created placeholder with kind: 80 Identifier
+Unsupported node type: TemplateLiteralType (203)
+Node details: {
+  id: "{{NODE_ID}}",
+  kind: 203,
+  text: undefined,
+  children: [ "{{NODE_ID}}", "{{NODE_ID}}" ],
+}
+Created placeholder with kind: 80 Identifier
+Unsupported node type: ElementAccessExpression (212)
+Node details: {
+  id: "{{NODE_ID}}",
+  kind: 212,
+  text: undefined,
+  children: [ "{{NODE_ID}}", "{{NODE_ID}}", "{{NODE_ID}}", "{{NODE_ID}}" ],
+}
+Created placeholder with kind: 80 Identifier
+Unsupported node type: ElementAccessExpression (212)
+Node details: {
+  id: "{{NODE_ID}}",
+  kind: 212,
+  text: undefined,
+  children: [ "{{NODE_ID}}", "{{NODE_ID}}", "{{NODE_ID}}", "{{NODE_ID}}" ],
+}
+Created placeholder with kind: 80 Identifier
+Unsupported node type: NonNullExpression (235)
+Node details: {
+  id: "{{NODE_ID}}",
+  kind: 235,
+  text: undefined,
+  children: [ "{{NODE_ID}}", "{{NODE_ID}}" ],
+}
+Created placeholder with kind: 80 Identifier
+Unsupported node type: ElementAccessExpression (212)
+Node details: {
+  id: "{{NODE_ID}}",
+  kind: 212,
+  text: undefined,
+  children: [ "{{NODE_ID}}", "{{NODE_ID}}", "{{NODE_ID}}", "{{NODE_ID}}" ],
+}
+Created placeholder with kind: 80 Identifier

@@ -1,0 +1,11 @@
+description: Stringify control flow statements (if, for, try-catch)
+command:
+  - stringify
+  - /tmp/statements-test.ast.json
+  - "--format"
+  - readable
+exitCode: 0
+environment:
+  MOCK_TIMESTAMP: "2025-01-01T00:00:00.000Z"
+created: "2025-07-20T23:08:15.807Z"
+updated: "2025-07-20T23:08:15.807Z"

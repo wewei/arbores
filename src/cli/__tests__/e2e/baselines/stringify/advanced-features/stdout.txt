@@ -1,0 +1,32 @@
+function asyncGenerator(): AsyncIterableIterator {
+    for (let i = 0; i < 5; /* Unsupported: PostfixUnaryExpression */) {
+        await /* Unsupported: NewExpression */;
+        /* Unsupported: YieldExpression */;
+    }
+}
+const asyncArrowFunction = (data: unknown[], item) => {
+    return data.map(item => String(item));
+};
+function processData({ name, age, ... }: {
+    name: string;
+    age: number;
+    /* Unsupported: IndexSignature */
+}) {
+    return { metadata: rest };
+}
+const /* Unsupported: ArrayBindingPattern */ = [1, 2, 3, 4, 5];
+type /* Token: TypeKeyword */ = /* Unsupported: TemplateLiteralType */;
+type /* Token: TypeKeyword */ = "GET" | "POST" | "PUT" | "DELETE";
+class EventEmitter {
+    listeners;
+    on(event: K, listener) {
+        if (!/* Unsupported: ElementAccessExpression */) {
+            /* Unsupported: ElementAccessExpression */ = [];
+        }
+        /* Unsupported: NonNullExpression */.push(listener);
+    }
+    emit(event: K, ...) {
+        /* Unsupported: ElementAccessExpression */.forEach(listener => listener(...args));
+    }
+}
+

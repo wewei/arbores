@@ -1,0 +1,8 @@
+Unsupported node type: ExportDeclaration (278)
+Node details: {
+  id: "{{NODE_ID}}",
+  kind: 278,
+  text: undefined,
+  children: [ "{{NODE_ID}}", "{{NODE_ID}}", "{{NODE_ID}}" ],
+}
+Created placeholder with kind: 80 Identifier

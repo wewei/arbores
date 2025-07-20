@@ -1,0 +1,13 @@
+enum UserRole {
+    ADMIN = "admin",
+    USER = "user",
+    GUEST = "guest"
+}
+const enum Color {
+    RED = "#ff0000",
+    GREEN = "#00ff00",
+    BLUE = "#0000ff"
+}
+const DEFAULT_CONFIG = /* Unsupported: AsExpression */;
+type /* Token: TypeKeyword */ = /* Unsupported: TypeQuery */;
+
