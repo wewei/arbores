@@ -9,8 +9,6 @@
 export {
   type Result,
   type ErrorCode,
-  type NodeInfo,
-  type VersionInfo,
   type ParseResult,
   type ParseStats,
   ArborError,
@@ -18,8 +16,12 @@ export {
   error,
   isSuccess,
   isError,
-  convertASTNodeToNodeInfo,
-  convertFileVersionToVersionInfo
+  // Re-exported from src/types.ts
+  type CommentInfo,
+  type ASTNode,
+  type FileVersion,
+  type SourceFileAST,
+  type ParseOptions
 } from './types';
 
 // Export Parser API
@@ -27,6 +29,25 @@ export {
   parseCode
 } from './parser';
 
-// Note: Query and Stringify APIs will be exported here once implemented
-// export { getRoots, getNode, getChildren, getParents } from './query';
-// export { stringifyNode, stringifyAST } from './stringify';
+// Export Query API
+export {
+  getRoots,
+  getNode,
+  getChildren,
+  getParents,
+  getLatestRoot,
+  getNodeWithKindName,
+  validateAST
+} from './query';
+
+// Export Stringify API
+export {
+  stringifyNode,
+  stringifyNodes,
+  stringifyVersion,
+  stringifyLatestVersion,
+  isValidStringifyFormat,
+  type StringifyFormat,
+  type StringifyOptions,
+  type StringifyResult
+} from './stringify';

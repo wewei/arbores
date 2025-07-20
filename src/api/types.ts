@@ -2,11 +2,18 @@
  * API Types - Core types for Arbores API v5
  * 
  * This module defines the core types used throughout the Arbores API,
- * including the Result<T> type for functional error handling and
- * data types that align with existing AST structures.
+ * including the Result<T> type for functional error handling.
+ * Data types are re-exported from src/types.ts to avoid duplication.
  */
 
-import type { SourceFileAST, ASTNode, FileVersion, CommentInfo as ExistingCommentInfo } from '../types.js';
+// Re-export all existing types from src/types.ts
+export type {
+  CommentInfo,
+  ASTNode,
+  FileVersion,
+  SourceFileAST,
+  ParseOptions
+} from '../types.js';
 
 // =============================================================================
 // Error Handling Types
@@ -20,7 +27,11 @@ export type ErrorCode =
   | 'PARSE_ERROR'           // TypeScript parsing failed
   | 'NODE_NOT_FOUND'        // Requested node ID doesn't exist
   | 'INVALID_JSON'          // Invalid JSON structure
-  | 'INVALID_AST_STRUCTURE'; // AST structure is malformed
+  | 'INVALID_AST_STRUCTURE' // AST structure is malformed
+  | 'INVALID_ARGUMENT'      // Invalid function argument
+  | 'STRINGIFY_FAILED'      // Node stringify operation failed
+  | 'INVALID_VERSION'       // Invalid version data
+  | 'INVALID_AST';          // General AST validation error
 
 /**
  * Unified error type for API operations
@@ -77,126 +88,24 @@ export function isError<T>(result: Result<T>): result is { success: false; error
 }
 
 // =============================================================================
-// Data Types - Aligned with existing types.ts
+// API-specific Result Types
 // =============================================================================
 
 /**
- * Comment information type - aligns with existing CommentInfo
- * Re-exported for API consistency
+ * Statistics about parsed content
  */
-export type CommentInfo = ExistingCommentInfo;
-
-/**
- * Node information format - aligns with ASTNode but removes computed fields
- * Removes start/end/kindName as they're computed values
- */
-export type NodeInfo = {
-  id: string;
-  kind: number;
-  text?: string;
-  properties?: Record<string, any>;
-  children?: string[];
-  leadingComments?: CommentInfo[];
-  trailingComments?: CommentInfo[];
-};
-
-/**
- * Version information format - aligns with FileVersion
- */
-export type VersionInfo = {
-  created_at: string;
-  root_node_id: string;
-  description?: string;
-};
-
-/**
- * File information format
- */
-export type FileInfo = {
-  fileName: string;
-  versions: VersionInfo[];
-};
-
-/**
- * Parse statistics information
- */
-export type ParseStats = {
+export interface ParseStats {
   nodeCount: number;
   commentCount: number;
   parseTime: number;
   sourceSize: number;
-};
+}
 
 /**
- * Parse result containing AST and metadata
+ * Result of parsing operations
  */
-export type ParseResult = {
-  ast: SourceFileAST;
+export interface ParseResult {
+  ast: import('../types').SourceFileAST;
   rootNodeId: string;
   stats: ParseStats;
-};
-
-// =============================================================================
-// Stringify Options
-// =============================================================================
-
-/**
- * Stringification options - aligns with existing StringifyOptions
- */
-export type StringifyOptions = {
-  format?: 'compact' | 'readable' | 'minified';
-};
-
-// =============================================================================
-// Utility Functions
-// =============================================================================
-
-/**
- * Convert existing CommentInfo to API CommentInfo (they're the same type)
- */
-export function convertCommentInfo(comment: ExistingCommentInfo): CommentInfo {
-  return comment; // Same structure, just pass through
-}
-
-/**
- * Convert ASTNode to NodeInfo (removes computed fields)
- */
-export function convertASTNodeToNodeInfo(node: ASTNode): NodeInfo {
-  const nodeInfo: NodeInfo = {
-    id: node.id,
-    kind: node.kind
-  };
-
-  if (node.text !== undefined) {
-    nodeInfo.text = node.text;
-  }
-
-  if (node.properties) {
-    nodeInfo.properties = { ...node.properties };
-  }
-
-  if (node.children && node.children.length > 0) {
-    nodeInfo.children = [...node.children];
-  }
-
-  if (node.leadingComments && node.leadingComments.length > 0) {
-    nodeInfo.leadingComments = node.leadingComments.map(convertCommentInfo);
-  }
-
-  if (node.trailingComments && node.trailingComments.length > 0) {
-    nodeInfo.trailingComments = node.trailingComments.map(convertCommentInfo);
-  }
-
-  return nodeInfo;
-}
-
-/**
- * Convert FileVersion to VersionInfo
- */
-export function convertFileVersionToVersionInfo(version: FileVersion): VersionInfo {
-  return {
-    created_at: version.created_at,
-    root_node_id: version.root_node_id,
-    description: version.description
-  };
 }

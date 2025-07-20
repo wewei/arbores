@@ -11,8 +11,6 @@ import {
   isSuccess, 
   isError,
   ArborError,
-  convertASTNodeToNodeInfo,
-  convertFileVersionToVersionInfo,
   type Result,
   type ErrorCode
 } from '../types.ts';
@@ -78,99 +76,21 @@ describe('ArborError', () => {
 });
 
 describe('Conversion Functions', () => {
-  describe('convertASTNodeToNodeInfo()', () => {
-    it('should convert minimal AST node', () => {
+  describe('Type Re-exports', () => {
+    it('should properly re-export types from src/types.ts', () => {
+      // This is a compile-time test - if it compiles, the re-exports work
       const astNode: ASTNode = {
-        id: 'test-id',
-        kind: 80 // Identifier
+        id: 'test',
+        kind: 80
       };
-
-      const nodeInfo = convertASTNodeToNodeInfo(astNode);
       
-      expect(nodeInfo.id).toBe('test-id');
-      expect(nodeInfo.kind).toBe(80);
-      expect(nodeInfo.text).toBeUndefined();
-      expect(nodeInfo.properties).toBeUndefined();
-      expect(nodeInfo.children).toBeUndefined();
-    });
-
-    it('should convert full AST node with all properties', () => {
-      const astNode: ASTNode = {
-        id: 'test-id',
-        kind: 80,
-        text: 'identifier',
-        properties: { name: 'test' },
-        children: ['child1', 'child2'],
-        leadingComments: [{ kind: 'SingleLineCommentTrivia', text: '// comment' }],
-        trailingComments: [{ kind: 'MultiLineCommentTrivia', text: '/* comment */' }]
+      const version: FileVersion = {
+        created_at: '2025-01-01T00:00:00Z',
+        root_node_id: 'root'
       };
-
-      const nodeInfo = convertASTNodeToNodeInfo(astNode);
       
-      expect(nodeInfo).toEqual({
-        id: 'test-id',
-        kind: 80,
-        text: 'identifier',
-        properties: { name: 'test' },
-        children: ['child1', 'child2'],
-        leadingComments: [{ kind: 'SingleLineCommentTrivia', text: '// comment' }],
-        trailingComments: [{ kind: 'MultiLineCommentTrivia', text: '/* comment */' }]
-      });
-    });
-
-    it('should create deep copies of mutable properties', () => {
-      const originalProperties = { name: 'test' };
-      const originalChildren = ['child1', 'child2'];
-      
-      const astNode: ASTNode = {
-        id: 'test-id',
-        kind: 80,
-        properties: originalProperties,
-        children: originalChildren
-      };
-
-      const nodeInfo = convertASTNodeToNodeInfo(astNode);
-      
-      // Modify original arrays/objects
-      originalProperties.name = 'modified';
-      originalChildren.push('child3');
-      
-      // NodeInfo should not be affected
-      expect(nodeInfo.properties?.name).toBe('test');
-      expect(nodeInfo.children).toEqual(['child1', 'child2']);
-    });
-  });
-
-  describe('convertFileVersionToVersionInfo()', () => {
-    it('should convert file version with description', () => {
-      const fileVersion: FileVersion = {
-        created_at: '2025-07-20T10:00:00Z',
-        root_node_id: 'root-123',
-        description: 'Initial version'
-      };
-
-      const versionInfo = convertFileVersionToVersionInfo(fileVersion);
-      
-      expect(versionInfo).toEqual({
-        created_at: '2025-07-20T10:00:00Z',
-        root_node_id: 'root-123',
-        description: 'Initial version'
-      });
-    });
-
-    it('should convert file version without description', () => {
-      const fileVersion: FileVersion = {
-        created_at: '2025-07-20T10:00:00Z',
-        root_node_id: 'root-123'
-      };
-
-      const versionInfo = convertFileVersionToVersionInfo(fileVersion);
-      
-      expect(versionInfo).toEqual({
-        created_at: '2025-07-20T10:00:00Z',
-        root_node_id: 'root-123',
-        description: undefined
-      });
+      expect(astNode.id).toBe('test');
+      expect(version.created_at).toBe('2025-01-01T00:00:00Z');
     });
   });
 });
