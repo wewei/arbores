@@ -1,0 +1,9 @@
+Getting parents from AST: src/cli/__tests__/fixtures/simple.ast.json
+Format: markdown
+Parent ID        | Kind | Kind Name               | Text
+---------------- | ---- | ----------------------- | ----
+f8538355c91441e7 | 261  | VariableDeclarationList | None
+e660bbd0b7acee95 | 243  | FirstStatement          | None
+0c24ecc9f9453f71 | 352  | SyntaxList              | None
+5abe5dc8c795b94c | 307  | SourceFile              | None
+Found 4 parent nodes for node 617d70a2fe95ecaa

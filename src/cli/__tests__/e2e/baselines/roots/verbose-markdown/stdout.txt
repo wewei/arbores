@@ -1,0 +1,6 @@
+Getting roots from AST: src/cli/__tests__/fixtures/simple.ast.json
+Format: markdown
+Version | Root Node ID     | Created At            | Description
+------- | ---------------- | --------------------- | -----------
+v1      | 5abe5dc8c795b94c | 7/21/2025, 7:17:59 AM | None       
+Retrieved 1 root versions

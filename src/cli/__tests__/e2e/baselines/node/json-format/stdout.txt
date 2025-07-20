@@ -1,0 +1,12 @@
+{
+  "id": "617d70a2fe95ecaa",
+  "kind": 87,
+  "text": "const",
+  "leadingComments": [
+    {
+      "kind": "SingleLineCommentTrivia",
+      "text": "// Simple TypeScript code for testing"
+    }
+  ],
+  "kindName": "ConstKeyword"
+}

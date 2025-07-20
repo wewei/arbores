@@ -1,0 +1,29 @@
+{
+  "child_node_id": "617d70a2fe95ecaa",
+  "parents": [
+    {
+      "id": "f8538355c91441e7",
+      "kind": 261,
+      "kind_name": "VariableDeclarationList",
+      "text": null
+    },
+    {
+      "id": "e660bbd0b7acee95",
+      "kind": 243,
+      "kind_name": "FirstStatement",
+      "text": null
+    },
+    {
+      "id": "0c24ecc9f9453f71",
+      "kind": 352,
+      "kind_name": "SyntaxList",
+      "text": null
+    },
+    {
+      "id": "5abe5dc8c795b94c",
+      "kind": 307,
+      "kind_name": "SourceFile",
+      "text": null
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+description: Get children from function AST
+command:
+  - children
+  - src/cli/__tests__/fixtures/function-test.ast.json
+  - "--format"
+  - json
+exitCode: 0
+environment: {}
+created: "2025-07-20T23:18:50.992Z"
+updated: "2025-07-20T23:18:50.992Z"

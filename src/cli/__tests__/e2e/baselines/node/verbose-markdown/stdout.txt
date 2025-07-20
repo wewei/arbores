@@ -1,0 +1,25 @@
+Getting node details from AST: src/cli/__tests__/fixtures/simple.ast.json
+Node ID: 617d70a2fe95ecaa
+Format: markdown
+# Node: `617d70a2fe95ecaa`
+
+## Basic Information
+
+**ID**: `617d70a2fe95ecaa`
+
+**Kind**: 87
+
+**Kind Name**: ConstKeyword
+
+**Text**: `const`
+
+## Children
+
+_None_
+
+## Leading Comments
+
+1. // Simple TypeScript code for testing
+
+
+Retrieved details for node 617d70a2fe95ecaa (ConstKeyword)

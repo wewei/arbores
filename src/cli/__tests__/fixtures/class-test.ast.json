@@ -1,0 +1,831 @@
+{
+  "file_name": "src/cli/__tests__/fixtures/class-test.ts",
+  "versions": [
+    {
+      "created_at": "2025-07-20T23:18:06.954Z",
+      "root_node_id": "8df6285b88eb3311"
+    }
+  ],
+  "nodes": {
+    "cf6d9a02b7269390": {
+      "id": "cf6d9a02b7269390",
+      "kind": 120,
+      "text": "interface",
+      "leadingComments": [
+        {
+          "kind": "SingleLineCommentTrivia",
+          "text": "// Class and interface TypeScript code for stringify testing"
+        }
+      ]
+    },
+    "978c2d93afdecf5a": {
+      "id": "978c2d93afdecf5a",
+      "kind": 80,
+      "text": "User"
+    },
+    "4713eebfd36a6d5e": {
+      "id": "4713eebfd36a6d5e",
+      "kind": 19,
+      "text": "{"
+    },
+    "cd922a7059a71bc1": {
+      "id": "cd922a7059a71bc1",
+      "kind": 80,
+      "text": "id"
+    },
+    "f05c96a2e9e9f31e": {
+      "id": "f05c96a2e9e9f31e",
+      "kind": 59,
+      "text": ":"
+    },
+    "949a179401778fc1": {
+      "id": "949a179401778fc1",
+      "kind": 150,
+      "text": "number"
+    },
+    "32cd11979c3cbcde": {
+      "id": "32cd11979c3cbcde",
+      "kind": 27,
+      "text": ";"
+    },
+    "7591b7fc80aedbff": {
+      "id": "7591b7fc80aedbff",
+      "kind": 171,
+      "children": [
+        "cd922a7059a71bc1",
+        "f05c96a2e9e9f31e",
+        "949a179401778fc1",
+        "32cd11979c3cbcde"
+      ]
+    },
+    "ca1117ceb5846350": {
+      "id": "ca1117ceb5846350",
+      "kind": 80,
+      "text": "name"
+    },
+    "b39318c43f936282": {
+      "id": "b39318c43f936282",
+      "kind": 154,
+      "text": "string"
+    },
+    "aa5da43e014cb6b1": {
+      "id": "aa5da43e014cb6b1",
+      "kind": 171,
+      "children": [
+        "ca1117ceb5846350",
+        "f05c96a2e9e9f31e",
+        "b39318c43f936282",
+        "32cd11979c3cbcde"
+      ]
+    },
+    "ceee198f73e4bf1d": {
+      "id": "ceee198f73e4bf1d",
+      "kind": 80,
+      "text": "email"
+    },
+    "c13aa3702d5b0d21": {
+      "id": "c13aa3702d5b0d21",
+      "kind": 58,
+      "text": "?"
+    },
+    "55b7d042b45e548a": {
+      "id": "55b7d042b45e548a",
+      "kind": 171,
+      "children": [
+        "ceee198f73e4bf1d",
+        "c13aa3702d5b0d21",
+        "f05c96a2e9e9f31e",
+        "b39318c43f936282",
+        "32cd11979c3cbcde"
+      ]
+    },
+    "4446940c90bfc258": {
+      "id": "4446940c90bfc258",
+      "kind": 352,
+      "children": [
+        "7591b7fc80aedbff",
+        "aa5da43e014cb6b1",
+        "55b7d042b45e548a"
+      ]
+    },
+    "6e0340aa5cf0f794": {
+      "id": "6e0340aa5cf0f794",
+      "kind": 20,
+      "text": "}"
+    },
+    "86423a819979066e": {
+      "id": "86423a819979066e",
+      "kind": 264,
+      "properties": {
+        "name": "User",
+        "hasExtends": false
+      },
+      "children": [
+        "cf6d9a02b7269390",
+        "978c2d93afdecf5a",
+        "4713eebfd36a6d5e",
+        "4446940c90bfc258",
+        "6e0340aa5cf0f794"
+      ],
+      "leadingComments": [
+        {
+          "kind": "SingleLineCommentTrivia",
+          "text": "// Class and interface TypeScript code for stringify testing"
+        }
+      ]
+    },
+    "122a84a2ad15fe17": {
+      "id": "122a84a2ad15fe17",
+      "kind": 86,
+      "text": "class"
+    },
+    "6a42b6a4321ea5e9": {
+      "id": "6a42b6a4321ea5e9",
+      "kind": 80,
+      "text": "UserService"
+    },
+    "58e57b17ef56c6be": {
+      "id": "58e57b17ef56c6be",
+      "kind": 123,
+      "text": "private"
+    },
+    "a24f82818a4df9aa": {
+      "id": "a24f82818a4df9aa",
+      "kind": 352,
+      "children": [
+        "58e57b17ef56c6be"
+      ]
+    },
+    "a1d55a2dbe82e20a": {
+      "id": "a1d55a2dbe82e20a",
+      "kind": 80,
+      "text": "users"
+    },
+    "aa9c27aa6a852bf6": {
+      "id": "aa9c27aa6a852bf6",
+      "kind": 183,
+      "children": [
+        "978c2d93afdecf5a"
+      ]
+    },
+    "5d212bc1126d6f4f": {
+      "id": "5d212bc1126d6f4f",
+      "kind": 23,
+      "text": "["
+    },
+    "b56fa109a286f125": {
+      "id": "b56fa109a286f125",
+      "kind": 24,
+      "text": "]"
+    },
+    "4168f000230a4662": {
+      "id": "4168f000230a4662",
+      "kind": 188,
+      "children": [
+        "aa9c27aa6a852bf6",
+        "5d212bc1126d6f4f",
+        "b56fa109a286f125"
+      ]
+    },
+    "ae59a5457d3f2a59": {
+      "id": "ae59a5457d3f2a59",
+      "kind": 64,
+      "text": "="
+    },
+    "5efa38399ae7872c": {
+      "id": "5efa38399ae7872c",
+      "kind": 352
+    },
+    "4680dfe9811fab83": {
+      "id": "4680dfe9811fab83",
+      "kind": 209,
+      "children": [
+        "5d212bc1126d6f4f",
+        "5efa38399ae7872c",
+        "b56fa109a286f125"
+      ]
+    },
+    "5d1fd8c2ac84c207": {
+      "id": "5d1fd8c2ac84c207",
+      "kind": 172,
+      "children": [
+        "a24f82818a4df9aa",
+        "a1d55a2dbe82e20a",
+        "f05c96a2e9e9f31e",
+        "4168f000230a4662",
+        "ae59a5457d3f2a59",
+        "4680dfe9811fab83",
+        "32cd11979c3cbcde"
+      ]
+    },
+    "98a58cb5b9734279": {
+      "id": "98a58cb5b9734279",
+      "kind": 137,
+      "text": "constructor"
+    },
+    "07ee93ce4048c9ad": {
+      "id": "07ee93ce4048c9ad",
+      "kind": 21,
+      "text": "("
+    },
+    "aea4efa6736ebc0f": {
+      "id": "aea4efa6736ebc0f",
+      "kind": 80,
+      "text": "initialUsers"
+    },
+    "15164802a88c4b6a": {
+      "id": "15164802a88c4b6a",
+      "kind": 169,
+      "children": [
+        "aea4efa6736ebc0f",
+        "f05c96a2e9e9f31e",
+        "4168f000230a4662",
+        "ae59a5457d3f2a59",
+        "4680dfe9811fab83"
+      ]
+    },
+    "47a20c1c9dcd212b": {
+      "id": "47a20c1c9dcd212b",
+      "kind": 352,
+      "children": [
+        "15164802a88c4b6a"
+      ]
+    },
+    "8701a925e96e4ed0": {
+      "id": "8701a925e96e4ed0",
+      "kind": 22,
+      "text": ")"
+    },
+    "7530c5cbb0b89f06": {
+      "id": "7530c5cbb0b89f06",
+      "kind": 110,
+      "text": "this"
+    },
+    "2f2039fdff4af4a2": {
+      "id": "2f2039fdff4af4a2",
+      "kind": 25,
+      "text": "."
+    },
+    "6e548bf34782771d": {
+      "id": "6e548bf34782771d",
+      "kind": 211,
+      "children": [
+        "7530c5cbb0b89f06",
+        "2f2039fdff4af4a2",
+        "a1d55a2dbe82e20a"
+      ]
+    },
+    "6597784794e8f9c7": {
+      "id": "6597784794e8f9c7",
+      "kind": 26,
+      "text": "..."
+    },
+    "d5d5da4aa72f14a1": {
+      "id": "d5d5da4aa72f14a1",
+      "kind": 230,
+      "children": [
+        "6597784794e8f9c7",
+        "aea4efa6736ebc0f"
+      ]
+    },
+    "24ca242f12be7132": {
+      "id": "24ca242f12be7132",
+      "kind": 352,
+      "children": [
+        "d5d5da4aa72f14a1"
+      ]
+    },
+    "226fbc4b9d3345ac": {
+      "id": "226fbc4b9d3345ac",
+      "kind": 209,
+      "children": [
+        "5d212bc1126d6f4f",
+        "24ca242f12be7132",
+        "b56fa109a286f125"
+      ]
+    },
+    "5d146ab299658af4": {
+      "id": "5d146ab299658af4",
+      "kind": 226,
+      "children": [
+        "6e548bf34782771d",
+        "ae59a5457d3f2a59",
+        "226fbc4b9d3345ac"
+      ]
+    },
+    "5b1eb1a3961be56a": {
+      "id": "5b1eb1a3961be56a",
+      "kind": 244,
+      "children": [
+        "5d146ab299658af4",
+        "32cd11979c3cbcde"
+      ]
+    },
+    "be1a59da83598cc4": {
+      "id": "be1a59da83598cc4",
+      "kind": 352,
+      "children": [
+        "5b1eb1a3961be56a"
+      ]
+    },
+    "b57413bb7bdb7460": {
+      "id": "b57413bb7bdb7460",
+      "kind": 241,
+      "children": [
+        "4713eebfd36a6d5e",
+        "be1a59da83598cc4",
+        "6e0340aa5cf0f794"
+      ]
+    },
+    "00fdce6ca5a1ff03": {
+      "id": "00fdce6ca5a1ff03",
+      "kind": 176,
+      "children": [
+        "98a58cb5b9734279",
+        "07ee93ce4048c9ad",
+        "47a20c1c9dcd212b",
+        "8701a925e96e4ed0",
+        "b57413bb7bdb7460"
+      ]
+    },
+    "c478d5332ac07f69": {
+      "id": "c478d5332ac07f69",
+      "kind": 80,
+      "text": "addUser"
+    },
+    "82f7501c9e30e8d8": {
+      "id": "82f7501c9e30e8d8",
+      "kind": 80,
+      "text": "user"
+    },
+    "f9087ad9d363db0e": {
+      "id": "f9087ad9d363db0e",
+      "kind": 169,
+      "children": [
+        "82f7501c9e30e8d8",
+        "f05c96a2e9e9f31e",
+        "aa9c27aa6a852bf6"
+      ]
+    },
+    "670f2eb282656359": {
+      "id": "670f2eb282656359",
+      "kind": 352,
+      "children": [
+        "f9087ad9d363db0e"
+      ]
+    },
+    "080626274ec87f52": {
+      "id": "080626274ec87f52",
+      "kind": 116,
+      "text": "void"
+    },
+    "dd5b6ea03334c9ce": {
+      "id": "dd5b6ea03334c9ce",
+      "kind": 80,
+      "text": "push"
+    },
+    "250caa8cf8e2020a": {
+      "id": "250caa8cf8e2020a",
+      "kind": 211,
+      "children": [
+        "6e548bf34782771d",
+        "2f2039fdff4af4a2",
+        "dd5b6ea03334c9ce"
+      ]
+    },
+    "8d41a6c5fcb8e5ac": {
+      "id": "8d41a6c5fcb8e5ac",
+      "kind": 352,
+      "children": [
+        "82f7501c9e30e8d8"
+      ]
+    },
+    "f6ff876ae3d08be4": {
+      "id": "f6ff876ae3d08be4",
+      "kind": 213,
+      "children": [
+        "250caa8cf8e2020a",
+        "07ee93ce4048c9ad",
+        "8d41a6c5fcb8e5ac",
+        "8701a925e96e4ed0"
+      ]
+    },
+    "78586d8c157627df": {
+      "id": "78586d8c157627df",
+      "kind": 244,
+      "children": [
+        "f6ff876ae3d08be4",
+        "32cd11979c3cbcde"
+      ]
+    },
+    "7c5796eb298442b0": {
+      "id": "7c5796eb298442b0",
+      "kind": 352,
+      "children": [
+        "78586d8c157627df"
+      ]
+    },
+    "8da34cfe8c5c7a9f": {
+      "id": "8da34cfe8c5c7a9f",
+      "kind": 241,
+      "children": [
+        "4713eebfd36a6d5e",
+        "7c5796eb298442b0",
+        "6e0340aa5cf0f794"
+      ]
+    },
+    "b40dc9ebeb111ae3": {
+      "id": "b40dc9ebeb111ae3",
+      "kind": 174,
+      "children": [
+        "c478d5332ac07f69",
+        "07ee93ce4048c9ad",
+        "670f2eb282656359",
+        "8701a925e96e4ed0",
+        "f05c96a2e9e9f31e",
+        "080626274ec87f52",
+        "8da34cfe8c5c7a9f"
+      ]
+    },
+    "6009eeac04b553fb": {
+      "id": "6009eeac04b553fb",
+      "kind": 80,
+      "text": "getUserById"
+    },
+    "208d7a36996ccb3f": {
+      "id": "208d7a36996ccb3f",
+      "kind": 169,
+      "children": [
+        "cd922a7059a71bc1",
+        "f05c96a2e9e9f31e",
+        "949a179401778fc1"
+      ]
+    },
+    "343d17e19f0bbafd": {
+      "id": "343d17e19f0bbafd",
+      "kind": 352,
+      "children": [
+        "208d7a36996ccb3f"
+      ]
+    },
+    "0f509bb269118b7c": {
+      "id": "0f509bb269118b7c",
+      "kind": 52,
+      "text": "|"
+    },
+    "226b58953bdea2b1": {
+      "id": "226b58953bdea2b1",
+      "kind": 157,
+      "text": "undefined"
+    },
+    "4dc937b7e6b37d8d": {
+      "id": "4dc937b7e6b37d8d",
+      "kind": 352,
+      "children": [
+        "aa9c27aa6a852bf6",
+        "0f509bb269118b7c",
+        "226b58953bdea2b1"
+      ]
+    },
+    "a59283cf9b9f2ebc": {
+      "id": "a59283cf9b9f2ebc",
+      "kind": 192,
+      "children": [
+        "4dc937b7e6b37d8d"
+      ]
+    },
+    "7edb62074756b3b6": {
+      "id": "7edb62074756b3b6",
+      "kind": 107,
+      "text": "return"
+    },
+    "9890f079543a249d": {
+      "id": "9890f079543a249d",
+      "kind": 80,
+      "text": "find"
+    },
+    "07ca13360bea06b5": {
+      "id": "07ca13360bea06b5",
+      "kind": 211,
+      "children": [
+        "6e548bf34782771d",
+        "2f2039fdff4af4a2",
+        "9890f079543a249d"
+      ]
+    },
+    "b55fe0b20a6b3ae2": {
+      "id": "b55fe0b20a6b3ae2",
+      "kind": 80,
+      "text": "u"
+    },
+    "05e9022fd973e4d7": {
+      "id": "05e9022fd973e4d7",
+      "kind": 169,
+      "children": [
+        "b55fe0b20a6b3ae2"
+      ]
+    },
+    "858e59cdd2956bc8": {
+      "id": "858e59cdd2956bc8",
+      "kind": 352,
+      "children": [
+        "05e9022fd973e4d7"
+      ]
+    },
+    "1c520f9fb8606d5f": {
+      "id": "1c520f9fb8606d5f",
+      "kind": 39,
+      "text": "=>"
+    },
+    "b2f9e2538d325f25": {
+      "id": "b2f9e2538d325f25",
+      "kind": 211,
+      "children": [
+        "b55fe0b20a6b3ae2",
+        "2f2039fdff4af4a2",
+        "cd922a7059a71bc1"
+      ]
+    },
+    "940beac2b6c75367": {
+      "id": "940beac2b6c75367",
+      "kind": 37,
+      "text": "==="
+    },
+    "66b85558adb754d4": {
+      "id": "66b85558adb754d4",
+      "kind": 226,
+      "children": [
+        "b2f9e2538d325f25",
+        "940beac2b6c75367",
+        "cd922a7059a71bc1"
+      ]
+    },
+    "747be728631bb60f": {
+      "id": "747be728631bb60f",
+      "kind": 219,
+      "children": [
+        "858e59cdd2956bc8",
+        "1c520f9fb8606d5f",
+        "66b85558adb754d4"
+      ]
+    },
+    "4b0b48e2173903a5": {
+      "id": "4b0b48e2173903a5",
+      "kind": 352,
+      "children": [
+        "747be728631bb60f"
+      ]
+    },
+    "1596cffbcf99c1e8": {
+      "id": "1596cffbcf99c1e8",
+      "kind": 213,
+      "children": [
+        "07ca13360bea06b5",
+        "07ee93ce4048c9ad",
+        "4b0b48e2173903a5",
+        "8701a925e96e4ed0"
+      ]
+    },
+    "9c1a3ea3d1ad82f0": {
+      "id": "9c1a3ea3d1ad82f0",
+      "kind": 253,
+      "children": [
+        "7edb62074756b3b6",
+        "1596cffbcf99c1e8",
+        "32cd11979c3cbcde"
+      ]
+    },
+    "cb3c424bce752083": {
+      "id": "cb3c424bce752083",
+      "kind": 352,
+      "children": [
+        "9c1a3ea3d1ad82f0"
+      ]
+    },
+    "fa25c3bc55091401": {
+      "id": "fa25c3bc55091401",
+      "kind": 241,
+      "children": [
+        "4713eebfd36a6d5e",
+        "cb3c424bce752083",
+        "6e0340aa5cf0f794"
+      ]
+    },
+    "e3ee3b71be869680": {
+      "id": "e3ee3b71be869680",
+      "kind": 174,
+      "children": [
+        "6009eeac04b553fb",
+        "07ee93ce4048c9ad",
+        "343d17e19f0bbafd",
+        "8701a925e96e4ed0",
+        "f05c96a2e9e9f31e",
+        "a59283cf9b9f2ebc",
+        "fa25c3bc55091401"
+      ]
+    },
+    "3c559b76ca9bd040": {
+      "id": "3c559b76ca9bd040",
+      "kind": 80,
+      "text": "getAllUsers"
+    },
+    "f28e0a6a8d48179e": {
+      "id": "f28e0a6a8d48179e",
+      "kind": 230,
+      "children": [
+        "6597784794e8f9c7",
+        "6e548bf34782771d"
+      ]
+    },
+    "59dd2fbd01a638f3": {
+      "id": "59dd2fbd01a638f3",
+      "kind": 352,
+      "children": [
+        "f28e0a6a8d48179e"
+      ]
+    },
+    "5884fddea37f6723": {
+      "id": "5884fddea37f6723",
+      "kind": 209,
+      "children": [
+        "5d212bc1126d6f4f",
+        "59dd2fbd01a638f3",
+        "b56fa109a286f125"
+      ]
+    },
+    "c07d1094275b63a2": {
+      "id": "c07d1094275b63a2",
+      "kind": 253,
+      "children": [
+        "7edb62074756b3b6",
+        "5884fddea37f6723",
+        "32cd11979c3cbcde"
+      ]
+    },
+    "89aa57bfa379af08": {
+      "id": "89aa57bfa379af08",
+      "kind": 352,
+      "children": [
+        "c07d1094275b63a2"
+      ]
+    },
+    "4e1e688c05eb472c": {
+      "id": "4e1e688c05eb472c",
+      "kind": 241,
+      "children": [
+        "4713eebfd36a6d5e",
+        "89aa57bfa379af08",
+        "6e0340aa5cf0f794"
+      ]
+    },
+    "a4dd43aae93b72a1": {
+      "id": "a4dd43aae93b72a1",
+      "kind": 174,
+      "children": [
+        "3c559b76ca9bd040",
+        "07ee93ce4048c9ad",
+        "5efa38399ae7872c",
+        "8701a925e96e4ed0",
+        "f05c96a2e9e9f31e",
+        "4168f000230a4662",
+        "4e1e688c05eb472c"
+      ]
+    },
+    "95c9da7cf82bbef8": {
+      "id": "95c9da7cf82bbef8",
+      "kind": 352,
+      "children": [
+        "5d1fd8c2ac84c207",
+        "00fdce6ca5a1ff03",
+        "b40dc9ebeb111ae3",
+        "e3ee3b71be869680",
+        "a4dd43aae93b72a1"
+      ]
+    },
+    "fbd2ad3ad2bec88c": {
+      "id": "fbd2ad3ad2bec88c",
+      "kind": 263,
+      "properties": {
+        "name": "UserService",
+        "hasExtends": false
+      },
+      "children": [
+        "122a84a2ad15fe17",
+        "6a42b6a4321ea5e9",
+        "4713eebfd36a6d5e",
+        "95c9da7cf82bbef8",
+        "6e0340aa5cf0f794"
+      ]
+    },
+    "81d8d5ca18555a48": {
+      "id": "81d8d5ca18555a48",
+      "kind": 95,
+      "text": "export"
+    },
+    "76b02ec6ef6745d2": {
+      "id": "76b02ec6ef6745d2",
+      "kind": 156,
+      "text": "type"
+    },
+    "bb0bbfba229d0296": {
+      "id": "bb0bbfba229d0296",
+      "kind": 281,
+      "children": [
+        "978c2d93afdecf5a"
+      ]
+    },
+    "6441827f445bd68f": {
+      "id": "6441827f445bd68f",
+      "kind": 352,
+      "children": [
+        "bb0bbfba229d0296"
+      ]
+    },
+    "01ea2a1bb13769c8": {
+      "id": "01ea2a1bb13769c8",
+      "kind": 279,
+      "children": [
+        "4713eebfd36a6d5e",
+        "6441827f445bd68f",
+        "6e0340aa5cf0f794"
+      ]
+    },
+    "01a71919c42576c4": {
+      "id": "01a71919c42576c4",
+      "kind": 278,
+      "children": [
+        "81d8d5ca18555a48",
+        "76b02ec6ef6745d2",
+        "01ea2a1bb13769c8",
+        "32cd11979c3cbcde"
+      ]
+    },
+    "972a3810aae1e777": {
+      "id": "972a3810aae1e777",
+      "kind": 281,
+      "children": [
+        "6a42b6a4321ea5e9"
+      ]
+    },
+    "e03dcfb7edf6200b": {
+      "id": "e03dcfb7edf6200b",
+      "kind": 352,
+      "children": [
+        "972a3810aae1e777"
+      ]
+    },
+    "aa2fefd059dfe552": {
+      "id": "aa2fefd059dfe552",
+      "kind": 279,
+      "children": [
+        "4713eebfd36a6d5e",
+        "e03dcfb7edf6200b",
+        "6e0340aa5cf0f794"
+      ]
+    },
+    "a98a84c431009f16": {
+      "id": "a98a84c431009f16",
+      "kind": 278,
+      "children": [
+        "81d8d5ca18555a48",
+        "aa2fefd059dfe552",
+        "32cd11979c3cbcde"
+      ]
+    },
+    "bb28fa8ec4e770f1": {
+      "id": "bb28fa8ec4e770f1",
+      "kind": 352,
+      "children": [
+        "86423a819979066e",
+        "fbd2ad3ad2bec88c",
+        "01a71919c42576c4",
+        "a98a84c431009f16"
+      ],
+      "leadingComments": [
+        {
+          "kind": "SingleLineCommentTrivia",
+          "text": "// Class and interface TypeScript code for stringify testing"
+        }
+      ]
+    },
+    "e73ad5df286d28d6": {
+      "id": "e73ad5df286d28d6",
+      "kind": 1,
+      "text": ""
+    },
+    "8df6285b88eb3311": {
+      "id": "8df6285b88eb3311",
+      "kind": 307,
+      "children": [
+        "bb28fa8ec4e770f1",
+        "e73ad5df286d28d6"
+      ],
+      "leadingComments": [
+        {
+          "kind": "SingleLineCommentTrivia",
+          "text": "// Class and interface TypeScript code for stringify testing"
+        }
+      ]
+    }
+  }
+}

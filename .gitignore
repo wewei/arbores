@@ -38,6 +38,11 @@ report.[0-9]_.[0-9]_.[0-9]_.[0-9]_.json
 *.ast.yaml
 *.ast.yml
 
+# Exception: Allow AST fixtures for testing
+!src/cli/__tests__/fixtures/*.ast.json
+!src/cli/__tests__/fixtures/*.ast.yaml
+!src/cli/__tests__/fixtures/*.ast.yml
+
 # Temporary and debug files
 debug-*
 test-*

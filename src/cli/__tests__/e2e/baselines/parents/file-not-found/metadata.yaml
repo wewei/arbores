@@ -1,0 +1,12 @@
+description: Parents command with non-existent file (error case)
+command:
+  - parents
+  - nonexistent.ast.json
+  - "--node"
+  - 617d70a2fe95ecaa
+  - "--format"
+  - json
+exitCode: 1
+environment: {}
+created: "2025-07-20T23:19:02.892Z"
+updated: "2025-07-20T23:19:02.892Z"

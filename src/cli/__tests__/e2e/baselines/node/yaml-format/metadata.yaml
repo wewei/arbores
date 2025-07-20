@@ -1,0 +1,12 @@
+description: Get node details in YAML format
+command:
+  - node
+  - src/cli/__tests__/fixtures/simple.ast.json
+  - "--node"
+  - 617d70a2fe95ecaa
+  - "--format"
+  - yaml
+exitCode: 0
+environment: {}
+created: "2025-07-20T23:20:23.089Z"
+updated: "2025-07-20T23:20:23.089Z"

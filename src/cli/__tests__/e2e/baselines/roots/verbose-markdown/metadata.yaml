@@ -1,0 +1,11 @@
+description: Get root nodes with verbose markdown output
+command:
+  - roots
+  - src/cli/__tests__/fixtures/simple.ast.json
+  - "--format"
+  - markdown
+  - "--verbose"
+exitCode: 0
+environment: {}
+created: "2025-07-20T23:20:35.999Z"
+updated: "2025-07-20T23:20:35.999Z"

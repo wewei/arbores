@@ -1,0 +1,13 @@
+description: Get parents with verbose markdown output
+command:
+  - parents
+  - src/cli/__tests__/fixtures/simple.ast.json
+  - "--node"
+  - 617d70a2fe95ecaa
+  - "--format"
+  - markdown
+  - "--verbose"
+exitCode: 0
+environment: {}
+created: "2025-07-20T23:18:35.527Z"
+updated: "2025-07-20T23:18:35.527Z"

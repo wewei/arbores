@@ -1,0 +1,10 @@
+description: Get root nodes in YAML format
+command:
+  - roots
+  - src/cli/__tests__/fixtures/simple.ast.json
+  - "--format"
+  - yaml
+exitCode: 0
+environment: {}
+created: "2025-07-20T23:20:32.017Z"
+updated: "2025-07-20T23:20:32.017Z"

@@ -1,0 +1,17 @@
+{
+  "parent_node_id": "8df6285b88eb3311",
+  "children": [
+    {
+      "id": "bb28fa8ec4e770f1",
+      "kind": 352,
+      "kind_name": "SyntaxList",
+      "text": null
+    },
+    {
+      "id": "e73ad5df286d28d6",
+      "kind": 1,
+      "kind_name": "EndOfFileToken",
+      "text": null
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+description: Get children of specific node
+command:
+  - children
+  - src/cli/__tests__/fixtures/simple.ast.json
+  - "--node"
+  - 617d70a2fe95ecaa
+  - "--format"
+  - json
+exitCode: 0
+environment: {}
+created: "2025-07-20T23:18:27.767Z"
+updated: "2025-07-20T23:18:27.767Z"
