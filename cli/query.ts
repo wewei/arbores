@@ -1,10 +1,29 @@
 import type { SourceFileAST, ASTNode } from '../src/types';
 import { getSyntaxKindName } from '../src/syntax-kind-names';
 import { readFile, getFormatFromPath, parseASTFile } from '../src/utils';
+import * as yaml from 'js-yaml';
+
+// Format output utilities
+function formatOutput(data: any, format: string): void {
+  switch (format?.toLowerCase()) {
+    case 'json':
+      console.log(JSON.stringify(data, null, 2));
+      break;
+    case 'yaml':
+    case 'yml':
+      console.log(yaml.dump(data));
+      break;
+    case 'table':
+    default:
+      // Table format is handled in each command specifically
+      break;
+  }
+}
 
 type QueryOptions = {
   latest?: boolean;
   verbose?: boolean;
+  format?: string;
 };
 
 export async function rootsCommand(filePath: string, options: QueryOptions): Promise<void> {
@@ -12,30 +31,47 @@ export async function rootsCommand(filePath: string, options: QueryOptions): Pro
     const content = await readFile(filePath);
     const format = getFormatFromPath(filePath);
     const ast: SourceFileAST = parseASTFile(content, format);
+    const outputFormat = options.format || 'table';
 
     if (options.latest) {
       // Output only the latest version's root node ID
       const latestVersion = ast.versions[ast.versions.length - 1];
       if (latestVersion) {
-        console.log(latestVersion.root_node_id);
+        if (outputFormat === 'table') {
+          console.log(latestVersion.root_node_id);
+        } else {
+          const result = { root_node_id: latestVersion.root_node_id };
+          formatOutput(result, outputFormat);
+        }
       } else {
         console.error('No versions found in AST file');
         process.exit(1);
       }
     } else {
       // Output all root node IDs
-      ast.versions.forEach((version, index) => {
-        if (options.verbose) {
-          // Verbose: show version label, timestamp, description, and root node ID
-          const versionLabel = `v${index + 1}`;
-          const timestamp = new Date(version.created_at).toLocaleString();
-          const description = version.description ? ` (${version.description})` : '';
-          console.log(`${versionLabel} [${timestamp}]${description}: ${version.root_node_id}`);
-        } else {
-          // Simple: show only root node ID
-          console.log(version.root_node_id);
-        }
-      });
+      if (outputFormat === 'table') {
+        ast.versions.forEach((version, index) => {
+          if (options.verbose) {
+            // Verbose: show version label, timestamp, description, and root node ID
+            const versionLabel = `v${index + 1}`;
+            const timestamp = new Date(version.created_at).toLocaleString();
+            const description = version.description ? ` (${version.description})` : '';
+            console.log(`${versionLabel} [${timestamp}]${description}: ${version.root_node_id}`);
+          } else {
+            // Simple: show only root node ID
+            console.log(version.root_node_id);
+          }
+        });
+      } else {
+        // JSON/YAML format
+        const result = ast.versions.map((version, index) => ({
+          version: `v${index + 1}`,
+          root_node_id: version.root_node_id,
+          created_at: version.created_at,
+          description: version.description || null
+        }));
+        formatOutput(result, outputFormat);
+      }
     }
   } catch (error) {
     console.error('Error reading AST file:', error);
@@ -43,11 +79,12 @@ export async function rootsCommand(filePath: string, options: QueryOptions): Pro
   }
 }
 
-export async function childrenCommand(filePath: string, options: { node?: string }): Promise<void> {
+export async function childrenCommand(filePath: string, options: { node?: string, format?: string }): Promise<void> {
   try {
     const content = await readFile(filePath);
     const format = getFormatFromPath(filePath);
     const ast: SourceFileAST = parseASTFile(content, format);
+    const outputFormat = options.format || 'table';
 
     let nodeId = options.node;
     
@@ -68,20 +105,41 @@ export async function childrenCommand(filePath: string, options: { node?: string
     }
 
     if (!node.children || node.children.length === 0) {
-      console.log('No children found');
+      if (outputFormat === 'table') {
+        console.log('No children found');
+      } else {
+        formatOutput({ children: [] }, outputFormat);
+      }
       return;
     }
 
-    // Output children as "id: human readable kind"
-    node.children.forEach(childId => {
-      const childNode = ast.nodes[childId];
-      if (childNode) {
-        const kindName = getSyntaxKindName(childNode.kind);
-        console.log(`${childId}: ${kindName}`);
-      } else {
-        console.log(`${childId}: Unknown`);
-      }
-    });
+    if (outputFormat === 'table') {
+      // Output children as "id: human readable kind"
+      node.children.forEach(childId => {
+        const childNode = ast.nodes[childId];
+        if (childNode) {
+          const kindName = getSyntaxKindName(childNode.kind);
+          console.log(`${childId}: ${kindName}`);
+        } else {
+          console.log(`${childId}: Unknown`);
+        }
+      });
+    } else {
+      // JSON/YAML format
+      const result = {
+        parent_node_id: nodeId,
+        children: node.children.map(childId => {
+          const childNode = ast.nodes[childId];
+          return {
+            id: childId,
+            kind: childNode ? childNode.kind : null,
+            kind_name: childNode ? getSyntaxKindName(childNode.kind) : 'Unknown',
+            text: childNode?.text || null
+          };
+        })
+      };
+      formatOutput(result, outputFormat);
+    }
   } catch (error) {
     console.error('Error reading AST file:', error);
     process.exit(1);

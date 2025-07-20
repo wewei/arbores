@@ -110,6 +110,7 @@ program
   .argument('<file>', 'AST file (format auto-detected from extension)')
   .option('--latest', 'Output only the latest version root node ID')
   .option('-v, --verbose', 'Show detailed information (timestamp and description)')
+  .option('-f, --format <format>', 'Output format (table|json|yaml)', 'table')
   .action(rootsCommand);
 
 program
@@ -117,6 +118,7 @@ program
   .description('Get children of a node from AST file (supports JSON and YAML)')
   .argument('<file>', 'AST file (format auto-detected from extension)')
   .option('-n, --node <id>', 'Node ID to get children for (defaults to latest root)')
+  .option('-f, --format <format>', 'Output format (table|json|yaml)', 'table')
   .action(childrenCommand);
 
 program
@@ -125,6 +127,7 @@ program
   .argument('<file>', 'AST file (format auto-detected from extension)')
   .option('-n, --node <id>', 'Node ID to get parents for (defaults to latest root)')
   .option('-v, --verbose', 'Show detailed information about parent nodes')
+  .option('-f, --format <format>', 'Output format (table|json|yaml)', 'table')
   .action(parentsCommand);
 
 program

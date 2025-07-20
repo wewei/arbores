@@ -54,6 +54,7 @@ Options:
 
 - `--latest` - Output only the latest version root node ID
 - `-v, --verbose` - Show detailed information (timestamp and description)
+- `-f, --format <format>` - Output format (table|json|yaml), default: table
 
 #### Get children of a node
 
@@ -64,6 +65,7 @@ arbores children <file> [options]
 Options:
 
 - `-n, --node <id>` - Node ID to get children for (defaults to latest root)
+- `-f, --format <format>` - Output format (table|json|yaml), default: table
 
 #### Get parent nodes of a node
 
@@ -75,6 +77,7 @@ Options:
 
 - `-n, --node <id>` - Node ID to get parents for (defaults to latest root)
 - `-v, --verbose` - Show detailed information about parent nodes
+- `-f, --format <format>` - Output format (table|json|yaml), default: table
 
 #### Display tree structure
 
@@ -116,23 +119,23 @@ arbores parse -O -a output.ast.json -D "Initial version" src/main.ts
 ### Query the AST
 
 ```bash
-# Get root node ID
+# Get root node ID (table format)
 arbores roots --latest output.ast.json
 
-# Get all root node IDs with detailed information
-arbores roots -v output.ast.json
+# Get all root node IDs with detailed information in JSON format
+arbores roots -v -f json output.ast.json
 
-# Get children of a function declaration
-arbores children -n <function-node-id> output.ast.json
+# Get children of a function declaration in YAML format
+arbores children -n <function-node-id> -f yaml output.ast.json
 
-# Get parent nodes of a specific node
-arbores parents -n <node-id> -v output.ast.json
+# Get parent nodes of a specific node with verbose info
+arbores parents -n <node-id> -v -f json output.ast.json
 
-# Display the full tree structure with comments
+# Display the full tree structure with comments (always human-readable)
 arbores tree -n <root-node-id> -c output.ast.json
 
-# Get detailed information about a specific node
-arbores node -n <node-id> -f table output.ast.json
+# Get detailed information about a specific node in JSON format
+arbores node -n <node-id> -f json output.ast.json
 
 # Convert a node back to TypeScript code
 arbores stringify -n <node-id> output.ast.json
@@ -178,6 +181,8 @@ arbores stringify -n <node-id> output.ast.json
 - **💬 Comment Analysis**: Full support for parsing and displaying comments
 - **🔍 Node Inspection**: Detailed node information in multiple formats (table/JSON/YAML)
 - **🌲 Parent Lookup**: Reverse navigation to find parent nodes
+- **📊 Multi-format Output**: Query commands support table/JSON/YAML formats for programmatic use
+- **🔗 API Integration**: JSON/YAML outputs perfect for piping to other tools or scripts
 
 ## Development
 
