@@ -1,54 +1,73 @@
-# 重构后的项目结构设计
+# 项目结构设计 - 基于API设计v5
+
+## 设计原则
+
+基于API设计v5的核心原则：
+
+### 函数式无状态设计
+- API层采用纯函数设计，状态通过参数传递
+- 数据存储和缓存由调用层(CLI/HTTP)负责
+- API专注于业务逻辑，不处理I/O操作
+
+### 统一错误处理  
+- 使用Result<T>类型包装所有返回值
+- 避免throw异常，错误通过返回值传递
+- 类型安全的错误处理机制
+
+### 适配器模式分层
+- API层: 纯函数式业务逻辑
+- CLI层: 文件I/O + 格式转换 + API调用
+- HTTP层: 网络I/O + JSON处理 + API调用
 
 ## 目标架构
 
 ```
 arbores/
 ├── src/
-│   ├── api/                    # Node.js API 层
-│   │   ├── index.ts           # 统一入口和便捷函数
-│   │   ├── parser.ts          # 解析 API
-│   │   ├── query.ts           # 查询 API
-│   │   ├── stringifier.ts     # 代码生成 API
-│   │   └── format.ts          # 格式化 API
-│   ├── core/                   # 核心业务逻辑
-│   │   ├── parser.ts          # AST 解析核心 (现有)
-│   │   ├── stringifier/       # 代码生成核心 (现有)
-│   │   ├── query.ts           # 查询逻辑核心 (新增)
-│   │   └── format.ts          # 格式化逻辑核心 (新增)
-│   ├── types.ts               # 类型定义 (现有)
-│   ├── utils.ts               # 工具函数 (现有)
-│   └── errors.ts              # 错误处理 (新增)
-├── cli/                       # CLI 接口层
-│   ├── index.ts               # CLI 入口 (现有)
-│   ├── commands/              # CLI 命令模块
-│   │   ├── parse.ts           # 解析命令 (重构)
-│   │   ├── query/             # 查询命令组
-│   │   │   ├── roots.ts       # 根节点查询
-│   │   │   ├── children.ts    # 子节点查询
-│   │   │   ├── parents.ts     # 父节点查询
-│   │   │   ├── tree.ts        # 树形显示
-│   │   │   └── node.ts        # 节点详情
-│   │   └── stringify.ts       # 代码生成命令 (重构)
-│   ├── adapters/              # CLI 适配器
-│   │   ├── parser.ts          # 解析适配器
-│   │   ├── query.ts           # 查询适配器
-│   │   └── stringifier.ts     # 代码生成适配器
-│   └── utils/                 # CLI 工具函数
-│       ├── formatter.ts       # CLI 格式化工具
-│       ├── error-handler.ts   # CLI 错误处理
-│       └── table.ts           # 表格显示工具
+│   ├── api/                    # Node.js API层 - 纯函数式接口
+│   │   ├── types.ts           # Result<T>类型、错误类型、数据类型
+│   │   ├── parser.ts          # parseCode() 函数
+│   │   ├── query.ts           # getRoots(), getNode(), getChildren(), getParents() 函数
+│   │   ├── stringify.ts       # stringifyNode(), stringifyAST() 函数
+│   │   └── index.ts           # API统一导出
+│   ├── core/                   # 核心业务逻辑（重构现有代码）
+│   │   ├── parser.ts          # AST解析核心逻辑
+│   │   ├── stringifier.ts     # 代码生成核心逻辑  
+│   │   ├── query-core.ts      # 查询逻辑核心（从CLI提取）
+│   │   └── ast-builder/       # AST构建器（现有）
+│   ├── types.ts               # 基础类型定义（现有）
+│   ├── utils.ts               # 工具函数（现有）
+│   └── syntax-kind-names.ts   # 语法类型名称（现有）
+├── cli/                       # CLI适配器层
+│   ├── index.ts               # CLI入口（现有，保持不变）
+│   ├── parse.ts               # 解析命令适配器
+│   ├── query.ts               # 查询命令适配器
+│   ├── stringify.ts           # 代码生成命令适配器  
+│   └── utils/                 # CLI工具函数
+│       ├── file-io.ts         # 文件I/O操作
+│       ├── format.ts          # 输出格式处理(JSON/YAML/表格)
+│       └── error.ts           # CLI错误处理
 ├── tests/                     # 测试文件
-│   ├── api/                   # API 测试
+│   ├── api/                   # API层单元测试
 │   │   ├── parser.test.ts
 │   │   ├── query.test.ts
-│   │   ├── stringifier.test.ts
-│   │   └── format.test.ts
-│   ├── core/                  # 核心逻辑测试
-│   ├── cli/                   # CLI 测试
-│   ├── integration/           # 集成测试
-│   └── fixtures/              # 测试数据
-├── http/                      # HTTP API 层 (未来)
+│   │   ├── stringify.test.ts
+│   │   └── types.test.ts
+│   ├── cli/                   # CLI集成测试
+│   │   ├── parse.test.ts
+│   │   ├── query.test.ts
+│   │   └── stringify.test.ts
+│   ├── fixtures/              # 测试数据
+│   │   ├── ast-samples/
+│   │   ├── ts-samples/
+│   │   └── expected/
+│   └── utils/                 # 测试工具
+│       ├── helpers.ts
+│       └── mock.ts
+├── http/                      # HTTP API层（未来扩展）
+│   ├── server.ts             # HTTP服务器
+│   ├── routes/               # 路由处理
+│   └── middleware/           # 中间件
 ├── docs/                      # 文档
 ├── samples/                   # 示例文件
 └── scripts/                   # 构建脚本
@@ -56,119 +75,325 @@ arbores/
 
 ## 重构计划
 
-### 阶段 1: 核心 API 层建设
+### Phase 1: API层基础设施
 
-1. **创建 API 模块结构**
-   - `src/api/` 目录和基础文件
-   - 定义统一的接口规范
-   - 实现基础的 ParserAPI
+#### 1.1 核心类型定义
+**创建 `src/api/types.ts`**
+```typescript
+// 错误处理类型
+export type ErrorCode = 'PARSE_ERROR' | 'NODE_NOT_FOUND' | 'INVALID_JSON' | 'INVALID_AST_STRUCTURE';
 
-2. **抽象核心逻辑**
-   - 将现有 CLI 逻辑抽取到 `src/core/`
-   - 创建 QueryCore, FormatCore 等模块
-   - 统一错误处理机制
+export class ArborError extends Error {
+  constructor(public code: ErrorCode, public message: string) {
+    super(message);
+  }
+}
 
-3. **实现第一个完整 API**
-   - 完成 ParserAPI 的实现和测试
-   - 验证 API 设计的可行性
-   - 建立测试框架和 CI
+// Result模式
+export type Result<T> = 
+  | { success: true; data: T; }
+  | { success: false; error: ArborError; };
 
-### 阶段 2: CLI 重构
+// 数据类型 - 与现有types.ts对齐
+export type NodeInfo = {
+  id: string;
+  kind: number;
+  text?: string;
+  properties?: Record<string, any>;
+  children?: string[];
+  leadingComments?: CommentInfo[];
+  trailingComments?: CommentInfo[];
+};
 
-1. **拆分查询命令**
-   - 将 `cli/query.ts` 拆分为独立命令文件
-   - 创建 `cli/commands/query/` 目录结构
-   - 每个查询功能独立文件
+export type VersionInfo = {
+  created_at: string;
+  root_node_id: string;
+  description?: string;
+};
 
-2. **创建 CLI 适配器**
-   - CLI 命令调用 API 层而不是直接调用核心逻辑
-   - 统一 CLI 的错误处理和格式化
-   - 保持现有 CLI 接口不变
+export type ParseResult = {
+  ast: SourceFileAST;
+  rootNodeId: string;
+  stats: ParseStats;
+};
+```
 
-3. **改进 CLI 工具**
-   - 抽取表格格式化到独立工具模块
-   - 统一 CLI 帮助信息格式
-   - 改进错误提示和用户体验
+#### 1.2 Parser API实现
+**创建 `src/api/parser.ts`**
+```typescript
+import { Result, ParseResult, ArborError } from './types';
+import { parseTypeScriptCode } from '../core/parser'; // 重构现有parser
 
-### 阶段 3: 测试完善
+export function parseCode(
+  sourceCode: string, 
+  baseAST: SourceFileAST
+): Result<ParseResult> {
+  try {
+    const result = parseTypeScriptCode(sourceCode, baseAST);
+    return { success: true, data: result };
+  } catch (error) {
+    return { 
+      success: false, 
+      error: new ArborError('PARSE_ERROR', error.message) 
+    };
+  }
+}
+```
 
-1. **API 单元测试**
-   - 每个 API 模块的完整测试覆盖
-   - Mock 文件系统和外部依赖
-   - 边界条件和错误场景测试
+### Phase 2: 查询和代码生成API
 
-2. **集成测试**
-   - 真实文件的端到端测试
-   - CLI 命令的自动化测试
-   - 性能基准测试
+#### 2.1 Query API实现
+**创建 `src/api/query.ts`**
+```typescript
+export function getRoots(ast: SourceFileAST): Result<VersionInfo[]> {
+  // 从现有CLI代码中提取逻辑
+}
 
-3. **测试基础设施**
-   - 测试数据管理
-   - CI/CD 集成
-   - 测试覆盖率报告
+export function getNode(ast: SourceFileAST, nodeId: string): Result<NodeInfo> {
+  // 实现节点查询逻辑
+}
+
+export function getChildren(ast: SourceFileAST, nodeId: string): Result<NodeInfo[]> {
+  // 实现子节点查询逻辑
+}
+
+export function getParents(ast: SourceFileAST, nodeId: string): Result<NodeInfo[]> {
+  // 实现父节点链查询逻辑
+}
+```
+
+#### 2.2 Stringify API实现  
+**创建 `src/api/stringify.ts`**
+```typescript
+export function stringifyNode(
+  ast: SourceFileAST,
+  nodeId: string, 
+  options?: StringifyOptions
+): Result<string> {
+  // 集成现有stringifier逻辑
+}
+
+export function stringifyAST(
+  ast: SourceFileAST,
+  version?: string,
+  options?: StringifyOptions  
+): Result<string> {
+  // 实现完整AST代码生成
+}
+```
+
+### Phase 3: CLI适配器重构
+
+#### 3.1 CLI命令适配器化
+**重构 `cli/parse.ts`**
+```typescript
+import { parseCode } from '../src/api/parser';
+import { loadAST, saveAST } from './utils/file-io';
+import { formatOutput } from './utils/format';
+import { handleCLIError } from './utils/error';
+
+export async function parseCommand(sourceFile: string, options: ParseOptions) {
+  // 文件读取
+  const sourceCode = await fs.readFile(sourceFile, 'utf-8');
+  const baseAST = options.astFile ? await loadAST(options.astFile) : createEmptyAST();
+  
+  // API调用
+  const result = parseCode(sourceCode, baseAST);
+  if (!result.success) {
+    handleCLIError(result.error);
+    return;
+  }
+  
+  // 文件保存和输出
+  if (options.astFile) {
+    await saveAST(options.astFile, result.data.ast);
+  }
+  formatOutput(result.data, options);
+}
+```
+
+#### 3.2 CLI工具函数
+**创建 `cli/utils/file-io.ts`**
+```typescript
+export async function loadAST(filePath: string): Promise<SourceFileAST> {
+  // JSON/YAML文件加载逻辑
+}
+
+export async function saveAST(filePath: string, ast: SourceFileAST): Promise<void> {
+  // JSON/YAML文件保存逻辑，支持格式自动检测
+}
+```
+
+**创建 `cli/utils/format.ts`**
+```typescript
+export function formatOutput(data: any, options: OutputOptions): void {
+  // 输出格式处理：表格、JSON、YAML等
+}
+```
+
+### Phase 4: 核心逻辑重构
+
+#### 4.1 现有代码适配
+- 重构 `src/parser.ts` 为 `src/core/parser.ts`，提取纯逻辑部分
+- 重构 `src/stringifier.ts` 为 `src/core/stringifier.ts`
+- 从CLI代码中提取查询逻辑到 `src/core/query-core.ts`
+
+#### 4.2 保持兼容性
+- 保留现有的类型定义结构
+- 保持AST文件格式不变
+- 确保CLI接口完全兼容
+## 测试策略
+
+### 单元测试结构
+```
+tests/api/
+├── parser.test.ts          # Parser API纯函数测试
+├── query.test.ts           # Query API纯函数测试  
+├── stringify.test.ts       # Stringify API纯函数测试
+└── types.test.ts          # Result<T>类型和错误处理测试
+```
+
+**测试重点**:
+- API函数的正常情况和边界情况
+- Result<T>类型的错误处理流程
+- 数据转换的正确性验证
+- 性能基准测试
+
+### 集成测试结构  
+```
+tests/cli/
+├── parse.test.ts          # CLI解析命令端到端测试
+├── query.test.ts          # CLI查询命令端到端测试  
+└── stringify.test.ts      # CLI代码生成命令端到端测试
+```
+
+**测试重点**:
+- CLI命令的完整流程测试
+- 文件I/O操作验证
+- 输出格式正确性检查
+- 错误场景的处理验证
+
+### 测试数据管理
+```
+tests/fixtures/
+├── ts-samples/            # 各种TypeScript代码示例
+├── ast-samples/           # 对应的AST文件
+├── expected/              # 预期的输出结果
+└── large-files/           # 性能测试用的大文件
+```
 
 ## 迁移策略
 
-### 向后兼容
+### 渐进式无破坏迁移
 
-- CLI 接口保持不变，用户无感知迁移
-- 现有的 AST 文件格式继续支持
-- 逐步迁移，每个阶段都可以独立发布
+#### Stage 1: 建设新API层
+- 创建API层，与现有代码并行存在
+- 现有CLI继续正常工作
+- 逐步测试和完善新API
 
-### 渐进式重构
+#### Stage 2: CLI内部切换  
+- CLI命令内部切换到使用新API
+- 保持CLI接口完全不变
+- 通过测试确保功能等价
 
-1. **先建设后迁移**：先建设新的 API 层，再迁移现有功能
-2. **功能对等**：确保新实现与现有功能完全对等
-3. **充分测试**：每个迁移步骤都有完整的测试验证
+#### Stage 3: 清理旧代码
+- 移除CLI中直接调用核心逻辑的代码
+- 清理不再使用的工具函数
+- 优化代码结构
 
-### 风险控制
+### 兼容性保证
 
-- 保持现有代码可用，新旧代码并行存在
-- 小步快跑，每次只重构一个模块
-- 完整的回退方案，出问题可以快速回滚
+#### CLI接口兼容
+- 命令行参数格式完全不变
+- 输出格式保持一致
+- 错误消息保持可读性
+- 性能不降级
+
+#### 数据格式兼容
+- AST JSON/YAML文件格式不变
+- 现有AST文件继续可用
+- 版本信息结构保持兼容
+
+#### API版本策略
+- 新API采用语义化版本控制
+- 向后兼容的变更为minor版本
+- 破坏性变更为major版本
 
 ## 开发流程
 
-### 1. API 优先设计
+### API优先设计流程
 
-- 先设计接口，再实现功能
-- 接口设计评审和讨论
-- 类型定义先行，确保类型安全
+1. **接口设计阶段**
+   - 基于用例定义API函数签名
+   - 确定Result<T>类型的错误码
+   - 评审接口设计的合理性
 
-### 2. 测试驱动开发
+2. **类型定义阶段**  
+   - 实现完整的TypeScript类型定义
+   - 确保类型安全和编译时检查
+   - 生成API文档框架
 
-- 先写测试用例，再实现功能
-- 每个 API 都有完整的测试套件
-- 持续集成确保代码质量
+3. **实现和测试阶段**
+   - TDD方式实现API函数
+   - 单元测试覆盖所有分支
+   - 集成测试验证端到端流程
 
-### 3. 文档同步更新
+### 质量保证流程
 
-- API 文档自动生成
-- 使用示例和最佳实践
-- 迁移指南和变更日志
+#### 代码质量
+- TypeScript strict mode全面启用
+- ESLint和Prettier代码规范检查
+- 单元测试覆盖率>95%要求
+
+#### 性能质量
+- 解析性能基准测试
+- 内存使用情况监控  
+- 大文件处理能力验证
+
+#### 用户体验质量
+- CLI命令响应时间测试
+- 错误消息清晰度评估
+- 文档完整性检查
 
 ## 预期收益
 
-### 开发效率
+### 架构收益
 
-- 统一的 API 接口，减少重复开发
-- 模块化架构，便于并行开发
-- 完善的测试，减少调试时间
+#### 清晰的职责分离
+- API层: 纯业务逻辑，易于测试
+- CLI层: I/O和用户交互，易于扩展
+- 核心层: 算法实现，专注性能
 
-### 用户体验
+#### 函数式设计优势
+- 无副作用，易于推理和调试
+- 便于并行处理和缓存优化
+- 易于mock测试和单元测试
 
-- 多种接口选择（CLI, Node.js API, 未来的 HTTP API）
-- 一致的数据格式和错误处理
-- 更好的性能和稳定性
+#### 类型安全保障
+- 编译时错误检查
+- IDE智能提示和重构支持
+- 运行时错误减少
 
-### 项目可维护性
+### 扩展能力收益
 
-- 清晰的分层架构，职责明确
-- 完整的测试覆盖，重构安全
-- 标准化的开发流程
+#### HTTP API就绪
+- API层可直接用于HTTP服务
+- 无需额外的业务逻辑开发
+- 支持微服务架构扩展
+
+#### 多客户端支持
+- Node.js程序可直接调用API
+- 浏览器环境可能的支持
+- 第三方工具集成友好
+
+#### 新功能扩展
+- 新增API函数成本低
+- 支持插件化架构设计
+- 易于添加新的输出格式
 
 ---
 
-*创建时间：2025年7月20日*  
-*版本：v1.0*  
+*基于API设计v5的项目结构设计*  
+*更新时间：2025年7月20日*  
+*版本：v2.0*  
 *状态：设计阶段*
