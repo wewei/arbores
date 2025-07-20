@@ -13,11 +13,16 @@ function formatOutput(data: any, format: string): void {
     case 'yml':
       console.log(yaml.dump(data));
       break;
-    case 'table':
+    case 'markdown':
+    case 'md':
     default:
-      // Table format is handled in each command specifically
+      // Markdown format is handled in each command specifically
       break;
   }
+}
+
+function isMarkdownFormat(format?: string): boolean {
+  return !format || format.toLowerCase() === 'markdown' || format.toLowerCase() === 'md';
 }
 
 type QueryOptions = {
@@ -31,13 +36,13 @@ export async function rootsCommand(filePath: string, options: QueryOptions): Pro
     const content = await readFile(filePath);
     const format = getFormatFromPath(filePath);
     const ast: SourceFileAST = parseASTFile(content, format);
-    const outputFormat = options.format || 'table';
+    const outputFormat = options.format || 'markdown';
 
     if (options.latest) {
       // Output only the latest version's root node ID
       const latestVersion = ast.versions[ast.versions.length - 1];
       if (latestVersion) {
-        if (outputFormat === 'table') {
+        if (isMarkdownFormat(outputFormat)) {
           console.log(latestVersion.root_node_id);
         } else {
           const result = { root_node_id: latestVersion.root_node_id };
@@ -49,19 +54,23 @@ export async function rootsCommand(filePath: string, options: QueryOptions): Pro
       }
     } else {
       // Output all root node IDs
-      if (outputFormat === 'table') {
-        ast.versions.forEach((version, index) => {
-          if (options.verbose) {
-            // Verbose: show version label, timestamp, description, and root node ID
+      if (isMarkdownFormat(outputFormat)) {
+        if (options.verbose) {
+          // Markdown table format for verbose output
+          console.log('| Version | Root Node ID | Created At | Description |');
+          console.log('|---------|--------------|------------|-------------|');
+          ast.versions.forEach((version, index) => {
             const versionLabel = `v${index + 1}`;
             const timestamp = new Date(version.created_at).toLocaleString();
-            const description = version.description ? ` (${version.description})` : '';
-            console.log(`${versionLabel} [${timestamp}]${description}: ${version.root_node_id}`);
-          } else {
-            // Simple: show only root node ID
+            const description = version.description || '_None_';
+            console.log(`| ${versionLabel} | \`${version.root_node_id}\` | ${timestamp} | ${description} |`);
+          });
+        } else {
+          // Simple list format
+          ast.versions.forEach((version) => {
             console.log(version.root_node_id);
-          }
-        });
+          });
+        }
       } else {
         // JSON/YAML format
         const result = ast.versions.map((version, index) => ({
@@ -84,7 +93,7 @@ export async function childrenCommand(filePath: string, options: { node?: string
     const content = await readFile(filePath);
     const format = getFormatFromPath(filePath);
     const ast: SourceFileAST = parseASTFile(content, format);
-    const outputFormat = options.format || 'table';
+    const outputFormat = options.format || 'markdown';
 
     let nodeId = options.node;
     
@@ -105,7 +114,7 @@ export async function childrenCommand(filePath: string, options: { node?: string
     }
 
     if (!node.children || node.children.length === 0) {
-      if (outputFormat === 'table') {
+      if (isMarkdownFormat(outputFormat)) {
         console.log('No children found');
       } else {
         formatOutput({ children: [] }, outputFormat);
@@ -113,15 +122,18 @@ export async function childrenCommand(filePath: string, options: { node?: string
       return;
     }
 
-    if (outputFormat === 'table') {
-      // Output children as "id: human readable kind"
+    if (isMarkdownFormat(outputFormat)) {
+      // Markdown table format
+      console.log('| Child ID | Kind | Kind Name | Text |');
+      console.log('|----------|------|-----------|------|');
       node.children.forEach(childId => {
         const childNode = ast.nodes[childId];
         if (childNode) {
           const kindName = getSyntaxKindName(childNode.kind);
-          console.log(`${childId}: ${kindName}`);
+          const text = childNode.text ? `\`${childNode.text.replace(/`/g, '\\`')}\`` : '_None_';
+          console.log(`| \`${childId}\` | ${childNode.kind} | ${kindName} | ${text} |`);
         } else {
-          console.log(`${childId}: Unknown`);
+          console.log(`| \`${childId}\` | - | Unknown | _Missing_ |`);
         }
       });
     } else {

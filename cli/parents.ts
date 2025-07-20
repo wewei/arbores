@@ -13,11 +13,16 @@ function formatOutput(data: any, format: string): void {
     case 'yml':
       console.log(yaml.dump(data));
       break;
-    case 'table':
+    case 'markdown':
+    case 'md':
     default:
-      // Table format is handled in each command specifically
+      // Markdown format is handled in each command specifically
       break;
   }
+}
+
+function isMarkdownFormat(format?: string): boolean {
+  return !format || format.toLowerCase() === 'markdown' || format.toLowerCase() === 'md';
 }
 
 export async function parentsCommand(filePath: string, options: { node?: string, verbose?: boolean, format?: string }): Promise<void> {
@@ -25,7 +30,7 @@ export async function parentsCommand(filePath: string, options: { node?: string,
     const content = await readFile(filePath);
     const format = getFormatFromPath(filePath);
     const ast: SourceFileAST = parseASTFile(content, format);
-    const outputFormat = options.format || 'table';
+    const outputFormat = options.format || 'markdown';
 
     let nodeId = options.node;
     
@@ -49,7 +54,7 @@ export async function parentsCommand(filePath: string, options: { node?: string,
     const parentIds = findParentNodes(ast, nodeId);
 
     if (parentIds.length === 0) {
-      if (outputFormat === 'table') {
+      if (isMarkdownFormat(outputFormat)) {
         console.log('No parents found');
       } else {
         formatOutput({ parents: [] }, outputFormat);
@@ -57,33 +62,37 @@ export async function parentsCommand(filePath: string, options: { node?: string,
       return;
     }
 
-    if (outputFormat === 'table') {
-      // Output parents with their information
-      parentIds.forEach(parentId => {
-        const parentNode = ast.nodes[parentId];
-        if (parentNode) {
-          const kindName = getSyntaxKindName(parentNode.kind);
-          if (options.verbose) {
-            // Verbose: show detailed information about the parent
-            console.log(`${parentId}: ${kindName}(${parentNode.kind})`);
-            if (parentNode.text) {
-              console.log(`  Text: "${parentNode.text}"`);
-            }
-            if (parentNode.properties) {
-              console.log(`  Properties: ${JSON.stringify(parentNode.properties)}`);
-            }
-            if (parentNode.children) {
-              console.log(`  Children: ${parentNode.children.length} child(ren)`);
-            }
-            console.log(); // Empty line for separation
+    if (isMarkdownFormat(outputFormat)) {
+      if (options.verbose) {
+        // Verbose markdown table format
+        console.log('| Parent ID | Kind | Kind Name | Text | Properties | Children Count |');
+        console.log('|-----------|------|-----------|------|------------|----------------|');
+        parentIds.forEach(parentId => {
+          const parentNode = ast.nodes[parentId];
+          if (parentNode) {
+            const kindName = getSyntaxKindName(parentNode.kind);
+            const text = parentNode.text ? `\`${parentNode.text.replace(/`/g, '\\`')}\`` : '_None_';
+            const properties = parentNode.properties ? `\`${JSON.stringify(parentNode.properties)}\`` : '_None_';
+            const childrenCount = parentNode.children?.length || 0;
+            console.log(`| \`${parentId}\` | ${parentNode.kind} | ${kindName} | ${text} | ${properties} | ${childrenCount} |`);
           } else {
-            // Simple: show "id: human readable kind"
-            console.log(`${parentId}: ${kindName}`);
+            console.log(`| \`${parentId}\` | - | Unknown | _Missing_ | - | - |`);
           }
-        } else {
-          console.log(`${parentId}: Unknown`);
-        }
-      });
+        });
+      } else {
+        // Simple markdown table format
+        console.log('| Parent ID | Kind Name |');
+        console.log('|-----------|-----------|');
+        parentIds.forEach(parentId => {
+          const parentNode = ast.nodes[parentId];
+          if (parentNode) {
+            const kindName = getSyntaxKindName(parentNode.kind);
+            console.log(`| \`${parentId}\` | ${kindName} |`);
+          } else {
+            console.log(`| \`${parentId}\` | Unknown |`);
+          }
+        });
+      }
     } else {
       // JSON/YAML format
       const result = {

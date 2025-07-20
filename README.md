@@ -54,7 +54,7 @@ Options:
 
 - `--latest` - Output only the latest version root node ID
 - `-v, --verbose` - Show detailed information (timestamp and description)
-- `-f, --format <format>` - Output format (table|json|yaml), default: table
+- `-f, --format <format>` - Output format (markdown|md|json|yaml), default: markdown
 
 #### Get children of a node
 
@@ -65,7 +65,7 @@ arbores children <file> [options]
 Options:
 
 - `-n, --node <id>` - Node ID to get children for (defaults to latest root)
-- `-f, --format <format>` - Output format (table|json|yaml), default: table
+- `-f, --format <format>` - Output format (markdown|md|json|yaml), default: markdown
 
 #### Get parent nodes of a node
 
@@ -77,7 +77,7 @@ Options:
 
 - `-n, --node <id>` - Node ID to get parents for (defaults to latest root)
 - `-v, --verbose` - Show detailed information about parent nodes
-- `-f, --format <format>` - Output format (table|json|yaml), default: table
+- `-f, --format <format>` - Output format (markdown|md|json|yaml), default: markdown
 
 #### Display tree structure
 
@@ -99,7 +99,7 @@ arbores node <file> -n <node-id> [options]
 Options:
 
 - `-n, --node <id>` - Node ID to display information for (required)
-- `-f, --format <format>` - Output format (table|json|yaml), default: table
+- `-f, --format <format>` - Output format (markdown|md|json|yaml), default: markdown
 
 ## Examples
 
@@ -119,7 +119,7 @@ arbores parse -O -a output.ast.json -D "Initial version" src/main.ts
 ### Query the AST
 
 ```bash
-# Get root node ID (table format)
+# Get root node ID (markdown format, default)
 arbores roots --latest output.ast.json
 
 # Get all root node IDs with detailed information in JSON format
@@ -128,8 +128,8 @@ arbores roots -v -f json output.ast.json
 # Get children of a function declaration in YAML format
 arbores children -n <function-node-id> -f yaml output.ast.json
 
-# Get parent nodes of a specific node with verbose info
-arbores parents -n <node-id> -v -f json output.ast.json
+# Get parent nodes in markdown table format (verbose)
+arbores parents -n <node-id> -v -f markdown output.ast.json
 
 # Display the full tree structure with comments (always human-readable)
 arbores tree -n <root-node-id> -c output.ast.json
@@ -179,9 +179,10 @@ arbores stringify -n <node-id> output.ast.json
 - **📁 Command Grouping**: Organized commands by functionality (convert/query)
 - **🔄 Backward Compatibility**: Legacy direct commands still supported
 - **💬 Comment Analysis**: Full support for parsing and displaying comments
-- **🔍 Node Inspection**: Detailed node information in multiple formats (table/JSON/YAML)
+- **🔍 Node Inspection**: Detailed node information in multiple formats (markdown/JSON/YAML)
 - **🌲 Parent Lookup**: Reverse navigation to find parent nodes
-- **📊 Multi-format Output**: Query commands support table/JSON/YAML formats for programmatic use
+- **📊 Multi-format Output**: Query commands support markdown/JSON/YAML formats
+- **📋 Markdown Tables**: Structured, readable output that works great in documentation
 - **🔗 API Integration**: JSON/YAML outputs perfect for piping to other tools or scripts
 
 ## Development

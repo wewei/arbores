@@ -4,8 +4,30 @@ import { readFile, getFormatFromPath, parseASTFile } from '../src/utils';
 import * as yaml from 'js-yaml';
 
 type NodeCommandOptions = {
-  format?: 'table' | 'json' | 'yaml';
+  format?: string;
 };
+
+// Format output utilities
+function formatOutput(data: any, format: string): void {
+  switch (format?.toLowerCase()) {
+    case 'json':
+      console.log(JSON.stringify(data, null, 2));
+      break;
+    case 'yaml':
+    case 'yml':
+      console.log(yaml.dump(data, { indent: 2, lineWidth: -1 }));
+      break;
+    case 'markdown':
+    case 'md':
+    default:
+      // Markdown format is handled in each command specifically
+      break;
+  }
+}
+
+function isMarkdownFormat(format?: string): boolean {
+  return !format || format.toLowerCase() === 'markdown' || format.toLowerCase() === 'md';
+}
 
 export async function nodeCommand(filePath: string, nodeId: string, options: NodeCommandOptions): Promise<void> {
   try {
@@ -21,12 +43,13 @@ export async function nodeCommand(filePath: string, nodeId: string, options: Nod
 
     // Find parent nodes by searching all nodes for ones that have this node as a child
     const parentIds = findParentNodes(ast, nodeId);
+    const outputFormat = options.format || 'markdown';
     
     // Collect detailed information for parents and children based on format
     let parents: any[], children: any[];
     
-    if (options.format === 'table') {
-      // For table format, include detailed node information
+    if (isMarkdownFormat(outputFormat)) {
+      // For markdown format, include detailed node information
       parents = parentIds.map(id => {
         const parentNode = ast.nodes[id];
         if (!parentNode) {
@@ -70,16 +93,10 @@ export async function nodeCommand(filePath: string, nodeId: string, options: Nod
       properties: node.properties || null
     };
 
-    switch (options.format) {
-      case 'json':
-        console.log(JSON.stringify(nodeInfo, null, 2));
-        break;
-      case 'yaml':
-        console.log(yaml.dump(nodeInfo, { indent: 2, lineWidth: -1 }));
-        break;
-      default: // table format
-        printNodeInfoTable(nodeInfo);
-        break;
+    if (isMarkdownFormat(outputFormat)) {
+      printNodeInfoTable(nodeInfo);
+    } else {
+      formatOutput(nodeInfo, outputFormat);
     }
   } catch (error) {
     console.error('Error reading AST file:', error);
