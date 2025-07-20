@@ -44,6 +44,12 @@
   - `docs/update-summary.md`
 - 整理 API 设计文档，合并为统一的 `docs/api-design.md`
 
+### 6. AST Builder 迁移 ✅
+- 将 `src/ast-builder/` 移动到 `src/core/ast-builder/`
+- 统一核心功能模块到 `src/core/` 目录下
+- 更新文档中的目录结构引用
+- 保持 AST 构建器的完整功能
+
 ### 5. Git 提交和版本控制 ✅
 - 正确处理了文件移动和重命名的 Git 历史
 - 提交了清晰的变更记录
@@ -54,20 +60,20 @@
 ### 目录结构
 ```
 src/
-├── core/                    # 核心 API（原 src/api）
+├── core/                    # 核心 API 层
 │   ├── __tests__/          # 单元测试
+│   ├── ast-builder/        # AST 构建器
 │   ├── index.ts            # 统一导出
-│   ├── types.ts            # 类型定义
+│   ├── types.ts            # 所有类型定义
 │   ├── parser.ts           # 解析 API
 │   ├── query.ts            # 查询 API
 │   └── stringify.ts        # 代码生成 API
-├── cli/                    # CLI 工具
+├── cli/                    # CLI 工具层
 │   ├── commands/           # 模块化命令
 │   ├── index.ts            # CLI 入口
 │   └── utils.ts            # CLI 工具函数
-├── parser.ts               # 原始解析器
-├── stringifier.ts          # 原始代码生成器
-└── ...
+├── utils.ts                # 通用工具函数
+└── syntax-kind-names.ts    # 语法类型名称
 ```
 
 ### 功能验证

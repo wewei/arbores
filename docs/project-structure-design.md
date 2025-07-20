@@ -30,11 +30,11 @@ arbores/
 │   │   ├── query.ts           # getRoots(), getNode(), getChildren(), getParents() 函数
 │   │   ├── stringify.ts       # stringifyNode(), stringifyAST() 函数
 │   │   └── index.ts           # API统一导出
-│   ├── core/                   # 核心业务逻辑（重构现有代码）
+│   ├── core/                   # 核心业务逻辑
 │   │   ├── parser.ts          # AST解析核心逻辑
 │   │   ├── stringifier.ts     # 代码生成核心逻辑  
 │   │   ├── query-core.ts      # 查询逻辑核心（从CLI提取）
-│   │   └── ast-builder/       # AST构建器（现有）
+│   │   └── ast-builder/       # AST构建器
 │   ├── types.ts               # 基础类型定义（现有）
 │   ├── utils.ts               # 工具函数（现有）
 │   └── syntax-kind-names.ts   # 语法类型名称（现有）

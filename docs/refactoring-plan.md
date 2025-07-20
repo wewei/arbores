@@ -32,11 +32,15 @@ arbores/
 │   ├── query.ts   # 查询命令 (roots, children, tree)
 │   └── stringify.ts # 字符串化命令
 ├── src/           # 核心逻辑
-│   ├── parser.ts  # AST 解析
-│   ├── stringifier.ts # 代码生成
-│   ├── types.ts   # 类型定义
+│   ├── core/      # 核心 API 层
+│   │   ├── parser.ts    # AST 解析
+│   │   ├── stringify.ts # 代码生成
+│   │   ├── types.ts     # 类型定义
+│   │   ├── query.ts     # 查询功能
+│   │   └── ast-builder/ # AST构建器
+│   ├── cli/       # CLI 工具层
 │   ├── utils.ts   # 工具函数
-│   └── ast-builder/ # AST构建器
+│   └── syntax-kind-names.ts # 语法类型名称
 ├── docs/          # 文档
 └── samples/       # 示例文件
 ```

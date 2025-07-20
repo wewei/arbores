@@ -1,7 +1,6 @@
 import * as ts from 'typescript';
 import type { SourceFileAST, ASTNode } from '../../types';
 import type { CreateNodeFn, NodeBuilderFn } from '../types';
-import { findChildByKind, getChildNodes } from '../utils/find-child';
 
 /**
  * 创建 Constructor 节点

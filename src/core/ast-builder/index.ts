@@ -1,5 +1,5 @@
 import * as ts from 'typescript';
-import type { SourceFileAST, ASTNode } from '../core/types';
+import type { SourceFileAST, ASTNode } from '../types';
 import type { CreateNodeFn, NodeBuilderRegistry } from './types';
 
 // 导入所有节点构建函数

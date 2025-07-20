@@ -6,7 +6,7 @@
  */
 
 import * as ts from 'typescript';
-import { createNode } from '../ast-builder';
+import { createNode } from './ast-builder';
 import type { 
   Result,
   SourceFileAST,
