@@ -88,7 +88,7 @@ export async function childrenCommand(filePath: string, options: { node?: string
   }
 }
 
-export async function treeCommand(filePath: string, options: { node?: string }): Promise<void> {
+export async function treeCommand(filePath: string, options: { node?: string, comments?: boolean }): Promise<void> {
   try {
     const content = await readFile(filePath);
     const format = getFormatFromPath(filePath);
@@ -113,10 +113,10 @@ export async function treeCommand(filePath: string, options: { node?: string }):
     }
 
     // Collect all tree lines
-    const lines = printNodeTree(ast, targetNodeId, 0);
+    const lines = printNodeTree(ast, targetNodeId, 0, true, '', [], options.comments);
     
     // Print aligned tree
-    printAlignedTree(lines);
+    printAlignedTree(lines, options.comments);
   } catch (error) {
     console.error('Error reading AST file:', error);
     process.exit(1);
@@ -150,14 +150,29 @@ type TreeLine = {
   baseLine: string;
   text?: string;
   depth: number;
+  leadingComments?: import('../src/types').CommentInfo[];
+  trailingComments?: import('../src/types').CommentInfo[];
+  isComment?: boolean; // Flag to identify comment lines
+  commentType?: string; // [//], [/*], [**] 
+  commentText?: string;
 };
 
-function printNodeTree(ast: SourceFileAST, nodeId: string, depth: number, isLast: boolean = true, prefix: string = '', lines: TreeLine[] = []): TreeLine[] {
+function printNodeTree(
+  ast: SourceFileAST, 
+  nodeId: string, 
+  depth: number, 
+  isLast: boolean = true, 
+  prefix: string = '', 
+  lines: TreeLine[] = [],
+  showComments: boolean = false
+): TreeLine[] {
   const node = ast.nodes[nodeId];
   if (!node) return lines;
 
   const kindName = getSyntaxKindName(node.kind);
   const hasChildren = node.children && node.children.length > 0;
+  const hasLeadingComments = showComments && node.leadingComments && node.leadingComments.length > 0;
+  const hasTrailingComments = showComments && node.trailingComments && node.trailingComments.length > 0;
   
   // Calculate the base line content using format: "Type(code): hash-id"
   let baseLine: string;
@@ -182,39 +197,100 @@ function printNodeTree(ast: SourceFileAST, nodeId: string, depth: number, isLast
   
   lines.push(line);
 
-  if (hasChildren) {
-    // Use Unicode box drawing characters for the prefix
+  // Now handle "children" in order: leading comments, actual children, trailing comments
+  if (hasLeadingComments || hasChildren || hasTrailingComments) {
     const newPrefix = depth === 0 ? '' : prefix + (isLast ? '   ' : '│  ');
+    let childIndex = 0;
     
-    node.children!.forEach((childId, index) => {
-      const isLastChild = index === node.children!.length - 1;
-      printNodeTree(ast, childId, depth + 1, isLastChild, newPrefix, lines);
-    });
+    // Calculate total number of "children" (comments + actual children)
+    const totalChildren = (hasLeadingComments ? node.leadingComments!.length : 0) +
+                         (hasChildren ? node.children!.length : 0) +
+                         (hasTrailingComments ? node.trailingComments!.length : 0);
+    
+    // 1. Process leading comments as first children
+    if (hasLeadingComments) {
+      node.leadingComments!.forEach((comment) => {
+        const isLastChild = childIndex === totalChildren - 1;
+        printCommentAsChild(comment, depth + 1, isLastChild, newPrefix, lines);
+        childIndex++;
+      });
+    }
+    
+    // 2. Process actual children
+    if (hasChildren) {
+      node.children!.forEach((childId) => {
+        const isLastChild = childIndex === totalChildren - 1;
+        printNodeTree(ast, childId, depth + 1, isLastChild, newPrefix, lines, showComments);
+        childIndex++;
+      });
+    }
+    
+    // 3. Process trailing comments as last children
+    if (hasTrailingComments) {
+      node.trailingComments!.forEach((comment) => {
+        const isLastChild = childIndex === totalChildren - 1;
+        printCommentAsChild(comment, depth + 1, isLastChild, newPrefix, lines);
+        childIndex++;
+      });
+    }
   }
   
   return lines;
 }
 
-function printAlignedTree(lines: TreeLine[]): void {
+// Print a comment as a child node in the tree
+function printCommentAsChild(
+  comment: import('../src/types').CommentInfo,
+  depth: number,
+  isLast: boolean,
+  prefix: string,
+  lines: TreeLine[]
+): void {
+  const { type, text } = formatComment(comment);
+  
+  // Use tree characters just like regular nodes
+  const treeChar = isLast ? '└─' : '├─';
+  const baseLine = `${prefix}${treeChar} ${type}`;
+  
+  lines.push({
+    baseLine,
+    depth,
+    isComment: true,
+    commentType: type,
+    commentText: text
+  });
+}
+
+function printAlignedTree(lines: TreeLine[], showComments: boolean = false): void {
   const terminalWidth = getTerminalWidth();
   const minTextSpace = 8; // Minimum space needed for text display
   
-  // Find the maximum base line length
-  const maxBaseLineLength = Math.max(...lines.map(line => line.baseLine.length));
+  // Find the maximum base line length for non-comment lines only
+  const nonCommentLines = lines.filter(line => !line.isComment);
+  const maxBaseLineLength = nonCommentLines.length > 0 
+    ? Math.max(...nonCommentLines.map(line => line.baseLine.length))
+    : 0;
   
-  // Calculate the aligned position for hash symbols
+  // Calculate the aligned position for hash symbols (text display)
   const hashPosition = maxBaseLineLength + 2; // 2 spaces after the longest line
   
   // Check if we have enough space for text display
   const availableTextSpace = terminalWidth - hashPosition - 1; // 1 for space after hash
   const canDisplayText = availableTextSpace >= minTextSpace;
   
-  // Print all lines with aligned hash symbols
+  // Print all lines
   lines.forEach(line => {
     let outputLine = line.baseLine;
     
-    if (line.text && canDisplayText) {
-      // Pad the base line to align with hash position
+    if (line.isComment && line.commentText) {
+      // For comment lines, calculate available space based on current line length
+      const availableSpace = terminalWidth - line.baseLine.length - 1; // 1 for space
+      if (availableSpace > 8) {
+        const truncatedComment = truncateText(line.commentText, availableSpace);
+        outputLine = line.baseLine + ' ' + truncatedComment;
+      }
+    } else if (line.text && canDisplayText) {
+      // For regular node lines with token text
       const padding = ' '.repeat(hashPosition - line.baseLine.length);
       const displayText = truncateText(line.text, availableTextSpace);
       outputLine = line.baseLine + padding + '# ' + displayText;
@@ -224,7 +300,42 @@ function printAlignedTree(lines: TreeLine[]): void {
   });
   
   // Add warning if terminal is too narrow
-  if (!canDisplayText) {
+  if (!canDisplayText && lines.some(line => line.text && !line.isComment)) {
     console.log('\nNote: Terminal width is limited. Some token text may not be displayed.');
   }
-} 
+}
+
+// Format comment for display
+function formatComment(comment: import('../src/types').CommentInfo): { type: string, text: string } {
+  let type: string;
+  let text = comment.text;
+  
+  // Determine comment type and clean text
+  if (comment.kind === 'SingleLineCommentTrivia') {
+    type = '[//]';
+    // Remove leading // and trim
+    text = text.replace(/^\/\/\s*/, '').trim();
+  } else if (comment.kind === 'MultiLineCommentTrivia') {
+    // Check if it's JSDoc (starts with /** )
+    if (text.trim().startsWith('/**')) {
+      type = '[**]';
+      // Remove /** */ and clean up JSDoc formatting
+      text = text.replace(/^\/\*\*\s*/, '').replace(/\s*\*\/$/, '').trim();
+      // Remove leading * from lines and join with spaces
+      text = text.split(/\r?\n/).map(line => 
+        line.replace(/^\s*\*\s?/, '').trim()
+      ).filter(line => line.length > 0).join(' ').trim();
+    } else {
+      type = '[/*]';
+      // Remove /* */ and clean up
+      text = text.replace(/^\/\*\s*/, '').replace(/\s*\*\/$/, '').trim();
+      // Replace multiple whitespace with single spaces
+      text = text.replace(/\s+/g, ' ');
+    }
+  } else {
+    type = '[??]';
+  }
+  
+  return { type, text };
+}
+

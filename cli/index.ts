@@ -56,6 +56,7 @@ program
   .description('Display tree structure of a node from AST file (supports JSON and YAML)')
   .argument('<file>', 'AST file (format auto-detected from extension)')
   .option('-n, --node <id>', 'Node ID to display tree for (defaults to latest root)')
+  .option('-c, --comments', 'Show comments in tree output')
   .action(treeCommand);
 
 program.parse();
