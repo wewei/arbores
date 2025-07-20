@@ -1,4 +1,8 @@
-import * as ts from 'typescript';
+// Comment 信息类型 - 不包含位置信息，只关心内容
+export type CommentInfo = {
+  kind: 'SingleLineCommentTrivia' | 'MultiLineCommentTrivia';
+  text: string;
+};
 
 // AST 节点类型
 export type ASTNode = {
@@ -7,6 +11,8 @@ export type ASTNode = {
   text?: string;
   properties?: Record<string, any>;
   children?: string[];
+  leadingComments?: CommentInfo[];
+  trailingComments?: CommentInfo[];
 };
 
 // 文件版本类型

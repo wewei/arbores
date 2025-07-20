@@ -1,11 +1,12 @@
 import * as ts from 'typescript';
 import type { ASTNode, FileVersion, SourceFileAST } from './types';
-import { generateNodeId, isTokenNode, extractNodeProperties } from './utils';
+import { generateNodeId, isTokenNode, extractNodeProperties, extractComments } from './utils';
 
-// 处理节点（支持复用）
+// 处理节点（支持复用和 comments）
 function processNode(
   node: ts.Node, 
-  nodes: Record<string, ASTNode>
+  nodes: Record<string, ASTNode>,
+  sourceText: string
 ): string {
   const nodeId = generateNodeId(node);
   
@@ -16,14 +17,18 @@ function processNode(
   
   // 创建新节点
   const children = node.getChildren();
-  const childIds = children.map(child => processNode(child, nodes));
+  const childIds = children.map(child => processNode(child, nodes, sourceText));
+  
+  // 提取 comments
+  const comments = extractComments(node, sourceText);
   
   const astNode: ASTNode = {
     id: nodeId,
     kind: node.kind,
     text: isTokenNode(node.kind) ? node.getText() : undefined,
     properties: extractNodeProperties(node),
-    children: childIds.length > 0 ? childIds : undefined
+    children: childIds.length > 0 ? childIds : undefined,
+    ...comments  // 添加 leadingComments 和 trailingComments（如果存在）
   };
   
   nodes[nodeId] = astNode;
@@ -43,7 +48,7 @@ export function parseTypeScriptFile(
   );
   
   const nodes: Record<string, ASTNode> = {};
-  const rootNodeId = processNode(sourceFile, nodes);
+  const rootNodeId = processNode(sourceFile, nodes, sourceText);
   
   const version: FileVersion = {
     created_at: new Date().toISOString(),
@@ -61,10 +66,11 @@ export function parseTypeScriptFile(
 export function mergeAST(
   existingAST: SourceFileAST,
   newSourceFile: ts.SourceFile,
+  sourceText: string,
   description?: string
 ): SourceFileAST {
   const newNodes: Record<string, ASTNode> = { ...existingAST.nodes };
-  const newRootNodeId = processNode(newSourceFile, newNodes);
+  const newRootNodeId = processNode(newSourceFile, newNodes, sourceText);
   
   // 检查是否已有相同的根节点ID
   const existingVersion = existingAST.versions.find(v => v.root_node_id === newRootNodeId);

@@ -37,3 +37,11 @@ report.[0-9]_.[0-9]_.[0-9]_.[0-9]_.json
 *.ast.json
 *.ast.yaml
 *.ast.yml
+
+# Temporary and debug files
+debug-*
+test-*
+temp-*
+*.tmp
+*.temp
+inspect-*

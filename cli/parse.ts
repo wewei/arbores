@@ -50,7 +50,7 @@ export async function parseCommand(
         );
         
         // 合并 AST
-        const mergedAST = mergeAST(existingAST, sourceFile, options.description);
+        const mergedAST = mergeAST(existingAST, sourceFile, sourceText, options.description);
         
         // 写入合并后的 AST（保持输入文件的格式）
         await writeFile(options.ast, stringifyASTData(mergedAST, inputFormat));

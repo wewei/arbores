@@ -78,6 +78,44 @@ export function extractNodeProperties(node: ts.Node): Record<string, any> | unde
   return Object.keys(properties).length > 0 ? properties : undefined;
 }
 
+// 提取节点的 comments
+export function extractComments(
+  node: ts.Node, 
+  sourceText: string
+): { leadingComments?: import('./types').CommentInfo[], trailingComments?: import('./types').CommentInfo[] } {
+  const result: { leadingComments?: import('./types').CommentInfo[], trailingComments?: import('./types').CommentInfo[] } = {};
+  
+  // 获取 leading comments
+  const leadingCommentRanges = ts.getLeadingCommentRanges(sourceText, node.pos);
+  if (leadingCommentRanges && leadingCommentRanges.length > 0) {
+    result.leadingComments = leadingCommentRanges.map(commentRange => {
+      const commentText = sourceText.substring(commentRange.pos, commentRange.end);
+      return {
+        kind: commentRange.kind === ts.SyntaxKind.SingleLineCommentTrivia 
+          ? 'SingleLineCommentTrivia' as const
+          : 'MultiLineCommentTrivia' as const,
+        text: commentText
+      };
+    });
+  }
+  
+  // 获取 trailing comments
+  const trailingCommentRanges = ts.getTrailingCommentRanges(sourceText, node.end);
+  if (trailingCommentRanges && trailingCommentRanges.length > 0) {
+    result.trailingComments = trailingCommentRanges.map(commentRange => {
+      const commentText = sourceText.substring(commentRange.pos, commentRange.end);
+      return {
+        kind: commentRange.kind === ts.SyntaxKind.SingleLineCommentTrivia 
+          ? 'SingleLineCommentTrivia' as const
+          : 'MultiLineCommentTrivia' as const,
+        text: commentText
+      };
+    });
+  }
+  
+  return result;
+}
+
 // 读取文件内容
 export async function readFile(filePath: string): Promise<string> {
   const fs = await import('fs/promises');
