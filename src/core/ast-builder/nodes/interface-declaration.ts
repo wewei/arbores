@@ -1,18 +1,20 @@
 import * as ts from 'typescript';
 import type { SourceFileAST, ASTNode } from '../../types';
 import type { CreateNodeFn, NodeBuilderFn } from '../types';
+import { getModifiers } from '../utils';
 
 /**
  * 创建接口声明节点
  * 
  * InterfaceDeclaration 结构:
+ * - 修饰符 (export等)
  * - interface 关键字
  * - 接口名 (Identifier)
  * - 开括号 {
  * - 属性签名列表 (SyntaxList)
  * - 闭括号 }
  * 
- * 示例: interface User { id: number; name: string; }
+ * 示例: export interface User { id: number; name: string; }
  */
 export const createInterfaceDeclaration: NodeBuilderFn<ts.InterfaceDeclaration> = (
   createNode: CreateNodeFn<any>
@@ -21,6 +23,10 @@ export const createInterfaceDeclaration: NodeBuilderFn<ts.InterfaceDeclaration> 
   node: ASTNode
 ): ts.InterfaceDeclaration => {
   const children = node.children || [];
+  
+  // 获取修饰符
+  const modifiers = getModifiers(children, sourceFile, createNode);
+  
   let interfaceName: ts.Identifier | undefined;
   const members: ts.TypeElement[] = [];
   
@@ -65,7 +71,7 @@ export const createInterfaceDeclaration: NodeBuilderFn<ts.InterfaceDeclaration> 
   }
   
   return ts.factory.createInterfaceDeclaration(
-    undefined, // modifiers
+    modifiers.length > 0 ? modifiers : undefined, // modifiers
     interfaceName,
     undefined, // type parameters
     undefined, // heritage clauses

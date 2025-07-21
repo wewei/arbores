@@ -2,6 +2,7 @@ import * as ts from 'typescript';
 import type { SourceFileAST, ASTNode } from '../../types';
 import type { CreateNodeFn } from '../types';
 import { findChildrenByKind, isNodeOfKind } from './find-child';
+import { findNodesOfKinds } from './syntax-list';
 
 /**
  * 提取节点的修饰符
@@ -11,16 +12,31 @@ export function getModifiers(
   sourceFile: SourceFileAST,
   createNode: CreateNodeFn
 ): ts.Modifier[] {
+  // 使用新的 SyntaxList 处理工具来查找修饰符
+  const modifierKinds = [
+    ts.SyntaxKind.AbstractKeyword,
+    ts.SyntaxKind.AsyncKeyword,
+    ts.SyntaxKind.ConstKeyword,
+    ts.SyntaxKind.DeclareKeyword,
+    ts.SyntaxKind.DefaultKeyword,
+    ts.SyntaxKind.ExportKeyword,
+    ts.SyntaxKind.PrivateKeyword,
+    ts.SyntaxKind.ProtectedKeyword,
+    ts.SyntaxKind.PublicKeyword,
+    ts.SyntaxKind.ReadonlyKeyword,
+    ts.SyntaxKind.StaticKeyword,
+    ts.SyntaxKind.OverrideKeyword,
+  ];
+  
+  const modifierNodes = findNodesOfKinds(children, sourceFile, modifierKinds);
   const modifiers: ts.Modifier[] = [];
   
-  for (const childId of children) {
-    const child = sourceFile.nodes[childId];
-    if (!child) continue;
-    
-    // 检查是否为修饰符
-    if (isModifierKind(child.kind)) {
-      const modifier = createNode(sourceFile, child) as ts.Modifier;
+  for (const node of modifierNodes) {
+    try {
+      const modifier = createNode(sourceFile, node) as ts.Modifier;
       modifiers.push(modifier);
+    } catch (error) {
+      console.warn(`Failed to create modifier for ${ts.SyntaxKind[node.kind]}:`, error);
     }
   }
   

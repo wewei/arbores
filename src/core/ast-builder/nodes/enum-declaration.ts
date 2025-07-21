@@ -1,15 +1,19 @@
 import * as ts from 'typescript';
 import type { SourceFileAST, ASTNode } from '../../types';
 import type { CreateNodeFn, NodeBuilderFn } from '../types';
+import { getModifiers } from '../utils/modifiers';
 
 /**
  * 创建 EnumDeclaration 节点
  * Kind: 266
- * 例子: enum Color { Red = 'red', Green = 'green' }
+ * 例子: export enum Color { Red = 'red', Green = 'green' }
  */
 export const createEnumDeclaration: NodeBuilderFn<ts.EnumDeclaration> = (createNode: CreateNodeFn) => {
   return (sourceFile: SourceFileAST, node: ASTNode): ts.EnumDeclaration => {
     const children = node.children || [];
+    
+    // 获取修饰符
+    const modifiers = getModifiers(children, sourceFile, createNode);
     
     // 查找关键部分
     let nameNodeId: string | undefined;
@@ -69,10 +73,9 @@ export const createEnumDeclaration: NodeBuilderFn<ts.EnumDeclaration> = (createN
       }
     }
     
-    // 创建修饰符
-    const modifiers: ts.ModifierLike[] = [];
+    // 添加 const 修饰符如果需要
     if (isConst) {
-      modifiers.push(ts.factory.createToken(ts.SyntaxKind.ConstKeyword));
+      // const 修饰符已经在 getModifiers 中处理了，这里不需要重复添加
     }
     
     return ts.factory.createEnumDeclaration(

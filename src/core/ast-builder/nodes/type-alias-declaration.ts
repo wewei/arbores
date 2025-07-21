@@ -1,36 +1,42 @@
 import * as ts from 'typescript';
 import type { SourceFileAST, ASTNode } from '../../types';
 import type { CreateNodeFn, NodeBuilderFn } from '../types';
+import { getModifiers } from '../utils';
 
 export const createTypeAliasDeclaration: NodeBuilderFn<ts.TypeAliasDeclaration> = (createNode: CreateNodeFn) => {
   return (sourceFile: SourceFileAST, node: ASTNode): ts.TypeAliasDeclaration => {
     const children = node.children || [];
     
+    // 获取修饰符
+    const modifiers = getModifiers(children, sourceFile, createNode);
+    
     if (children.length < 4) {
       throw new Error(`TypeAliasDeclaration should have at least 4 children (type, name, =, type), got ${children.length}`);
     }
-    
-    // TypeAliasDeclaration的结构：[type关键字, 名称, 类型参数?, =, 类型, ;?]
-    const typeKeywordId = children[0];
-    const nameId = children[1];
-    
-    // 找到等号的位置
+
+    // 找到 Identifier, EqualsToken, TypeNode
+    let nameIndex = -1;
     let equalsIndex = -1;
-    for (let i = 2; i < children.length; i++) {
+    
+    for (let i = 0; i < children.length; i++) {
       const childId = children[i];
       if (childId) {
         const childNode = sourceFile.nodes[childId];
-        if (childNode && childNode.kind === ts.SyntaxKind.EqualsToken) {
-          equalsIndex = i;
-          break;
+        if (childNode) {
+          if (childNode.kind === ts.SyntaxKind.Identifier && nameIndex === -1) {
+            nameIndex = i;
+          } else if (childNode.kind === ts.SyntaxKind.EqualsToken && equalsIndex === -1) {
+            equalsIndex = i;
+          }
         }
       }
     }
     
-    if (equalsIndex === -1) {
-      throw new Error('TypeAliasDeclaration missing equals token');
+    if (nameIndex === -1 || equalsIndex === -1) {
+      throw new Error(`Could not find required elements in TypeAliasDeclaration`);
     }
-    
+
+    const nameId = children[nameIndex];
     const typeNodeId = children[equalsIndex + 1];
     
     if (!nameId || !typeNodeId) {
@@ -53,20 +59,13 @@ export const createTypeAliasDeclaration: NodeBuilderFn<ts.TypeAliasDeclaration> 
     
     // 检查是否有类型参数（在名称和等号之间）
     let typeParameters: ts.TypeParameterDeclaration[] | undefined;
-    if (equalsIndex > 2) {
-      // 可能有类型参数
-      const typeParamId = children[2];
-      if (typeParamId) {
-        const typeParamNode = sourceFile.nodes[typeParamId];
-        if (typeParamNode && typeParamNode.kind !== ts.SyntaxKind.EqualsToken) {
-          // 这是类型参数，但现在先忽略，因为它可能很复杂
-          typeParameters = undefined;
-        }
-      }
+    if (equalsIndex > nameIndex + 1) {
+      // 可能有类型参数，但现在先忽略
+      typeParameters = undefined;
     }
     
     return ts.factory.createTypeAliasDeclaration(
-      undefined, // modifiers  
+      modifiers.length > 0 ? modifiers : undefined,
       name,
       typeParameters,
       type

@@ -1,6 +1,7 @@
 import * as ts from 'typescript';
 import type { SourceFileAST, ASTNode } from '../../types';
 import type { CreateNodeFn, NodeBuilderFn } from '../types';
+import { extractFromSyntaxList } from '../utils';
 
 export const createTemplateExpression: NodeBuilderFn<ts.TemplateExpression> = (createNode: CreateNodeFn) => {
   return (sourceFile: SourceFileAST, node: ASTNode): ts.TemplateExpression => {
@@ -30,28 +31,21 @@ export const createTemplateExpression: NodeBuilderFn<ts.TemplateExpression> = (c
 
     const head = ts.factory.createTemplateHead(headText);
 
-    // Second child is SyntaxList containing TemplateSpan nodes
-    const syntaxListId = node.children[1];
-    if (!syntaxListId) {
+    // Second child contains TemplateSpan nodes (potentially wrapped in SyntaxList)
+    const secondChildId = node.children[1];
+    if (!secondChildId) {
       throw new Error('Template syntax list ID is missing');
     }
     
-    const syntaxListNode = sourceFile.nodes[syntaxListId];
-    if (!syntaxListNode || !syntaxListNode.children) {
-      throw new Error('Template syntax list node not found or has no children');
-    }
+    const spanNodes = extractFromSyntaxList([secondChildId], sourceFile);
 
     const templateSpans: ts.TemplateSpan[] = [];
     
-    for (const spanId of syntaxListNode.children) {
-      if (!spanId) continue;
-      
-      const spanNode = sourceFile.nodes[spanId];
-      if (!spanNode) continue;
-      
-      // Use the generic createNode to handle TemplateSpan
-      const templateSpan = createNode(sourceFile, spanNode) as ts.TemplateSpan;
-      templateSpans.push(templateSpan);
+    for (const spanNode of spanNodes) {
+      if (spanNode.kind === ts.SyntaxKind.TemplateSpan) {
+        const templateSpan = createNode(sourceFile, spanNode) as ts.TemplateSpan;
+        templateSpans.push(templateSpan);
+      }
     }
 
     return ts.factory.createTemplateExpression(head, templateSpans);

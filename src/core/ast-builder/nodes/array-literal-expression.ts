@@ -1,6 +1,7 @@
 import * as ts from 'typescript';
 import type { SourceFileAST, ASTNode } from '../../types';
 import type { CreateNodeFn, NodeBuilderFn } from '../types';
+import { extractFromSyntaxList, shouldSkipNode } from '../utils/syntax-list';
 
 /**
  * 创建数组字面量表达式节点
@@ -19,44 +20,33 @@ export const createArrayLiteralExpression: NodeBuilderFn<ts.ArrayLiteralExpressi
   node: ASTNode
 ): ts.ArrayLiteralExpression => {
   const children = node.children || [];
-  const elements: ts.Expression[] = [];
   
-  // 递归查找表达式元素节点 (排除逗号)
-  const findElements = (nodeId: string): void => {
-    const child = sourceFile.nodes[nodeId];
-    if (!child) return;
+  // 提取所有子节点，自动处理 SyntaxList 包装器
+  const allNodes = extractFromSyntaxList(children, sourceFile);
+  
+  // 过滤出表达式节点，跳过分隔符和括号
+  const expressionNodes = allNodes.filter(child => {
+    if (shouldSkipNode(child)) {
+      return false;
+    }
     
-    // 跳过逗号、括号等token
-    if (child.kind === ts.SyntaxKind.CommaToken || 
-        child.kind === ts.SyntaxKind.OpenBracketToken ||
+    // 跳过括号
+    if (child.kind === ts.SyntaxKind.OpenBracketToken || 
         child.kind === ts.SyntaxKind.CloseBracketToken) {
-      return;
+      return false;
     }
     
-    // 如果是具体的表达式节点
-    if (child.kind === ts.SyntaxKind.NumericLiteral ||
-        child.kind === ts.SyntaxKind.StringLiteral ||
-        child.kind === ts.SyntaxKind.TrueKeyword ||
-        child.kind === ts.SyntaxKind.FalseKeyword ||
-        child.kind === ts.SyntaxKind.Identifier ||
-        child.kind === ts.SyntaxKind.BinaryExpression ||
-        child.kind === ts.SyntaxKind.CallExpression ||
-        child.kind === ts.SyntaxKind.PropertyAccessExpression ||
-        child.kind === ts.SyntaxKind.ObjectLiteralExpression ||
-        child.kind === ts.SyntaxKind.ArrayLiteralExpression ||
-        child.kind === ts.SyntaxKind.SpreadElement) {
-      const element = createNode(sourceFile, child) as ts.Expression;
-      elements.push(element);
-    } else if (child.children) {
-      // 递归查找子节点 (处理SyntaxList等容器节点)
-      for (const grandChildId of child.children) {
-        findElements(grandChildId);
-      }
-    }
-  };
+    return true;
+  });
   
-  for (const childId of children) {
-    findElements(childId);
+  const elements: ts.Expression[] = [];
+  for (const elementNode of expressionNodes) {
+    try {
+      const element = createNode(sourceFile, elementNode) as ts.Expression;
+      elements.push(element);
+    } catch (error) {
+      console.warn(`Failed to create array element for ${ts.SyntaxKind[elementNode.kind]}:`, error);
+    }
   }
 
   return ts.factory.createArrayLiteralExpression(elements);

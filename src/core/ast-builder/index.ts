@@ -76,6 +76,13 @@ import { createTypePredicate } from './nodes/type-predicate';
 import { createUnknownKeyword } from './nodes/unknown-keyword';
 import { createHeritageClause } from './nodes/heritage-clause';
 import { createExpressionWithTypeArguments } from './nodes/expression-with-type-arguments';
+import { createParenthesizedType } from './nodes/parenthesized-type';
+
+// Export 相关节点
+import { createExportDeclaration } from './nodes/export-declaration';
+import { createExportAssignment } from './nodes/export-assignment';
+import { createNamedExports } from './nodes/named-exports';
+import { createExportSpecifier } from './nodes/export-specifier';
 
 // 类型关键字节点
 import { createNumberKeyword } from './nodes/number-keyword';
@@ -116,6 +123,16 @@ export function createNode<T extends ts.Node = ts.Node>(
       return createNamedImports(createNode)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.ImportSpecifier:
       return createImportSpecifier(createNode)(sourceFile, node) as unknown as T;
+    
+    // Export 相关节点
+    case ts.SyntaxKind.ExportDeclaration:
+      return createExportDeclaration(createNode)(sourceFile, node) as unknown as T;
+    case ts.SyntaxKind.ExportAssignment:
+      return createExportAssignment(createNode)(sourceFile, node) as unknown as T;
+    case ts.SyntaxKind.NamedExports:
+      return createNamedExports(createNode)(sourceFile, node) as unknown as T;
+    case ts.SyntaxKind.ExportSpecifier:
+      return createExportSpecifier(createNode)(sourceFile, node) as unknown as T;
     
     // 语句节点
     case ts.SyntaxKind.Block:
@@ -231,6 +248,8 @@ export function createNode<T extends ts.Node = ts.Node>(
       return createExpressionWithTypeArguments(createNode)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.ParenthesizedExpression:
       return createParenthesizedExpression(createNode)(sourceFile, node) as unknown as T;
+    case ts.SyntaxKind.ParenthesizedType:
+      return createParenthesizedType(createNode)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.ForStatement:
       return createForStatement(createNode)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.DotDotDotToken:
@@ -250,6 +269,10 @@ export function createNode<T extends ts.Node = ts.Node>(
       return createLiteral(createNode)(sourceFile, node) as unknown as T;
     
     // 修饰符节点
+    case ts.SyntaxKind.ExportKeyword:
+    case ts.SyntaxKind.DefaultKeyword:
+    case ts.SyntaxKind.DeclareKeyword:
+    case ts.SyntaxKind.AbstractKeyword:
     case ts.SyntaxKind.AsyncKeyword:
     case ts.SyntaxKind.PrivateKeyword:
     case ts.SyntaxKind.PublicKeyword:

@@ -1,18 +1,20 @@
 import * as ts from 'typescript';
 import type { SourceFileAST, ASTNode } from '../../types';
 import type { CreateNodeFn, NodeBuilderFn } from '../types';
+import { getModifiers } from '../utils';
 
 /**
  * 创建类声明节点
  * 
  * ClassDeclaration 结构:
+ * - 修饰符 (export, abstract等)
  * - class 关键字
  * - 类名 (Identifier)
  * - 开括号 {
  * - 类成员列表 (SyntaxList)
  * - 闭括号 }
  * 
- * 示例: class Calculator { ... }
+ * 示例: export class Calculator { ... }
  */
 export const createClassDeclaration: NodeBuilderFn<ts.ClassDeclaration> = (
   createNode: CreateNodeFn<any>
@@ -21,6 +23,10 @@ export const createClassDeclaration: NodeBuilderFn<ts.ClassDeclaration> = (
   node: ASTNode
 ): ts.ClassDeclaration => {
   const children = node.children || [];
+  
+  // 获取修饰符
+  const modifiers = getModifiers(children, sourceFile, createNode);
+  
   let className: ts.Identifier | undefined;
   const members: ts.ClassElement[] = [];
   
@@ -66,7 +72,7 @@ export const createClassDeclaration: NodeBuilderFn<ts.ClassDeclaration> = (
   }
   
   return ts.factory.createClassDeclaration(
-    undefined, // modifiers
+    modifiers.length > 0 ? modifiers : undefined, // modifiers
     className,
     undefined, // type parameters
     undefined, // heritage clauses
