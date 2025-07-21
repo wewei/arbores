@@ -10,7 +10,7 @@ export const asyncArrowFunction = (data: unknown[], item) => {
 export function processData({ name, age, ...rest }: {
     name: string;
     age: number;
-    /* Unsupported: IndexSignature */
+    [key: string]: unknown;
 }) {
     return { metadata: rest };
 }

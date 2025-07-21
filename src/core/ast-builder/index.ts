@@ -78,6 +78,9 @@ import { createTypeLiteral } from './nodes/type-literal';
 import { createIndexedAccessType } from './nodes/indexed-access-type';
 import { createConditionalType } from './nodes/conditional-type';
 import { createUndefinedKeyword } from './nodes/undefined-keyword';
+import { createIndexSignature } from './nodes/index-signature';
+import { createTemplateHead } from './nodes/template-head';
+import { createTypeQuery } from './nodes/type-query';
 import { createNeverKeyword } from './nodes/never-keyword';
 import { createDotDotDotToken } from './nodes/dot-dot-dot-token';
 import { createParenthesizedExpression } from './nodes/parenthesized-expression';
@@ -174,6 +177,8 @@ export function createNode<T extends ts.Node = ts.Node>(
       return createPropertyAccessExpression(createNode)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.TemplateExpression:
       return createTemplateExpression(createNode)(sourceFile, node) as unknown as T;
+    case ts.SyntaxKind.TemplateHead:
+      return createTemplateHead(createNode)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.TemplateSpan:
       return createTemplateSpan(createNode)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.PrefixUnaryExpression:
@@ -210,6 +215,8 @@ export function createNode<T extends ts.Node = ts.Node>(
       return createSpreadElement(createNode)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.TypeOfExpression:
       return createTypeOfExpression(createNode)(sourceFile, node) as unknown as T;
+    case ts.SyntaxKind.TypeQuery:
+      return createTypeQuery(createNode)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.ParenthesizedExpression:
       return createParenthesizedExpression(createNode)(sourceFile, node) as unknown as T;
     
@@ -271,6 +278,8 @@ export function createNode<T extends ts.Node = ts.Node>(
       return createTypeLiteral(createNode)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.IndexedAccessType:
       return createIndexedAccessType(createNode)(sourceFile, node) as unknown as T;
+    case ts.SyntaxKind.IndexSignature:
+      return createIndexSignature(createNode)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.ConditionalType:
       return createConditionalType(createNode)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.TypeOperator:

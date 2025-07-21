@@ -10,52 +10,42 @@ export const createTemplateLiteralType: NodeBuilderFn<ts.TemplateLiteralTypeNode
       throw new Error(`TemplateLiteralType should have at least 1 child, got ${children.length}`);
     }
     
-    // TemplateLiteralType 的结构：类似于 TemplateExpression，有头部和spans
-    let headId: string | undefined;
-    let templateSpanIds: string[] = [];
+    // TemplateLiteralType 的结构：[TemplateHead, SyntaxList with TemplateSpan...]
+    let head: ts.TemplateHead | ts.NoSubstitutionTemplateLiteral | undefined;
+    let templateSpans: ts.TemplateLiteralTypeSpan[] = [];
     
-    // 第一个通常是 head (TemplateHead 或 NoSubstitutionTemplateLiteral)
-    headId = children[0];
-    
-    // 其余的是 TemplateSpan
-    for (let i = 1; i < children.length; i++) {
-      const childId = children[i];
-      if (childId) {
-        const childNode = sourceFile.nodes[childId];
-        if (childNode && childNode.kind === ts.SyntaxKind.TemplateSpan) {
-          templateSpanIds.push(childId);
+    for (const childId of children) {
+      if (!childId) continue;
+      
+      const childNode = sourceFile.nodes[childId];
+      if (!childNode) continue;
+      
+      if (childNode.kind === ts.SyntaxKind.TemplateHead || 
+          childNode.kind === ts.SyntaxKind.NoSubstitutionTemplateLiteral) {
+        head = createNode(sourceFile, childNode) as ts.TemplateHead | ts.NoSubstitutionTemplateLiteral;
+      } else if (childNode.kind === ts.SyntaxKind.TemplateSpan) {
+        const span = createNode(sourceFile, childNode) as ts.TemplateLiteralTypeSpan;
+        templateSpans.push(span);
+      } else if (childNode.kind === ts.SyntaxKind.SyntaxList && childNode.children) {
+        // 处理 SyntaxList 中的 TemplateSpan
+        for (const syntaxListChildId of childNode.children) {
+          const syntaxListChild = sourceFile.nodes[syntaxListChildId!];
+          if (syntaxListChild?.kind === ts.SyntaxKind.TemplateSpan) {
+            const span = createNode(sourceFile, syntaxListChild) as ts.TemplateLiteralTypeSpan;
+            templateSpans.push(span);
+          }
         }
       }
     }
     
-    if (!headId) {
+    if (!head) {
       throw new Error('TemplateLiteralType missing head');
     }
     
-    // 创建头部
-    const headNode = sourceFile.nodes[headId];
-    if (!headNode) {
-      throw new Error(`Head node ${headId} not found`);
-    }
-    
-    const head = createNode(sourceFile, headNode) as ts.TemplateHead | ts.NoSubstitutionTemplateLiteral;
-    
-    // 创建 template spans
-    const templateSpans = templateSpanIds
-      .map(spanId => {
-        const spanNode = sourceFile.nodes[spanId];
-        if (spanNode) {
-          return createNode(sourceFile, spanNode) as ts.TemplateLiteralTypeSpan;
-        }
-        return null;
-      })
-      .filter((span): span is ts.TemplateLiteralTypeSpan => span !== null);
-    
-    // 如果没有 spans，说明是简单的模板字面量
-    if (templateSpans.length === 0) {
-      // 对于简单情况，创建一个基本的模板字面量类型
+    // 对于 NoSubstitutionTemplateLiteral，直接返回类型
+    if (head.kind === ts.SyntaxKind.NoSubstitutionTemplateLiteral) {
       return ts.factory.createTemplateLiteralType(
-        head as ts.TemplateHead,
+        ts.factory.createTemplateHead((head as any).text || ''),
         []
       );
     }
