@@ -28,14 +28,31 @@ export const createClassDeclaration: NodeBuilderFn<ts.ClassDeclaration> = (
   const modifiers = getModifiers(children, sourceFile, createNode);
   
   let className: ts.Identifier | undefined;
+  const typeParameters: ts.TypeParameterDeclaration[] = [];
   const members: ts.ClassElement[] = [];
   
-  // 查找类名
+  // 查找类名和类型参数
   for (const childId of children) {
     const child = sourceFile.nodes[childId];
-    if (child && child.kind === ts.SyntaxKind.Identifier) {
+    if (!child) continue;
+    
+    if (child.kind === ts.SyntaxKind.Identifier) {
       className = createNode(sourceFile, child) as ts.Identifier;
-      break;
+    } else if (child.kind === ts.SyntaxKind.TypeParameter) {
+      const typeParameter = createNode(sourceFile, child) as ts.TypeParameterDeclaration;
+      typeParameters.push(typeParameter);
+    } else if (child.kind === ts.SyntaxKind.SyntaxList) {
+      // 处理 SyntaxList，它可能包含类型参数
+      const syntaxListChildren = child.children || [];
+      for (const specifierId of syntaxListChildren) {
+        const specifierNode = sourceFile.nodes[specifierId];
+        if (!specifierNode) continue;
+        
+        if (specifierNode.kind === ts.SyntaxKind.TypeParameter) {
+          const typeParameter = createNode(sourceFile, specifierNode) as ts.TypeParameterDeclaration;
+          typeParameters.push(typeParameter);
+        }
+      }
     }
   }
   
@@ -74,7 +91,7 @@ export const createClassDeclaration: NodeBuilderFn<ts.ClassDeclaration> = (
   return ts.factory.createClassDeclaration(
     modifiers.length > 0 ? modifiers : undefined, // modifiers
     className,
-    undefined, // type parameters
+    typeParameters.length > 0 ? typeParameters : undefined, // type parameters
     undefined, // heritage clauses
     members
   );

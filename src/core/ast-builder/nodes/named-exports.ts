@@ -15,6 +15,18 @@ export const createNamedExports: NodeBuilderFn<ts.NamedExports> = (createNode: C
       if (childNode.kind === ts.SyntaxKind.ExportSpecifier) {
         const exportSpecifier = createNode(sourceFile, childNode) as ts.ExportSpecifier;
         elements.push(exportSpecifier);
+      } else if (childNode.kind === ts.SyntaxKind.SyntaxList) {
+        // 处理 SyntaxList 节点，它可能包含多个 ExportSpecifier
+        const syntaxListChildren = childNode.children || [];
+        for (const specifierId of syntaxListChildren) {
+          const specifierNode = sourceFile.nodes[specifierId];
+          if (!specifierNode) continue;
+          
+          if (specifierNode.kind === ts.SyntaxKind.ExportSpecifier) {
+            const exportSpecifier = createNode(sourceFile, specifierNode) as ts.ExportSpecifier;
+            elements.push(exportSpecifier);
+          }
+        }
       }
     }
     

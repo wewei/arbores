@@ -28,14 +28,31 @@ export const createInterfaceDeclaration: NodeBuilderFn<ts.InterfaceDeclaration> 
   const modifiers = getModifiers(children, sourceFile, createNode);
   
   let interfaceName: ts.Identifier | undefined;
+  const typeParameters: ts.TypeParameterDeclaration[] = [];
   const members: ts.TypeElement[] = [];
   
-  // 查找接口名
+  // 查找接口名和类型参数
   for (const childId of children) {
     const child = sourceFile.nodes[childId];
-    if (child && child.kind === ts.SyntaxKind.Identifier) {
+    if (!child) continue;
+    
+    if (child.kind === ts.SyntaxKind.Identifier) {
       interfaceName = createNode(sourceFile, child) as ts.Identifier;
-      break;
+    } else if (child.kind === ts.SyntaxKind.TypeParameter) {
+      const typeParameter = createNode(sourceFile, child) as ts.TypeParameterDeclaration;
+      typeParameters.push(typeParameter);
+    } else if (child.kind === ts.SyntaxKind.SyntaxList) {
+      // 处理 SyntaxList，它可能包含类型参数
+      const syntaxListChildren = child.children || [];
+      for (const specifierId of syntaxListChildren) {
+        const specifierNode = sourceFile.nodes[specifierId];
+        if (!specifierNode) continue;
+        
+        if (specifierNode.kind === ts.SyntaxKind.TypeParameter) {
+          const typeParameter = createNode(sourceFile, specifierNode) as ts.TypeParameterDeclaration;
+          typeParameters.push(typeParameter);
+        }
+      }
     }
   }
   
@@ -73,7 +90,7 @@ export const createInterfaceDeclaration: NodeBuilderFn<ts.InterfaceDeclaration> 
   return ts.factory.createInterfaceDeclaration(
     modifiers.length > 0 ? modifiers : undefined, // modifiers
     interfaceName,
-    undefined, // type parameters
+    typeParameters.length > 0 ? typeParameters : undefined, // type parameters
     undefined, // heritage clauses
     members
   );

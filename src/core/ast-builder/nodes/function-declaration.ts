@@ -14,9 +14,33 @@ export const createFunctionDeclaration: NodeBuilderFn<ts.FunctionDeclaration> = 
     // 获取修饰符
     const modifiers = getModifiers(node.children || [], sourceFile, createNode);
     
-    // 查找函数名
+    // 查找函数名和类型参数
     const nameNode = findChildByKind(node.children || [], sourceFile, ts.SyntaxKind.Identifier);
     const name = nameNode ? (createNode(sourceFile, nameNode) as ts.Identifier) : ts.factory.createIdentifier('func');
+    
+    // 查找类型参数
+    const typeParameters: ts.TypeParameterDeclaration[] = [];
+    for (const childId of node.children || []) {
+      const childNode = sourceFile.nodes[childId];
+      if (!childNode) continue;
+      
+      if (childNode.kind === ts.SyntaxKind.TypeParameter) {
+        const typeParameter = createNode(sourceFile, childNode) as ts.TypeParameterDeclaration;
+        typeParameters.push(typeParameter);
+      } else if (childNode.kind === ts.SyntaxKind.SyntaxList) {
+        // 处理 SyntaxList，它可能包含类型参数
+        const syntaxListChildren = childNode.children || [];
+        for (const specifierId of syntaxListChildren) {
+          const specifierNode = sourceFile.nodes[specifierId];
+          if (!specifierNode) continue;
+          
+          if (specifierNode.kind === ts.SyntaxKind.TypeParameter) {
+            const typeParameter = createNode(sourceFile, specifierNode) as ts.TypeParameterDeclaration;
+            typeParameters.push(typeParameter);
+          }
+        }
+      }
+    }
     
     // 查找参数列表 - 改进参数解析
     const parameters: ts.ParameterDeclaration[] = [];
@@ -84,7 +108,7 @@ export const createFunctionDeclaration: NodeBuilderFn<ts.FunctionDeclaration> = 
       modifiers,
       undefined, // asterisk token for generator functions
       name,
-      undefined, // type parameters
+      typeParameters.length > 0 ? typeParameters : undefined, // type parameters
       parameters,
       type,
       body
