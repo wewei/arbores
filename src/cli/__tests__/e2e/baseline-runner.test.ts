@@ -85,12 +85,28 @@ function compareOutput(actual: string, expected: string): {
     return { matches: true };
   }
 
+  // 标准化换行符和结尾空白字符
+  const normalizeString = (str: string): string => {
+    return str
+      .replace(/^\uFEFF/, '')  // 移除UTF-8 BOM
+      .replace(/\r\n/g, '\n')  // Windows 换行符 -> Unix
+      .replace(/\r/g, '\n')    // Mac 老式换行符 -> Unix
+      .trimEnd();              // 移除结尾的空白字符
+  };
+
+  const normalizedActual = normalizeString(actual);
+  const normalizedExpected = normalizeString(expected);
+
+  if (normalizedActual === normalizedExpected) {
+    return { matches: true };
+  }
+
   // TODO: 实现更智能的差异比较
   // 可以考虑忽略空白字符差异、动态内容占位符等
   
   return {
     matches: false,
-    diff: `Expected:\n${expected}\n\nActual:\n${actual}`
+    diff: `Expected:\n${JSON.stringify(expected)}\n\nActual:\n${JSON.stringify(actual)}\n\nNormalized Expected:\n${JSON.stringify(normalizedExpected)}\n\nNormalized Actual:\n${JSON.stringify(normalizedActual)}`
   };
 }
 

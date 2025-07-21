@@ -7,6 +7,7 @@
 
 import * as ts from 'typescript';
 import { createNode } from './ast-builder';
+import { safeValidateNode, validateNodeTree } from './ast-builder/utils/node-validator';
 import type { 
   Result,
   SourceFileAST,
@@ -87,6 +88,14 @@ export function stringifyNode(
     // For complex nodes, use TypeScript Factory API
     const tsNode = createNode(ast, node);
     
+    // 验证创建的节点树
+    try {
+      safeValidateNode(tsNode, `node ${nodeId} (${ts.SyntaxKind[node.kind]})`);
+    } catch (validationError) {
+      return error('STRINGIFY_FAILED', 
+        `Node validation failed for ${nodeId} (${ts.SyntaxKind[node.kind]}): ${validationError instanceof Error ? validationError.message : 'Unknown validation error'}`);
+    }
+    
     if (!tsNode || tsNode.kind === ts.SyntaxKind.Unknown) {
       return error('STRINGIFY_FAILED', 
         `Failed to create TypeScript node for ${nodeId} (${ts.SyntaxKind[node.kind]})`);
@@ -111,11 +120,30 @@ export function stringifyNode(
       true
     );
 
-    const code = printer.printNode(
-      ts.EmitHint.Unspecified,
-      tsNode,
-      tempSourceFile
-    );
+    let code: string;
+    try {
+      code = printer.printNode(
+        ts.EmitHint.Unspecified,
+        tsNode,
+        tempSourceFile
+      );
+    } catch (printError) {
+      
+      // 尝试获取更多关于错误的信息
+      if (printError instanceof Error && printError.message.includes('Unknown')) {
+        // 重新验证节点，看是否能找到 Unknown 节点
+        try {
+          const deepErrors = validateNodeTree(tsNode, `${nodeId}`);
+          if (deepErrors.length > 0) {
+            deepErrors.forEach(err => console.error(err));
+          }
+        } catch (validationError) {
+          console.error(`Deep validation error:`, validationError);
+        }
+      }
+      
+      throw printError;
+    }
 
     return success({
       code,

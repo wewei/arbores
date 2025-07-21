@@ -59,6 +59,8 @@ export async function stringifyCommand(
     // Read and parse AST
     const astContent = await readFile(astFilePath);
     let ast;
+    
+    // Parse as JSON AST file
     try {
       ast = JSON.parse(astContent);
     } catch (error) {
@@ -79,10 +81,11 @@ export async function stringifyCommand(
       
       // Combine multiple results into a single output
       const combinedCode = result.map(r => r.code).join('\n\n');
-      console.log(combinedCode);
       
       if (options.output) {
         await outputData(combinedCode, options.output);
+      } else {
+        console.log(combinedCode);
       }
       
     } else if (options.node) {
@@ -92,7 +95,11 @@ export async function stringifyCommand(
         { verbose: options.verbose }
       );
       
-      await outputData(result.code, options.output);
+      if (options.output) {
+        await outputData(result.code, options.output);
+      } else {
+        console.log(result.code);
+      }
       
     } else if (typeof options.version === 'number') {
       if (!ast.versions || options.version >= ast.versions.length) {
@@ -106,7 +113,11 @@ export async function stringifyCommand(
         { verbose: options.verbose }
       );
       
-      await outputData(result.code, options.output);
+      if (options.output) {
+        await outputData(result.code, options.output);
+      } else {
+        console.log(result.code);
+      }
       
     } else {
       // Default: stringify latest version
@@ -116,7 +127,11 @@ export async function stringifyCommand(
         { verbose: options.verbose }
       );
       
-      await outputData(result.code, options.output);
+      if (options.output) {
+        await outputData(result.code, options.output);
+      } else {
+        console.log(result.code);
+      }
     }
 
     if (options.verbose) {

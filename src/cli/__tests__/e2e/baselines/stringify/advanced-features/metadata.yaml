@@ -1,8 +1,8 @@
 description: Execute stringify command
 command:
   - stringify
-  - src/cli/__tests__/fixtures/advanced-features.ts
-exitCode: 1
+  - src\cli\__tests__\fixtures\advanced-features.ast.json
+exitCode: 0
 environment: {}
 created: "2025-07-20T23:07:22.906Z"
-updated: "2025-07-20T23:55:08.317Z"
+updated: "2025-07-21T01:39:02.459Z"

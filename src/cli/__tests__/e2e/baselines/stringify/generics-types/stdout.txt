@@ -1,0 +1,26 @@
+export interface GenericContainer {
+    value: T;
+    metadata?: Record;
+}
+export type Optional = /* Unsupported: MappedType */;
+export type Required = /* Unsupported: MappedType */;
+export function identity(arg: T): T {
+    return arg;
+}
+export class Container {
+    _value;
+    constructor(value: T) {
+        this._value = value;
+    }
+    getValue() {
+        return this._value;
+    }
+    create(value: U) {
+        return /* Unsupported: NewExpression */;
+    }
+}
+export function isString(value: T | string): value is string {
+    return typeof value === "string";
+}
+export type StringOrNumber = T extends string ? string : number;
+

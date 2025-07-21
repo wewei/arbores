@@ -24,7 +24,9 @@ export const createSourceFile: NodeBuilderFn<ts.SourceFile> = (createNode: Creat
         const statement = createNode(sourceFile, stmtNode) as ts.Statement;
         statements.push(statement);
       } catch (error) {
-        console.warn(`Failed to create statement for ${ts.SyntaxKind[stmtNode.kind]}:`, error);
+        console.warn(`Failed to create statement for ${ts.SyntaxKind[stmtNode.kind]} (node ${stmtNode.id}):`, error);
+        // 重新抛出错误以便上层能够看到具体的问题
+        throw error;
       }
     }
     

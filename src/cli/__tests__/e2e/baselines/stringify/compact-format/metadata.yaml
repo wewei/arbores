@@ -1,10 +1,10 @@
 description: Execute stringify command with compact format
 command:
   - stringify
-  - src/cli/__tests__/fixtures/simple.ts
+  - src\cli\__tests__\fixtures\simple.ast.json
   - "--format"
   - compact
-exitCode: 1
+exitCode: 0
 environment: {}
 created: "2025-07-20T23:06:04.284Z"
-updated: "2025-07-20T23:54:51.666Z"
+updated: "2025-07-21T01:39:11.951Z"

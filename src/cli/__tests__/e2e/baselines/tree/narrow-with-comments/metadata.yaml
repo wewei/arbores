@@ -1,10 +1,10 @@
-description: Tree display with comments and narrow terminal (50 columns)
+description: Execute tree command with comments
 command:
   - tree
-  - /tmp/long-comment.ast.json
+  - src/cli/__tests__/fixtures/long-comment.ast.json
   - "--comments"
 exitCode: 0
 environment:
   COLUMNS: "50"
 created: "2025-07-20T22:56:28.088Z"
-updated: "2025-07-20T22:56:28.088Z"
+updated: "2025-07-21T03:08:48.851Z"

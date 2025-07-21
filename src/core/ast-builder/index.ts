@@ -351,14 +351,26 @@ export function createNode<T extends ts.Node = ts.Node>(
     case ts.SyntaxKind.NeverKeyword:
       return createNeverKeyword(createNode)(sourceFile, node) as unknown as T;
     
-    // 未支持的节点类型
+    // 未支持的节点类型，生成占位符
     default:
-      console.warn(`Unsupported node type: ${ts.SyntaxKind[node.kind]} (${node.kind})`);
-      console.warn(`Node details:`, { id: node.id, kind: node.kind, text: node.text, children: node.children });
-      // 创建一个标识符作为占位符，但要确保它有正确的 SyntaxKind
-      const placeholder = ts.factory.createIdentifier(`/* Unsupported: ${ts.SyntaxKind[node.kind]} */`);
-      console.warn(`Created placeholder with kind:`, placeholder.kind, ts.SyntaxKind[placeholder.kind]);
-      return placeholder as unknown as T;
+      const kindName = ts.SyntaxKind[node.kind] || `Unknown(${node.kind})`;
+      
+      // Debug信息（可选择性显示）
+      if (process.env.DEBUG_UNSUPPORTED) {
+        console.warn(`⚠️  Unsupported node type: ${kindName} (${node.kind})`);
+        console.warn(`⚠️  Node details:`, { 
+          id: node.id, 
+          kind: node.kind, 
+          kindName: kindName,
+          text: node.text, 
+          children: node.children,
+          properties: node.properties
+        });
+      }
+      
+      // 生成占位符
+      const placeholderComment = `/* Unsupported: ${kindName} */`;
+      return ts.factory.createIdentifier(placeholderComment) as unknown as T;
   }
 }
 

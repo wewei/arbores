@@ -1,0 +1,23 @@
+﻿interface User {
+    id: number;
+    name: string;
+    email?: string;
+}
+class UserService {
+    users;
+    constructor(initialUsers: User[] = []) {
+        this.users = [...initialUsers];
+    }
+    addUser(user: User) {
+        this.users.push(user);
+    }
+    getUserById(id: number) {
+        return this.users.find(u => u.id === id);
+    }
+    getAllUsers() {
+        return [...this.users];
+    }
+}
+export type {};
+export {};
+

@@ -1,8 +1,8 @@
 description: Execute stringify command
 command:
   - stringify
-  - src/cli/__tests__/fixtures/generics-test.ts
-exitCode: 1
+  - src\cli\__tests__\fixtures\generics-test.ast.json
+exitCode: 0
 environment: {}
 created: "2025-07-20T23:07:13.421Z"
-updated: "2025-07-20T23:55:04.676Z"
+updated: "2025-07-21T01:38:38.443Z"

@@ -1,9 +1,9 @@
-description: Tree display with narrow terminal (40 columns)
+description: Execute tree command
 command:
   - tree
-  - /tmp/function-test.ast.json
+  - src/cli/__tests__/fixtures/function-test.ast.json
 exitCode: 0
 environment:
   COLUMNS: "40"
-created: "2025-07-20T22:55:22.764Z"
-updated: "2025-07-20T22:55:22.764Z"
+created: "2025-07-21T03:08:20.869Z"
+updated: "2025-07-21T03:08:20.869Z"

@@ -1,0 +1,184 @@
+{
+  "file_name": "src\\cli\\__tests__\\fixtures\\long-comment.ts",
+  "versions": [
+    {
+      "created_at": "2025-07-21T03:08:44.185Z",
+      "root_node_id": "17693913dd3c43de"
+    }
+  ],
+  "nodes": {
+    "d58640a0128d853c": {
+      "id": "d58640a0128d853c",
+      "kind": 100,
+      "text": "function",
+      "leadingComments": [
+        {
+          "kind": "SingleLineCommentTrivia",
+          "text": "// This is a very long comment that should demonstrate how the tree command handles terminal width when displaying comments in the AST visualization. It should be truncated when the terminal is narrow."
+        }
+      ]
+    },
+    "22def0eee0147aa3": {
+      "id": "22def0eee0147aa3",
+      "kind": 80,
+      "text": "exampleWithLongComment"
+    },
+    "07ee93ce4048c9ad": {
+      "id": "07ee93ce4048c9ad",
+      "kind": 21,
+      "text": "("
+    },
+    "5efa38399ae7872c": {
+      "id": "5efa38399ae7872c",
+      "kind": 352
+    },
+    "8701a925e96e4ed0": {
+      "id": "8701a925e96e4ed0",
+      "kind": 22,
+      "text": ")"
+    },
+    "4713eebfd36a6d5e": {
+      "id": "4713eebfd36a6d5e",
+      "kind": 19,
+      "text": "{"
+    },
+    "7edb62074756b3b6": {
+      "id": "7edb62074756b3b6",
+      "kind": 107,
+      "text": "return"
+    },
+    "bff696f1cf7573e5": {
+      "id": "bff696f1cf7573e5",
+      "kind": 11,
+      "text": "\"This function has a very long comment at the top\""
+    },
+    "32cd11979c3cbcde": {
+      "id": "32cd11979c3cbcde",
+      "kind": 27,
+      "text": ";"
+    },
+    "bb2cf0555c0aa4e4": {
+      "id": "bb2cf0555c0aa4e4",
+      "kind": 253,
+      "children": [
+        "7edb62074756b3b6",
+        "bff696f1cf7573e5",
+        "32cd11979c3cbcde"
+      ]
+    },
+    "fb791e1c9da338e5": {
+      "id": "fb791e1c9da338e5",
+      "kind": 352,
+      "children": [
+        "bb2cf0555c0aa4e4"
+      ]
+    },
+    "6e0340aa5cf0f794": {
+      "id": "6e0340aa5cf0f794",
+      "kind": 20,
+      "text": "}"
+    },
+    "f788c1bc72cf3906": {
+      "id": "f788c1bc72cf3906",
+      "kind": 241,
+      "children": [
+        "4713eebfd36a6d5e",
+        "fb791e1c9da338e5",
+        "6e0340aa5cf0f794"
+      ]
+    },
+    "476287118dfbf882": {
+      "id": "476287118dfbf882",
+      "kind": 262,
+      "properties": {
+        "name": "exampleWithLongComment",
+        "parameters": 0
+      },
+      "children": [
+        "d58640a0128d853c",
+        "22def0eee0147aa3",
+        "07ee93ce4048c9ad",
+        "5efa38399ae7872c",
+        "8701a925e96e4ed0",
+        "f788c1bc72cf3906"
+      ],
+      "leadingComments": [
+        {
+          "kind": "SingleLineCommentTrivia",
+          "text": "// This is a very long comment that should demonstrate how the tree command handles terminal width when displaying comments in the AST visualization. It should be truncated when the terminal is narrow."
+        }
+      ]
+    },
+    "81d8d5ca18555a48": {
+      "id": "81d8d5ca18555a48",
+      "kind": 95,
+      "text": "export"
+    },
+    "f1b6287ebd7cda3b": {
+      "id": "f1b6287ebd7cda3b",
+      "kind": 281,
+      "children": [
+        "22def0eee0147aa3"
+      ]
+    },
+    "a8e932a9ddba7779": {
+      "id": "a8e932a9ddba7779",
+      "kind": 352,
+      "children": [
+        "f1b6287ebd7cda3b"
+      ]
+    },
+    "6693be15d10f5059": {
+      "id": "6693be15d10f5059",
+      "kind": 279,
+      "children": [
+        "4713eebfd36a6d5e",
+        "a8e932a9ddba7779",
+        "6e0340aa5cf0f794"
+      ]
+    },
+    "613a04029f98796b": {
+      "id": "613a04029f98796b",
+      "kind": 278,
+      "children": [
+        "81d8d5ca18555a48",
+        "6693be15d10f5059",
+        "32cd11979c3cbcde"
+      ]
+    },
+    "7e5d16059a4266ff": {
+      "id": "7e5d16059a4266ff",
+      "kind": 352,
+      "children": [
+        "476287118dfbf882",
+        "613a04029f98796b"
+      ],
+      "leadingComments": [
+        {
+          "kind": "SingleLineCommentTrivia",
+          "text": "// This is a very long comment that should demonstrate how the tree command handles terminal width when displaying comments in the AST visualization. It should be truncated when the terminal is narrow."
+        }
+      ]
+    },
+    "e73ad5df286d28d6": {
+      "id": "e73ad5df286d28d6",
+      "kind": 1,
+      "text": ""
+    },
+    "17693913dd3c43de": {
+      "id": "17693913dd3c43de",
+      "kind": 307,
+      "children": [
+        "7e5d16059a4266ff",
+        "e73ad5df286d28d6"
+      ],
+      "leadingComments": [
+        {
+          "kind": "SingleLineCommentTrivia",
+          "text": "// This is a very long comment that should demonstrate how the tree command handles terminal width when displaying comments in the AST visualization. It should be truncated when the terminal is narrow."
+        }
+      ]
+    }
+  }
+}
+

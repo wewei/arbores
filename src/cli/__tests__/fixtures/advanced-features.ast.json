@@ -1,0 +1,1935 @@
+{
+  "file_name": "src\\cli\\__tests__\\fixtures\\advanced-features.ts",
+  "versions": [
+    {
+      "created_at": "2025-07-21T02:29:46.603Z",
+      "root_node_id": "a9abe6b91a6566a8"
+    }
+  ],
+  "nodes": {
+    "81d8d5ca18555a48": {
+      "id": "81d8d5ca18555a48",
+      "kind": 95,
+      "text": "export",
+      "leadingComments": [
+        {
+          "kind": "SingleLineCommentTrivia",
+          "text": "// Advanced JavaScript/TypeScript features"
+        }
+      ]
+    },
+    "03f2c3b425e60c5f": {
+      "id": "03f2c3b425e60c5f",
+      "kind": 134,
+      "text": "async"
+    },
+    "1e545709a6675399": {
+      "id": "1e545709a6675399",
+      "kind": 352,
+      "children": [
+        "81d8d5ca18555a48",
+        "03f2c3b425e60c5f"
+      ],
+      "leadingComments": [
+        {
+          "kind": "SingleLineCommentTrivia",
+          "text": "// Advanced JavaScript/TypeScript features"
+        }
+      ]
+    },
+    "d58640a0128d853c": {
+      "id": "d58640a0128d853c",
+      "kind": 100,
+      "text": "function"
+    },
+    "c43df6e9ee4a5d7a": {
+      "id": "c43df6e9ee4a5d7a",
+      "kind": 42,
+      "text": "*"
+    },
+    "c44eb9cd36a962d9": {
+      "id": "c44eb9cd36a962d9",
+      "kind": 80,
+      "text": "asyncGenerator"
+    },
+    "07ee93ce4048c9ad": {
+      "id": "07ee93ce4048c9ad",
+      "kind": 21,
+      "text": "("
+    },
+    "5efa38399ae7872c": {
+      "id": "5efa38399ae7872c",
+      "kind": 352
+    },
+    "8701a925e96e4ed0": {
+      "id": "8701a925e96e4ed0",
+      "kind": 22,
+      "text": ")"
+    },
+    "f05c96a2e9e9f31e": {
+      "id": "f05c96a2e9e9f31e",
+      "kind": 59,
+      "text": ":"
+    },
+    "7bb98e8671d37717": {
+      "id": "7bb98e8671d37717",
+      "kind": 80,
+      "text": "AsyncIterableIterator"
+    },
+    "bcf863b4f71a73b2": {
+      "id": "bcf863b4f71a73b2",
+      "kind": 30,
+      "text": "<"
+    },
+    "949a179401778fc1": {
+      "id": "949a179401778fc1",
+      "kind": 150,
+      "text": "number"
+    },
+    "3b76df1980f5621f": {
+      "id": "3b76df1980f5621f",
+      "kind": 352,
+      "children": [
+        "949a179401778fc1"
+      ]
+    },
+    "3021576ac8313fb0": {
+      "id": "3021576ac8313fb0",
+      "kind": 32,
+      "text": ">"
+    },
+    "27a2d1f3c018ff7e": {
+      "id": "27a2d1f3c018ff7e",
+      "kind": 183,
+      "children": [
+        "7bb98e8671d37717",
+        "bcf863b4f71a73b2",
+        "3b76df1980f5621f",
+        "3021576ac8313fb0"
+      ]
+    },
+    "4713eebfd36a6d5e": {
+      "id": "4713eebfd36a6d5e",
+      "kind": 19,
+      "text": "{"
+    },
+    "0f02dbab4c250384": {
+      "id": "0f02dbab4c250384",
+      "kind": 99,
+      "text": "for"
+    },
+    "6fe8bb617e5a1ac9": {
+      "id": "6fe8bb617e5a1ac9",
+      "kind": 121,
+      "text": "let"
+    },
+    "5626015738e90c46": {
+      "id": "5626015738e90c46",
+      "kind": 80,
+      "text": "i"
+    },
+    "ae59a5457d3f2a59": {
+      "id": "ae59a5457d3f2a59",
+      "kind": 64,
+      "text": "="
+    },
+    "36f93c643356b6eb": {
+      "id": "36f93c643356b6eb",
+      "kind": 9,
+      "text": "0"
+    },
+    "4e7619ec54a4f311": {
+      "id": "4e7619ec54a4f311",
+      "kind": 260,
+      "properties": {
+        "name": "i",
+        "hasInitializer": true
+      },
+      "children": [
+        "5626015738e90c46",
+        "ae59a5457d3f2a59",
+        "36f93c643356b6eb"
+      ]
+    },
+    "758583c85c3133c4": {
+      "id": "758583c85c3133c4",
+      "kind": 352,
+      "children": [
+        "4e7619ec54a4f311"
+      ]
+    },
+    "92ae643f74ea09ac": {
+      "id": "92ae643f74ea09ac",
+      "kind": 261,
+      "children": [
+        "6fe8bb617e5a1ac9",
+        "758583c85c3133c4"
+      ]
+    },
+    "32cd11979c3cbcde": {
+      "id": "32cd11979c3cbcde",
+      "kind": 27,
+      "text": ";"
+    },
+    "5caa887e60333e49": {
+      "id": "5caa887e60333e49",
+      "kind": 9,
+      "text": "5"
+    },
+    "8d9555655d7ba541": {
+      "id": "8d9555655d7ba541",
+      "kind": 226,
+      "children": [
+        "5626015738e90c46",
+        "bcf863b4f71a73b2",
+        "5caa887e60333e49"
+      ]
+    },
+    "f7148803ddff4f08": {
+      "id": "f7148803ddff4f08",
+      "kind": 46,
+      "text": "++"
+    },
+    "ad1746b44bc254e1": {
+      "id": "ad1746b44bc254e1",
+      "kind": 225,
+      "children": [
+        "5626015738e90c46",
+        "f7148803ddff4f08"
+      ]
+    },
+    "05c29eb3033c0e02": {
+      "id": "05c29eb3033c0e02",
+      "kind": 135,
+      "text": "await"
+    },
+    "e358c89d8e881138": {
+      "id": "e358c89d8e881138",
+      "kind": 105,
+      "text": "new"
+    },
+    "8d3123f9be62a1da": {
+      "id": "8d3123f9be62a1da",
+      "kind": 80,
+      "text": "Promise"
+    },
+    "eebeed58fdadac3c": {
+      "id": "eebeed58fdadac3c",
+      "kind": 80,
+      "text": "resolve"
+    },
+    "936e46cc04cc716b": {
+      "id": "936e46cc04cc716b",
+      "kind": 169,
+      "children": [
+        "eebeed58fdadac3c"
+      ]
+    },
+    "892e4d044810019b": {
+      "id": "892e4d044810019b",
+      "kind": 352,
+      "children": [
+        "936e46cc04cc716b"
+      ]
+    },
+    "1c520f9fb8606d5f": {
+      "id": "1c520f9fb8606d5f",
+      "kind": 39,
+      "text": "=>"
+    },
+    "0f2534da2ca66f26": {
+      "id": "0f2534da2ca66f26",
+      "kind": 80,
+      "text": "setTimeout"
+    },
+    "7b240b050c264103": {
+      "id": "7b240b050c264103",
+      "kind": 28,
+      "text": ","
+    },
+    "8214ce8679d66587": {
+      "id": "8214ce8679d66587",
+      "kind": 9,
+      "text": "100"
+    },
+    "4b6d01d91a403db0": {
+      "id": "4b6d01d91a403db0",
+      "kind": 352,
+      "children": [
+        "eebeed58fdadac3c",
+        "7b240b050c264103",
+        "8214ce8679d66587"
+      ]
+    },
+    "be0ae1babc904e59": {
+      "id": "be0ae1babc904e59",
+      "kind": 213,
+      "children": [
+        "0f2534da2ca66f26",
+        "07ee93ce4048c9ad",
+        "4b6d01d91a403db0",
+        "8701a925e96e4ed0"
+      ]
+    },
+    "c4cbbed2646e25f1": {
+      "id": "c4cbbed2646e25f1",
+      "kind": 219,
+      "children": [
+        "892e4d044810019b",
+        "1c520f9fb8606d5f",
+        "be0ae1babc904e59"
+      ]
+    },
+    "8a0c34f938413d96": {
+      "id": "8a0c34f938413d96",
+      "kind": 352,
+      "children": [
+        "c4cbbed2646e25f1"
+      ]
+    },
+    "dff5b2e6021a2b3b": {
+      "id": "dff5b2e6021a2b3b",
+      "kind": 214,
+      "children": [
+        "e358c89d8e881138",
+        "8d3123f9be62a1da",
+        "07ee93ce4048c9ad",
+        "8a0c34f938413d96",
+        "8701a925e96e4ed0"
+      ]
+    },
+    "71fbb828359f206d": {
+      "id": "71fbb828359f206d",
+      "kind": 223,
+      "children": [
+        "05c29eb3033c0e02",
+        "dff5b2e6021a2b3b"
+      ]
+    },
+    "6e24817168f73489": {
+      "id": "6e24817168f73489",
+      "kind": 244,
+      "children": [
+        "71fbb828359f206d",
+        "32cd11979c3cbcde"
+      ]
+    },
+    "a8e80e60ff00c186": {
+      "id": "a8e80e60ff00c186",
+      "kind": 127,
+      "text": "yield"
+    },
+    "a6ddcb31b6c624d5": {
+      "id": "a6ddcb31b6c624d5",
+      "kind": 229,
+      "children": [
+        "a8e80e60ff00c186",
+        "5626015738e90c46"
+      ]
+    },
+    "2f1b93fdd1f27cf7": {
+      "id": "2f1b93fdd1f27cf7",
+      "kind": 244,
+      "children": [
+        "a6ddcb31b6c624d5",
+        "32cd11979c3cbcde"
+      ]
+    },
+    "c8a8879397070251": {
+      "id": "c8a8879397070251",
+      "kind": 352,
+      "children": [
+        "6e24817168f73489",
+        "2f1b93fdd1f27cf7"
+      ]
+    },
+    "6e0340aa5cf0f794": {
+      "id": "6e0340aa5cf0f794",
+      "kind": 20,
+      "text": "}"
+    },
+    "7dec7aa5678af5da": {
+      "id": "7dec7aa5678af5da",
+      "kind": 241,
+      "children": [
+        "4713eebfd36a6d5e",
+        "c8a8879397070251",
+        "6e0340aa5cf0f794"
+      ]
+    },
+    "d19a2abd31221d9e": {
+      "id": "d19a2abd31221d9e",
+      "kind": 248,
+      "children": [
+        "0f02dbab4c250384",
+        "07ee93ce4048c9ad",
+        "92ae643f74ea09ac",
+        "32cd11979c3cbcde",
+        "8d9555655d7ba541",
+        "32cd11979c3cbcde",
+        "ad1746b44bc254e1",
+        "8701a925e96e4ed0",
+        "7dec7aa5678af5da"
+      ]
+    },
+    "f23b68f5d93d63a1": {
+      "id": "f23b68f5d93d63a1",
+      "kind": 352,
+      "children": [
+        "d19a2abd31221d9e"
+      ]
+    },
+    "58fec598d8e852c8": {
+      "id": "58fec598d8e852c8",
+      "kind": 241,
+      "children": [
+        "4713eebfd36a6d5e",
+        "f23b68f5d93d63a1",
+        "6e0340aa5cf0f794"
+      ]
+    },
+    "2e87fee159cd6eba": {
+      "id": "2e87fee159cd6eba",
+      "kind": 262,
+      "properties": {
+        "name": "asyncGenerator",
+        "parameters": 0,
+        "isAsync": true
+      },
+      "children": [
+        "1e545709a6675399",
+        "d58640a0128d853c",
+        "c43df6e9ee4a5d7a",
+        "c44eb9cd36a962d9",
+        "07ee93ce4048c9ad",
+        "5efa38399ae7872c",
+        "8701a925e96e4ed0",
+        "f05c96a2e9e9f31e",
+        "27a2d1f3c018ff7e",
+        "58fec598d8e852c8"
+      ],
+      "leadingComments": [
+        {
+          "kind": "SingleLineCommentTrivia",
+          "text": "// Advanced JavaScript/TypeScript features"
+        }
+      ]
+    },
+    "5ee9eea8efce01ca": {
+      "id": "5ee9eea8efce01ca",
+      "kind": 352,
+      "children": [
+        "81d8d5ca18555a48"
+      ]
+    },
+    "617d70a2fe95ecaa": {
+      "id": "617d70a2fe95ecaa",
+      "kind": 87,
+      "text": "const"
+    },
+    "be000e65fbc42197": {
+      "id": "be000e65fbc42197",
+      "kind": 80,
+      "text": "asyncArrowFunction"
+    },
+    "19f9a5ee97ce8919": {
+      "id": "19f9a5ee97ce8919",
+      "kind": 352,
+      "children": [
+        "03f2c3b425e60c5f"
+      ]
+    },
+    "e11c02d666c59a1c": {
+      "id": "e11c02d666c59a1c",
+      "kind": 80,
+      "text": "data"
+    },
+    "c6808388d5231ffe": {
+      "id": "c6808388d5231ffe",
+      "kind": 159,
+      "text": "unknown"
+    },
+    "5d212bc1126d6f4f": {
+      "id": "5d212bc1126d6f4f",
+      "kind": 23,
+      "text": "["
+    },
+    "b56fa109a286f125": {
+      "id": "b56fa109a286f125",
+      "kind": 24,
+      "text": "]"
+    },
+    "6cc6df3c30684c6b": {
+      "id": "6cc6df3c30684c6b",
+      "kind": 188,
+      "children": [
+        "c6808388d5231ffe",
+        "5d212bc1126d6f4f",
+        "b56fa109a286f125"
+      ]
+    },
+    "d90575757639776d": {
+      "id": "d90575757639776d",
+      "kind": 169,
+      "children": [
+        "e11c02d666c59a1c",
+        "f05c96a2e9e9f31e",
+        "6cc6df3c30684c6b"
+      ]
+    },
+    "08cffd3a6393b86a": {
+      "id": "08cffd3a6393b86a",
+      "kind": 352,
+      "children": [
+        "d90575757639776d"
+      ]
+    },
+    "b39318c43f936282": {
+      "id": "b39318c43f936282",
+      "kind": 154,
+      "text": "string"
+    },
+    "5c40759b514eab81": {
+      "id": "5c40759b514eab81",
+      "kind": 188,
+      "children": [
+        "b39318c43f936282",
+        "5d212bc1126d6f4f",
+        "b56fa109a286f125"
+      ]
+    },
+    "67700a79c587c909": {
+      "id": "67700a79c587c909",
+      "kind": 352,
+      "children": [
+        "5c40759b514eab81"
+      ]
+    },
+    "9cfd3cf91ede1ec7": {
+      "id": "9cfd3cf91ede1ec7",
+      "kind": 183,
+      "children": [
+        "8d3123f9be62a1da",
+        "bcf863b4f71a73b2",
+        "67700a79c587c909",
+        "3021576ac8313fb0"
+      ]
+    },
+    "7edb62074756b3b6": {
+      "id": "7edb62074756b3b6",
+      "kind": 107,
+      "text": "return"
+    },
+    "2f2039fdff4af4a2": {
+      "id": "2f2039fdff4af4a2",
+      "kind": 25,
+      "text": "."
+    },
+    "c152ba1ed811c96d": {
+      "id": "c152ba1ed811c96d",
+      "kind": 80,
+      "text": "map"
+    },
+    "6852f5e075f4d589": {
+      "id": "6852f5e075f4d589",
+      "kind": 211,
+      "children": [
+        "e11c02d666c59a1c",
+        "2f2039fdff4af4a2",
+        "c152ba1ed811c96d"
+      ]
+    },
+    "20c86ee8d055fe16": {
+      "id": "20c86ee8d055fe16",
+      "kind": 80,
+      "text": "item"
+    },
+    "9d2ccae91a404b42": {
+      "id": "9d2ccae91a404b42",
+      "kind": 169,
+      "children": [
+        "20c86ee8d055fe16"
+      ]
+    },
+    "b00680991d66f6a8": {
+      "id": "b00680991d66f6a8",
+      "kind": 352,
+      "children": [
+        "9d2ccae91a404b42"
+      ]
+    },
+    "ce18b541f91be809": {
+      "id": "ce18b541f91be809",
+      "kind": 80,
+      "text": "String"
+    },
+    "cf57266a1664c0b5": {
+      "id": "cf57266a1664c0b5",
+      "kind": 352,
+      "children": [
+        "20c86ee8d055fe16"
+      ]
+    },
+    "027c382f65d8d0a5": {
+      "id": "027c382f65d8d0a5",
+      "kind": 213,
+      "children": [
+        "ce18b541f91be809",
+        "07ee93ce4048c9ad",
+        "cf57266a1664c0b5",
+        "8701a925e96e4ed0"
+      ]
+    },
+    "b5d6d4afc01ba6d7": {
+      "id": "b5d6d4afc01ba6d7",
+      "kind": 219,
+      "children": [
+        "b00680991d66f6a8",
+        "1c520f9fb8606d5f",
+        "027c382f65d8d0a5"
+      ]
+    },
+    "fd5220af18d9c68a": {
+      "id": "fd5220af18d9c68a",
+      "kind": 352,
+      "children": [
+        "b5d6d4afc01ba6d7"
+      ]
+    },
+    "a01df99a0441bcf8": {
+      "id": "a01df99a0441bcf8",
+      "kind": 213,
+      "children": [
+        "6852f5e075f4d589",
+        "07ee93ce4048c9ad",
+        "fd5220af18d9c68a",
+        "8701a925e96e4ed0"
+      ]
+    },
+    "1d0bfa052a2006dd": {
+      "id": "1d0bfa052a2006dd",
+      "kind": 253,
+      "children": [
+        "7edb62074756b3b6",
+        "a01df99a0441bcf8",
+        "32cd11979c3cbcde"
+      ]
+    },
+    "d258bfff68fc615a": {
+      "id": "d258bfff68fc615a",
+      "kind": 352,
+      "children": [
+        "1d0bfa052a2006dd"
+      ]
+    },
+    "2fe22975c396a015": {
+      "id": "2fe22975c396a015",
+      "kind": 241,
+      "children": [
+        "4713eebfd36a6d5e",
+        "d258bfff68fc615a",
+        "6e0340aa5cf0f794"
+      ]
+    },
+    "8138a373ea55e199": {
+      "id": "8138a373ea55e199",
+      "kind": 219,
+      "children": [
+        "19f9a5ee97ce8919",
+        "07ee93ce4048c9ad",
+        "08cffd3a6393b86a",
+        "8701a925e96e4ed0",
+        "f05c96a2e9e9f31e",
+        "9cfd3cf91ede1ec7",
+        "1c520f9fb8606d5f",
+        "2fe22975c396a015"
+      ]
+    },
+    "00a7ede3f19f403d": {
+      "id": "00a7ede3f19f403d",
+      "kind": 260,
+      "properties": {
+        "name": "asyncArrowFunction",
+        "hasInitializer": true
+      },
+      "children": [
+        "be000e65fbc42197",
+        "ae59a5457d3f2a59",
+        "8138a373ea55e199"
+      ]
+    },
+    "9112e77a517bb3b1": {
+      "id": "9112e77a517bb3b1",
+      "kind": 352,
+      "children": [
+        "00a7ede3f19f403d"
+      ]
+    },
+    "9c4b5e346d3235e1": {
+      "id": "9c4b5e346d3235e1",
+      "kind": 261,
+      "children": [
+        "617d70a2fe95ecaa",
+        "9112e77a517bb3b1"
+      ]
+    },
+    "a4a974dbe801401f": {
+      "id": "a4a974dbe801401f",
+      "kind": 243,
+      "children": [
+        "5ee9eea8efce01ca",
+        "9c4b5e346d3235e1",
+        "32cd11979c3cbcde"
+      ]
+    },
+    "00b8449cd1910c3f": {
+      "id": "00b8449cd1910c3f",
+      "kind": 80,
+      "text": "processData"
+    },
+    "ca1117ceb5846350": {
+      "id": "ca1117ceb5846350",
+      "kind": 80,
+      "text": "name"
+    },
+    "2ba04ed3ee401f33": {
+      "id": "2ba04ed3ee401f33",
+      "kind": 208,
+      "children": [
+        "ca1117ceb5846350"
+      ]
+    },
+    "8ac90d093b99685d": {
+      "id": "8ac90d093b99685d",
+      "kind": 80,
+      "text": "age"
+    },
+    "f468cddbc861639f": {
+      "id": "f468cddbc861639f",
+      "kind": 208,
+      "children": [
+        "8ac90d093b99685d"
+      ]
+    },
+    "6597784794e8f9c7": {
+      "id": "6597784794e8f9c7",
+      "kind": 26,
+      "text": "..."
+    },
+    "c119b8cc7558cfee": {
+      "id": "c119b8cc7558cfee",
+      "kind": 80,
+      "text": "rest"
+    },
+    "9f165659955eb798": {
+      "id": "9f165659955eb798",
+      "kind": 208,
+      "children": [
+        "6597784794e8f9c7",
+        "c119b8cc7558cfee"
+      ]
+    },
+    "c2077de968f7d6f0": {
+      "id": "c2077de968f7d6f0",
+      "kind": 352,
+      "children": [
+        "2ba04ed3ee401f33",
+        "7b240b050c264103",
+        "f468cddbc861639f",
+        "7b240b050c264103",
+        "9f165659955eb798"
+      ]
+    },
+    "302e3faa97e76671": {
+      "id": "302e3faa97e76671",
+      "kind": 206,
+      "children": [
+        "4713eebfd36a6d5e",
+        "c2077de968f7d6f0",
+        "6e0340aa5cf0f794"
+      ]
+    },
+    "aa5da43e014cb6b1": {
+      "id": "aa5da43e014cb6b1",
+      "kind": 171,
+      "children": [
+        "ca1117ceb5846350",
+        "f05c96a2e9e9f31e",
+        "b39318c43f936282",
+        "32cd11979c3cbcde"
+      ]
+    },
+    "cf1868952e8eb4ef": {
+      "id": "cf1868952e8eb4ef",
+      "kind": 171,
+      "children": [
+        "8ac90d093b99685d",
+        "f05c96a2e9e9f31e",
+        "949a179401778fc1",
+        "32cd11979c3cbcde"
+      ]
+    },
+    "bd0185db9288ca69": {
+      "id": "bd0185db9288ca69",
+      "kind": 80,
+      "text": "key"
+    },
+    "38be21ce47944533": {
+      "id": "38be21ce47944533",
+      "kind": 169,
+      "children": [
+        "bd0185db9288ca69",
+        "f05c96a2e9e9f31e",
+        "b39318c43f936282"
+      ]
+    },
+    "f908d75708f28052": {
+      "id": "f908d75708f28052",
+      "kind": 352,
+      "children": [
+        "38be21ce47944533"
+      ]
+    },
+    "ca72a6069aa6d274": {
+      "id": "ca72a6069aa6d274",
+      "kind": 181,
+      "children": [
+        "5d212bc1126d6f4f",
+        "f908d75708f28052",
+        "b56fa109a286f125",
+        "f05c96a2e9e9f31e",
+        "c6808388d5231ffe"
+      ]
+    },
+    "5bb4745a43abf001": {
+      "id": "5bb4745a43abf001",
+      "kind": 352,
+      "children": [
+        "aa5da43e014cb6b1",
+        "cf1868952e8eb4ef",
+        "ca72a6069aa6d274"
+      ]
+    },
+    "04bba52eeaf5814b": {
+      "id": "04bba52eeaf5814b",
+      "kind": 187,
+      "children": [
+        "4713eebfd36a6d5e",
+        "5bb4745a43abf001",
+        "6e0340aa5cf0f794"
+      ]
+    },
+    "c69b1452fce250a1": {
+      "id": "c69b1452fce250a1",
+      "kind": 169,
+      "children": [
+        "302e3faa97e76671",
+        "f05c96a2e9e9f31e",
+        "04bba52eeaf5814b"
+      ]
+    },
+    "53963e192904719e": {
+      "id": "53963e192904719e",
+      "kind": 352,
+      "children": [
+        "c69b1452fce250a1"
+      ]
+    },
+    "92a6a61e3b4570f7": {
+      "id": "92a6a61e3b4570f7",
+      "kind": 304,
+      "children": [
+        "ca1117ceb5846350"
+      ]
+    },
+    "ea8fe6466f6b706e": {
+      "id": "ea8fe6466f6b706e",
+      "kind": 304,
+      "children": [
+        "8ac90d093b99685d"
+      ]
+    },
+    "2869b4d9ec76583b": {
+      "id": "2869b4d9ec76583b",
+      "kind": 80,
+      "text": "metadata"
+    },
+    "82e142c9aed3ab28": {
+      "id": "82e142c9aed3ab28",
+      "kind": 303,
+      "children": [
+        "2869b4d9ec76583b",
+        "f05c96a2e9e9f31e",
+        "c119b8cc7558cfee"
+      ]
+    },
+    "f10be4e56c5125e0": {
+      "id": "f10be4e56c5125e0",
+      "kind": 352,
+      "children": [
+        "92a6a61e3b4570f7",
+        "7b240b050c264103",
+        "ea8fe6466f6b706e",
+        "7b240b050c264103",
+        "82e142c9aed3ab28"
+      ]
+    },
+    "a69614eece6d9e27": {
+      "id": "a69614eece6d9e27",
+      "kind": 210,
+      "children": [
+        "4713eebfd36a6d5e",
+        "f10be4e56c5125e0",
+        "6e0340aa5cf0f794"
+      ]
+    },
+    "feb1cbeab43155ad": {
+      "id": "feb1cbeab43155ad",
+      "kind": 253,
+      "children": [
+        "7edb62074756b3b6",
+        "a69614eece6d9e27",
+        "32cd11979c3cbcde"
+      ]
+    },
+    "4ed7978aee5f2ec0": {
+      "id": "4ed7978aee5f2ec0",
+      "kind": 352,
+      "children": [
+        "feb1cbeab43155ad"
+      ]
+    },
+    "0d66833ddd678e01": {
+      "id": "0d66833ddd678e01",
+      "kind": 241,
+      "children": [
+        "4713eebfd36a6d5e",
+        "4ed7978aee5f2ec0",
+        "6e0340aa5cf0f794"
+      ]
+    },
+    "d16676900787dc31": {
+      "id": "d16676900787dc31",
+      "kind": 262,
+      "properties": {
+        "name": "processData",
+        "parameters": 1,
+        "isAsync": false
+      },
+      "children": [
+        "5ee9eea8efce01ca",
+        "d58640a0128d853c",
+        "00b8449cd1910c3f",
+        "07ee93ce4048c9ad",
+        "53963e192904719e",
+        "8701a925e96e4ed0",
+        "0d66833ddd678e01"
+      ],
+      "leadingComments": [
+        {
+          "kind": "SingleLineCommentTrivia",
+          "text": "// Destructuring and spread operators"
+        }
+      ]
+    },
+    "0d56ed70481c07db": {
+      "id": "0d56ed70481c07db",
+      "kind": 80,
+      "text": "first"
+    },
+    "c5c5e8c6b38141d6": {
+      "id": "c5c5e8c6b38141d6",
+      "kind": 208,
+      "children": [
+        "0d56ed70481c07db"
+      ]
+    },
+    "f9a2e8b28bb1fc6c": {
+      "id": "f9a2e8b28bb1fc6c",
+      "kind": 80,
+      "text": "second"
+    },
+    "347c0f49c6f3e669": {
+      "id": "347c0f49c6f3e669",
+      "kind": 208,
+      "children": [
+        "f9a2e8b28bb1fc6c"
+      ]
+    },
+    "23713f3782ceaaa4": {
+      "id": "23713f3782ceaaa4",
+      "kind": 80,
+      "text": "remaining"
+    },
+    "09edf1e536c41daf": {
+      "id": "09edf1e536c41daf",
+      "kind": 208,
+      "children": [
+        "6597784794e8f9c7",
+        "23713f3782ceaaa4"
+      ]
+    },
+    "b4506bf096f61f7b": {
+      "id": "b4506bf096f61f7b",
+      "kind": 352,
+      "children": [
+        "c5c5e8c6b38141d6",
+        "7b240b050c264103",
+        "347c0f49c6f3e669",
+        "7b240b050c264103",
+        "09edf1e536c41daf"
+      ]
+    },
+    "5ec8c2ffc0b1b7fe": {
+      "id": "5ec8c2ffc0b1b7fe",
+      "kind": 207,
+      "children": [
+        "5d212bc1126d6f4f",
+        "b4506bf096f61f7b",
+        "b56fa109a286f125"
+      ]
+    },
+    "891edcd241512811": {
+      "id": "891edcd241512811",
+      "kind": 9,
+      "text": "1"
+    },
+    "3118c6a0a7d710ed": {
+      "id": "3118c6a0a7d710ed",
+      "kind": 9,
+      "text": "2"
+    },
+    "cba6f16bbf2b277c": {
+      "id": "cba6f16bbf2b277c",
+      "kind": 9,
+      "text": "3"
+    },
+    "01dfaa1b257445db": {
+      "id": "01dfaa1b257445db",
+      "kind": 9,
+      "text": "4"
+    },
+    "0660d8be55b30c9b": {
+      "id": "0660d8be55b30c9b",
+      "kind": 352,
+      "children": [
+        "891edcd241512811",
+        "7b240b050c264103",
+        "3118c6a0a7d710ed",
+        "7b240b050c264103",
+        "cba6f16bbf2b277c",
+        "7b240b050c264103",
+        "01dfaa1b257445db",
+        "7b240b050c264103",
+        "5caa887e60333e49"
+      ]
+    },
+    "f5dc683cbbb35e4f": {
+      "id": "f5dc683cbbb35e4f",
+      "kind": 209,
+      "children": [
+        "5d212bc1126d6f4f",
+        "0660d8be55b30c9b",
+        "b56fa109a286f125"
+      ]
+    },
+    "9ec1468a336f1d92": {
+      "id": "9ec1468a336f1d92",
+      "kind": 260,
+      "properties": {
+        "name": "[first, second, ...remaining]",
+        "hasInitializer": true
+      },
+      "children": [
+        "5ec8c2ffc0b1b7fe",
+        "ae59a5457d3f2a59",
+        "f5dc683cbbb35e4f"
+      ]
+    },
+    "33a671bb2c112969": {
+      "id": "33a671bb2c112969",
+      "kind": 352,
+      "children": [
+        "9ec1468a336f1d92"
+      ]
+    },
+    "5e6c9430b0a434e7": {
+      "id": "5e6c9430b0a434e7",
+      "kind": 261,
+      "children": [
+        "617d70a2fe95ecaa",
+        "33a671bb2c112969"
+      ]
+    },
+    "e264e5a0560d7a14": {
+      "id": "e264e5a0560d7a14",
+      "kind": 243,
+      "children": [
+        "5ee9eea8efce01ca",
+        "5e6c9430b0a434e7",
+        "32cd11979c3cbcde"
+      ]
+    },
+    "76b02ec6ef6745d2": {
+      "id": "76b02ec6ef6745d2",
+      "kind": 156,
+      "text": "type"
+    },
+    "b0683641a75b30ca": {
+      "id": "b0683641a75b30ca",
+      "kind": 80,
+      "text": "EventName"
+    },
+    "672588e094755141": {
+      "id": "672588e094755141",
+      "kind": 16,
+      "text": "`on${"
+    },
+    "21d1739788282365": {
+      "id": "21d1739788282365",
+      "kind": 80,
+      "text": "Capitalize"
+    },
+    "a7c826e583763ff8": {
+      "id": "a7c826e583763ff8",
+      "kind": 352,
+      "children": [
+        "b39318c43f936282"
+      ]
+    },
+    "8a5db8942f535643": {
+      "id": "8a5db8942f535643",
+      "kind": 183,
+      "children": [
+        "21d1739788282365",
+        "bcf863b4f71a73b2",
+        "a7c826e583763ff8",
+        "3021576ac8313fb0"
+      ]
+    },
+    "e9ae698faf96923b": {
+      "id": "e9ae698faf96923b",
+      "kind": 18,
+      "text": "}`"
+    },
+    "df06770424a453a8": {
+      "id": "df06770424a453a8",
+      "kind": 204,
+      "children": [
+        "8a5db8942f535643",
+        "e9ae698faf96923b"
+      ]
+    },
+    "07b3f573416427ff": {
+      "id": "07b3f573416427ff",
+      "kind": 352,
+      "children": [
+        "df06770424a453a8"
+      ]
+    },
+    "4198ca7f13e4227d": {
+      "id": "4198ca7f13e4227d",
+      "kind": 203,
+      "children": [
+        "672588e094755141",
+        "07b3f573416427ff"
+      ]
+    },
+    "9329ca6a9920e55f": {
+      "id": "9329ca6a9920e55f",
+      "kind": 265,
+      "children": [
+        "5ee9eea8efce01ca",
+        "76b02ec6ef6745d2",
+        "b0683641a75b30ca",
+        "ae59a5457d3f2a59",
+        "4198ca7f13e4227d",
+        "32cd11979c3cbcde"
+      ],
+      "leadingComments": [
+        {
+          "kind": "SingleLineCommentTrivia",
+          "text": "// Template literal types and advanced patterns"
+        }
+      ]
+    },
+    "11438a797ebe8ed8": {
+      "id": "11438a797ebe8ed8",
+      "kind": 80,
+      "text": "HTTPMethod"
+    },
+    "265145ed584b83f1": {
+      "id": "265145ed584b83f1",
+      "kind": 11,
+      "text": "\"GET\""
+    },
+    "8aacbd3f993f0365": {
+      "id": "8aacbd3f993f0365",
+      "kind": 201,
+      "children": [
+        "265145ed584b83f1"
+      ]
+    },
+    "0f509bb269118b7c": {
+      "id": "0f509bb269118b7c",
+      "kind": 52,
+      "text": "|"
+    },
+    "760d3b22f6f7b63e": {
+      "id": "760d3b22f6f7b63e",
+      "kind": 11,
+      "text": "\"POST\""
+    },
+    "c9ab49665608674d": {
+      "id": "c9ab49665608674d",
+      "kind": 201,
+      "children": [
+        "760d3b22f6f7b63e"
+      ]
+    },
+    "12521bd8901e69fe": {
+      "id": "12521bd8901e69fe",
+      "kind": 11,
+      "text": "\"PUT\""
+    },
+    "fafa40c459066e06": {
+      "id": "fafa40c459066e06",
+      "kind": 201,
+      "children": [
+        "12521bd8901e69fe"
+      ]
+    },
+    "7325f019ed3dfb80": {
+      "id": "7325f019ed3dfb80",
+      "kind": 11,
+      "text": "\"DELETE\""
+    },
+    "a9ba13d68c7bb177": {
+      "id": "a9ba13d68c7bb177",
+      "kind": 201,
+      "children": [
+        "7325f019ed3dfb80"
+      ]
+    },
+    "0ff882a9ae77f19f": {
+      "id": "0ff882a9ae77f19f",
+      "kind": 352,
+      "children": [
+        "8aacbd3f993f0365",
+        "0f509bb269118b7c",
+        "c9ab49665608674d",
+        "0f509bb269118b7c",
+        "fafa40c459066e06",
+        "0f509bb269118b7c",
+        "a9ba13d68c7bb177"
+      ]
+    },
+    "1bcb2c745d29b676": {
+      "id": "1bcb2c745d29b676",
+      "kind": 192,
+      "children": [
+        "0ff882a9ae77f19f"
+      ]
+    },
+    "032146b993ffecce": {
+      "id": "032146b993ffecce",
+      "kind": 265,
+      "children": [
+        "5ee9eea8efce01ca",
+        "76b02ec6ef6745d2",
+        "11438a797ebe8ed8",
+        "ae59a5457d3f2a59",
+        "1bcb2c745d29b676",
+        "32cd11979c3cbcde"
+      ]
+    },
+    "122a84a2ad15fe17": {
+      "id": "122a84a2ad15fe17",
+      "kind": 86,
+      "text": "class"
+    },
+    "10f1b94d02b567d9": {
+      "id": "10f1b94d02b567d9",
+      "kind": 80,
+      "text": "EventEmitter"
+    },
+    "04a9a16e9e06c462": {
+      "id": "04a9a16e9e06c462",
+      "kind": 80,
+      "text": "T"
+    },
+    "559760382ff59f37": {
+      "id": "559760382ff59f37",
+      "kind": 96,
+      "text": "extends"
+    },
+    "e08e259ef71d80f8": {
+      "id": "e08e259ef71d80f8",
+      "kind": 80,
+      "text": "Record"
+    },
+    "f17b0ed9525543a6": {
+      "id": "f17b0ed9525543a6",
+      "kind": 352,
+      "children": [
+        "b39318c43f936282",
+        "7b240b050c264103",
+        "6cc6df3c30684c6b"
+      ]
+    },
+    "15c35cfee4313937": {
+      "id": "15c35cfee4313937",
+      "kind": 183,
+      "children": [
+        "e08e259ef71d80f8",
+        "bcf863b4f71a73b2",
+        "f17b0ed9525543a6",
+        "3021576ac8313fb0"
+      ]
+    },
+    "9bf52ba03680df13": {
+      "id": "9bf52ba03680df13",
+      "kind": 168,
+      "children": [
+        "04a9a16e9e06c462",
+        "559760382ff59f37",
+        "15c35cfee4313937"
+      ]
+    },
+    "dc2a8a20ff204e8f": {
+      "id": "dc2a8a20ff204e8f",
+      "kind": 352,
+      "children": [
+        "9bf52ba03680df13"
+      ]
+    },
+    "58e57b17ef56c6be": {
+      "id": "58e57b17ef56c6be",
+      "kind": 123,
+      "text": "private"
+    },
+    "a24f82818a4df9aa": {
+      "id": "a24f82818a4df9aa",
+      "kind": 352,
+      "children": [
+        "58e57b17ef56c6be"
+      ]
+    },
+    "e027e1b23e598ac6": {
+      "id": "e027e1b23e598ac6",
+      "kind": 80,
+      "text": "listeners"
+    },
+    "6e3ba8e0dd4984eb": {
+      "id": "6e3ba8e0dd4984eb",
+      "kind": 80,
+      "text": "Partial"
+    },
+    "bae13782cc2c07f9": {
+      "id": "bae13782cc2c07f9",
+      "kind": 80,
+      "text": "K"
+    },
+    "022e1a0f6a181089": {
+      "id": "022e1a0f6a181089",
+      "kind": 103,
+      "text": "in"
+    },
+    "4d7659f788ec5fcb": {
+      "id": "4d7659f788ec5fcb",
+      "kind": 143,
+      "text": "keyof"
+    },
+    "001edbb21a787c80": {
+      "id": "001edbb21a787c80",
+      "kind": 183,
+      "children": [
+        "04a9a16e9e06c462"
+      ]
+    },
+    "fa538b78cc6a11d8": {
+      "id": "fa538b78cc6a11d8",
+      "kind": 198,
+      "children": [
+        "4d7659f788ec5fcb",
+        "001edbb21a787c80"
+      ]
+    },
+    "7ec7c958a554f5cb": {
+      "id": "7ec7c958a554f5cb",
+      "kind": 168,
+      "children": [
+        "bae13782cc2c07f9",
+        "022e1a0f6a181089",
+        "fa538b78cc6a11d8"
+      ]
+    },
+    "0554b2bf74c53594": {
+      "id": "0554b2bf74c53594",
+      "kind": 80,
+      "text": "Array"
+    },
+    "3068403b396f7716": {
+      "id": "3068403b396f7716",
+      "kind": 80,
+      "text": "args"
+    },
+    "1ae622f87cada17b": {
+      "id": "1ae622f87cada17b",
+      "kind": 183,
+      "children": [
+        "bae13782cc2c07f9"
+      ]
+    },
+    "e623ce6e53f9de8c": {
+      "id": "e623ce6e53f9de8c",
+      "kind": 199,
+      "children": [
+        "001edbb21a787c80",
+        "5d212bc1126d6f4f",
+        "1ae622f87cada17b",
+        "b56fa109a286f125"
+      ]
+    },
+    "cb4abbeef20409fa": {
+      "id": "cb4abbeef20409fa",
+      "kind": 169,
+      "children": [
+        "6597784794e8f9c7",
+        "3068403b396f7716",
+        "f05c96a2e9e9f31e",
+        "e623ce6e53f9de8c"
+      ]
+    },
+    "380725f405a745a1": {
+      "id": "380725f405a745a1",
+      "kind": 352,
+      "children": [
+        "cb4abbeef20409fa"
+      ]
+    },
+    "080626274ec87f52": {
+      "id": "080626274ec87f52",
+      "kind": 116,
+      "text": "void"
+    },
+    "6fc9f03e1d4c2bb0": {
+      "id": "6fc9f03e1d4c2bb0",
+      "kind": 184,
+      "children": [
+        "07ee93ce4048c9ad",
+        "380725f405a745a1",
+        "8701a925e96e4ed0",
+        "1c520f9fb8606d5f",
+        "080626274ec87f52"
+      ]
+    },
+    "ad7878474508e58c": {
+      "id": "ad7878474508e58c",
+      "kind": 352,
+      "children": [
+        "6fc9f03e1d4c2bb0"
+      ]
+    },
+    "ebb91f229e9fc5ec": {
+      "id": "ebb91f229e9fc5ec",
+      "kind": 183,
+      "children": [
+        "0554b2bf74c53594",
+        "bcf863b4f71a73b2",
+        "ad7878474508e58c",
+        "3021576ac8313fb0"
+      ]
+    },
+    "0cd05e6698d9ad73": {
+      "id": "0cd05e6698d9ad73",
+      "kind": 200,
+      "children": [
+        "4713eebfd36a6d5e",
+        "5d212bc1126d6f4f",
+        "7ec7c958a554f5cb",
+        "b56fa109a286f125",
+        "f05c96a2e9e9f31e",
+        "ebb91f229e9fc5ec",
+        "5efa38399ae7872c",
+        "6e0340aa5cf0f794"
+      ]
+    },
+    "82b9584092c25ab4": {
+      "id": "82b9584092c25ab4",
+      "kind": 352,
+      "children": [
+        "0cd05e6698d9ad73"
+      ]
+    },
+    "5e161e1f1c468150": {
+      "id": "5e161e1f1c468150",
+      "kind": 183,
+      "children": [
+        "6e3ba8e0dd4984eb",
+        "bcf863b4f71a73b2",
+        "82b9584092c25ab4",
+        "3021576ac8313fb0"
+      ]
+    },
+    "823dc24396812cb8": {
+      "id": "823dc24396812cb8",
+      "kind": 210,
+      "children": [
+        "4713eebfd36a6d5e",
+        "5efa38399ae7872c",
+        "6e0340aa5cf0f794"
+      ]
+    },
+    "a2fab90cc853abc0": {
+      "id": "a2fab90cc853abc0",
+      "kind": 172,
+      "children": [
+        "a24f82818a4df9aa",
+        "e027e1b23e598ac6",
+        "f05c96a2e9e9f31e",
+        "5e161e1f1c468150",
+        "ae59a5457d3f2a59",
+        "823dc24396812cb8",
+        "32cd11979c3cbcde"
+      ]
+    },
+    "e1eecb9a695b9113": {
+      "id": "e1eecb9a695b9113",
+      "kind": 80,
+      "text": "on"
+    },
+    "7f0b530b1c40bb22": {
+      "id": "7f0b530b1c40bb22",
+      "kind": 168,
+      "children": [
+        "bae13782cc2c07f9",
+        "559760382ff59f37",
+        "fa538b78cc6a11d8"
+      ]
+    },
+    "8681c752e11850ef": {
+      "id": "8681c752e11850ef",
+      "kind": 352,
+      "children": [
+        "7f0b530b1c40bb22"
+      ]
+    },
+    "d64df1c397e67cef": {
+      "id": "d64df1c397e67cef",
+      "kind": 80,
+      "text": "event"
+    },
+    "180e24774686200f": {
+      "id": "180e24774686200f",
+      "kind": 169,
+      "children": [
+        "d64df1c397e67cef",
+        "f05c96a2e9e9f31e",
+        "1ae622f87cada17b"
+      ]
+    },
+    "aba12470d7d8d89a": {
+      "id": "aba12470d7d8d89a",
+      "kind": 80,
+      "text": "listener"
+    },
+    "f1afa8a2bb2bd64a": {
+      "id": "f1afa8a2bb2bd64a",
+      "kind": 169,
+      "children": [
+        "aba12470d7d8d89a",
+        "f05c96a2e9e9f31e",
+        "6fc9f03e1d4c2bb0"
+      ]
+    },
+    "2c30748ece1d50eb": {
+      "id": "2c30748ece1d50eb",
+      "kind": 352,
+      "children": [
+        "180e24774686200f",
+        "7b240b050c264103",
+        "f1afa8a2bb2bd64a"
+      ]
+    },
+    "04b0a0a60b9063cd": {
+      "id": "04b0a0a60b9063cd",
+      "kind": 101,
+      "text": "if"
+    },
+    "1ef1657032ac4a78": {
+      "id": "1ef1657032ac4a78",
+      "kind": 54,
+      "text": "!"
+    },
+    "7530c5cbb0b89f06": {
+      "id": "7530c5cbb0b89f06",
+      "kind": 110,
+      "text": "this"
+    },
+    "0d7e711bafd0a857": {
+      "id": "0d7e711bafd0a857",
+      "kind": 211,
+      "children": [
+        "7530c5cbb0b89f06",
+        "2f2039fdff4af4a2",
+        "e027e1b23e598ac6"
+      ]
+    },
+    "0d5ff9fee6ec7fc8": {
+      "id": "0d5ff9fee6ec7fc8",
+      "kind": 212,
+      "children": [
+        "0d7e711bafd0a857",
+        "5d212bc1126d6f4f",
+        "d64df1c397e67cef",
+        "b56fa109a286f125"
+      ]
+    },
+    "fc66e1ccdcfba58c": {
+      "id": "fc66e1ccdcfba58c",
+      "kind": 224,
+      "children": [
+        "1ef1657032ac4a78",
+        "0d5ff9fee6ec7fc8"
+      ]
+    },
+    "4680dfe9811fab83": {
+      "id": "4680dfe9811fab83",
+      "kind": 209,
+      "children": [
+        "5d212bc1126d6f4f",
+        "5efa38399ae7872c",
+        "b56fa109a286f125"
+      ]
+    },
+    "a35f678f3121b9c2": {
+      "id": "a35f678f3121b9c2",
+      "kind": 226,
+      "children": [
+        "0d5ff9fee6ec7fc8",
+        "ae59a5457d3f2a59",
+        "4680dfe9811fab83"
+      ]
+    },
+    "0b0a2973392b1fac": {
+      "id": "0b0a2973392b1fac",
+      "kind": 244,
+      "children": [
+        "a35f678f3121b9c2",
+        "32cd11979c3cbcde"
+      ]
+    },
+    "f59d7577e32e5942": {
+      "id": "f59d7577e32e5942",
+      "kind": 352,
+      "children": [
+        "0b0a2973392b1fac"
+      ]
+    },
+    "7cdbcc68dc835339": {
+      "id": "7cdbcc68dc835339",
+      "kind": 241,
+      "children": [
+        "4713eebfd36a6d5e",
+        "f59d7577e32e5942",
+        "6e0340aa5cf0f794"
+      ]
+    },
+    "8b8e347109a43fc3": {
+      "id": "8b8e347109a43fc3",
+      "kind": 245,
+      "children": [
+        "04b0a0a60b9063cd",
+        "07ee93ce4048c9ad",
+        "fc66e1ccdcfba58c",
+        "8701a925e96e4ed0",
+        "7cdbcc68dc835339"
+      ]
+    },
+    "351dad851de41bcd": {
+      "id": "351dad851de41bcd",
+      "kind": 235,
+      "children": [
+        "0d5ff9fee6ec7fc8",
+        "1ef1657032ac4a78"
+      ]
+    },
+    "dd5b6ea03334c9ce": {
+      "id": "dd5b6ea03334c9ce",
+      "kind": 80,
+      "text": "push"
+    },
+    "e3bfa5e2b8f0cd2c": {
+      "id": "e3bfa5e2b8f0cd2c",
+      "kind": 211,
+      "children": [
+        "351dad851de41bcd",
+        "2f2039fdff4af4a2",
+        "dd5b6ea03334c9ce"
+      ]
+    },
+    "a2938f1f4e314b46": {
+      "id": "a2938f1f4e314b46",
+      "kind": 352,
+      "children": [
+        "aba12470d7d8d89a"
+      ]
+    },
+    "d926040c7cf98620": {
+      "id": "d926040c7cf98620",
+      "kind": 213,
+      "children": [
+        "e3bfa5e2b8f0cd2c",
+        "07ee93ce4048c9ad",
+        "a2938f1f4e314b46",
+        "8701a925e96e4ed0"
+      ]
+    },
+    "814d197408bd5653": {
+      "id": "814d197408bd5653",
+      "kind": 244,
+      "children": [
+        "d926040c7cf98620",
+        "32cd11979c3cbcde"
+      ]
+    },
+    "8a4dbe05046430c3": {
+      "id": "8a4dbe05046430c3",
+      "kind": 352,
+      "children": [
+        "8b8e347109a43fc3",
+        "814d197408bd5653"
+      ]
+    },
+    "b5e730235d4bb994": {
+      "id": "b5e730235d4bb994",
+      "kind": 241,
+      "children": [
+        "4713eebfd36a6d5e",
+        "8a4dbe05046430c3",
+        "6e0340aa5cf0f794"
+      ]
+    },
+    "1ca247716cab7de0": {
+      "id": "1ca247716cab7de0",
+      "kind": 174,
+      "children": [
+        "e1eecb9a695b9113",
+        "bcf863b4f71a73b2",
+        "8681c752e11850ef",
+        "3021576ac8313fb0",
+        "07ee93ce4048c9ad",
+        "2c30748ece1d50eb",
+        "8701a925e96e4ed0",
+        "f05c96a2e9e9f31e",
+        "080626274ec87f52",
+        "b5e730235d4bb994"
+      ]
+    },
+    "50c30d79ea42adad": {
+      "id": "50c30d79ea42adad",
+      "kind": 80,
+      "text": "emit"
+    },
+    "e36f7295fafb1780": {
+      "id": "e36f7295fafb1780",
+      "kind": 352,
+      "children": [
+        "180e24774686200f",
+        "7b240b050c264103",
+        "cb4abbeef20409fa"
+      ]
+    },
+    "087157e84739417b": {
+      "id": "087157e84739417b",
+      "kind": 29,
+      "text": "?."
+    },
+    "48000948ae59db4c": {
+      "id": "48000948ae59db4c",
+      "kind": 80,
+      "text": "forEach"
+    },
+    "dc8f5d0b6ed01af4": {
+      "id": "dc8f5d0b6ed01af4",
+      "kind": 211,
+      "children": [
+        "0d5ff9fee6ec7fc8",
+        "087157e84739417b",
+        "48000948ae59db4c"
+      ]
+    },
+    "d320cb8677647415": {
+      "id": "d320cb8677647415",
+      "kind": 169,
+      "children": [
+        "aba12470d7d8d89a"
+      ]
+    },
+    "392d438a4b41e63f": {
+      "id": "392d438a4b41e63f",
+      "kind": 352,
+      "children": [
+        "d320cb8677647415"
+      ]
+    },
+    "a9c88109ac1cfc3b": {
+      "id": "a9c88109ac1cfc3b",
+      "kind": 230,
+      "children": [
+        "6597784794e8f9c7",
+        "3068403b396f7716"
+      ]
+    },
+    "5bfa1185935c036d": {
+      "id": "5bfa1185935c036d",
+      "kind": 352,
+      "children": [
+        "a9c88109ac1cfc3b"
+      ]
+    },
+    "f00f4431d42fcec4": {
+      "id": "f00f4431d42fcec4",
+      "kind": 213,
+      "children": [
+        "aba12470d7d8d89a",
+        "07ee93ce4048c9ad",
+        "5bfa1185935c036d",
+        "8701a925e96e4ed0"
+      ]
+    },
+    "f3dfb03a5ba65406": {
+      "id": "f3dfb03a5ba65406",
+      "kind": 219,
+      "children": [
+        "392d438a4b41e63f",
+        "1c520f9fb8606d5f",
+        "f00f4431d42fcec4"
+      ]
+    },
+    "af17ca768b0f5aba": {
+      "id": "af17ca768b0f5aba",
+      "kind": 352,
+      "children": [
+        "f3dfb03a5ba65406"
+      ]
+    },
+    "f67a7207183907ee": {
+      "id": "f67a7207183907ee",
+      "kind": 213,
+      "children": [
+        "dc8f5d0b6ed01af4",
+        "07ee93ce4048c9ad",
+        "af17ca768b0f5aba",
+        "8701a925e96e4ed0"
+      ]
+    },
+    "e3a646df2ee98200": {
+      "id": "e3a646df2ee98200",
+      "kind": 244,
+      "children": [
+        "f67a7207183907ee",
+        "32cd11979c3cbcde"
+      ]
+    },
+    "ac7de76f7b18988e": {
+      "id": "ac7de76f7b18988e",
+      "kind": 352,
+      "children": [
+        "e3a646df2ee98200"
+      ]
+    },
+    "bf6320cd20a7f17b": {
+      "id": "bf6320cd20a7f17b",
+      "kind": 241,
+      "children": [
+        "4713eebfd36a6d5e",
+        "ac7de76f7b18988e",
+        "6e0340aa5cf0f794"
+      ]
+    },
+    "640e46b67b68c206": {
+      "id": "640e46b67b68c206",
+      "kind": 174,
+      "children": [
+        "50c30d79ea42adad",
+        "bcf863b4f71a73b2",
+        "8681c752e11850ef",
+        "3021576ac8313fb0",
+        "07ee93ce4048c9ad",
+        "e36f7295fafb1780",
+        "8701a925e96e4ed0",
+        "f05c96a2e9e9f31e",
+        "080626274ec87f52",
+        "bf6320cd20a7f17b"
+      ]
+    },
+    "32595c81a2ace1b0": {
+      "id": "32595c81a2ace1b0",
+      "kind": 352,
+      "children": [
+        "a2fab90cc853abc0",
+        "1ca247716cab7de0",
+        "640e46b67b68c206"
+      ]
+    },
+    "71c3af35cc68e3c5": {
+      "id": "71c3af35cc68e3c5",
+      "kind": 263,
+      "properties": {
+        "name": "EventEmitter",
+        "hasExtends": false
+      },
+      "children": [
+        "5ee9eea8efce01ca",
+        "122a84a2ad15fe17",
+        "10f1b94d02b567d9",
+        "bcf863b4f71a73b2",
+        "dc2a8a20ff204e8f",
+        "3021576ac8313fb0",
+        "4713eebfd36a6d5e",
+        "32595c81a2ace1b0",
+        "6e0340aa5cf0f794"
+      ]
+    },
+    "7c95c2e7b1f03f66": {
+      "id": "7c95c2e7b1f03f66",
+      "kind": 352,
+      "children": [
+        "2e87fee159cd6eba",
+        "a4a974dbe801401f",
+        "d16676900787dc31",
+        "e264e5a0560d7a14",
+        "9329ca6a9920e55f",
+        "032146b993ffecce",
+        "71c3af35cc68e3c5"
+      ],
+      "leadingComments": [
+        {
+          "kind": "SingleLineCommentTrivia",
+          "text": "// Advanced JavaScript/TypeScript features"
+        }
+      ]
+    },
+    "e73ad5df286d28d6": {
+      "id": "e73ad5df286d28d6",
+      "kind": 1,
+      "text": ""
+    },
+    "a9abe6b91a6566a8": {
+      "id": "a9abe6b91a6566a8",
+      "kind": 307,
+      "children": [
+        "7c95c2e7b1f03f66",
+        "e73ad5df286d28d6"
+      ],
+      "leadingComments": [
+        {
+          "kind": "SingleLineCommentTrivia",
+          "text": "// Advanced JavaScript/TypeScript features"
+        }
+      ]
+    }
+  }
+}

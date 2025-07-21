@@ -1,7 +1,7 @@
 file_name: src/cli/__tests__/fixtures/simple.ts
 versions:
   - created_at: '2025-01-01T00:00:00.000Z'
-    root_node_id: 5abe5dc8c795b94c
+    root_node_id: d34879e61c10bc93
 nodes:
   617d70a2fe95ecaa:
     id: 617d70a2fe95ecaa
@@ -150,15 +150,15 @@ nodes:
     id: 6e0340aa5cf0f794
     kind: 20
     text: '}'
-  a79d2323ac7169a7:
-    id: a79d2323ac7169a7
+  9ff2361fd38bce69:
+    id: 9ff2361fd38bce69
     kind: 241
     children:
       - 4713eebfd36a6d5e
       - 6f6786a0ff879548
       - 6e0340aa5cf0f794
-  73bc64330bbb02b7:
-    id: 73bc64330bbb02b7
+  9fcbd2fb482bad3d:
+    id: 9fcbd2fb482bad3d
     kind: 262
     properties:
       name: greet
@@ -171,7 +171,7 @@ nodes:
       - 8701a925e96e4ed0
       - f05c96a2e9e9f31e
       - b39318c43f936282
-      - a79d2323ac7169a7
+      - 9ff2361fd38bce69
   81d8d5ca18555a48:
     id: 81d8d5ca18555a48
     kind: 95
@@ -200,12 +200,12 @@ nodes:
       - 81d8d5ca18555a48
       - fdc3da918b434e19
       - 32cd11979c3cbcde
-  0c24ecc9f9453f71:
-    id: 0c24ecc9f9453f71
+  e1bc1054054e0e2e:
+    id: e1bc1054054e0e2e
     kind: 352
     children:
       - e660bbd0b7acee95
-      - 73bc64330bbb02b7
+      - 9fcbd2fb482bad3d
       - a83e1d8b7e768ff8
     leadingComments:
       - kind: SingleLineCommentTrivia
@@ -214,11 +214,11 @@ nodes:
     id: e73ad5df286d28d6
     kind: 1
     text: ''
-  5abe5dc8c795b94c:
-    id: 5abe5dc8c795b94c
+  d34879e61c10bc93:
+    id: d34879e61c10bc93
     kind: 307
     children:
-      - 0c24ecc9f9453f71
+      - e1bc1054054e0e2e
       - e73ad5df286d28d6
     leadingComments:
       - kind: SingleLineCommentTrivia

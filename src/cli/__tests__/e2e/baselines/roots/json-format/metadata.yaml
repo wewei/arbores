@@ -1,10 +1,10 @@
-description: Get root nodes in JSON format
+description: Execute roots command with json format
 command:
   - roots
-  - /tmp/function-test.ast.json
+  - src/cli/__tests__/fixtures/function-test.ast.json
   - "--format"
   - json
 exitCode: 0
 environment: {}
 created: "2025-07-20T22:58:13.502Z"
-updated: "2025-07-20T23:13:42.978Z"
+updated: "2025-07-21T03:08:54.380Z"

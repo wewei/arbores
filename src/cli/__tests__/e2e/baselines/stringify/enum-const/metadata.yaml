@@ -1,8 +1,8 @@
 description: Execute stringify command
 command:
   - stringify
-  - src/cli/__tests__/fixtures/enum-test.ts
-exitCode: 1
+  - src\cli\__tests__\fixtures\enum-test.ast.json
+exitCode: 0
 environment: {}
 created: "2025-07-20T23:07:03.163Z"
-updated: "2025-07-20T23:54:55.616Z"
+updated: "2025-07-21T01:38:42.724Z"

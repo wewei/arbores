@@ -1,0 +1,31 @@
+export async function asyncGenerator(): AsyncIterableIterator {
+    for (let i = 0; i < 5; /* Unsupported: PostfixUnaryExpression */) {
+        await /* Unsupported: NewExpression */;
+        /* Unsupported: YieldExpression */;
+    }
+}
+export const asyncArrowFunction = (data: unknown[], item) => {
+    return data.map(item => String(item));
+};
+export function processData({ name, age, ... }: {
+    name: string;
+    age: number;
+    /* Unsupported: IndexSignature */
+}) {
+    return { metadata: rest };
+}
+export const /* Unsupported: ArrayBindingPattern */ = [1, 2, 3, 4, 5];
+export type EventName = /* Unsupported: TemplateLiteralType */;
+export type HTTPMethod = "GET" | "POST" | "PUT" | "DELETE";
+export class EventEmitter {
+    listeners;
+    on(event: K, listener) {
+        if (!/* Unsupported: ElementAccessExpression */) {
+            /* Unsupported: ElementAccessExpression */ = [];
+        }
+        /* Unsupported: NonNullExpression */.push(listener);
+    }
+    emit(event: K, ...) {
+        /* Unsupported: ElementAccessExpression */.forEach(listener => listener(...args));
+    }
+}

@@ -36,14 +36,23 @@ export const createArrayLiteralExpression: NodeBuilderFn<ts.ArrayLiteralExpressi
       return false;
     }
     
+    // 跳过 SyntaxList - 我们已经在 extractFromSyntaxList 中处理了它的内容
+    if (child.kind === ts.SyntaxKind.SyntaxList) {
+      return false;
+    }
+    
     return true;
   });
-  
+
   const elements: ts.Expression[] = [];
   for (const elementNode of expressionNodes) {
     try {
       const element = createNode(sourceFile, elementNode) as ts.Expression;
-      elements.push(element);
+      
+      // 检查创建的元素是否有效
+      if (element && element.kind !== undefined && element.kind !== ts.SyntaxKind.Unknown) {
+        elements.push(element);
+      }
     } catch (error) {
       console.warn(`Failed to create array element for ${ts.SyntaxKind[elementNode.kind]}:`, error);
     }

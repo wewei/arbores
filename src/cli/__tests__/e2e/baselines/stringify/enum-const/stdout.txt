@@ -1,0 +1,12 @@
+export enum UserRole {
+    ADMIN = "admin",
+    USER = "user",
+    GUEST = "guest"
+}
+export const enum Color {
+    RED = "#ff0000",
+    GREEN = "#00ff00",
+    BLUE = "#0000ff"
+}
+export const DEFAULT_CONFIG = /* Unsupported: AsExpression */;
+export type Config = /* Unsupported: TypeQuery */;
