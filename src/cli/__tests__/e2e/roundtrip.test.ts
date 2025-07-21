@@ -251,33 +251,49 @@ describe('Roundtrip Tests', () => {
         if (result.tokenDiff) {
           console.error(`  Token count: ${result.tokenCount.original} vs ${result.tokenCount.roundtrip}`);
           
-          // 显示前20个token的详细比较
-          const maxTokens = Math.min(20, result.tokenDiff.original.length, result.tokenDiff.roundtrip.length);
-          console.error(`  First ${maxTokens} tokens comparison:`);
-          for (let i = 0; i < maxTokens; i++) {
-            const original = result.tokenDiff.original[i];
-            const roundtrip = result.tokenDiff.roundtrip[i];
-            const match = original === roundtrip ? '✓' : '✗';
-            console.error(`    [${i}] ${match} "${original}" vs "${roundtrip}"`);
-          }
+          // 找到第一个不匹配的位置
+          const minLength = Math.min(result.tokenDiff.original.length, result.tokenDiff.roundtrip.length);
+          let firstMismatchIndex = -1;
           
-          // 如果token数量相同但内容不同，显示最后几个token
-          if (result.tokenDiff.original.length === result.tokenDiff.roundtrip.length && result.tokenDiff.original.length > maxTokens) {
-            console.error(`  Last ${Math.min(5, result.tokenDiff.original.length - maxTokens)} tokens comparison:`);
-            for (let i = maxTokens; i < result.tokenDiff.original.length; i++) {
-              const original = result.tokenDiff.original[i];
-              const roundtrip = result.tokenDiff.roundtrip[i];
-              const match = original === roundtrip ? '✓' : '✗';
-              console.error(`    [${i}] ${match} "${original}" vs "${roundtrip}"`);
+          for (let i = 0; i < minLength; i++) {
+            if (result.tokenDiff.original[i] !== result.tokenDiff.roundtrip[i]) {
+              firstMismatchIndex = i;
+              break;
             }
           }
           
-          // 如果token数量不同，显示额外的token
-          if (result.tokenDiff.original.length > maxTokens) {
-            console.error(`  ... and ${result.tokenDiff.original.length - maxTokens} more original tokens`);
+          if (firstMismatchIndex === -1) {
+            // 如果所有token都匹配但长度不同，从较短数组的末尾开始显示
+            firstMismatchIndex = minLength;
           }
-          if (result.tokenDiff.roundtrip.length > maxTokens) {
-            console.error(`  ... and ${result.tokenDiff.roundtrip.length - maxTokens} more roundtrip tokens`);
+          
+          // 显示从第一个不匹配位置开始的token比较
+          const startIndex = Math.max(0, firstMismatchIndex - 2); // 显示不匹配位置前2个token作为上下文
+          const endIndex = Math.min(
+            minLength, 
+            firstMismatchIndex + 15 // 显示不匹配位置后15个token
+          );
+          
+          console.error(`  Token comparison starting from position ${startIndex} (first mismatch at ${firstMismatchIndex}):`);
+          for (let i = startIndex; i < endIndex; i++) {
+            const original = result.tokenDiff.original[i];
+            const roundtrip = result.tokenDiff.roundtrip[i];
+            const match = original === roundtrip ? '✓' : '✗';
+            const position = i === firstMismatchIndex ? '>>>' : '   ';
+            console.error(`    [${i}] ${match} ${position} "${original}" vs "${roundtrip}"`);
+          }
+          
+          // 如果还有更多token，显示省略号
+          if (endIndex < minLength) {
+            console.error(`    ... and ${minLength - endIndex} more tokens`);
+          }
+          
+          // 如果长度不同，显示额外的token
+          if (result.tokenDiff.original.length > minLength) {
+            console.error(`    ... and ${result.tokenDiff.original.length - minLength} more original tokens`);
+          }
+          if (result.tokenDiff.roundtrip.length > minLength) {
+            console.error(`    ... and ${result.tokenDiff.roundtrip.length - minLength} more roundtrip tokens`);
           }
         }
       }
