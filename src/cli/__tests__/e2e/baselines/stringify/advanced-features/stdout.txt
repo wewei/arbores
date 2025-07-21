@@ -7,14 +7,14 @@ export async function asyncGenerator(): AsyncIterableIterator {
 export const asyncArrowFunction = (data: unknown[], item) => {
     return data.map(item => String(item));
 };
-export function processData({ name, age, ... }: {
+export function processData({ name, age, ...rest }: {
     name: string;
     age: number;
     /* Unsupported: IndexSignature */
 }) {
     return { metadata: rest };
 }
-export const [first, second, ...] = [1, 2, 3, 4, 5];
+export const [first, second, ...remaining] = [1, 2, 3, 4, 5];
 export type EventName = /* Unsupported: TemplateHead */;
 export type HTTPMethod = "GET" | "POST" | "PUT" | "DELETE";
 export class EventEmitter {

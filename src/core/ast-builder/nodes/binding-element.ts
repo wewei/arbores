@@ -15,7 +15,9 @@ export const createBindingElement: NodeBuilderFn<ts.BindingElement> = (createNod
     // 2. [propertyName, :, name] - 重命名的 { id: newId }
     // 3. [name, =, initializer] - 带默认值的 { id = default }
     // 4. [propertyName, :, name, =, initializer] - 完整形式
+    // 5. [..., name] - rest元素 { ...rest }
     
+    let dotDotDotToken: ts.DotDotDotToken | undefined;
     let propertyName: ts.PropertyName | undefined;
     let name: ts.BindingName | undefined;
     let initializer: ts.Expression | undefined;
@@ -37,7 +39,10 @@ export const createBindingElement: NodeBuilderFn<ts.BindingElement> = (createNod
         const childNode = sourceFile.nodes[childId];
         if (!childNode) continue;
         
-        if (childNode.kind === ts.SyntaxKind.ColonToken) {
+        if (childNode.kind === ts.SyntaxKind.DotDotDotToken) {
+          // 这是一个 rest 元素
+          dotDotDotToken = ts.factory.createToken(ts.SyntaxKind.DotDotDotToken);
+        } else if (childNode.kind === ts.SyntaxKind.ColonToken) {
           // 前面的是propertyName，后面的是name
           if (i > 0) {
             const propNameId = children[i - 1];
@@ -80,7 +85,7 @@ export const createBindingElement: NodeBuilderFn<ts.BindingElement> = (createNod
     }
     
     return ts.factory.createBindingElement(
-      undefined, // dotDotDotToken
+      dotDotDotToken,
       propertyName,
       name,
       initializer
