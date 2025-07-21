@@ -44,9 +44,8 @@ export const createNewExpression: NodeBuilderFn<ts.NewExpression> = (createNode:
             .map(argId => sourceFile.nodes[argId])
             .filter(argNode => argNode != null);
           
-          if (argNodes.length > 0) {
-            argumentsArray = argNodes.map(argNode => createNode(sourceFile, argNode) as ts.Expression);
-          }
+          // 即使参数列表为空，也要创建空数组
+          argumentsArray = argNodes.map(argNode => createNode(sourceFile, argNode) as ts.Expression);
         }
       }
     }

@@ -61,7 +61,9 @@ export const createPropertyDeclaration: NodeBuilderFn<ts.PropertyDeclaration> = 
     } else if (child.kind === ts.SyntaxKind.BinaryExpression ||
                child.kind === ts.SyntaxKind.StringLiteral ||
                child.kind === ts.SyntaxKind.NumericLiteral ||
-               child.kind === ts.SyntaxKind.ObjectLiteralExpression) {
+               child.kind === ts.SyntaxKind.ObjectLiteralExpression ||
+               child.kind === ts.SyntaxKind.NewExpression ||
+               child.kind === ts.SyntaxKind.CallExpression) {
       // 初始化器
       initializer = createNode(sourceFile, child) as ts.Expression;
     }

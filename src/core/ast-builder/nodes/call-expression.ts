@@ -10,14 +10,17 @@ export const createCallExpression: NodeBuilderFn<ts.CallExpression> = (createNod
   return (sourceFile: SourceFileAST, node: ASTNode): ts.CallExpression => {
     const children = getChildNodes(node, sourceFile);
     
-    // 找到表达式（函数名或属性访问）
-    let expression: ts.Expression = ts.factory.createIdentifier('func');
+    // 找到表达式（函数名、属性访问或 super）
+    let expression: ts.Expression | undefined;
     const args: ts.Expression[] = [];
     
     for (const child of children) {
       switch (child.kind) {
         case ts.SyntaxKind.Identifier:
           expression = createNode(sourceFile, child) as ts.Identifier;
+          break;
+        case ts.SyntaxKind.SuperKeyword:
+          expression = ts.factory.createSuper();
           break;
         case ts.SyntaxKind.PropertyAccessExpression:
           expression = createNode(sourceFile, child) as ts.PropertyAccessExpression;
@@ -37,6 +40,11 @@ export const createCallExpression: NodeBuilderFn<ts.CallExpression> = (createNod
         case ts.SyntaxKind.CloseParenToken:
           break;
       }
+    }
+    
+    // 如果没有找到表达式，使用默认值
+    if (!expression) {
+      expression = ts.factory.createIdentifier('func');
     }
     
     return ts.factory.createCallExpression(expression, undefined, args);

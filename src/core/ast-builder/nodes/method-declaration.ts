@@ -1,6 +1,7 @@
 import * as ts from 'typescript';
 import type { SourceFileAST, ASTNode } from '../../types';
 import type { CreateNodeFn, NodeBuilderFn } from '../types';
+import { getModifiers } from '../utils';
 
 /**
  * 创建方法声明节点
@@ -20,16 +21,47 @@ export const createMethodDeclaration: NodeBuilderFn<ts.MethodDeclaration> = (
   node: ASTNode
 ): ts.MethodDeclaration => {
   const children = node.children || [];
+  
+  // 获取修饰符
+  const modifiers = getModifiers(children, sourceFile, createNode);
+  
   let methodName: ts.PropertyName | undefined;
+  let asteriskToken: ts.AsteriskToken | undefined;
+  let questionToken: ts.Token<ts.SyntaxKind.QuestionToken> | undefined;
+  const typeParameters: ts.TypeParameterDeclaration[] = [];
   const parameters: ts.ParameterDeclaration[] = [];
+  let typeNode: ts.TypeNode | undefined;
   let body: ts.Block | undefined;
   
-  // 查找方法名
+  // 查找方法名、类型参数、返回类型等
   for (const childId of children) {
     const child = sourceFile.nodes[childId];
-    if (child && child.kind === ts.SyntaxKind.Identifier) {
+    if (!child) continue;
+    
+    if (child.kind === ts.SyntaxKind.Identifier && !methodName) {
       methodName = createNode(sourceFile, child) as ts.PropertyName;
-      break;
+    } else if (child.kind === ts.SyntaxKind.AsteriskToken) {
+      asteriskToken = createNode(sourceFile, child) as ts.AsteriskToken;
+    } else if (child.kind === ts.SyntaxKind.QuestionToken) {
+      questionToken = createNode(sourceFile, child) as ts.Token<ts.SyntaxKind.QuestionToken>;
+    } else if (child.kind === ts.SyntaxKind.TypeParameter) {
+      const typeParameter = createNode(sourceFile, child) as ts.TypeParameterDeclaration;
+      typeParameters.push(typeParameter);
+    } else if (
+      // 返回类型
+      child.kind === ts.SyntaxKind.NumberKeyword ||
+      child.kind === ts.SyntaxKind.StringKeyword ||
+      child.kind === ts.SyntaxKind.BooleanKeyword ||
+      child.kind === ts.SyntaxKind.AnyKeyword ||
+      child.kind === ts.SyntaxKind.VoidKeyword ||
+      child.kind === ts.SyntaxKind.UnknownKeyword ||
+      child.kind === ts.SyntaxKind.NeverKeyword ||
+      child.kind === ts.SyntaxKind.TypeReference ||
+      child.kind === ts.SyntaxKind.UnionType ||
+      child.kind === ts.SyntaxKind.LiteralType ||
+      child.kind === ts.SyntaxKind.TypeLiteral
+    ) {
+      typeNode = createNode(sourceFile, child) as ts.TypeNode;
     }
   }
   
@@ -66,18 +98,21 @@ export const createMethodDeclaration: NodeBuilderFn<ts.MethodDeclaration> = (
     methodName = ts.factory.createIdentifier('method');
   }
   
-  if (!body) {
+  // 如果是抽象方法，不应该有方法体
+  const isAbstract = modifiers.some(mod => mod.kind === ts.SyntaxKind.AbstractKeyword);
+  
+  if (!body && !isAbstract) {
     body = ts.factory.createBlock([]);
   }
   
   return ts.factory.createMethodDeclaration(
-    undefined, // modifiers
-    undefined, // asterisk token
+    modifiers.length > 0 ? modifiers : undefined, // modifiers
+    asteriskToken, // asterisk token
     methodName,
-    undefined, // question token
-    undefined, // type parameters
+    questionToken, // question token
+    typeParameters.length > 0 ? typeParameters : undefined, // type parameters
     parameters,
-    undefined, // type
+    typeNode, // type
     body
   );
 };
