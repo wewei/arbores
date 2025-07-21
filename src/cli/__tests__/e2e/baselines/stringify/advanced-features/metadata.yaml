@@ -1,11 +1,8 @@
-description: Stringify advanced TypeScript features (async generators, destructuring, template literals)
+description: Execute stringify command
 command:
   - stringify
-  - /tmp/advanced-features.ast.json
-  - "--format"
-  - readable
-exitCode: 0
-environment:
-  MOCK_TIMESTAMP: "2025-01-01T00:00:00.000Z"
+  - src/cli/__tests__/fixtures/advanced-features.ts
+exitCode: 1
+environment: {}
 created: "2025-07-20T23:07:22.906Z"
-updated: "2025-07-20T23:12:06.621Z"
+updated: "2025-07-20T23:55:08.317Z"

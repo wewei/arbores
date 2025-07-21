@@ -1,8 +1,1 @@
-Unsupported node type: ExportDeclaration (278)
-Node details: {
-  id: "6f825a409fd58821",
-  kind: 278,
-  text: undefined,
-  children: [ "81d8d5ca18555a48", "0672c4c74f14404f", "32cd11979c3cbcde" ],
-}
-Created placeholder with kind: 80 Identifier
+Error: Invalid JSON in AST file: JSON Parse error: Unrecognized token '/'

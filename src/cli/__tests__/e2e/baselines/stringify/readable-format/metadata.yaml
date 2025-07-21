@@ -1,11 +1,8 @@
-description: Stringify AST to readable TypeScript code
+description: Execute stringify command
 command:
   - stringify
-  - /tmp/function-test.ast.json
-  - "--format"
-  - readable
-exitCode: 0
-environment:
-  MOCK_TIMESTAMP: "2025-01-01T00:00:00.000Z"
+  - src/cli/__tests__/fixtures/simple.ts
+exitCode: 1
+environment: {}
 created: "2025-07-20T22:55:08.576Z"
-updated: "2025-07-20T23:11:28.276Z"
+updated: "2025-07-20T23:54:47.862Z"

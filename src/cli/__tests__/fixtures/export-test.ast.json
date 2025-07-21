@@ -1,0 +1,889 @@
+{
+  "file_name": "src/cli/__tests__/fixtures/export-test.ts",
+  "versions": [
+    {
+      "created_at": "2025-07-20T23:39:28.571Z",
+      "root_node_id": "da9515791ffc8876"
+    }
+  ],
+  "nodes": {
+    "81d8d5ca18555a48": {
+      "id": "81d8d5ca18555a48",
+      "kind": 95,
+      "text": "export",
+      "leadingComments": [
+        {
+          "kind": "SingleLineCommentTrivia",
+          "text": "// Various export statement types for testing"
+        }
+      ]
+    },
+    "5ee9eea8efce01ca": {
+      "id": "5ee9eea8efce01ca",
+      "kind": 352,
+      "children": [
+        "81d8d5ca18555a48"
+      ],
+      "leadingComments": [
+        {
+          "kind": "SingleLineCommentTrivia",
+          "text": "// Various export statement types for testing"
+        }
+      ]
+    },
+    "617d70a2fe95ecaa": {
+      "id": "617d70a2fe95ecaa",
+      "kind": 87,
+      "text": "const"
+    },
+    "ed2f1d981d37e570": {
+      "id": "ed2f1d981d37e570",
+      "kind": 80,
+      "text": "namedExport"
+    },
+    "ae59a5457d3f2a59": {
+      "id": "ae59a5457d3f2a59",
+      "kind": 64,
+      "text": "="
+    },
+    "c78a0f0b6f95efc3": {
+      "id": "c78a0f0b6f95efc3",
+      "kind": 9,
+      "text": "42"
+    },
+    "ebbf3bfadf7e7277": {
+      "id": "ebbf3bfadf7e7277",
+      "kind": 260,
+      "properties": {
+        "name": "namedExport",
+        "hasInitializer": true
+      },
+      "children": [
+        "ed2f1d981d37e570",
+        "ae59a5457d3f2a59",
+        "c78a0f0b6f95efc3"
+      ]
+    },
+    "f8d05165eb5e221d": {
+      "id": "f8d05165eb5e221d",
+      "kind": 352,
+      "children": [
+        "ebbf3bfadf7e7277"
+      ]
+    },
+    "fb9e5cc4520bb0e0": {
+      "id": "fb9e5cc4520bb0e0",
+      "kind": 261,
+      "children": [
+        "617d70a2fe95ecaa",
+        "f8d05165eb5e221d"
+      ]
+    },
+    "32cd11979c3cbcde": {
+      "id": "32cd11979c3cbcde",
+      "kind": 27,
+      "text": ";"
+    },
+    "4307c76b9dc533f5": {
+      "id": "4307c76b9dc533f5",
+      "kind": 243,
+      "children": [
+        "5ee9eea8efce01ca",
+        "fb9e5cc4520bb0e0",
+        "32cd11979c3cbcde"
+      ],
+      "leadingComments": [
+        {
+          "kind": "SingleLineCommentTrivia",
+          "text": "// Various export statement types for testing"
+        }
+      ]
+    },
+    "6fe8bb617e5a1ac9": {
+      "id": "6fe8bb617e5a1ac9",
+      "kind": 121,
+      "text": "let"
+    },
+    "849de93f27e76342": {
+      "id": "849de93f27e76342",
+      "kind": 80,
+      "text": "variableExport"
+    },
+    "7e629208d899a010": {
+      "id": "7e629208d899a010",
+      "kind": 11,
+      "text": "\"test\""
+    },
+    "dea03986b78c8b75": {
+      "id": "dea03986b78c8b75",
+      "kind": 260,
+      "properties": {
+        "name": "variableExport",
+        "hasInitializer": true
+      },
+      "children": [
+        "849de93f27e76342",
+        "ae59a5457d3f2a59",
+        "7e629208d899a010"
+      ]
+    },
+    "2f18e82dbb48da6f": {
+      "id": "2f18e82dbb48da6f",
+      "kind": 352,
+      "children": [
+        "dea03986b78c8b75"
+      ]
+    },
+    "a6c30532fc8415dd": {
+      "id": "a6c30532fc8415dd",
+      "kind": 261,
+      "children": [
+        "6fe8bb617e5a1ac9",
+        "2f18e82dbb48da6f"
+      ]
+    },
+    "afca2b0ad04a52d2": {
+      "id": "afca2b0ad04a52d2",
+      "kind": 243,
+      "children": [
+        "5ee9eea8efce01ca",
+        "a6c30532fc8415dd",
+        "32cd11979c3cbcde"
+      ]
+    },
+    "ae4cb69c855810fc": {
+      "id": "ae4cb69c855810fc",
+      "kind": 115,
+      "text": "var"
+    },
+    "bd11805c933813a5": {
+      "id": "bd11805c933813a5",
+      "kind": 80,
+      "text": "legacyVarExport"
+    },
+    "8f7337067b95ec9c": {
+      "id": "8f7337067b95ec9c",
+      "kind": 112,
+      "text": "true"
+    },
+    "288b03b74f286d3b": {
+      "id": "288b03b74f286d3b",
+      "kind": 260,
+      "properties": {
+        "name": "legacyVarExport",
+        "hasInitializer": true
+      },
+      "children": [
+        "bd11805c933813a5",
+        "ae59a5457d3f2a59",
+        "8f7337067b95ec9c"
+      ]
+    },
+    "490eaed5bc4e7fdc": {
+      "id": "490eaed5bc4e7fdc",
+      "kind": 352,
+      "children": [
+        "288b03b74f286d3b"
+      ]
+    },
+    "83b70bdfb2f7e5a1": {
+      "id": "83b70bdfb2f7e5a1",
+      "kind": 261,
+      "children": [
+        "ae4cb69c855810fc",
+        "490eaed5bc4e7fdc"
+      ]
+    },
+    "56bf5d02c8aa1cb6": {
+      "id": "56bf5d02c8aa1cb6",
+      "kind": 243,
+      "children": [
+        "5ee9eea8efce01ca",
+        "83b70bdfb2f7e5a1",
+        "32cd11979c3cbcde"
+      ]
+    },
+    "d58640a0128d853c": {
+      "id": "d58640a0128d853c",
+      "kind": 100,
+      "text": "function"
+    },
+    "969dc1ce007bd4b1": {
+      "id": "969dc1ce007bd4b1",
+      "kind": 80,
+      "text": "functionExport"
+    },
+    "07ee93ce4048c9ad": {
+      "id": "07ee93ce4048c9ad",
+      "kind": 21,
+      "text": "("
+    },
+    "5efa38399ae7872c": {
+      "id": "5efa38399ae7872c",
+      "kind": 352
+    },
+    "8701a925e96e4ed0": {
+      "id": "8701a925e96e4ed0",
+      "kind": 22,
+      "text": ")"
+    },
+    "4713eebfd36a6d5e": {
+      "id": "4713eebfd36a6d5e",
+      "kind": 19,
+      "text": "{"
+    },
+    "7edb62074756b3b6": {
+      "id": "7edb62074756b3b6",
+      "kind": 107,
+      "text": "return"
+    },
+    "39ddb3e9b82bb99d": {
+      "id": "39ddb3e9b82bb99d",
+      "kind": 11,
+      "text": "\"exported function\""
+    },
+    "1d6b605f252aac23": {
+      "id": "1d6b605f252aac23",
+      "kind": 253,
+      "children": [
+        "7edb62074756b3b6",
+        "39ddb3e9b82bb99d",
+        "32cd11979c3cbcde"
+      ]
+    },
+    "7b1130454d1976ac": {
+      "id": "7b1130454d1976ac",
+      "kind": 352,
+      "children": [
+        "1d6b605f252aac23"
+      ]
+    },
+    "6e0340aa5cf0f794": {
+      "id": "6e0340aa5cf0f794",
+      "kind": 20,
+      "text": "}"
+    },
+    "424f1d7495aef3ef": {
+      "id": "424f1d7495aef3ef",
+      "kind": 241,
+      "children": [
+        "4713eebfd36a6d5e",
+        "7b1130454d1976ac",
+        "6e0340aa5cf0f794"
+      ]
+    },
+    "8960f0f17e6f0420": {
+      "id": "8960f0f17e6f0420",
+      "kind": 262,
+      "properties": {
+        "name": "functionExport",
+        "parameters": 0,
+        "isAsync": false
+      },
+      "children": [
+        "5ee9eea8efce01ca",
+        "d58640a0128d853c",
+        "969dc1ce007bd4b1",
+        "07ee93ce4048c9ad",
+        "5efa38399ae7872c",
+        "8701a925e96e4ed0",
+        "424f1d7495aef3ef"
+      ]
+    },
+    "122a84a2ad15fe17": {
+      "id": "122a84a2ad15fe17",
+      "kind": 86,
+      "text": "class"
+    },
+    "115edb076b3942a2": {
+      "id": "115edb076b3942a2",
+      "kind": 80,
+      "text": "ClassExport"
+    },
+    "98a58cb5b9734279": {
+      "id": "98a58cb5b9734279",
+      "kind": 137,
+      "text": "constructor"
+    },
+    "69e81f1bdbb0baf5": {
+      "id": "69e81f1bdbb0baf5",
+      "kind": 125,
+      "text": "public"
+    },
+    "db8a7628519eebd3": {
+      "id": "db8a7628519eebd3",
+      "kind": 352,
+      "children": [
+        "69e81f1bdbb0baf5"
+      ]
+    },
+    "0f7c9f335090c77a": {
+      "id": "0f7c9f335090c77a",
+      "kind": 80,
+      "text": "value"
+    },
+    "f05c96a2e9e9f31e": {
+      "id": "f05c96a2e9e9f31e",
+      "kind": 59,
+      "text": ":"
+    },
+    "949a179401778fc1": {
+      "id": "949a179401778fc1",
+      "kind": 150,
+      "text": "number"
+    },
+    "1c577b337733cea2": {
+      "id": "1c577b337733cea2",
+      "kind": 169,
+      "children": [
+        "db8a7628519eebd3",
+        "0f7c9f335090c77a",
+        "f05c96a2e9e9f31e",
+        "949a179401778fc1"
+      ]
+    },
+    "4d34e1da914039a3": {
+      "id": "4d34e1da914039a3",
+      "kind": 352,
+      "children": [
+        "1c577b337733cea2"
+      ]
+    },
+    "6a0243ffc8f880ca": {
+      "id": "6a0243ffc8f880ca",
+      "kind": 241,
+      "children": [
+        "4713eebfd36a6d5e",
+        "5efa38399ae7872c",
+        "6e0340aa5cf0f794"
+      ]
+    },
+    "4ce720a9012480f5": {
+      "id": "4ce720a9012480f5",
+      "kind": 176,
+      "children": [
+        "98a58cb5b9734279",
+        "07ee93ce4048c9ad",
+        "4d34e1da914039a3",
+        "8701a925e96e4ed0",
+        "6a0243ffc8f880ca"
+      ]
+    },
+    "1a1d94307ad62844": {
+      "id": "1a1d94307ad62844",
+      "kind": 352,
+      "children": [
+        "4ce720a9012480f5"
+      ]
+    },
+    "8d4c9fa4be617cac": {
+      "id": "8d4c9fa4be617cac",
+      "kind": 263,
+      "properties": {
+        "name": "ClassExport",
+        "hasExtends": false
+      },
+      "children": [
+        "5ee9eea8efce01ca",
+        "122a84a2ad15fe17",
+        "115edb076b3942a2",
+        "4713eebfd36a6d5e",
+        "1a1d94307ad62844",
+        "6e0340aa5cf0f794"
+      ]
+    },
+    "cf6d9a02b7269390": {
+      "id": "cf6d9a02b7269390",
+      "kind": 120,
+      "text": "interface"
+    },
+    "af6f126caff81823": {
+      "id": "af6f126caff81823",
+      "kind": 80,
+      "text": "InterfaceExport"
+    },
+    "ddc545a3675e7044": {
+      "id": "ddc545a3675e7044",
+      "kind": 80,
+      "text": "prop"
+    },
+    "b39318c43f936282": {
+      "id": "b39318c43f936282",
+      "kind": 154,
+      "text": "string"
+    },
+    "03221dd88d9ec216": {
+      "id": "03221dd88d9ec216",
+      "kind": 171,
+      "children": [
+        "ddc545a3675e7044",
+        "f05c96a2e9e9f31e",
+        "b39318c43f936282",
+        "32cd11979c3cbcde"
+      ]
+    },
+    "e7ce2a5f4f0eaa09": {
+      "id": "e7ce2a5f4f0eaa09",
+      "kind": 352,
+      "children": [
+        "03221dd88d9ec216"
+      ]
+    },
+    "5f0d0c0c310f533b": {
+      "id": "5f0d0c0c310f533b",
+      "kind": 264,
+      "properties": {
+        "name": "InterfaceExport",
+        "hasExtends": false
+      },
+      "children": [
+        "5ee9eea8efce01ca",
+        "cf6d9a02b7269390",
+        "af6f126caff81823",
+        "4713eebfd36a6d5e",
+        "e7ce2a5f4f0eaa09",
+        "6e0340aa5cf0f794"
+      ]
+    },
+    "83eab5f0a682f127": {
+      "id": "83eab5f0a682f127",
+      "kind": 94,
+      "text": "enum"
+    },
+    "df51a2e96cc0c55d": {
+      "id": "df51a2e96cc0c55d",
+      "kind": 80,
+      "text": "EnumExport"
+    },
+    "054e07ff0d381452": {
+      "id": "054e07ff0d381452",
+      "kind": 80,
+      "text": "First"
+    },
+    "f6e51efcce5b9b02": {
+      "id": "f6e51efcce5b9b02",
+      "kind": 11,
+      "text": "\"first\""
+    },
+    "4139a4163a58e193": {
+      "id": "4139a4163a58e193",
+      "kind": 306,
+      "children": [
+        "054e07ff0d381452",
+        "ae59a5457d3f2a59",
+        "f6e51efcce5b9b02"
+      ]
+    },
+    "7b240b050c264103": {
+      "id": "7b240b050c264103",
+      "kind": 28,
+      "text": ","
+    },
+    "c9dd486cb51245fd": {
+      "id": "c9dd486cb51245fd",
+      "kind": 80,
+      "text": "Second"
+    },
+    "efbd5dd5913c346b": {
+      "id": "efbd5dd5913c346b",
+      "kind": 11,
+      "text": "\"second\""
+    },
+    "2684ba92db76067a": {
+      "id": "2684ba92db76067a",
+      "kind": 306,
+      "children": [
+        "c9dd486cb51245fd",
+        "ae59a5457d3f2a59",
+        "efbd5dd5913c346b"
+      ]
+    },
+    "52e9fba9c900ff2c": {
+      "id": "52e9fba9c900ff2c",
+      "kind": 352,
+      "children": [
+        "4139a4163a58e193",
+        "7b240b050c264103",
+        "2684ba92db76067a"
+      ]
+    },
+    "89a134ef7ef3fb45": {
+      "id": "89a134ef7ef3fb45",
+      "kind": 266,
+      "children": [
+        "5ee9eea8efce01ca",
+        "83eab5f0a682f127",
+        "df51a2e96cc0c55d",
+        "4713eebfd36a6d5e",
+        "52e9fba9c900ff2c",
+        "6e0340aa5cf0f794"
+      ]
+    },
+    "76b02ec6ef6745d2": {
+      "id": "76b02ec6ef6745d2",
+      "kind": 156,
+      "text": "type"
+    },
+    "2060a2e24eca5951": {
+      "id": "2060a2e24eca5951",
+      "kind": 80,
+      "text": "TypeExport"
+    },
+    "0f509bb269118b7c": {
+      "id": "0f509bb269118b7c",
+      "kind": 52,
+      "text": "|"
+    },
+    "709d455aec5ad3c2": {
+      "id": "709d455aec5ad3c2",
+      "kind": 352,
+      "children": [
+        "b39318c43f936282",
+        "0f509bb269118b7c",
+        "949a179401778fc1"
+      ]
+    },
+    "9e609f6d6d488a6d": {
+      "id": "9e609f6d6d488a6d",
+      "kind": 192,
+      "children": [
+        "709d455aec5ad3c2"
+      ]
+    },
+    "33fdaf092de88814": {
+      "id": "33fdaf092de88814",
+      "kind": 265,
+      "children": [
+        "5ee9eea8efce01ca",
+        "76b02ec6ef6745d2",
+        "2060a2e24eca5951",
+        "ae59a5457d3f2a59",
+        "9e609f6d6d488a6d",
+        "32cd11979c3cbcde"
+      ]
+    },
+    "dfe9eb3b819c391d": {
+      "id": "dfe9eb3b819c391d",
+      "kind": 80,
+      "text": "localValue"
+    },
+    "dc34d67d034b94a0": {
+      "id": "dc34d67d034b94a0",
+      "kind": 11,
+      "text": "\"local\""
+    },
+    "0bc3a21a3683086b": {
+      "id": "0bc3a21a3683086b",
+      "kind": 260,
+      "properties": {
+        "name": "localValue",
+        "hasInitializer": true
+      },
+      "children": [
+        "dfe9eb3b819c391d",
+        "ae59a5457d3f2a59",
+        "dc34d67d034b94a0"
+      ]
+    },
+    "5b0020ed07859453": {
+      "id": "5b0020ed07859453",
+      "kind": 352,
+      "children": [
+        "0bc3a21a3683086b"
+      ]
+    },
+    "d958aea469ee04b7": {
+      "id": "d958aea469ee04b7",
+      "kind": 261,
+      "children": [
+        "617d70a2fe95ecaa",
+        "5b0020ed07859453"
+      ],
+      "leadingComments": [
+        {
+          "kind": "SingleLineCommentTrivia",
+          "text": "// Named exports"
+        }
+      ]
+    },
+    "35ba1fe147863f76": {
+      "id": "35ba1fe147863f76",
+      "kind": 243,
+      "children": [
+        "d958aea469ee04b7",
+        "32cd11979c3cbcde"
+      ],
+      "leadingComments": [
+        {
+          "kind": "SingleLineCommentTrivia",
+          "text": "// Named exports"
+        }
+      ]
+    },
+    "b71d9ad23248f29f": {
+      "id": "b71d9ad23248f29f",
+      "kind": 80,
+      "text": "anotherValue"
+    },
+    "cb37918d6a5dcdb4": {
+      "id": "cb37918d6a5dcdb4",
+      "kind": 9,
+      "text": "123"
+    },
+    "446410a39ee53775": {
+      "id": "446410a39ee53775",
+      "kind": 260,
+      "properties": {
+        "name": "anotherValue",
+        "hasInitializer": true
+      },
+      "children": [
+        "b71d9ad23248f29f",
+        "ae59a5457d3f2a59",
+        "cb37918d6a5dcdb4"
+      ]
+    },
+    "ad8df730972eb66b": {
+      "id": "ad8df730972eb66b",
+      "kind": 352,
+      "children": [
+        "446410a39ee53775"
+      ]
+    },
+    "dc59af2728307d4a": {
+      "id": "dc59af2728307d4a",
+      "kind": 261,
+      "children": [
+        "617d70a2fe95ecaa",
+        "ad8df730972eb66b"
+      ]
+    },
+    "ed2964134ed4060f": {
+      "id": "ed2964134ed4060f",
+      "kind": 243,
+      "children": [
+        "dc59af2728307d4a",
+        "32cd11979c3cbcde"
+      ]
+    },
+    "ef583f91c92cb606": {
+      "id": "ef583f91c92cb606",
+      "kind": 130,
+      "text": "as"
+    },
+    "80dd75f82502a320": {
+      "id": "80dd75f82502a320",
+      "kind": 80,
+      "text": "renamedExport"
+    },
+    "83af0ce1ad679b82": {
+      "id": "83af0ce1ad679b82",
+      "kind": 281,
+      "children": [
+        "ed2f1d981d37e570",
+        "ef583f91c92cb606",
+        "80dd75f82502a320"
+      ]
+    },
+    "a93bc15011cd7a31": {
+      "id": "a93bc15011cd7a31",
+      "kind": 281,
+      "children": [
+        "dfe9eb3b819c391d"
+      ]
+    },
+    "23c494247cd1c9bb": {
+      "id": "23c494247cd1c9bb",
+      "kind": 281,
+      "children": [
+        "b71d9ad23248f29f"
+      ]
+    },
+    "98324343925d85b4": {
+      "id": "98324343925d85b4",
+      "kind": 352,
+      "children": [
+        "83af0ce1ad679b82",
+        "7b240b050c264103",
+        "a93bc15011cd7a31",
+        "7b240b050c264103",
+        "23c494247cd1c9bb"
+      ]
+    },
+    "a5b9ddad2aa70f70": {
+      "id": "a5b9ddad2aa70f70",
+      "kind": 279,
+      "children": [
+        "4713eebfd36a6d5e",
+        "98324343925d85b4",
+        "6e0340aa5cf0f794"
+      ]
+    },
+    "889eeb7d34e57ea1": {
+      "id": "889eeb7d34e57ea1",
+      "kind": 278,
+      "children": [
+        "81d8d5ca18555a48",
+        "a5b9ddad2aa70f70",
+        "32cd11979c3cbcde"
+      ]
+    },
+    "d75c5f5b8fff3bfd": {
+      "id": "d75c5f5b8fff3bfd",
+      "kind": 80,
+      "text": "defaultValue"
+    },
+    "e656bed9c30df9b6": {
+      "id": "e656bed9c30df9b6",
+      "kind": 11,
+      "text": "\"default export value\""
+    },
+    "a3a4c00f4cd53a10": {
+      "id": "a3a4c00f4cd53a10",
+      "kind": 260,
+      "properties": {
+        "name": "defaultValue",
+        "hasInitializer": true
+      },
+      "children": [
+        "d75c5f5b8fff3bfd",
+        "ae59a5457d3f2a59",
+        "e656bed9c30df9b6"
+      ]
+    },
+    "2f2f5c333ae81808": {
+      "id": "2f2f5c333ae81808",
+      "kind": 352,
+      "children": [
+        "a3a4c00f4cd53a10"
+      ]
+    },
+    "9de0bdfdd5403153": {
+      "id": "9de0bdfdd5403153",
+      "kind": 261,
+      "children": [
+        "617d70a2fe95ecaa",
+        "2f2f5c333ae81808"
+      ],
+      "leadingComments": [
+        {
+          "kind": "SingleLineCommentTrivia",
+          "text": "// Re-exports (commented out to avoid module resolution errors)"
+        },
+        {
+          "kind": "SingleLineCommentTrivia",
+          "text": "// export { something } from './other-module';"
+        },
+        {
+          "kind": "SingleLineCommentTrivia",
+          "text": "// export { default as imported } from './another-module';"
+        },
+        {
+          "kind": "SingleLineCommentTrivia",
+          "text": "// export * from './all-exports';"
+        },
+        {
+          "kind": "SingleLineCommentTrivia",
+          "text": "// export * as namespace from './namespace-exports';"
+        },
+        {
+          "kind": "SingleLineCommentTrivia",
+          "text": "// Default export"
+        }
+      ]
+    },
+    "ca223611760fac3c": {
+      "id": "ca223611760fac3c",
+      "kind": 243,
+      "children": [
+        "9de0bdfdd5403153",
+        "32cd11979c3cbcde"
+      ],
+      "leadingComments": [
+        {
+          "kind": "SingleLineCommentTrivia",
+          "text": "// Re-exports (commented out to avoid module resolution errors)"
+        },
+        {
+          "kind": "SingleLineCommentTrivia",
+          "text": "// export { something } from './other-module';"
+        },
+        {
+          "kind": "SingleLineCommentTrivia",
+          "text": "// export { default as imported } from './another-module';"
+        },
+        {
+          "kind": "SingleLineCommentTrivia",
+          "text": "// export * from './all-exports';"
+        },
+        {
+          "kind": "SingleLineCommentTrivia",
+          "text": "// export * as namespace from './namespace-exports';"
+        },
+        {
+          "kind": "SingleLineCommentTrivia",
+          "text": "// Default export"
+        }
+      ]
+    },
+    "97b1962b10f169d0": {
+      "id": "97b1962b10f169d0",
+      "kind": 90,
+      "text": "default"
+    },
+    "c35dbb6da3ad15e6": {
+      "id": "c35dbb6da3ad15e6",
+      "kind": 277,
+      "children": [
+        "81d8d5ca18555a48",
+        "97b1962b10f169d0",
+        "d75c5f5b8fff3bfd",
+        "32cd11979c3cbcde"
+      ]
+    },
+    "454ae010c9007b3f": {
+      "id": "454ae010c9007b3f",
+      "kind": 352,
+      "children": [
+        "4307c76b9dc533f5",
+        "afca2b0ad04a52d2",
+        "56bf5d02c8aa1cb6",
+        "8960f0f17e6f0420",
+        "8d4c9fa4be617cac",
+        "5f0d0c0c310f533b",
+        "89a134ef7ef3fb45",
+        "33fdaf092de88814",
+        "35ba1fe147863f76",
+        "ed2964134ed4060f",
+        "889eeb7d34e57ea1",
+        "ca223611760fac3c",
+        "c35dbb6da3ad15e6"
+      ],
+      "leadingComments": [
+        {
+          "kind": "SingleLineCommentTrivia",
+          "text": "// Various export statement types for testing"
+        }
+      ]
+    },
+    "e73ad5df286d28d6": {
+      "id": "e73ad5df286d28d6",
+      "kind": 1,
+      "text": ""
+    },
+    "da9515791ffc8876": {
+      "id": "da9515791ffc8876",
+      "kind": 307,
+      "children": [
+        "454ae010c9007b3f",
+        "e73ad5df286d28d6"
+      ],
+      "leadingComments": [
+        {
+          "kind": "SingleLineCommentTrivia",
+          "text": "// Various export statement types for testing"
+        }
+      ]
+    }
+  }
+}

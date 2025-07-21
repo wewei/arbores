@@ -1,0 +1,10 @@
+description: Stringify simple export const statement
+command:
+  - stringify
+  - src/cli/__tests__/fixtures/export-simple.ast.json
+  - "--format"
+  - readable
+exitCode: 0
+environment: {}
+created: "2025-07-20T23:50:25.729Z"
+updated: "2025-07-20T23:50:25.729Z"

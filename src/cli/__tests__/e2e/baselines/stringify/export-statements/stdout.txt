@@ -1,0 +1,24 @@
+export const namedExport = 42;
+export let variableExport = "test";
+export var legacyVarExport = true;
+export function functionExport() {
+    return "exported function";
+}
+export class ClassExport {
+    constructor(public value: number) {
+    }
+}
+export interface InterfaceExport {
+    prop: string;
+}
+export enum EnumExport {
+    First = "first",
+    Second = "second"
+}
+export type TypeExport = string | number;
+const localValue = "local";
+const anotherValue = 123;
+export {};
+const defaultValue = "default export value";
+export default defaultValue;
+
