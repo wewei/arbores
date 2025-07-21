@@ -18,6 +18,7 @@ import { createNumericLiteral } from './nodes/numeric-literal';
 import { createStringLiteral } from './nodes/string-literal';
 import { createBooleanLiteral } from './nodes/boolean-literal';
 import { createPropertyAssignment } from './nodes/property-assignment';
+import { createShorthandPropertyAssignment } from './nodes/shorthand-property-assignment';
 import { createObjectLiteralExpression } from './nodes/object-literal-expression';
 import { createArrayLiteralExpression } from './nodes/array-literal-expression';
 import { createArrowFunction } from './nodes/arrow-function';
@@ -238,6 +239,8 @@ export function createNode<T extends ts.Node = ts.Node>(
       return createArrayLiteralExpression(createNode)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.PropertyAssignment:
       return createPropertyAssignment(createNode)(sourceFile, node) as unknown as T;
+    case ts.SyntaxKind.ShorthandPropertyAssignment:
+      return createShorthandPropertyAssignment(createNode)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.ArrowFunction:
       return createArrowFunction(createNode)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.Parameter:

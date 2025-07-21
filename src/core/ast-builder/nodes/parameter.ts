@@ -58,7 +58,8 @@ export const createParameter: NodeBuilderFn<ts.ParameterDeclaration> = (
   
   const name = createNode(sourceFile, nameNode) as ts.BindingName;
   
-  // 处理类型注解和默认值
+  // 处理类型注解、默认值和 rest 参数
+  let dotDotDotToken: ts.DotDotDotToken | undefined;
   let type: ts.TypeNode | undefined;
   let initializer: ts.Expression | undefined;
   
@@ -69,7 +70,10 @@ export const createParameter: NodeBuilderFn<ts.ParameterDeclaration> = (
     
     const childNode = sourceFile.nodes[childId];
     if (childNode) {
-      if (childNode.kind === ts.SyntaxKind.ColonToken) {
+      if (childNode.kind === ts.SyntaxKind.DotDotDotToken) {
+        // 这是一个 rest 参数
+        dotDotDotToken = ts.factory.createToken(ts.SyntaxKind.DotDotDotToken);
+      } else if (childNode.kind === ts.SyntaxKind.ColonToken) {
         // 下一个节点应该是类型
         if (i + 1 < children.length) {
           const nextChildId = children[i + 1];
@@ -99,7 +103,7 @@ export const createParameter: NodeBuilderFn<ts.ParameterDeclaration> = (
   
   return ts.factory.createParameterDeclaration(
     modifiers.length > 0 ? modifiers : undefined, // modifiers
-    undefined, // dotDotDotToken
+    dotDotDotToken, // dotDotDotToken
     name,
     undefined, // questionToken
     type,      // type

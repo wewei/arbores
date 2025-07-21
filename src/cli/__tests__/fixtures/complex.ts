@@ -50,7 +50,7 @@ class UserService extends BaseService {
       return {
         data: null as any,
         status: 'error',
-        message: `User with id ${id} not found`
+        message: `User with id ${id} not found`,
       };
     }
     

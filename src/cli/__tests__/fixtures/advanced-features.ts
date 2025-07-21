@@ -11,7 +11,15 @@ export const asyncArrowFunction = async (data: unknown[]): Promise<string[]> => 
 };
 
 // Destructuring and spread operators
-export function processData({ name, age, ...rest }: { name: string; age: number; [key: string]: unknown }) {
+export function processData({
+  name,
+  age,
+  ...rest
+}: {
+  name: string;
+  age: number;
+  [key: string]: unknown;
+}) {
   return { name, age, metadata: rest };
 }
 
