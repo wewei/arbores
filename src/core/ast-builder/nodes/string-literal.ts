@@ -20,7 +20,13 @@ export const createStringLiteral: NodeBuilderFn<ts.StringLiteral> = (
     throw new Error(`StringLiteral requires text property`);
   }
 
-  // node.text 已经包含引号，所以我们需要移除引号来获取实际内容
-  const content = node.text.slice(1, -1); // 移除首尾的引号
-  return ts.factory.createStringLiteral(content);
+  // node.text 已经包含引号，我们需要保持原始的引号样式
+  const originalText = node.text;
+  const isSingleQuote = originalText.startsWith("'");
+  
+  // 移除首尾的引号来获取实际内容
+  const content = originalText.slice(1, -1);
+  
+  // 使用 isSingleQuote 参数来保持原始的引号样式
+  return ts.factory.createStringLiteral(content, isSingleQuote);
 };
