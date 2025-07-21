@@ -42,7 +42,7 @@ arbores/
 │   ├── utils.ts   # 工具函数
 │   └── syntax-kind-names.ts # 语法类型名称
 ├── docs/          # 文档
-└── samples/       # 示例文件
+└── scripts/       # 开发工具脚本
 ```
 
 ### 重构需求分析

@@ -1,3 +1,0 @@
-// Template literal type test
-export type EventName = `on${Capitalize<string>}`;
-export type HTTPMethod = "GET" | "POST";

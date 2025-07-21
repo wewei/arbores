@@ -8,6 +8,39 @@ High-performance TypeScript AST parser and code generator with complete syntax s
 - ✅ **Advanced Features**: Constructor parameter modifiers, type guards, conditional types
 - ✅ **Full AST Round-trip**: Parse TypeScript → AST → Generate TypeScript
 - ✅ **Production Ready**: Successfully handles complex TypeScript codebases
+- ✅ **Refactored Architecture**: Clean separation of concerns with core API and CLI layers
+- ✅ **Function式 Design**: Pure functions with Result<T> error handling
+
+## 🏗️ Architecture
+
+Arbores follows a clean, layered architecture:
+
+```
+src/
+├── core/                    # Core API Layer (Pure Functions)
+│   ├── parser.ts           # parseCode() - Parse TypeScript to AST
+│   ├── query.ts            # getRoots(), getNode(), getChildren(), getParents()
+│   ├── stringify.ts        # stringifyNode() - Generate TypeScript from AST
+│   ├── types.ts            # Result<T>, ArborError, and core types
+│   └── ast-builder/        # AST node builders
+├── cli/                    # CLI Adapter Layer
+│   ├── commands/           # Modular CLI commands
+│   │   ├── parse.ts        # Parse command
+│   │   ├── stringify.ts    # Stringify command
+│   │   ├── roots.ts        # Roots query
+│   │   ├── children.ts     # Children query
+│   │   ├── parents.ts      # Parents query
+│   │   ├── tree.ts         # Tree visualization
+│   │   └── node.ts         # Node details
+│   └── utils.ts            # CLI utilities
+```
+
+### Design Principles
+
+- **Function式无状态**: All core APIs are pure functions
+- **统一错误处理**: Result<T> type for type-safe error handling
+- **数据存储外置**: No state management in core layer
+- **适配器模式**: CLI layer adapts core APIs to command-line interface
 
 ## Installation
 
@@ -153,6 +186,7 @@ arbores stringify -n <node-id> output.ast.json
   - Import/export statements and modules
   - Enums and namespaces
   - Try-catch exception handling
+  - Constructor parameter modifiers
 
 ### AST Processing
 
@@ -185,7 +219,49 @@ arbores stringify -n <node-id> output.ast.json
 - **📋 Markdown Tables**: Structured, readable output that works great in documentation
 - **🔗 API Integration**: JSON/YAML outputs perfect for piping to other tools or scripts
 
+## Core API (Node.js)
+
+The core layer provides pure functions for programmatic use:
+
+```typescript
+import { parseCode, getRoots, getNode, stringifyNode } from 'arbores/core';
+
+// Parse TypeScript code to AST
+const result = parseCode(sourceCode, baseAST);
+if (result.success) {
+  const ast = result.data;
+  
+  // Get root nodes
+  const roots = getRoots(ast);
+  
+  // Get specific node
+  const node = getNode(ast, nodeId);
+  
+  // Generate TypeScript code
+  const code = stringifyNode(ast, nodeId);
+}
+```
+
 ## Development
+
+### Project Structure
+
+```
+arbores/
+├── src/
+│   ├── core/              # Core API layer (pure functions)
+│   │   ├── parser.ts      # parseCode()
+│   │   ├── query.ts       # getRoots(), getNode(), etc.
+│   │   ├── stringify.ts   # stringifyNode()
+│   │   ├── types.ts       # Result<T>, ArborError
+│   │   └── ast-builder/   # AST node builders
+│   └── cli/               # CLI adapter layer
+│       ├── commands/      # Modular CLI commands
+│       ├── __tests__/     # E2E tests with fixtures
+│       └── utils.ts       # CLI utilities
+├── docs/                  # Architecture and design docs
+└── scripts/               # Development tools
+```
 
 ### Generate SyntaxKind Names
 
@@ -194,6 +270,39 @@ bun run generate:syntax-kinds
 ```
 
 This regenerates the human-readable names for TypeScript SyntaxKind enum values from the TypeScript definition file.
+
+### Testing
+
+```bash
+# Run all tests
+bun test
+
+# Run specific test file
+bun test src/core/__tests__/parser.test.ts
+```
+
+### Dead Code Analysis
+
+```bash
+# Analyze unused files
+bun run scripts/analyze-dead-code.ts
+
+# Custom root files
+bun run scripts/analyze-dead-code.ts --roots "src/main.ts,src/cli/index.ts"
+```
+
+## Recent Updates
+
+### v0.0.3 (Latest)
+- ✅ **Major Architecture Refactoring**: Clean separation of core API and CLI layers
+- ✅ **Function式 Design**: Pure functions with Result<T> error handling
+- ✅ **Modular CLI**: Commands organized into separate modules
+- ✅ **Dead Code Cleanup**: Removed unused files and improved code organization
+- ✅ **Enhanced Documentation**: Updated architecture and API design docs
+
+### Previous Versions
+- **v0.0.2**: Advanced TypeScript syntax support (95% coverage)
+- **v0.0.1**: Basic AST parsing and code generation
 
 ## License
 

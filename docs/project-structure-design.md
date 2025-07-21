@@ -49,8 +49,8 @@ arbores/
 │       └── error.ts           # CLI错误处理
 ├── tests/                     # 测试文件
 │   ├── fixtures/              # 共享测试数据
-│   │   ├── ast-samples/
-│   │   ├── ts-samples/
+│   │   ├── fixtures/
+│   │   └── e2e/
 │   │   └── expected/
 │   └── utils/                 # 测试工具
 │       ├── helpers.ts
@@ -60,7 +60,7 @@ arbores/
 │   ├── routes/               # 路由处理
 │   └── middleware/           # 中间件
 ├── docs/                      # 文档
-├── samples/                   # 示例文件
+├── scripts/                   # 开发工具脚本
 └── scripts/                   # 构建脚本
 ```
 
