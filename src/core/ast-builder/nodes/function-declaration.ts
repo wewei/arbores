@@ -18,8 +18,10 @@ export const createFunctionDeclaration: NodeBuilderFn<ts.FunctionDeclaration> = 
     const nameNode = findChildByKind(node.children || [], sourceFile, ts.SyntaxKind.Identifier);
     const name = nameNode ? (createNode(sourceFile, nameNode) as ts.Identifier) : ts.factory.createIdentifier('func');
     
-    // 查找类型参数
+    // 查找类型参数和生成器符号
     const typeParameters: ts.TypeParameterDeclaration[] = [];
+    let asteriskToken: ts.AsteriskToken | undefined;
+    
     for (const childId of node.children || []) {
       const childNode = sourceFile.nodes[childId];
       if (!childNode) continue;
@@ -39,6 +41,9 @@ export const createFunctionDeclaration: NodeBuilderFn<ts.FunctionDeclaration> = 
             typeParameters.push(typeParameter);
           }
         }
+      } else if (childNode.kind === ts.SyntaxKind.AsteriskToken) {
+        // 检测生成器符号
+        asteriskToken = createNode(sourceFile, childNode) as ts.AsteriskToken;
       }
     }
     
@@ -106,7 +111,7 @@ export const createFunctionDeclaration: NodeBuilderFn<ts.FunctionDeclaration> = 
     
     return ts.factory.createFunctionDeclaration(
       modifiers,
-      undefined, // asterisk token for generator functions
+      asteriskToken, // asterisk token for generator functions
       name,
       typeParameters.length > 0 ? typeParameters : undefined, // type parameters
       parameters,
