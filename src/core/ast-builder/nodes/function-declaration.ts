@@ -3,6 +3,7 @@ import type { SourceFileAST, ASTNode } from '../../types';
 import type { CreateNodeFn, NodeBuilderFn } from '../types';
 import { findChildByKind, getChildNodes } from '../utils/find-child';
 import { getModifiers } from '../utils/modifiers';
+import { isTypeNode } from '../utils';
 
 /**
  * 创建函数声明节点
@@ -89,19 +90,7 @@ export const createFunctionDeclaration: NodeBuilderFn<ts.FunctionDeclaration> = 
         const nextChildId = childIds[i + 1];
         if (nextChildId) {
           const typeNode = sourceFile.nodes[nextChildId];
-          if (typeNode && (
-            typeNode.kind === ts.SyntaxKind.StringKeyword ||
-            typeNode.kind === ts.SyntaxKind.NumberKeyword ||
-            typeNode.kind === ts.SyntaxKind.BooleanKeyword ||
-            typeNode.kind === ts.SyntaxKind.TypeReference ||
-            typeNode.kind === ts.SyntaxKind.TypePredicate ||
-            typeNode.kind === ts.SyntaxKind.UnionType ||
-            typeNode.kind === ts.SyntaxKind.LiteralType ||
-            typeNode.kind === ts.SyntaxKind.AnyKeyword ||
-            typeNode.kind === ts.SyntaxKind.VoidKeyword ||
-            typeNode.kind === ts.SyntaxKind.UnknownKeyword ||
-            typeNode.kind === ts.SyntaxKind.NeverKeyword
-          )) {
+          if (typeNode && isTypeNode(typeNode)) {
             type = createNode(sourceFile, typeNode) as ts.TypeNode;
             break;
           }

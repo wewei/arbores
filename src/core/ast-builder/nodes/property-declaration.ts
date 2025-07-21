@@ -1,7 +1,7 @@
 import * as ts from 'typescript';
 import type { SourceFileAST, ASTNode } from '../../types';
 import type { CreateNodeFn, NodeBuilderFn } from '../types';
-import { getModifiers } from '../utils';
+import { getModifiers, isTypeNode } from '../utils';
 
 /**
  * 创建属性声明节点
@@ -39,29 +39,13 @@ export const createPropertyDeclaration: NodeBuilderFn<ts.PropertyDeclaration> = 
       propertyName = createNode(sourceFile, child) as ts.PropertyName;
     } else if (child.kind === ts.SyntaxKind.QuestionToken) {
       questionToken = createNode(sourceFile, child) as ts.Token<ts.SyntaxKind.QuestionToken>;
-    } else if (
-      // 类型关键字节点
-      child.kind === ts.SyntaxKind.NumberKeyword ||
-      child.kind === ts.SyntaxKind.StringKeyword ||
-      child.kind === ts.SyntaxKind.BooleanKeyword ||
-      child.kind === ts.SyntaxKind.AnyKeyword ||
-      child.kind === ts.SyntaxKind.VoidKeyword ||
-      child.kind === ts.SyntaxKind.UnknownKeyword ||
-      child.kind === ts.SyntaxKind.NeverKeyword ||
-      // 或者类型引用
-      child.kind === ts.SyntaxKind.TypeReference ||
-      // 或者联合类型
-      child.kind === ts.SyntaxKind.UnionType ||
-      // 或者字面量类型
-      child.kind === ts.SyntaxKind.LiteralType ||
-      // 或者对象类型
-      child.kind === ts.SyntaxKind.TypeLiteral
-    ) {
+    } else if (isTypeNode(child)) {
       typeNode = createNode(sourceFile, child) as ts.TypeNode;
     } else if (child.kind === ts.SyntaxKind.BinaryExpression ||
                child.kind === ts.SyntaxKind.StringLiteral ||
                child.kind === ts.SyntaxKind.NumericLiteral ||
                child.kind === ts.SyntaxKind.ObjectLiteralExpression ||
+               child.kind === ts.SyntaxKind.ArrayLiteralExpression ||
                child.kind === ts.SyntaxKind.NewExpression ||
                child.kind === ts.SyntaxKind.CallExpression) {
       // 初始化器

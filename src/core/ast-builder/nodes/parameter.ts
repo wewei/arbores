@@ -1,6 +1,7 @@
 import * as ts from 'typescript';
 import type { SourceFileAST, ASTNode } from '../../types';
 import type { CreateNodeFn, NodeBuilderFn } from '../types';
+import { isTypeNode } from '../utils';
 
 /**
  * 创建参数声明节点
@@ -74,20 +75,7 @@ export const createParameter: NodeBuilderFn<ts.ParameterDeclaration> = (
           const nextChildId = children[i + 1];
           if (nextChildId) {
             const typeNode = sourceFile.nodes[nextChildId];
-            if (typeNode && (
-              typeNode.kind === ts.SyntaxKind.StringKeyword ||
-              typeNode.kind === ts.SyntaxKind.NumberKeyword ||
-              typeNode.kind === ts.SyntaxKind.BooleanKeyword ||
-              typeNode.kind === ts.SyntaxKind.TypeReference ||
-              typeNode.kind === ts.SyntaxKind.UnionType ||
-              typeNode.kind === ts.SyntaxKind.LiteralType ||
-              typeNode.kind === ts.SyntaxKind.AnyKeyword ||
-              typeNode.kind === ts.SyntaxKind.VoidKeyword ||
-              typeNode.kind === ts.SyntaxKind.UnknownKeyword ||
-              typeNode.kind === ts.SyntaxKind.NeverKeyword ||
-              typeNode.kind === ts.SyntaxKind.ArrayType ||
-              typeNode.kind === ts.SyntaxKind.TypeLiteral
-            )) {
+            if (typeNode && isTypeNode(typeNode)) {
               type = createNode(sourceFile, typeNode) as ts.TypeNode;
               i++; // 跳过已处理的类型节点
             }

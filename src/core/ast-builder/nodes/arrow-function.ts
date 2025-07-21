@@ -1,6 +1,7 @@
 import * as ts from 'typescript';
 import type { SourceFileAST, ASTNode } from '../../types';
 import type { CreateNodeFn, NodeBuilderFn } from '../types';
+import { getModifiers, isTypeNode } from '../utils';
 
 /**
  * 创建箭头函数节点
@@ -19,21 +20,47 @@ export const createArrowFunction: NodeBuilderFn<ts.ArrowFunction> = (
   node: ASTNode
 ): ts.ArrowFunction => {
   const children = node.children || [];
+  
+  // 获取修饰符 (包括 async)
+  const modifiers = getModifiers(children, sourceFile, createNode);
+  
   const parameters: ts.ParameterDeclaration[] = [];
+  const typeParameters: ts.TypeParameterDeclaration[] = [];
+  let typeNode: ts.TypeNode | undefined;
   let body: ts.ConciseBody | undefined;
   
-  // 查找参数和函数体
-  const findParameters = (nodeId: string): void => {
+  // 查找参数、类型参数、返回类型和函数体
+  const findElements = (nodeId: string): void => {
     const child = sourceFile.nodes[nodeId];
     if (!child) return;
     
     if (child.kind === ts.SyntaxKind.Parameter) {
       const param = createNode(sourceFile, child) as ts.ParameterDeclaration;
       parameters.push(param);
+    } else if (child.kind === ts.SyntaxKind.TypeParameter) {
+      const typeParameter = createNode(sourceFile, child) as ts.TypeParameterDeclaration;
+      typeParameters.push(typeParameter);
+    } else if (child.kind === ts.SyntaxKind.SyntaxList) {
+      // 处理 SyntaxList，它可能包含类型参数或参数
+      const syntaxListChildren = child.children || [];
+      for (const specifierId of syntaxListChildren) {
+        const specifierNode = sourceFile.nodes[specifierId];
+        if (!specifierNode) continue;
+        
+        if (specifierNode.kind === ts.SyntaxKind.TypeParameter) {
+          const typeParameter = createNode(sourceFile, specifierNode) as ts.TypeParameterDeclaration;
+          typeParameters.push(typeParameter);
+        } else if (specifierNode.kind === ts.SyntaxKind.Parameter) {
+          const param = createNode(sourceFile, specifierNode) as ts.ParameterDeclaration;
+          parameters.push(param);
+        }
+      }
+    } else if (isTypeNode(child)) {
+      typeNode = createNode(sourceFile, child) as ts.TypeNode;
     } else if (child.children) {
-      // 递归查找参数 (在 SyntaxList 中)
+      // 递归查找其他元素
       for (const grandChildId of child.children) {
-        findParameters(grandChildId);
+        findElements(grandChildId);
       }
     }
   };
@@ -56,9 +83,9 @@ export const createArrowFunction: NodeBuilderFn<ts.ArrowFunction> = (
     }
   }
   
-  // 处理参数
+  // 处理所有元素
   for (const childId of children) {
-    findParameters(childId);
+    findElements(childId);
   }
   
   // 处理函数体
@@ -75,10 +102,10 @@ export const createArrowFunction: NodeBuilderFn<ts.ArrowFunction> = (
   }
 
   return ts.factory.createArrowFunction(
-    undefined, // modifiers
-    undefined, // type parameters
+    modifiers.length > 0 ? modifiers : undefined, // modifiers
+    typeParameters.length > 0 ? typeParameters : undefined, // type parameters
     parameters,
-    undefined, // return type
+    typeNode, // return type
     ts.factory.createToken(ts.SyntaxKind.EqualsGreaterThanToken),
     body
   );

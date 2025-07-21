@@ -2,3 +2,4 @@
 export * from './find-child';
 export * from './modifiers';
 export * from './syntax-list';
+export * from './type-utils';

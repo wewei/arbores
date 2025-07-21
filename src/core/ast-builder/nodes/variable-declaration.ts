@@ -1,6 +1,7 @@
 import * as ts from 'typescript';
 import type { SourceFileAST, ASTNode } from '../../types';
 import type { CreateNodeFn, NodeBuilderFn } from '../types';
+import { isTypeNode } from '../utils';
 
 /**
  * 创建变量声明节点
@@ -50,14 +51,7 @@ export const createVariableDeclaration: NodeBuilderFn<ts.VariableDeclaration> = 
       if (currentIndex < children.length) {
         const typeChildId = children[currentIndex];
         const typeChildNode = sourceFile.nodes[typeChildId!];
-        if (typeChildNode && (
-          typeChildNode.kind === ts.SyntaxKind.TypeReference ||
-          typeChildNode.kind === ts.SyntaxKind.NumberKeyword ||
-          typeChildNode.kind === ts.SyntaxKind.StringKeyword ||
-          typeChildNode.kind === ts.SyntaxKind.BooleanKeyword ||
-          typeChildNode.kind === ts.SyntaxKind.AnyKeyword ||
-          typeChildNode.kind === ts.SyntaxKind.VoidKeyword
-        )) {
+        if (typeChildNode && isTypeNode(typeChildNode)) {
           typeNode = createNode(sourceFile, typeChildNode) as ts.TypeNode;
         }
       }

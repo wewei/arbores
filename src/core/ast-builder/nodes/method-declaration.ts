@@ -1,7 +1,7 @@
 import * as ts from 'typescript';
 import type { SourceFileAST, ASTNode } from '../../types';
 import type { CreateNodeFn, NodeBuilderFn } from '../types';
-import { getModifiers } from '../utils';
+import { getModifiers, isTypeNode } from '../utils';
 
 /**
  * 创建方法声明节点
@@ -47,20 +47,19 @@ export const createMethodDeclaration: NodeBuilderFn<ts.MethodDeclaration> = (
     } else if (child.kind === ts.SyntaxKind.TypeParameter) {
       const typeParameter = createNode(sourceFile, child) as ts.TypeParameterDeclaration;
       typeParameters.push(typeParameter);
-    } else if (
-      // 返回类型
-      child.kind === ts.SyntaxKind.NumberKeyword ||
-      child.kind === ts.SyntaxKind.StringKeyword ||
-      child.kind === ts.SyntaxKind.BooleanKeyword ||
-      child.kind === ts.SyntaxKind.AnyKeyword ||
-      child.kind === ts.SyntaxKind.VoidKeyword ||
-      child.kind === ts.SyntaxKind.UnknownKeyword ||
-      child.kind === ts.SyntaxKind.NeverKeyword ||
-      child.kind === ts.SyntaxKind.TypeReference ||
-      child.kind === ts.SyntaxKind.UnionType ||
-      child.kind === ts.SyntaxKind.LiteralType ||
-      child.kind === ts.SyntaxKind.TypeLiteral
-    ) {
+    } else if (child.kind === ts.SyntaxKind.SyntaxList) {
+      // 处理 SyntaxList，它可能包含类型参数
+      const syntaxListChildren = child.children || [];
+      for (const specifierId of syntaxListChildren) {
+        const specifierNode = sourceFile.nodes[specifierId];
+        if (!specifierNode) continue;
+        
+        if (specifierNode.kind === ts.SyntaxKind.TypeParameter) {
+          const typeParameter = createNode(sourceFile, specifierNode) as ts.TypeParameterDeclaration;
+          typeParameters.push(typeParameter);
+        }
+      }
+    } else if (isTypeNode(child)) {
       typeNode = createNode(sourceFile, child) as ts.TypeNode;
     }
   }
