@@ -39,11 +39,12 @@ function getTokensFromFile(filePath: string): string[] {
 
   let token = scanner.scan();
   while (token !== ts.SyntaxKind.EndOfFileToken) {
-    // 只收集非 trivia token
+    // 跳过所有 trivia（空白字符、注释、换行符等）
     if (token !== ts.SyntaxKind.WhitespaceTrivia && 
         token !== ts.SyntaxKind.NewLineTrivia && 
         token !== ts.SyntaxKind.SingleLineCommentTrivia && 
-        token !== ts.SyntaxKind.MultiLineCommentTrivia) {
+        token !== ts.SyntaxKind.MultiLineCommentTrivia &&
+        token !== ts.SyntaxKind.ShebangTrivia) {
       const tokenText = scanner.getTokenText();
       // 标准化换行符，避免因换行符差异导致的误报
       const normalizedText = tokenText.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
@@ -52,20 +53,7 @@ function getTokensFromFile(filePath: string): string[] {
     token = scanner.scan();
   }
 
-  // 过滤掉文件末尾的多余空行和分号
-  const filteredTokens = tokens.filter((token, index) => {
-    // 如果当前 token 是分号，且后面只有空行，则保留
-    if (token === ';' && index === tokens.length - 1) {
-      return true;
-    }
-    // 如果当前 token 是空行，且是最后一个 token，则过滤掉
-    if (token === '\n' && index === tokens.length - 1) {
-      return false;
-    }
-    return true;
-  });
-
-  return filteredTokens;
+  return tokens;
 }
 
 /**
@@ -81,23 +69,10 @@ function compareTokens(original: string[], roundtrip: string[]): { equal: boolea
 
   for (let i = 0; i < original.length; i++) {
     if (original[i] !== roundtrip[i]) {
-      // 检查是否是模板字符串结束的格式差异
+      // 检查是否是模板字符串结束的格式差异（包含换行符和导出语句）
       const originalToken = original[i] || '';
       const roundtripToken = roundtrip[i] || '';
       
-      // 如果两个 token 都包含模板字符串结束和导出语句，且内容基本相同，则认为是等价的
-      if (originalToken.includes('`') && roundtripToken.includes('`') &&
-          originalToken.includes('export') && roundtripToken.includes('export')) {
-        // 提取模板字符串部分进行比较
-        const originalTemplate = originalToken.split('export')[0];
-        const roundtripTemplate = roundtripToken.split('export')[0];
-        
-        if (originalTemplate === roundtripTemplate) {
-          continue; // 认为这个差异是可接受的
-        }
-      }
-      
-      // 检查是否是换行符数量的差异（在模板字符串结束和导出语句之间）
       if (originalToken.includes('`') && roundtripToken.includes('`') &&
           originalToken.includes('export') && roundtripToken.includes('export')) {
         // 标准化换行符数量进行比较
@@ -105,16 +80,6 @@ function compareTokens(original: string[], roundtrip: string[]): { equal: boolea
         const roundtripNormalized = roundtripToken.replace(/\n+/g, '\n');
         
         if (originalNormalized === roundtripNormalized) {
-          continue; // 认为这个差异是可接受的
-        }
-      }
-      
-      // 检查是否是文件末尾的换行符差异
-      if (i === original.length - 1) {
-        const originalTrimmed = originalToken.replace(/\n+$/, '');
-        const roundtripTrimmed = roundtripToken.replace(/\n+$/, '');
-        
-        if (originalTrimmed === roundtripTrimmed) {
           continue; // 认为这个差异是可接受的
         }
       }
