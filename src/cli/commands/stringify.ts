@@ -17,6 +17,7 @@ import {
   handleResult, 
   handleError, 
   outputData,
+  parseASTFile,
   isValidStringifyFormat as utilIsValidStringifyFormat,
   getDefaultStringifyFormat,
   type StringifyOptions,
@@ -56,16 +57,8 @@ export async function stringifyCommand(
       throw new Error(`AST file not found: ${astFilePath}`);
     }
 
-    // Read and parse AST
-    const astContent = await readFile(astFilePath);
-    let ast;
-    
-    // Parse as JSON AST file
-    try {
-      ast = JSON.parse(astContent);
-    } catch (error) {
-      throw new Error(`Invalid JSON in AST file: ${error instanceof Error ? error.message : 'Unknown error'}`);
-    }
+    // Read and parse AST (supports both JSON and YAML)
+    const ast = await parseASTFile(astFilePath);
 
     const stringifyOptions = { format };
     let result;

@@ -89,6 +89,27 @@ export function fileExists(filePath: string): boolean {
   }
 }
 
+/**
+ * Parse AST file (supports both JSON and YAML formats)
+ */
+export async function parseASTFile(filePath: string): Promise<any> {
+  const content = await readFile(filePath);
+  const ext = filePath.toLowerCase();
+  
+  try {
+    if (ext.endsWith('.yaml') || ext.endsWith('.yml')) {
+      // Parse YAML format
+      return yaml.load(content);
+    } else {
+      // Parse JSON format (default)
+      return JSON.parse(content);
+    }
+  } catch (error) {
+    const formatType = ext.endsWith('.yaml') || ext.endsWith('.yml') ? 'YAML' : 'JSON';
+    throw new Error(`Invalid ${formatType} in AST file: ${error instanceof Error ? error.message : 'Unknown error'}`);
+  }
+}
+
 // =============================================================================
 // Output Formatting
 // =============================================================================

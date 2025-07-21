@@ -1,4 +1,4 @@
-description: Get node details in YAML format
+description: Execute node command with yaml format
 command:
   - node
   - src/cli/__tests__/fixtures/simple.ast.json
@@ -7,6 +7,8 @@ command:
   - "--format"
   - yaml
 exitCode: 0
-environment: {}
+environment:
+  COLUMNS: "80"
+  MOCK_TIMESTAMP: "2025-01-01T00:00:00.000Z"
 created: "2025-07-20T23:20:23.089Z"
-updated: "2025-07-20T23:20:23.089Z"
+updated: "2025-07-21T03:32:24.824Z"

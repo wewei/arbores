@@ -2,6 +2,7 @@
  * Parse Command - Convert TypeScript source code to AST
  * 
  * This command wraps the Parser API to provide CLI access to parsing functionality.
+ * Supported output formats: json, yaml (markdown is NOT supported for parse)
  */
 
 import { parseCode } from '../../core';
@@ -13,16 +14,33 @@ import {
   handleError, 
   outputData,
   formatQueryOutput,
-  isValidQueryFormat,
-  getDefaultQueryFormat,
-  type QueryOptions,
-  type QueryOutputFormat
+  type QueryOptions
 } from '../utils';
+
+/**
+ * Valid output formats for parse command (excludes markdown)
+ */
+export type ParseOutputFormat = 'json' | 'yaml';
+
+/**
+ * Validate parse output format
+ */
+function isValidParseFormat(format: any): format is ParseOutputFormat {
+  return typeof format === 'string' && ['json', 'yaml'].includes(format);
+}
+
+/**
+ * Get default parse output format
+ */
+function getDefaultParseFormat(): ParseOutputFormat {
+  return 'json';
+}
 
 /**
  * Parse command options
  */
-export interface ParseCommandOptions extends QueryOptions {
+export interface ParseCommandOptions extends Omit<QueryOptions, 'format'> {
+  format?: ParseOutputFormat; // Only json and yaml allowed
   ast?: string;          // Path to existing AST file (for merging)
   dryRun?: boolean;      // Don't write output file, just validate
   description?: string;  // Description for the new version
@@ -37,13 +55,13 @@ export async function parseCommand(
 ): Promise<void> {
   try {
     // Validate and normalize options
-    if (options.format && !isValidQueryFormat(options.format)) {
-      throw new Error(`Invalid format: ${options.format}. Valid formats are: json, yaml, markdown`);
+    if (options.format && !isValidParseFormat(options.format)) {
+      throw new Error(`Invalid format: ${options.format}. Valid formats are: json, yaml`);
     }
     
-    const format = options.format && isValidQueryFormat(options.format) 
+    const format = options.format && isValidParseFormat(options.format) 
       ? options.format 
-      : getDefaultQueryFormat();
+      : getDefaultParseFormat();
 
     if (options.verbose) {
       console.error(`Parsing: ${sourceFilePath}`);

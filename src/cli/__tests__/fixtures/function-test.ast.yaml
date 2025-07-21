@@ -1,0 +1,272 @@
+file_name: src/cli/__tests__/fixtures/function-test.ts
+versions:
+  - created_at: '2025-07-20T23:18:03.830Z'
+    root_node_id: e18caa86a1b76d3c
+nodes:
+  d58640a0128d853c:
+    id: d58640a0128d853c
+    kind: 100
+    text: function
+    leadingComments:
+      - kind: SingleLineCommentTrivia
+        text: // Function-focused TypeScript code for stringify testing
+  8d26a8da49069746:
+    id: 8d26a8da49069746
+    kind: 80
+    text: hello
+  07ee93ce4048c9ad:
+    id: 07ee93ce4048c9ad
+    kind: 21
+    text: (
+  ca1117ceb5846350:
+    id: ca1117ceb5846350
+    kind: 80
+    text: name
+  f05c96a2e9e9f31e:
+    id: f05c96a2e9e9f31e
+    kind: 59
+    text: ':'
+  b39318c43f936282:
+    id: b39318c43f936282
+    kind: 154
+    text: string
+  5e2f54e3f1c980cf:
+    id: 5e2f54e3f1c980cf
+    kind: 169
+    children:
+      - ca1117ceb5846350
+      - f05c96a2e9e9f31e
+      - b39318c43f936282
+  3a593271746cbe65:
+    id: 3a593271746cbe65
+    kind: 352
+    children:
+      - 5e2f54e3f1c980cf
+  8701a925e96e4ed0:
+    id: 8701a925e96e4ed0
+    kind: 22
+    text: )
+  4713eebfd36a6d5e:
+    id: 4713eebfd36a6d5e
+    kind: 19
+    text: '{'
+  7edb62074756b3b6:
+    id: 7edb62074756b3b6
+    kind: 107
+    text: return
+  3b174f2df31a1d8c:
+    id: 3b174f2df31a1d8c
+    kind: 16
+    text: '`Hello, ${'
+  aa62ec1e6548f852:
+    id: aa62ec1e6548f852
+    kind: 18
+    text: '}!`'
+  8c25f57fd03280e7:
+    id: 8c25f57fd03280e7
+    kind: 239
+    children:
+      - ca1117ceb5846350
+      - aa62ec1e6548f852
+  0dbe3960b9ea93bf:
+    id: 0dbe3960b9ea93bf
+    kind: 352
+    children:
+      - 8c25f57fd03280e7
+  692a16520c15f752:
+    id: 692a16520c15f752
+    kind: 228
+    children:
+      - 3b174f2df31a1d8c
+      - 0dbe3960b9ea93bf
+  32cd11979c3cbcde:
+    id: 32cd11979c3cbcde
+    kind: 27
+    text: ;
+  2ec8de82ea1f85b7:
+    id: 2ec8de82ea1f85b7
+    kind: 253
+    children:
+      - 7edb62074756b3b6
+      - 692a16520c15f752
+      - 32cd11979c3cbcde
+  6f6786a0ff879548:
+    id: 6f6786a0ff879548
+    kind: 352
+    children:
+      - 2ec8de82ea1f85b7
+  6e0340aa5cf0f794:
+    id: 6e0340aa5cf0f794
+    kind: 20
+    text: '}'
+  a79d2323ac7169a7:
+    id: a79d2323ac7169a7
+    kind: 241
+    children:
+      - 4713eebfd36a6d5e
+      - 6f6786a0ff879548
+      - 6e0340aa5cf0f794
+  8c79c712c303a026:
+    id: 8c79c712c303a026
+    kind: 262
+    properties:
+      name: hello
+      parameters: 1
+    children:
+      - d58640a0128d853c
+      - 8d26a8da49069746
+      - 07ee93ce4048c9ad
+      - 3a593271746cbe65
+      - 8701a925e96e4ed0
+      - f05c96a2e9e9f31e
+      - b39318c43f936282
+      - a79d2323ac7169a7
+    leadingComments:
+      - kind: SingleLineCommentTrivia
+        text: // Function-focused TypeScript code for stringify testing
+  617d70a2fe95ecaa:
+    id: 617d70a2fe95ecaa
+    kind: 87
+    text: const
+  7a9a755772bca384:
+    id: 7a9a755772bca384
+    kind: 80
+    text: greeting
+  ae59a5457d3f2a59:
+    id: ae59a5457d3f2a59
+    kind: 64
+    text: '='
+  3b8204a3fe5ba3a8:
+    id: 3b8204a3fe5ba3a8
+    kind: 11
+    text: '"world"'
+  c99c78b57e408496:
+    id: c99c78b57e408496
+    kind: 352
+    children:
+      - 3b8204a3fe5ba3a8
+  0d5490dbc7495ba3:
+    id: 0d5490dbc7495ba3
+    kind: 213
+    children:
+      - 8d26a8da49069746
+      - 07ee93ce4048c9ad
+      - c99c78b57e408496
+      - 8701a925e96e4ed0
+  527e3dcc79d04f7a:
+    id: 527e3dcc79d04f7a
+    kind: 260
+    properties:
+      name: greeting
+      hasInitializer: true
+    children:
+      - 7a9a755772bca384
+      - ae59a5457d3f2a59
+      - 0d5490dbc7495ba3
+  f2ef9ebdfb1ea1c2:
+    id: f2ef9ebdfb1ea1c2
+    kind: 352
+    children:
+      - 527e3dcc79d04f7a
+  66ff48227e4f13c1:
+    id: 66ff48227e4f13c1
+    kind: 261
+    children:
+      - 617d70a2fe95ecaa
+      - f2ef9ebdfb1ea1c2
+  4bf8327af1c99242:
+    id: 4bf8327af1c99242
+    kind: 243
+    children:
+      - 66ff48227e4f13c1
+      - 32cd11979c3cbcde
+  155d678fcac614cf:
+    id: 155d678fcac614cf
+    kind: 80
+    text: console
+  2f2039fdff4af4a2:
+    id: 2f2039fdff4af4a2
+    kind: 25
+    text: .
+  5e3b468780618417:
+    id: 5e3b468780618417
+    kind: 80
+    text: log
+  92e68663719ebbad:
+    id: 92e68663719ebbad
+    kind: 211
+    children:
+      - 155d678fcac614cf
+      - 2f2039fdff4af4a2
+      - 5e3b468780618417
+  cce87c8a846245ee:
+    id: cce87c8a846245ee
+    kind: 352
+    children:
+      - 7a9a755772bca384
+  7bb995706a5be80c:
+    id: 7bb995706a5be80c
+    kind: 213
+    children:
+      - 92e68663719ebbad
+      - 07ee93ce4048c9ad
+      - cce87c8a846245ee
+      - 8701a925e96e4ed0
+  0718a0b14fd3e9b2:
+    id: 0718a0b14fd3e9b2
+    kind: 244
+    children:
+      - 7bb995706a5be80c
+      - 32cd11979c3cbcde
+  81d8d5ca18555a48:
+    id: 81d8d5ca18555a48
+    kind: 95
+    text: export
+  204f1734920a5d18:
+    id: 204f1734920a5d18
+    kind: 281
+    children:
+      - 8d26a8da49069746
+  11c24b5559d53a78:
+    id: 11c24b5559d53a78
+    kind: 352
+    children:
+      - 204f1734920a5d18
+  0672c4c74f14404f:
+    id: 0672c4c74f14404f
+    kind: 279
+    children:
+      - 4713eebfd36a6d5e
+      - 11c24b5559d53a78
+      - 6e0340aa5cf0f794
+  6f825a409fd58821:
+    id: 6f825a409fd58821
+    kind: 278
+    children:
+      - 81d8d5ca18555a48
+      - 0672c4c74f14404f
+      - 32cd11979c3cbcde
+  815f465e568494b5:
+    id: 815f465e568494b5
+    kind: 352
+    children:
+      - 8c79c712c303a026
+      - 4bf8327af1c99242
+      - 0718a0b14fd3e9b2
+      - 6f825a409fd58821
+    leadingComments:
+      - kind: SingleLineCommentTrivia
+        text: // Function-focused TypeScript code for stringify testing
+  e73ad5df286d28d6:
+    id: e73ad5df286d28d6
+    kind: 1
+    text: ''
+  e18caa86a1b76d3c:
+    id: e18caa86a1b76d3c
+    kind: 307
+    children:
+      - 815f465e568494b5
+      - e73ad5df286d28d6
+    leadingComments:
+      - kind: SingleLineCommentTrivia
+        text: // Function-focused TypeScript code for stringify testing

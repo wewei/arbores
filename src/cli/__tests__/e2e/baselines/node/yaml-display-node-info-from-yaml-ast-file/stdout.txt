@@ -1,0 +1,22 @@
+# Node: `d34879e61c10bc93`
+
+## Basic Information
+
+**ID**: `d34879e61c10bc93`
+
+**Kind**: 307
+
+**Kind Name**: SourceFile
+
+**Text**: _None_
+
+## Children (2)
+
+1. `e1bc1054054e0e2e`
+2. `e73ad5df286d28d6`
+
+## Leading Comments
+
+1. // Simple TypeScript code for testing
+
+

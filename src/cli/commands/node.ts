@@ -6,7 +6,8 @@ import { getNodeWithKindName } from '../../core';
 import { getSyntaxKindName } from '../../core/syntax-kind-names';
 import { 
   readFile, 
-  fileExists, 
+  
+  parseASTFile,fileExists, 
   handleResult, 
   handleError, 
   outputData,
@@ -48,14 +49,8 @@ export async function nodeCommand(
       throw new Error(`AST file not found: ${astFilePath}`);
     }
 
-    // Read and parse AST
-    const astContent = await readFile(astFilePath);
-    let ast;
-    try {
-      ast = JSON.parse(astContent);
-    } catch (error) {
-      throw new Error(`Invalid JSON in AST file: ${error instanceof Error ? error.message : 'Unknown error'}`);
-    }
+    // Read and parse AST (supports both JSON and YAML)
+    const ast = await parseASTFile(astFilePath);
 
     // Get node with kind name
     const node = handleResult(getNodeWithKindName(ast, nodeId), { verbose: options.verbose });
