@@ -7,13 +7,15 @@ if (isGreater) {
 }
 else
     /* Unsupported: ElseKeyword */
-for (let i = 0; i < 5; /* Unsupported: PostfixUnaryExpression */) {
+for (let i = 0; i < 5; i++) {
     console.log(i);
 }
 const items = [1, 2, 3];
-/* Unsupported: ForOfStatement */
+for (const item of (()) {
+    console.log(item);
+}
 try {
-    /* Unsupported: ThrowStatement */
+    throw ;;
 }
 catch (e) {
     console.error(e);

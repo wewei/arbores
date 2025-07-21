@@ -1,7 +1,7 @@
 export async function asyncGenerator(): AsyncIterableIterator {
-    for (let i = 0; i < 5; /* Unsupported: PostfixUnaryExpression */) {
-        await /* Unsupported: NewExpression */;
-        /* Unsupported: YieldExpression */;
+    for (let i = 0; i < 5; i++) {
+        await new Promise(resolve => setTimeout(resolve, 100));
+        yield i;
     }
 }
 export const asyncArrowFunction = (data: unknown[], item) => {
@@ -14,18 +14,18 @@ export function processData({ name, age, ... }: {
 }) {
     return { metadata: rest };
 }
-export const /* Unsupported: ArrayBindingPattern */ = [1, 2, 3, 4, 5];
-export type EventName = /* Unsupported: TemplateLiteralType */;
+export const [first, second, ...] = [1, 2, 3, 4, 5];
+export type EventName = /* Unsupported: TemplateHead */;
 export type HTTPMethod = "GET" | "POST" | "PUT" | "DELETE";
 export class EventEmitter {
     listeners;
     on(event: K, listener) {
-        if (!/* Unsupported: ElementAccessExpression */) {
-            /* Unsupported: ElementAccessExpression */ = [];
+        if (!this.listeners[event]) {
+            this.listeners[event] = [];
         }
-        /* Unsupported: NonNullExpression */.push(listener);
+        this.listeners[event]!.push(listener);
     }
     emit(event: K, ...) {
-        /* Unsupported: ElementAccessExpression */.forEach(listener => listener(...args));
+        this.listeners[event].forEach(listener => listener(...args));
     }
 }

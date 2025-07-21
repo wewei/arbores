@@ -2,8 +2,12 @@ export interface GenericContainer {
     value: T;
     metadata?: Record;
 }
-export type Optional = /* Unsupported: MappedType */;
-export type Required = /* Unsupported: MappedType */;
+export type Optional = {
+    [K in ]: any;
+};
+export type Required = {
+    [K in ]: any;
+};
 export function identity(arg: T): T {
     return arg;
 }
@@ -16,7 +20,7 @@ export class Container {
         return this._value;
     }
     create(value: U) {
-        return /* Unsupported: NewExpression */;
+        return new Container(value);
     }
 }
 export function isString(value: T | string): value is string {

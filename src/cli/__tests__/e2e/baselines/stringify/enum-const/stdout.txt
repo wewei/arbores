@@ -8,5 +8,5 @@ export const enum Color {
     GREEN = "#00ff00",
     BLUE = "#0000ff"
 }
-export const DEFAULT_CONFIG = /* Unsupported: AsExpression */;
+export const DEFAULT_CONFIG = { timeout: 5000, retries: 3, debug: false } as const;
 export type Config = /* Unsupported: TypeQuery */;

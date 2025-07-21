@@ -25,7 +25,7 @@ class UserService {
     getUser(id: number) {
         const user = this.users.get(id);
         if (!user) {
-            return { data: /* Unsupported: AsExpression */, status: "error", message: `User with id ${id} not found` };
+            return { data: null as any, status: "error", message: `User with id ${id} not found` };
         }
         return { data: user, status: "success" };
     }

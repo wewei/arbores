@@ -1,106 +1,135 @@
 # AST Builder 待支持的语法结构清单
 
-## 当前状态
-通过检查 e2e 测试用例和 CLI stringify 输出，发现以下还需要支持的语法结构。
+## 当前状态 (更新: 2025-07-21)
+通过检查 stringify e2e 测试输出中的 "Unsupported" 节点，发现以下还需要支持的语法结构。
 
-## 待实现的语法类型
+## 通过 e2e 测试发现的缺失语法支持 (实际需求)
 
-### 基础类型和关键字
-- [ ] **NullKeyword** - `null` 关键字
-- [ ] **UndefinedKeyword** - `undefined` 关键字
-- [ ] **VoidKeyword** - `void` 关键字
-- [ ] **AnyKeyword** - `any` 关键字
-- [ ] **NumberKeyword** - `number` 关键字
-- [ ] **StringKeyword** - `string` 关键字
-- [ ] **BooleanKeyword** - `boolean` 关键字
+### ✅ 已完成 (高优先级)
+1. **PostfixUnaryExpression** ✅ DONE
+   - 示例: `i++`, `j--`
+   - 状态: 正确输出递增/递减操作
 
-### 表达式和操作符
-- [ ] **ConditionalExpression** - 三元运算符 `a ? b : c`
-- [ ] **PostfixUnaryExpression** - 后缀运算符 `i++`, `j--`
-- [ ] **PrefixUnaryExpression** - 前缀运算符 `++i`, `--j`, `!flag`, `-num`
-- [ ] **TypeOfExpression** - `typeof` 表达式
-- [ ] **VoidExpression** - `void` 表达式
-- [ ] **DeleteExpression** - `delete` 表达式
-- [ ] **SpreadElement** - 扩展语法 `...args`
-- [ ] **TemplateExpression** - 模板字符串 `\`Hello \${name}\``
-- [ ] **TaggedTemplateExpression** - 标签模板字符串
-- [ ] **NewExpression** - `new` 表达式
-- [ ] **AsExpression** - 类型断言 `value as Type`
-- [ ] **NonNullExpression** - 非空断言 `value!`
+2. **NewExpression** ✅ DONE
+   - 示例: `new Promise()`, `new Array()`  
+   - 状态: 正确输出对象实例化
 
-### 语句类型
-- [ ] **IfStatement** - `if` 语句
-- [ ] **WhileStatement** - `while` 循环
-- [ ] **ForStatement** - `for` 循环
-- [ ] **ForInStatement** - `for...in` 循环
-- [ ] **ForOfStatement** - `for...of` 循环
-- [ ] **SwitchStatement** - `switch` 语句
-- [ ] **CaseClause** - `case` 语句
-- [ ] **DefaultClause** - `default` 语句
-- [ ] **TryStatement** - `try...catch` 语句
-- [ ] **ThrowStatement** - `throw` 语句
-- [ ] **BreakStatement** - `break` 语句
-- [ ] **ContinueStatement** - `continue` 语句
+3. **AsExpression** ✅ DONE (类型断言)
+   - 示例: `value as Type`, `obj as const`
+   - 状态: 正确输出类型转换
 
-### 函数和类相关
-- [ ] **Constructor** - 构造函数
-- [ ] **GetAccessor** - getter 方法
-- [ ] **SetAccessor** - setter 方法
-- [ ] **FunctionExpression** - 函数表达式
-- [ ] **MethodSignature** - 接口方法签名
-- [ ] **CallSignature** - 调用签名
-- [ ] **IndexSignature** - 索引签名
+4. **ElementAccessExpression** ✅ DONE  
+   - 示例: `obj[key]`, `array[index]`
+   - 状态: 正确输出动态属性访问
 
-### 类型系统
-- [ ] **UnionType** - 联合类型 `string | number`
-- [ ] **IntersectionType** - 交叉类型 `A & B`
-- [ ] **TypeLiteral** - 类型字面量
-- [ ] **MappedType** - 映射类型
-- [ ] **ConditionalType** - 条件类型
-- [ ] **TypeQuery** - `typeof` 类型查询
-- [ ] **IndexedAccessType** - 索引访问类型
-- [ ] **TupleType** - 元组类型
+5. **NonNullExpression** ✅ DONE (非空断言)
+   - 示例: `value!`
+   - 状态: 正确输出非空断言操作
 
-### 模块和导入导出
-- [ ] **ImportDeclaration** - `import` 声明
-- [ ] **ExportDeclaration** - `export` 声明
-- [ ] **ImportClause** - 导入子句
-- [ ] **NamespaceImport** - 命名空间导入
-- [ ] **NamedImports** - 具名导入
-- [ ] **ImportSpecifier** - 导入说明符
-- [ ] **ExportAssignment** - 导出赋值
+6. **ArrayBindingPattern** ✅ DONE (数组解构)
+   - 示例: `const [a, b] = array`
+   - 状态: 正确输出解构赋值
 
-### 装饰器和泛型
-- [ ] **Decorator** - 装饰器
-- [ ] **TypeParameter** - 类型参数
-- [ ] **TypeParameterDeclaration** - 类型参数声明
-- [ ] **TypeArguments** - 类型参数列表
+7. **YieldExpression** ✅ DONE
+   - 示例: `yield value`
+   - 状态: 正确输出 Generator 表达式
 
-### 高级结构
-- [ ] **EnumDeclaration** - 枚举声明
-- [ ] **EnumMember** - 枚举成员
-- [ ] **ModuleDeclaration** - 模块声明
-- [ ] **NamespaceDeclaration** - 命名空间声明
-- [ ] **TypeAliasDeclaration** - 类型别名
+### 🟡 部分完成 (需要调试)
+8. **ForOfStatement** 🔧 PARTIAL
+   - 示例: `for (const item of items)`
+   - 状态: 基本结构正确但表达式部分异常 `(() 而不是 items`
+   - 需要: 修复表达式解析逻辑
 
-## 优先级评估
+9. **ThrowStatement** 🔧 PARTIAL
+   - 示例: `throw new Error()`
+   - 状态: 基本结构正确但缺少表达式 `throw ;;` 而不是 `throw new Error()`
+   - 需要: 修复表达式查找逻辑
 
-### 高优先级 (Core Language Features)
-1. **基础类型关键字** - 需要优先支持类型注解
-2. **条件表达式和一元操作符** - 常见的表达式类型
-3. **基本控制流语句** (if, for, while, switch)
-4. **类型系统基础** (联合类型、类型引用的正确处理)
+4. **ElementAccessExpression**
+   - 示例: `obj[key]`, `array[index]`
+   - 出现在: `advanced-features` 测试
+   - 影响: 动态属性访问和数组索引
 
-### 中优先级 (Common Usage)
-1. **模板字符串和扩展操作符**
-2. **try-catch 错误处理**
-3. **构造函数和访问器**
-4. **导入导出语句**
+5. **NonNullExpression** (非空断言)
+   - 示例: `value!`
+   - 出现在: `advanced-features` 测试  
+   - 影响: TypeScript 非空断言操作
 
-### 低优先级 (Advanced Features)
-1. **装饰器**
-2. **高级类型操作**
-3. **模块和命名空间**
+### 🟡 中优先级 (功能完整性)
+
+6. **ForOfStatement**
+   - 示例: `for (const item of items)`
+   - 出现在: `control-flow` 测试
+   - 影响: 现代 JavaScript 循环语法
+
+7. **ThrowStatement**
+   - 示例: `throw new Error()`
+   - 出现在: `control-flow` 测试
+   - 影响: 错误处理
+
+8. **YieldExpression**
+   - 示例: `yield value`
+   - 出现在: `advanced-features` 测试
+   - 影响: Generator 函数支持
+
+9. **ArrayBindingPattern** (数组解构)
+   - 示例: `const [a, b] = array`
+   - 出现在: `advanced-features` 测试
+   - 影响: ES6 解构赋值
+
+### 🟢 低优先级 (类型系统)
+
+10. **IndexSignature** 
+    - 示例: `[key: string]: any`
+    - 出现在: `advanced-features` 测试
+    - 影响: 索引签名支持
+
+11. **TemplateLiteralType**
+    - 示例: `type Path = \`/api/\${string}\``
+    - 出现在: `advanced-features` 测试
+    - 影响: 模板字符串类型
+
+12. **MappedType** 
+    - 示例: `{ [K in keyof T]: T[K] }`
+    - 出现在: `generics-types` 测试
+    - 影响: 高级类型映射
+
+13. **TypeQuery**
+    - 示例: `typeof value`
+    - 出现在: `enum-const` 测试
+    - 影响: 类型查询操作
+
+### 🔵 特殊关键字
+
+14. **ElseKeyword** 
+    - 示例: `if (condition) {} else {}`
+    - 出现在: `control-flow` 测试
+    - 影响: 条件语句完整性
+
+## 实现优先级建议
+
+基于实际测试需求，推荐的实现顺序：
+
+### 第一批 (解决循环和对象创建)
+1. **PostfixUnaryExpression** - 修复 `i++` 循环问题
+2. **NewExpression** - 支持对象实例化 
+3. **ElementAccessExpression** - 支持数组/对象动态访问
+
+### 第二批 (完善表达式支持)  
+4. **AsExpression** - TypeScript 类型断言
+5. **NonNullExpression** - TypeScript 非空断言
+6. **ForOfStatement** - 现代循环语法
+
+### 第三批 (错误处理和高级特性)
+7. **ThrowStatement** - 错误处理
+8. **YieldExpression** - Generator 支持
+9. **ArrayBindingPattern** - 解构赋值
+
+### 第四批 (类型系统完善)
+10. **IndexSignature** - 索引签名
+11. **TypeQuery** - typeof 类型查询  
+12. **MappedType** - 映射类型
+13. **TemplateLiteralType** - 模板字符串类型
 
 ## 当前已实现的节点类型 (20+)
 ✅ NumericLiteral, StringLiteral, BooleanLiteral, Identifier, ThisKeyword
@@ -110,36 +139,43 @@
 ✅ ClassDeclaration, InterfaceDeclaration, PropertyDeclaration, MethodDeclaration, PropertySignature
 ✅ Parameter, TypeReference (部分支持)
 
-## 下一步计划
-1. ✅ **修复 JSON 解析问题** - 已修复：stringify 命令现在可以智能处理 .ts 和 .ast.json 文件
-2. 实现控制流语句 (if, for, while, try-catch 等) - **当前高优先级**
-3. 实现基础类型关键字 (number, string, boolean 等)
-4. 完善 TypeReference 在类型注解中的正确处理  
-5. 实现条件表达式和一元操作符
-6. 添加枚举和类型别名支持
+## 实现状态追踪
 
-## 通过 e2e stringify 测试发现的缺失语法 (急需实现)
+### 🔴 高优先级 (急需实现)
+- [ ] **PostfixUnaryExpression** - 后缀自增/自减
+- [ ] **NewExpression** - 对象实例化
+- [ ] **AsExpression** - 类型断言 
+- [ ] **ElementAccessExpression** - 动态属性访问
+- [ ] **NonNullExpression** - 非空断言
 
-从运行 stringify 测试中发现以下语法结构仍然缺失支持：
+### � 中优先级 (功能完整性)
+- [ ] **ForOfStatement** - for...of 循环
+- [ ] **ThrowStatement** - throw 语句
+- [ ] **YieldExpression** - yield 表达式
+- [ ] **ArrayBindingPattern** - 数组解构
 
-### 🔴 高优先级 (造成 e2e 测试失败)
-1. **控制流语句**: `IfStatement`, `ForStatement`, `WhileStatement`, `TryCatchStatement`
-   - 状态: ❌ 未实现 (`stringify/control-flow` 测试失败)
-   - 影响: 无法处理包含条件和循环的代码
+### � 低优先级 (高级特性)
+- [ ] **IndexSignature** - 索引签名
+- [ ] **TemplateLiteralType** - 模板字符串类型
+- [ ] **MappedType** - 映射类型
+- [ ] **TypeQuery** - typeof 类型查询
 
-### 🟡 中优先级 (功能完整性)
-2. **基础表达式**: `ConditionalExpression`, `PrefixUnaryExpression`, `PostfixUnaryExpression`
-   - 状态: ❌ 未实现
-   - 影响: 三元操作符、++/-- 等常见表达式无法处理
+### 🔵 特殊情况
+- [ ] **ElseKeyword** - else 关键字处理
 
-3. **类型系统增强**: 泛型约束、映射类型、条件类型
-   - 状态: ⚠️ 部分实现 (基本泛型已支持)
-   - 影响: 高级 TypeScript 特性支持不完整
+## 下一步行动计划
 
-### 🟢 低优先级 (边缘情况)
-4. **装饰器**: `Decorator` 相关语法
-   - 状态: ❌ 未实现
-   - 影响: 现代框架代码支持有限
+1. **🎯 当前焦点**: 实现 **PostfixUnaryExpression** 
+   - 这是最频繁出现的缺失节点类型
+   - 影响循环测试的核心功能
+
+2. **🔄 测试验证策略**: 
+   - 每实现一个节点类型后，运行相关的 stringify 测试
+   - 通过 `Get-Content stdout.txt | Select-String "Unsupported"` 验证进度
+
+3. **📊 进度跟踪**:
+   - 实现前: 14 个 Unsupported 节点类型
+   - 目标: 逐步减少到 0 个 Unsupported 节点
 
 ---
 *此文档将随着实现进度更新*

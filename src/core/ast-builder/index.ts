@@ -37,6 +37,19 @@ import { createSyntaxList } from './nodes/syntax-list';
 import { createTemplateExpression } from './nodes/template-expression';
 import { createTemplateSpan } from './nodes/template-span';
 import { createPrefixUnaryExpression } from './nodes/prefix-unary-expression';
+import { createPostfixUnaryExpression } from './nodes/postfix-unary-expression';
+import { createNewExpression } from './nodes/new-expression';
+import { createElementAccessExpression } from './nodes/element-access-expression';
+import { createAsExpression } from './nodes/as-expression';
+import { createNonNullExpression } from './nodes/non-null-expression';
+import { createForOfStatement } from './nodes/for-of-statement';
+import { createThrowStatement } from './nodes/throw-statement';
+import { createYieldExpression } from './nodes/yield-expression';
+import { createArrayBindingPattern } from './nodes/array-binding-pattern';
+import { createTupleType } from './nodes/tuple-type';
+import { createMappedType } from './nodes/mapped-type';
+import { createTemplateLiteralType } from './nodes/template-literal-type';
+import { createIntersectionType } from './nodes/intersection-type';
 import { createExpressionStatement } from './nodes/expression-statement';
 import { createConditionalExpression } from './nodes/conditional-expression';
 import { createTypeAliasDeclaration } from './nodes/type-alias-declaration';
@@ -165,6 +178,32 @@ export function createNode<T extends ts.Node = ts.Node>(
       return createTemplateSpan(createNode)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.PrefixUnaryExpression:
       return createPrefixUnaryExpression(createNode)(sourceFile, node) as unknown as T;
+    case ts.SyntaxKind.PostfixUnaryExpression:
+      return createPostfixUnaryExpression(createNode)(sourceFile, node) as unknown as T;
+    case ts.SyntaxKind.NewExpression:
+      return createNewExpression(createNode)(sourceFile, node) as unknown as T;
+    case ts.SyntaxKind.ElementAccessExpression:
+      return createElementAccessExpression(createNode)(sourceFile, node) as unknown as T;
+    case ts.SyntaxKind.AsExpression:
+      return createAsExpression(createNode)(sourceFile, node) as unknown as T;
+    case ts.SyntaxKind.NonNullExpression:
+      return createNonNullExpression(createNode)(sourceFile, node) as unknown as T;
+    case ts.SyntaxKind.ForOfStatement:
+      return createForOfStatement(createNode)(sourceFile, node) as unknown as T;
+    case ts.SyntaxKind.ThrowStatement:
+      return createThrowStatement(createNode)(sourceFile, node) as unknown as T;
+    case ts.SyntaxKind.YieldExpression:
+      return createYieldExpression(createNode)(sourceFile, node) as unknown as T;
+    case ts.SyntaxKind.ArrayBindingPattern:
+      return createArrayBindingPattern(createNode)(sourceFile, node) as unknown as T;
+    case ts.SyntaxKind.TupleType:
+      return createTupleType(createNode)(sourceFile, node) as unknown as T;
+    case ts.SyntaxKind.MappedType:
+      return createMappedType(createNode)(sourceFile, node) as unknown as T;
+    case ts.SyntaxKind.TemplateLiteralType:
+      return createTemplateLiteralType(createNode)(sourceFile, node) as unknown as T;
+    case ts.SyntaxKind.IntersectionType:
+      return createIntersectionType(createNode)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.ConditionalExpression:
       return createConditionalExpression(createNode)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.SpreadElement:
