@@ -29,9 +29,10 @@ export const createClassDeclaration: NodeBuilderFn<ts.ClassDeclaration> = (
   
   let className: ts.Identifier | undefined;
   const typeParameters: ts.TypeParameterDeclaration[] = [];
+  const heritageClauses: ts.HeritageClause[] = [];
   const members: ts.ClassElement[] = [];
   
-  // 查找类名和类型参数
+  // 查找类名、类型参数和继承子句
   for (const childId of children) {
     const child = sourceFile.nodes[childId];
     if (!child) continue;
@@ -41,8 +42,11 @@ export const createClassDeclaration: NodeBuilderFn<ts.ClassDeclaration> = (
     } else if (child.kind === ts.SyntaxKind.TypeParameter) {
       const typeParameter = createNode(sourceFile, child) as ts.TypeParameterDeclaration;
       typeParameters.push(typeParameter);
+    } else if (child.kind === ts.SyntaxKind.HeritageClause) {
+      const heritageClause = createNode(sourceFile, child) as ts.HeritageClause;
+      heritageClauses.push(heritageClause);
     } else if (child.kind === ts.SyntaxKind.SyntaxList) {
-      // 处理 SyntaxList，它可能包含类型参数
+      // 处理 SyntaxList，它可能包含类型参数或继承子句
       const syntaxListChildren = child.children || [];
       for (const specifierId of syntaxListChildren) {
         const specifierNode = sourceFile.nodes[specifierId];
@@ -51,6 +55,9 @@ export const createClassDeclaration: NodeBuilderFn<ts.ClassDeclaration> = (
         if (specifierNode.kind === ts.SyntaxKind.TypeParameter) {
           const typeParameter = createNode(sourceFile, specifierNode) as ts.TypeParameterDeclaration;
           typeParameters.push(typeParameter);
+        } else if (specifierNode.kind === ts.SyntaxKind.HeritageClause) {
+          const heritageClause = createNode(sourceFile, specifierNode) as ts.HeritageClause;
+          heritageClauses.push(heritageClause);
         }
       }
     }
@@ -92,7 +99,7 @@ export const createClassDeclaration: NodeBuilderFn<ts.ClassDeclaration> = (
     modifiers.length > 0 ? modifiers : undefined, // modifiers
     className,
     typeParameters.length > 0 ? typeParameters : undefined, // type parameters
-    undefined, // heritage clauses
+    heritageClauses.length > 0 ? heritageClauses : undefined, // heritage clauses
     members
   );
 };

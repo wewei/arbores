@@ -38,8 +38,21 @@ export const createHeritageClause: NodeBuilderFn<ts.HeritageClause> = (createNod
     for (let i = 1; i < children.length; i++) {
       const childId = children[i];
       const childNode = sourceFile.nodes[childId!];
-      if (childNode && childNode.kind === ts.SyntaxKind.ExpressionWithTypeArguments) {
+      if (!childNode) continue;
+      
+      if (childNode.kind === ts.SyntaxKind.ExpressionWithTypeArguments) {
         types.push(createNode(sourceFile, childNode) as ts.ExpressionWithTypeArguments);
+      } else if (childNode.kind === ts.SyntaxKind.SyntaxList) {
+        // 处理 SyntaxList 中的类型节点
+        const syntaxListChildren = childNode.children || [];
+        for (const typeId of syntaxListChildren) {
+          const typeNode = sourceFile.nodes[typeId];
+          if (!typeNode) continue;
+          
+          if (typeNode.kind === ts.SyntaxKind.ExpressionWithTypeArguments) {
+            types.push(createNode(sourceFile, typeNode) as ts.ExpressionWithTypeArguments);
+          }
+        }
       }
     }
     

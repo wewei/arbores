@@ -11,28 +11,43 @@ export const createUnionType: NodeBuilderFn<ts.UnionTypeNode> = (createNode: Cre
       throw new Error(`UnionType should have at least 1 child, got ${children.length}`);
     }
     
-    // 提取所有类型节点，自动处理 SyntaxList 包装器
-    const allNodes = extractFromSyntaxList(children, sourceFile);
-    
-    // 过滤出类型节点，跳过分隔符
-    const typeNodes = allNodes.filter(child => !shouldSkipNode(child));
-    
-    if (typeNodes.length < 2) {
-      throw new Error(`UnionType should have at least 2 types, got ${typeNodes.length}`);
-    }
-    
+    // 查找 SyntaxList 中的类型节点
     const types: ts.TypeNode[] = [];
-    for (const typeNode of typeNodes) {
-      try {
-        const type = createNode(sourceFile, typeNode) as ts.TypeNode;
-        types.push(type);
-      } catch (error) {
-        console.warn(`Failed to create union type member for ${ts.SyntaxKind[typeNode.kind]}:`, error);
+    
+    for (const childId of children) {
+      const childNode = sourceFile.nodes[childId];
+      if (!childNode) continue;
+      
+      if (childNode.kind === ts.SyntaxKind.SyntaxList) {
+        // 处理 SyntaxList 中的类型节点
+        const syntaxListChildren = childNode.children || [];
+        for (const typeId of syntaxListChildren) {
+          const typeNode = sourceFile.nodes[typeId];
+          if (!typeNode) continue;
+          
+          // 跳过管道符号和其他分隔符
+          if (shouldSkipNode(typeNode)) continue;
+          
+          try {
+            const type = createNode(sourceFile, typeNode) as ts.TypeNode;
+            types.push(type);
+          } catch (error) {
+            console.warn(`Failed to create union type member for ${ts.SyntaxKind[typeNode.kind]}:`, error);
+          }
+        }
+      } else if (!shouldSkipNode(childNode)) {
+        // 直接处理类型节点（非 SyntaxList）
+        try {
+          const type = createNode(sourceFile, childNode) as ts.TypeNode;
+          types.push(type);
+        } catch (error) {
+          console.warn(`Failed to create union type member for ${ts.SyntaxKind[childNode.kind]}:`, error);
+        }
       }
     }
     
     if (types.length < 2) {
-      throw new Error(`UnionType should have at least 2 valid types after processing`);
+      throw new Error(`UnionType should have at least 2 valid types after processing, got ${types.length}`);
     }
     
     return ts.factory.createUnionTypeNode(types);

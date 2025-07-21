@@ -60,8 +60,37 @@ export const createTypeAliasDeclaration: NodeBuilderFn<ts.TypeAliasDeclaration> 
     // 检查是否有类型参数（在名称和等号之间）
     let typeParameters: ts.TypeParameterDeclaration[] | undefined;
     if (equalsIndex > nameIndex + 1) {
-      // 可能有类型参数，但现在先忽略
-      typeParameters = undefined;
+      // 查找类型参数
+      typeParameters = [];
+      for (let i = nameIndex + 1; i < equalsIndex; i++) {
+        const childId = children[i];
+        if (!childId) continue;
+        
+        const childNode = sourceFile.nodes[childId];
+        if (!childNode) continue;
+        
+        if (childNode.kind === ts.SyntaxKind.TypeParameter) {
+          const typeParameter = createNode(sourceFile, childNode) as ts.TypeParameterDeclaration;
+          typeParameters.push(typeParameter);
+        } else if (childNode.kind === ts.SyntaxKind.SyntaxList) {
+          // 处理 SyntaxList，它可能包含类型参数
+          const syntaxListChildren = childNode.children || [];
+          for (const specifierId of syntaxListChildren) {
+            const specifierNode = sourceFile.nodes[specifierId];
+            if (!specifierNode) continue;
+            
+            if (specifierNode.kind === ts.SyntaxKind.TypeParameter) {
+              const typeParameter = createNode(sourceFile, specifierNode) as ts.TypeParameterDeclaration;
+              typeParameters.push(typeParameter);
+            }
+          }
+        }
+      }
+      
+      // 如果没有找到类型参数，设为 undefined
+      if (typeParameters.length === 0) {
+        typeParameters = undefined;
+      }
     }
     
     return ts.factory.createTypeAliasDeclaration(

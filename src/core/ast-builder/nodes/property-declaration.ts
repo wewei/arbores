@@ -1,6 +1,7 @@
 import * as ts from 'typescript';
 import type { SourceFileAST, ASTNode } from '../../types';
 import type { CreateNodeFn, NodeBuilderFn } from '../types';
+import { getModifiers } from '../utils';
 
 /**
  * 创建属性声明节点
@@ -20,14 +21,49 @@ export const createPropertyDeclaration: NodeBuilderFn<ts.PropertyDeclaration> = 
   node: ASTNode
 ): ts.PropertyDeclaration => {
   const children = node.children || [];
-  let propertyName: ts.PropertyName | undefined;
   
-  // 查找属性名 (通常是 Identifier)
+  // 获取修饰符
+  const modifiers = getModifiers(children, sourceFile, createNode);
+  
+  let propertyName: ts.PropertyName | undefined;
+  let questionToken: ts.Token<ts.SyntaxKind.QuestionToken> | undefined;
+  let typeNode: ts.TypeNode | undefined;
+  let initializer: ts.Expression | undefined;
+  
+  // 查找属性名、类型注解和初始化器
   for (const childId of children) {
     const child = sourceFile.nodes[childId];
-    if (child && child.kind === ts.SyntaxKind.Identifier) {
+    if (!child) continue;
+    
+    if (child.kind === ts.SyntaxKind.Identifier && !propertyName) {
       propertyName = createNode(sourceFile, child) as ts.PropertyName;
-      break;
+    } else if (child.kind === ts.SyntaxKind.QuestionToken) {
+      questionToken = createNode(sourceFile, child) as ts.Token<ts.SyntaxKind.QuestionToken>;
+    } else if (
+      // 类型关键字节点
+      child.kind === ts.SyntaxKind.NumberKeyword ||
+      child.kind === ts.SyntaxKind.StringKeyword ||
+      child.kind === ts.SyntaxKind.BooleanKeyword ||
+      child.kind === ts.SyntaxKind.AnyKeyword ||
+      child.kind === ts.SyntaxKind.VoidKeyword ||
+      child.kind === ts.SyntaxKind.UnknownKeyword ||
+      child.kind === ts.SyntaxKind.NeverKeyword ||
+      // 或者类型引用
+      child.kind === ts.SyntaxKind.TypeReference ||
+      // 或者联合类型
+      child.kind === ts.SyntaxKind.UnionType ||
+      // 或者字面量类型
+      child.kind === ts.SyntaxKind.LiteralType ||
+      // 或者对象类型
+      child.kind === ts.SyntaxKind.TypeLiteral
+    ) {
+      typeNode = createNode(sourceFile, child) as ts.TypeNode;
+    } else if (child.kind === ts.SyntaxKind.BinaryExpression ||
+               child.kind === ts.SyntaxKind.StringLiteral ||
+               child.kind === ts.SyntaxKind.NumericLiteral ||
+               child.kind === ts.SyntaxKind.ObjectLiteralExpression) {
+      // 初始化器
+      initializer = createNode(sourceFile, child) as ts.Expression;
     }
   }
   
@@ -35,12 +71,11 @@ export const createPropertyDeclaration: NodeBuilderFn<ts.PropertyDeclaration> = 
     propertyName = ts.factory.createIdentifier('property');
   }
   
-  // 简化实现：创建基本的属性声明
   return ts.factory.createPropertyDeclaration(
-    undefined, // modifiers
+    modifiers.length > 0 ? modifiers : undefined, // modifiers
     propertyName,
-    undefined, // question token
-    undefined, // type
-    undefined  // initializer
+    questionToken, // question token
+    typeNode, // type
+    initializer // initializer
   );
 };

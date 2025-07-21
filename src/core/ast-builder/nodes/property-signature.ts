@@ -39,8 +39,16 @@ export const createPropertySignature: NodeBuilderFn<ts.PropertySignature> = (
       child.kind === ts.SyntaxKind.BooleanKeyword ||
       child.kind === ts.SyntaxKind.AnyKeyword ||
       child.kind === ts.SyntaxKind.VoidKeyword ||
+      child.kind === ts.SyntaxKind.UnknownKeyword ||
+      child.kind === ts.SyntaxKind.NeverKeyword ||
       // 或者类型引用
-      child.kind === ts.SyntaxKind.TypeReference
+      child.kind === ts.SyntaxKind.TypeReference ||
+      // 或者联合类型
+      child.kind === ts.SyntaxKind.UnionType ||
+      // 或者字面量类型
+      child.kind === ts.SyntaxKind.LiteralType ||
+      // 或者对象类型
+      child.kind === ts.SyntaxKind.TypeLiteral
     ) {
       typeNode = createNode(sourceFile, child) as ts.TypeNode;
     }
