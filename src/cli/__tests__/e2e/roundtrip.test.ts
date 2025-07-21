@@ -1,0 +1,262 @@
+/**
+ * Roundtrip E2E Test Runner
+ * 
+ * 验证 TypeScript 文件的 parse → stringify → token 比较的往返测试
+ */
+
+import { describe, test, expect } from 'bun:test';
+import { spawn } from 'child_process';
+import { readFileSync, writeFileSync, existsSync, unlinkSync } from 'fs';
+import { join } from 'path';
+import * as ts from 'typescript';
+
+// 测试文件目录
+const FIXTURES_DIR = join(__dirname, '../fixtures');
+
+interface RoundtripResult {
+  success: boolean;
+  error?: string;
+  tokenCount: {
+    original: number;
+    roundtrip: number;
+  };
+  tokenDiff?: {
+    original: string[];
+    roundtrip: string[];
+  };
+}
+
+/**
+ * 使用 TypeScript scanner 获取文件的 token 列表（排除 trivia）
+ */
+function getTokensFromFile(filePath: string): string[] {
+  const sourceCode = readFileSync(filePath, 'utf-8');
+  const tokens: string[] = [];
+  const scanner = ts.createScanner(ts.ScriptTarget.Latest, false, ts.LanguageVariant.Standard, sourceCode);
+
+  let token = scanner.scan();
+  while (token !== ts.SyntaxKind.EndOfFileToken) {
+    // 只收集非 trivia token
+    if (token !== ts.SyntaxKind.WhitespaceTrivia && 
+        token !== ts.SyntaxKind.NewLineTrivia && 
+        token !== ts.SyntaxKind.SingleLineCommentTrivia && 
+        token !== ts.SyntaxKind.MultiLineCommentTrivia) {
+      const tokenText = scanner.getTokenText();
+      // 标准化换行符，避免因换行符差异导致的误报
+      const normalizedText = tokenText.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+      tokens.push(normalizedText);
+    }
+    token = scanner.scan();
+  }
+
+  return tokens;
+}
+
+/**
+ * 比较两个 token 列表
+ */
+function compareTokens(original: string[], roundtrip: string[]): { equal: boolean; diff?: { original: string[]; roundtrip: string[] } } {
+  if (original.length !== roundtrip.length) {
+    return {
+      equal: false,
+      diff: { original, roundtrip }
+    };
+  }
+
+  for (let i = 0; i < original.length; i++) {
+    if (original[i] !== roundtrip[i]) {
+      return {
+        equal: false,
+        diff: { original, roundtrip }
+      };
+    }
+  }
+
+  return { equal: true };
+}
+
+/**
+ * 执行 arbores 命令
+ */
+async function executeArboresCommand(args: string[]): Promise<{ success: boolean; stdout: string; stderr: string }> {
+  return new Promise((resolve) => {
+    const proc = spawn('bun', ['src/cli/index.ts', ...args], {
+      stdio: ['pipe', 'pipe', 'pipe'],
+      env: { ...process.env, MOCK_TIMESTAMP: '2025-01-01T00:00:00.000Z' }
+    });
+
+    let stdout = '';
+    let stderr = '';
+
+    proc.stdout?.on('data', (data) => {
+      stdout += data.toString();
+    });
+
+    proc.stderr?.on('data', (data) => {
+      stderr += data.toString();
+    });
+
+    proc.on('close', (code) => {
+      resolve({
+        success: code === 0,
+        stdout,
+        stderr
+      });
+    });
+  });
+}
+
+/**
+ * 对单个文件执行 roundtrip 测试
+ */
+async function testRoundtrip(tsFile: string): Promise<RoundtripResult> {
+  const baseName = tsFile.replace('.ts', '');
+  const astFile = `${baseName}.ast.json`;
+  const roundtripFile = `${baseName}.roundtrip.ts`;
+
+  try {
+    // 步骤1: 使用 arbores parse 生成 AST
+    const parseResult = await executeArboresCommand(['parse', tsFile, '--output', astFile]);
+    
+    if (!parseResult.success) {
+      return {
+        success: false,
+        error: `Parse failed: ${parseResult.stderr}`,
+        tokenCount: { original: 0, roundtrip: 0 }
+      };
+    }
+
+    // 步骤2: 使用 arbores stringify 生成 TypeScript 代码
+    const stringifyResult = await executeArboresCommand(['stringify', astFile, '--format', 'readable']);
+    
+    if (!stringifyResult.success) {
+      return {
+        success: false,
+        error: `Stringify failed: ${stringifyResult.stderr}`,
+        tokenCount: { original: 0, roundtrip: 0 }
+      };
+    }
+
+    // 保存 stringify 结果到文件
+    writeFileSync(roundtripFile, stringifyResult.stdout);
+
+    // 步骤3: 比较 token 列表
+    const originalTokens = getTokensFromFile(tsFile);
+    const roundtripTokens = getTokensFromFile(roundtripFile);
+
+    const comparison = compareTokens(originalTokens, roundtripTokens);
+
+    // 清理临时文件
+    if (existsSync(astFile)) {
+      unlinkSync(astFile);
+    }
+    if (existsSync(roundtripFile)) {
+      unlinkSync(roundtripFile);
+    }
+
+    return {
+      success: comparison.equal,
+      error: comparison.equal ? undefined : 'Token mismatch',
+      tokenCount: {
+        original: originalTokens.length,
+        roundtrip: roundtripTokens.length
+      },
+      tokenDiff: comparison.diff
+    };
+
+  } catch (error) {
+    return {
+      success: false,
+      error: `Unexpected error: ${error}`,
+      tokenCount: { original: 0, roundtrip: 0 }
+    };
+  }
+}
+
+/**
+ * 发现所有可测试的 TypeScript 文件
+ */
+function discoverTestFiles(): string[] {
+  const testFiles = [
+    'simple.ts',
+    'function-test.ts',
+    'class-test.ts',
+    'export-simple.ts',
+    'export-test.ts',
+    'enum-test.ts',
+    'generics-test.ts',
+    'advanced-features.ts',
+    'complex.ts',
+    'statements-test.ts',
+    'template-literal-test.ts'
+  ];
+
+  return testFiles.filter(file => existsSync(join(FIXTURES_DIR, file)));
+}
+
+// 自动生成测试套件
+describe('Roundtrip Tests', () => {
+  const testFiles = discoverTestFiles();
+  
+  if (testFiles.length === 0) {
+    test('no test files found', () => {
+      console.warn(`No test files found in ${FIXTURES_DIR}`);
+      expect(true).toBe(true); // 确保测试通过但显示警告
+    });
+    return;
+  }
+
+  // 为每个测试文件创建测试
+  testFiles.forEach((file) => {
+    test(`${file}: parse → stringify → token comparison`, async () => {
+      const filePath = join(FIXTURES_DIR, file);
+      const result = await testRoundtrip(filePath);
+
+      if (!result.success) {
+        console.error(`Roundtrip test failed for ${file}:`);
+        console.error(`  Error: ${result.error}`);
+        if (result.tokenDiff) {
+          console.error(`  Token count: ${result.tokenCount.original} vs ${result.tokenCount.roundtrip}`);
+          
+          // 显示前20个token的详细比较
+          const maxTokens = Math.min(20, result.tokenDiff.original.length, result.tokenDiff.roundtrip.length);
+          console.error(`  First ${maxTokens} tokens comparison:`);
+          for (let i = 0; i < maxTokens; i++) {
+            const original = result.tokenDiff.original[i];
+            const roundtrip = result.tokenDiff.roundtrip[i];
+            const match = original === roundtrip ? '✓' : '✗';
+            console.error(`    [${i}] ${match} "${original}" vs "${roundtrip}"`);
+          }
+          
+          // 如果token数量相同但内容不同，显示最后几个token
+          if (result.tokenDiff.original.length === result.tokenDiff.roundtrip.length && result.tokenDiff.original.length > maxTokens) {
+            console.error(`  Last ${Math.min(5, result.tokenDiff.original.length - maxTokens)} tokens comparison:`);
+            for (let i = maxTokens; i < result.tokenDiff.original.length; i++) {
+              const original = result.tokenDiff.original[i];
+              const roundtrip = result.tokenDiff.roundtrip[i];
+              const match = original === roundtrip ? '✓' : '✗';
+              console.error(`    [${i}] ${match} "${original}" vs "${roundtrip}"`);
+            }
+          }
+          
+          // 如果token数量不同，显示额外的token
+          if (result.tokenDiff.original.length > maxTokens) {
+            console.error(`  ... and ${result.tokenDiff.original.length - maxTokens} more original tokens`);
+          }
+          if (result.tokenDiff.roundtrip.length > maxTokens) {
+            console.error(`  ... and ${result.tokenDiff.roundtrip.length - maxTokens} more roundtrip tokens`);
+          }
+        }
+      }
+
+      expect(result.success).toBe(true);
+      expect(result.tokenCount.original).toBeGreaterThan(0);
+      expect(result.tokenCount.roundtrip).toBeGreaterThan(0);
+      expect(result.tokenCount.original).toBe(result.tokenCount.roundtrip);
+    }, {
+      timeout: 30000 // 30秒超时
+    });
+  });
+});
+
+export { testRoundtrip, getTokensFromFile, compareTokens, discoverTestFiles }; 
