@@ -1,0 +1,9 @@
+description: Execute stringify command
+command:
+  - stringify
+  - src/cli/__tests__/fixtures/template-literal-test.ast.json
+exitCode: 0
+environment:
+  MOCK_TIMESTAMP: "2025-01-01T00:00:00.000Z"
+created: "2025-07-21T05:12:43.988Z"
+updated: "2025-07-21T05:21:29.402Z"

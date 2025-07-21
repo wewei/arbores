@@ -31,8 +31,48 @@ export const createTypeReference: NodeBuilderFn<ts.TypeReferenceNode> = (
   
   const typeName = createNode(sourceFile, typeNameNode) as ts.EntityName;
   
-  // TODO: 处理类型参数 (泛型)
-  // 目前只处理简单的类型引用
+  // 处理类型参数 (泛型)
+  let typeArguments: ts.TypeNode[] | undefined = undefined;
   
-  return ts.factory.createTypeReferenceNode(typeName, undefined);
+  if (children.length > 1) {
+    // 查找可能的泛型参数
+    for (let i = 1; i < children.length; i++) {
+      const childId = children[i];
+      if (!childId) continue;
+      
+      const childNode = sourceFile.nodes[childId];
+      if (!childNode) continue;
+      
+      // 跳过 < 和 > token
+      if (childNode.kind === ts.SyntaxKind.LessThanToken || 
+          childNode.kind === ts.SyntaxKind.GreaterThanToken) {
+        continue;
+      }
+      
+      // 处理 SyntaxList 包含的类型参数
+      if (childNode.kind === ts.SyntaxKind.SyntaxList && childNode.children) {
+        typeArguments = [];
+        for (const typeArgId of childNode.children) {
+          if (typeArgId) {
+            const typeArgNode = sourceFile.nodes[typeArgId];
+            if (typeArgNode) {
+              // 跳过逗号分隔符
+              if (typeArgNode.kind === ts.SyntaxKind.CommaToken) {
+                continue;
+              }
+              const typeArg = createNode(sourceFile, typeArgNode) as ts.TypeNode;
+              typeArguments.push(typeArg);
+            }
+          }
+        }
+      } else {
+        // 直接的类型参数
+        if (!typeArguments) typeArguments = [];
+        const typeArg = createNode(sourceFile, childNode) as ts.TypeNode;
+        typeArguments.push(typeArg);
+      }
+    }
+  }
+  
+  return ts.factory.createTypeReferenceNode(typeName, typeArguments);
 };

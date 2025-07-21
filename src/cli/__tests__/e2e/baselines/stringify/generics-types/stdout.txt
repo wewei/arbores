@@ -1,12 +1,12 @@
 export interface GenericContainer {
     value: T;
-    metadata?: Record;
+    metadata?: Record<string, unknown>;
 }
 export type Optional = {
-    [K in ]: any;
+    [K in keyof T]?: T[K];
 };
 export type Required = {
-    [K in ]: any;
+    [K in keyof T]-?: T[K];
 };
 export function identity(arg: T): T {
     return arg;

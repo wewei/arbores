@@ -15,7 +15,7 @@ export const createIfStatement: NodeBuilderFn<ts.IfStatement> = (createNode: Cre
       throw new Error(`IfStatement should have at least 5 children (if, (, condition, ), thenStatement), got ${children.length}`);
     }
     
-    // 结构：[if 关键字, (, 条件表达式, ), then 语句, ?else 语句]
+    // 结构：[if 关键字, (, 条件表达式, ), then 语句, ?else 关键字, ?else 语句]
     const conditionNodeId = children[2]!; // 跳过 if 和 (
     const thenStatementNodeId = children[4]!; // 跳过 if, (, condition, )
     
@@ -34,11 +34,19 @@ export const createIfStatement: NodeBuilderFn<ts.IfStatement> = (createNode: Cre
     
     // 检查是否有 else 语句
     let elseStatement: ts.Statement | undefined;
-    if (children.length > 5) {
-      const elseStatementNodeId = children[5]!;
+    if (children.length > 6) {
+      // 如果有 7 个子节点，第 6 个是 else 关键字，第 7 个是 else 语句
+      const elseStatementNodeId = children[6]!;
       const elseStatementNode = sourceFile.nodes[elseStatementNodeId];
       if (elseStatementNode) {
         elseStatement = createNode(sourceFile, elseStatementNode) as ts.Statement;
+      }
+    } else if (children.length > 5) {
+      // 如果有 6 个子节点，可能第 6 个直接是 else 语句（没有显式的 else 关键字）
+      const possibleElseNodeId = children[5]!;
+      const possibleElseNode = sourceFile.nodes[possibleElseNodeId];
+      if (possibleElseNode && possibleElseNode.kind !== ts.SyntaxKind.ElseKeyword) {
+        elseStatement = createNode(sourceFile, possibleElseNode) as ts.Statement;
       }
     }
     

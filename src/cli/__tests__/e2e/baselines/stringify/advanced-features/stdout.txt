@@ -1,4 +1,4 @@
-export async function asyncGenerator(): AsyncIterableIterator {
+export async function asyncGenerator(): AsyncIterableIterator<number> {
     for (let i = 0; i < 5; i++) {
         await new Promise(resolve => setTimeout(resolve, 100));
         yield i;
@@ -15,7 +15,7 @@ export function processData({ name, age, ...rest }: {
     return { metadata: rest };
 }
 export const [first, second, ...remaining] = [1, 2, 3, 4, 5];
-export type EventName = /* Unsupported: TemplateHead */;
+export type EventName = `on${Capitalize<string>}`;
 export type HTTPMethod = "GET" | "POST" | "PUT" | "DELETE";
 export class EventEmitter {
     listeners;
@@ -29,3 +29,4 @@ export class EventEmitter {
         this.listeners[event].forEach(listener => listener(...args));
     }
 }
+

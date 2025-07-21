@@ -11,7 +11,7 @@ type ApiResponse = {
 };
 abstract class BaseService {
     serviceName;
-    constructor(private config: Record) {
+    constructor(private config: Record<string, any>) {
         func();
     }
     initialize() { }

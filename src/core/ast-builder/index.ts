@@ -49,6 +49,7 @@ import { createArrayBindingPattern } from './nodes/array-binding-pattern';
 import { createTupleType } from './nodes/tuple-type';
 import { createMappedType } from './nodes/mapped-type';
 import { createTemplateLiteralType } from './nodes/template-literal-type';
+import { createTemplateLiteralTypeSpan } from './nodes/template-literal-type-span';
 import { createIntersectionType } from './nodes/intersection-type';
 import { createExpressionStatement } from './nodes/expression-statement';
 import { createConditionalExpression } from './nodes/conditional-expression';
@@ -81,6 +82,7 @@ import { createUndefinedKeyword } from './nodes/undefined-keyword';
 import { createIndexSignature } from './nodes/index-signature';
 import { createTemplateHead } from './nodes/template-head';
 import { createTypeQuery } from './nodes/type-query';
+import { createElseKeyword } from './nodes/else-keyword';
 import { createNeverKeyword } from './nodes/never-keyword';
 import { createDotDotDotToken } from './nodes/dot-dot-dot-token';
 import { createParenthesizedExpression } from './nodes/parenthesized-expression';
@@ -207,6 +209,8 @@ export function createNode<T extends ts.Node = ts.Node>(
       return createMappedType(createNode)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.TemplateLiteralType:
       return createTemplateLiteralType(createNode)(sourceFile, node) as unknown as T;
+    case ts.SyntaxKind.TemplateLiteralTypeSpan:
+      return createTemplateLiteralTypeSpan(createNode)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.IntersectionType:
       return createIntersectionType(createNode)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.ConditionalExpression:
@@ -315,6 +319,10 @@ export function createNode<T extends ts.Node = ts.Node>(
     case ts.SyntaxKind.TrueKeyword:
     case ts.SyntaxKind.FalseKeyword:
       return createLiteral(createNode)(sourceFile, node) as unknown as T;
+    
+    // 关键字节点
+    case ts.SyntaxKind.ElseKeyword:
+      return createElseKeyword(createNode)(sourceFile, node) as T;
     
     // 修饰符节点
     case ts.SyntaxKind.ExportKeyword:

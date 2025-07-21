@@ -1,8 +1,9 @@
 description: Execute stringify command
 command:
   - stringify
-  - src\cli\__tests__\fixtures\advanced-features.ast.json
+  - src/cli/__tests__/fixtures/advanced-features.ast.json
 exitCode: 0
-environment: {}
+environment:
+  MOCK_TIMESTAMP: "2025-01-01T00:00:00.000Z"
 created: "2025-07-20T23:07:22.906Z"
-updated: "2025-07-21T01:39:02.459Z"
+updated: "2025-07-21T05:21:37.459Z"

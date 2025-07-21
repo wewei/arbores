@@ -9,4 +9,4 @@ export const enum Color {
     BLUE = "#0000ff"
 }
 export const DEFAULT_CONFIG = { timeout: 5000, retries: 3, debug: false } as const;
-export type Config = /* Unsupported: TypeQuery */;
+export type Config = typeof DEFAULT_CONFIG;
