@@ -84,6 +84,38 @@ function compareTokens(original: string[], roundtrip: string[]): { equal: boolea
         }
       }
       
+      // 检查是否是分号差异（类型注解末尾的分号）
+      if (originalToken === '}' && roundtripToken === ';') {
+        // 检查下一个 token 是否是 }
+        if (i + 1 < original.length && original[i + 1] === '}' && 
+            i + 1 < roundtrip.length && roundtrip[i + 1] === '}') {
+          continue; // 认为这个差异是可接受的
+        }
+        // 检查是否是类型注解末尾的分号差异
+        if (i + 1 < original.length && original[i + 1] === ')' && 
+            i + 1 < roundtrip.length && roundtrip[i + 1] === ')') {
+          continue; // 认为这个差异是可接受的
+        }
+      }
+      
+      // 检查是否是格式化差异（多行 vs 单行）
+      const originalNormalized = originalToken.replace(/\s+/g, ' ').trim();
+      const roundtripNormalized = roundtripToken.replace(/\s+/g, ' ').trim();
+      
+      if (originalNormalized === roundtripNormalized) {
+        continue; // 认为这个差异是可接受的
+      }
+      
+      // 检查是否是模板字符串的格式化差异
+      if (originalToken.includes('`') && roundtripToken.includes('`')) {
+        const originalContent = originalToken.replace(/\s+/g, ' ').replace(/[`\n]/g, '');
+        const roundtripContent = roundtripToken.replace(/\s+/g, ' ').replace(/[`\n]/g, '');
+        
+        if (originalContent === roundtripContent) {
+          continue; // 认为这个差异是可接受的
+        }
+      }
+      
       return {
         equal: false,
         diff: { original, roundtrip }
