@@ -219,8 +219,9 @@ function compareASTNodesRecursive(
     const childResult = compareASTNodesRecursive(originalChild, roundtripChild, originalNodes, roundtripNodes, childPath);
     
     if (!childResult.match) {
-      // 子节点比较失败，收集差异并继续检查其他子节点
+      // 子节点比较失败，收集差异并立即返回，不继续检查其他子节点
       differences.push(...(childResult.differences || []));
+      return { match: false, differences };
     }
   }
 
