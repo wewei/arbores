@@ -21,7 +21,9 @@ export {
   type ASTNode,
   type FileVersion,
   type SourceFileAST,
-  type ParseOptions
+  type ParseOptions,
+  type TreeRenderOptions,
+  type TreeLine
 } from './types';
 
 // Export Parser API
@@ -51,3 +53,9 @@ export {
   type StringifyOptions,
   type StringifyResult
 } from './stringify';
+
+// Export Tree API
+export {
+  renderTree,
+  renderTreeForCLI
+} from './tree';

@@ -146,3 +146,41 @@ export interface ParseResult {
   rootNodeId: string;
   stats: ParseStats;
 }
+
+// Tree rendering types
+export interface TreeRenderOptions {
+  /** Maximum line width before truncation */
+  maxWidth?: number;
+  
+  /** Whether to show comments in tree output */
+  showComments?: boolean;
+  
+  /** Whether to render token text content */
+  showText?: boolean;
+  
+  /** Whether to show node IDs */
+  showNodeIds?: boolean;
+  
+  /** Custom prefix for text content (default: "# ") */
+  textPrefix?: string;
+}
+
+/**
+ * A single line in the tree output
+ */
+export interface TreeLine {
+  /** Tree structure prefix (├──, └──, etc.) */
+  prefix: string;
+  
+  /** Main content (node type and kind info) */
+  content: string;
+  
+  /** Optional text content */
+  text?: string;
+  
+  /** Whether this line represents a comment */
+  isComment?: boolean;
+  
+  /** Node ID (if showNodeIds is enabled) */
+  nodeId?: string;
+}
