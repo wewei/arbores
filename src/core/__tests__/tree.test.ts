@@ -23,7 +23,7 @@ describe('Tree API', () => {
         kind: 312, // SourceFile
         children: ['stmt1', 'stmt2'],
         leadingComments: [
-          { kind: 'SingleLineCommentTrivia', text: '// This is a test file' }
+          { kind: 'SingleLineCommentTrivia' as const, text: '// This is a test file' }
         ]
       },
       'stmt1': {
@@ -32,7 +32,7 @@ describe('Tree API', () => {
         text: 'function hello() { return "world"; }',
         children: ['param1'],
         trailingComments: [
-          { kind: 'SingleLineCommentTrivia', text: '// A simple function' }
+          { kind: 'SingleLineCommentTrivia' as const, text: '// A simple function' }
         ]
       },
       'param1': {
@@ -197,8 +197,12 @@ describe('Tree API', () => {
         nodes: {
           ...mockAST.nodes,
           'root': {
-            ...mockAST.nodes['root'],
-            children: ['stmt1', 'missing_node', 'stmt2']
+            id: 'root',
+            kind: 312,
+            children: ['stmt1', 'missing_node', 'stmt2'],
+            leadingComments: [
+              { kind: 'SingleLineCommentTrivia' as const, text: '// This is a test file' }
+            ]
           }
         }
       };
