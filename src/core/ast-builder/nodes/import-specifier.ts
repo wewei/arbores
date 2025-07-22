@@ -16,6 +16,7 @@ export function createImportSpecifier(createNode: CreateNodeFn) {
     
     let propertyName: ts.Identifier | undefined;
     let name: ts.Identifier | undefined;
+    let isTypeOnly = false;
     
     if (!node.children || node.children.length === 0) {
       throw new Error('ImportSpecifier must have at least one child');
@@ -33,7 +34,13 @@ export function createImportSpecifier(createNode: CreateNodeFn) {
       }
       name = createNode(sourceFile, nameNode) as ts.Identifier;
     } else {
-      // 重命名导入 - 查找 propertyName 和 name
+      // 复杂导入 - 可能是重命名导入或类型导入
+      // 情况1: import { foo as bar } - [propertyName, 'as', name]
+      // 情况2: import { type Foo } - ['type', name]
+      
+      let hasTypeKeyword = false;
+      let identifiers: ts.Identifier[] = [];
+      
       for (let i = 0; i < node.children.length; i++) {
         const childId = node.children[i];
         if (!childId) continue;
@@ -41,14 +48,28 @@ export function createImportSpecifier(createNode: CreateNodeFn) {
         const childNode = sourceFile.nodes[childId];
         if (!childNode) continue;
         
-        if (childNode.kind === ts.SyntaxKind.Identifier) {
-          if (!propertyName) {
-            propertyName = createNode(sourceFile, childNode) as ts.Identifier;
-          } else if (!name) {
-            name = createNode(sourceFile, childNode) as ts.Identifier;
-          }
+        if (childNode.kind === ts.SyntaxKind.TypeKeyword) {
+          hasTypeKeyword = true;
+          isTypeOnly = true;
+        } else if (childNode.kind === ts.SyntaxKind.Identifier) {
+          identifiers.push(createNode(sourceFile, childNode) as ts.Identifier);
         }
-        // 跳过 'as' 关键字
+        // 跳过 'as' 关键字和其他Token
+      }
+      
+      if (hasTypeKeyword) {
+        // type导入: import { type Foo }
+        if (identifiers.length >= 1) {
+          name = identifiers[0];
+        }
+      } else {
+        // 重命名导入: import { foo as bar }
+        if (identifiers.length >= 2) {
+          propertyName = identifiers[0];
+          name = identifiers[1];
+        } else if (identifiers.length === 1) {
+          name = identifiers[0];
+        }
       }
       
       if (!name) {
@@ -60,6 +81,6 @@ export function createImportSpecifier(createNode: CreateNodeFn) {
       throw new Error('ImportSpecifier missing name');
     }
 
-    return ts.factory.createImportSpecifier(false, propertyName, name);
+    return ts.factory.createImportSpecifier(isTypeOnly, propertyName, name);
   };
 }

@@ -64,6 +64,7 @@ import { createImportDeclaration } from './nodes/import-declaration';
 import { createImportClause } from './nodes/import-clause';
 import { createNamedImports } from './nodes/named-imports';
 import { createImportSpecifier } from './nodes/import-specifier';
+import { createNamespaceImport } from './nodes/namespace-import';
 import { createTryStatement } from './nodes/try-statement';
 import { createCatchClause } from './nodes/catch-clause';
 import { createNullKeyword } from './nodes/null-keyword';
@@ -188,6 +189,8 @@ function createNodeInternal<T extends ts.Node = ts.Node>(
       return createImportClause(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.NamedImports:
       return createNamedImports(createNodeInternal)(sourceFile, node) as unknown as T;
+    case ts.SyntaxKind.NamespaceImport:
+      return createNamespaceImport(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.ImportSpecifier:
       return createImportSpecifier(createNodeInternal)(sourceFile, node) as unknown as T;
     

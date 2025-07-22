@@ -13,6 +13,7 @@ export const createCallExpression: NodeBuilderFn<ts.CallExpression> = (createNod
     // 找到表达式（函数名、属性访问或 super）
     let expression: ts.Expression | undefined;
     const args: ts.Expression[] = [];
+    let hasQuestionDotToken = false;
     
     for (const child of children) {
       switch (child.kind) {
@@ -24,6 +25,19 @@ export const createCallExpression: NodeBuilderFn<ts.CallExpression> = (createNod
           break;
         case ts.SyntaxKind.PropertyAccessExpression:
           expression = createNode(sourceFile, child) as ts.PropertyAccessExpression;
+          // 检查这个 PropertyAccessExpression 是否包含 QuestionDotToken
+          if (child.children) {
+            for (const grandChildId of child.children) {
+              const grandChild = sourceFile.nodes[grandChildId];
+              if (grandChild && grandChild.kind === ts.SyntaxKind.QuestionDotToken) {
+                hasQuestionDotToken = true;
+                break;
+              }
+            }
+          }
+          break;
+        case ts.SyntaxKind.QuestionDotToken:
+          hasQuestionDotToken = true;
           break;
         case ts.SyntaxKind.SyntaxList:
           // 参数列表
@@ -47,6 +61,12 @@ export const createCallExpression: NodeBuilderFn<ts.CallExpression> = (createNod
       expression = ts.factory.createIdentifier('func');
     }
     
-    return ts.factory.createCallExpression(expression, undefined, args);
+    // 根据是否有可选链来创建不同的调用表达式
+    if (hasQuestionDotToken) {
+      // 对于可选链调用，不需要额外的 QuestionDotToken，因为表达式本身已经包含了
+      return ts.factory.createCallChain(expression, undefined, undefined, args) as any;
+    } else {
+      return ts.factory.createCallExpression(expression, undefined, args);
+    }
   };
 };
