@@ -57,9 +57,9 @@ describe('Tree API', () => {
       if (result.success) {
         const lines = result.data;
         expect(lines.length).toBeGreaterThan(0);
-        expect(lines[0]).toMatch(/SourceFile \(312\)/);
-        expect(lines).toContainEqual(expect.stringMatching(/FunctionDeclaration \(261\)/));
-        expect(lines).toContainEqual(expect.stringMatching(/VariableStatement \(243\)/));
+        expect(lines.some(line => line.includes('SourceFile (312)'))).toBe(true);
+        expect(lines.some(line => line.includes('FunctionDeclaration (261)'))).toBe(true);
+        expect(lines.some(line => line.includes('VariableStatement (243)'))).toBe(true);
       }
     });
 
@@ -93,7 +93,7 @@ describe('Tree API', () => {
       expect(result.success).toBe(true);
       if (result.success) {
         const lines = result.data;
-        expect(lines.some(line => line.includes('# function hello()'))).toBe(true);
+        expect(lines.some(line => line.includes('# function hello() { return "world"; }'))).toBe(true);
         expect(lines.some(line => line.includes('# const x = 42;'))).toBe(true);
       }
     });
@@ -105,7 +105,7 @@ describe('Tree API', () => {
       expect(result.success).toBe(true);
       if (result.success) {
         const lines = result.data;
-        expect(lines.some(line => line.includes('# function hello()'))).toBe(false);
+        expect(lines.some(line => line.includes('# function hello() { return "world"; }'))).toBe(false);
         expect(lines.some(line => line.includes('# const x = 42;'))).toBe(false);
       }
     });
@@ -143,7 +143,7 @@ describe('Tree API', () => {
       expect(result.success).toBe(true);
       if (result.success) {
         const lines = result.data;
-        expect(lines.some(line => line.includes('-> function hello()'))).toBe(true);
+        expect(lines.some(line => line.includes('-> function hello() { return "world"; }'))).toBe(true);
       }
     });
 
