@@ -7,39 +7,46 @@ import { join } from 'path';
 type SyntaxKindMap = Record<number, string>;
 
 function parseSyntaxKindEnum(): SyntaxKindMap {
-  const typescriptDefPath = join(process.cwd(), 'node_modules', 'typescript', 'lib', 'typescript.d.ts');
-  const sourceText = readFileSync(typescriptDefPath, 'utf-8');
-  
-  const sourceFile = ts.createSourceFile(
-    'typescript.d.ts',
-    sourceText,
-    ts.ScriptTarget.Latest,
-    true
-  );
-
   const syntaxKindMap: SyntaxKindMap = {};
 
-  function visit(node: ts.Node) {
-    if (ts.isEnumDeclaration(node) && node.name.text === 'SyntaxKind') {
-      node.members.forEach(member => {
-        if (ts.isEnumMember(member) && member.name && member.initializer) {
-          const name = member.name.getText(sourceFile);
-          const value = member.initializer.getText(sourceFile);
-          
-          // Parse the numeric value
-          const numericValue = parseInt(value, 10);
-          if (!isNaN(numericValue)) {
-            syntaxKindMap[numericValue] = name;
-          }
-        }
-      });
-      return; // Don't visit children of the enum declaration
-    }
-    
-    ts.forEachChild(node, visit);
+  // 需要过滤的位置标记枚举值
+  const positionMarkers = [
+    'FirstToken', 'LastToken', 'FirstTriviaToken', 'LastTriviaToken',
+    'FirstLiteralToken', 'LastLiteralToken', 'FirstTemplateToken', 'LastTemplateToken',
+    'FirstPunctuation', 'LastPunctuation', 'FirstBinaryOperator', 'LastBinaryOperator',
+    'FirstAssignment', 'FirstCompoundAssignment', 'FirstKeyword', 'LastKeyword',
+    'FirstReservedWord', 'LastReservedWord', 'FirstFutureReservedWord', 'LastFutureReservedWord',
+    'FirstNode', 'FirstTypeNode', 'LastTypeNode', 'FirstStatement',
+    'LastStatement', 'FirstJSDocNode', 'FirstJSDocTagNode', 'LastJSDocNode',
+    'LastJSDocTagNode', 'Count'
+  ];
+
+  function isPositionMarker(name: string): boolean {
+    // 除了显式列表，还检查以First或Last开头的名称
+    return positionMarkers.includes(name) || 
+           name.startsWith('First') || 
+           name.startsWith('Last') ||
+           name === 'Count' ||
+           name === 'Unknown';
   }
 
-  visit(sourceFile);
+  // 直接遍历 ts.SyntaxKind 枚举，使用编译时的准确值
+  for (const key in ts.SyntaxKind) {
+    if (isNaN(Number(key))) {
+      // key是枚举名称，获取对应的数值
+      const enumValue = (ts.SyntaxKind as any)[key];
+      if (typeof enumValue === 'number') {
+        // 跳过位置标记枚举值
+        if (isPositionMarker(key)) {
+          console.log(`跳过位置标记枚举值: ${key} (${enumValue})`);
+          continue;
+        }
+        
+        syntaxKindMap[enumValue] = key;
+      }
+    }
+  }
+
   return syntaxKindMap;
 }
 

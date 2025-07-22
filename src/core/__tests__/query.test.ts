@@ -299,7 +299,7 @@ describe('Unit Tests - Query API', () => {
       if (result.success) {
         expect(result.data.id).toBe('var_1');
         expect(result.data.kind).toBe(243);
-        expect(result.data.kindName).toBe('FirstStatement');
+        expect(result.data.kindName).toBe('VariableStatement');
       }
     });
 

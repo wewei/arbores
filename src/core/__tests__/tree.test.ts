@@ -46,7 +46,7 @@ const x = 42;`;
         expect(lines.length).toBeGreaterThan(0);
         expect(lines.some(line => line.includes('SourceFile'))).toBe(true);
         expect(lines.some(line => line.includes('FunctionDeclaration'))).toBe(true);
-        expect(lines.some(line => line.includes('FirstStatement'))).toBe(true); // VariableStatement shows as FirstStatement
+        expect(lines.some(line => line.includes('VariableStatement'))).toBe(true); // VariableStatement shows correctly after filtering FirstStatement
       }
     });
 

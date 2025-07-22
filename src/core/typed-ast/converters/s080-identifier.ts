@@ -42,7 +42,7 @@ export function identifierToASTNode(node: IdentifierNode): ASTNode {
 /**
  * 从TypeScript编译器节点转换为类型化IdentifierNode
  */
-export function identifierFromTsNode(tsNode: ts.Identifier, nodeId: string): IdentifierNode {
+export function identifierFromTsNode(tsNode: ts.Node, nodeId: string): IdentifierNode {
   // TODO: 实现从TypeScript AST节点的转换
   return {
     id: nodeId,
@@ -55,7 +55,7 @@ export function identifierFromTsNode(tsNode: ts.Identifier, nodeId: string): Ide
 /**
  * 从类型化IdentifierNode转换为TypeScript编译器节点
  */
-export function identifierToTsNode(node: IdentifierNode): ts.Identifier {
+export function identifierToTsNode(node: IdentifierNode): ts.Node {
   // TODO: 实现转换为TypeScript AST节点
   // 注意：这个转换可能需要创建新的TypeScript节点
   // 可以使用 TypeScript 工厂函数或者其他方式

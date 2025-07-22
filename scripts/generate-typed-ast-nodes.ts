@@ -105,7 +105,7 @@ export function ${camelCaseName}ToASTNode(node: ${nodeTypeName}): ASTNode {
 /**
  * 从TypeScript编译器节点转换为类型化${syntaxKind}Node
  */
-export function ${camelCaseName}FromTsNode(tsNode: ts.${syntaxKind}, nodeId: string): ${nodeTypeName} {
+export function ${camelCaseName}FromTsNode(tsNode: ts.Node, nodeId: string): ${nodeTypeName} {
   // TODO: 实现从TypeScript AST节点的转换
   return {
     id: nodeId,
@@ -118,7 +118,7 @@ export function ${camelCaseName}FromTsNode(tsNode: ts.${syntaxKind}, nodeId: str
 /**
  * 从类型化${syntaxKind}Node转换为TypeScript编译器节点
  */
-export function ${camelCaseName}ToTsNode(node: ${nodeTypeName}): ts.${syntaxKind} {
+export function ${camelCaseName}ToTsNode(node: ${nodeTypeName}): ts.Node {
   // TODO: 实现转换为TypeScript AST节点
   // 注意：这个转换可能需要创建新的TypeScript节点
   // 可以使用 TypeScript 工厂函数或者其他方式
