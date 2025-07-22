@@ -313,48 +313,12 @@ function testRoundtrip(tsFile: string): void {
     });
     
     // 显示差异详情
-    console.log('\nDetailed differences:');
+    console.log('\n--- Differences ---');
     comparison.differences?.forEach(diff => {
-      console.log(`\n--- ${diff.reason} at ${diff.path} ---`);
-      console.log(`Original: ${diff.original}`);
-      console.log(`Roundtrip: ${diff.roundtrip}`);
-    });
-    
-    // 显示差异节点的树结构
-    console.log('\n--- Tree structure of differing nodes ---');
-    
-    // 从差异中提取节点信息用于调试
-    console.log('\n--- Debug info ---');
-    comparison.differences?.forEach(diff => {
-      console.log(`Difference at: ${diff.path}`);
-      console.log(`  Reason: ${diff.reason}`);
+      console.log(`\n${diff.reason} at ${diff.path}:`);
       console.log(`  Original: ${diff.original}`);
       console.log(`  Roundtrip: ${diff.roundtrip}`);
     });
-
-    // 显示根节点的树结构对比（简化版本）
-    console.log('\n--- Root level comparison ---');
-    console.log('Original AST root:');
-    const originalTreeResult = executeArboresCommand(['tree', astFile]);
-    if (originalTreeResult.success) {
-      // 只显示前几行，避免输出过多
-      const lines = originalTreeResult.output.split('\n').slice(0, 10);
-      console.log(lines.join('\n'));
-      if (originalTreeResult.output.split('\n').length > 10) {
-        console.log('... (truncated)');
-      }
-    }
-    
-    console.log('\nRoundtrip AST root:');
-    const roundtripTreeResult = executeArboresCommand(['tree', roundtripAstFile]);
-    if (roundtripTreeResult.success) {
-      // 只显示前几行，避免输出过多
-      const lines = roundtripTreeResult.output.split('\n').slice(0, 10);
-      console.log(lines.join('\n'));
-      if (roundtripTreeResult.output.split('\n').length > 10) {
-        console.log('... (truncated)');
-      }
-    }
     
     // 在失败时显示生成的代码内容，帮助调试
     console.log('\n--- Generated roundtrip code ---');
