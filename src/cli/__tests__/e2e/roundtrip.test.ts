@@ -26,11 +26,20 @@ type ASTComparisonResult = {
 };
 
 /**
+ * 获取节点的代码文本
+ */
+function getNodeText(node: ts.Node, sourceFile: ts.SourceFile): string {
+  return node.getText(sourceFile);
+}
+
+/**
  * 递归比较两个 AST 节点
  */
 function compareASTNodes(
   original: ts.Node, 
   roundtrip: ts.Node, 
+  originalSourceFile: ts.SourceFile,
+  roundtripSourceFile: ts.SourceFile,
   path: string = 'root'
 ): ASTComparisonResult {
   const differences: Array<{
@@ -44,8 +53,8 @@ function compareASTNodes(
   if (original.kind !== roundtrip.kind) {
     differences.push({
       path,
-      original: ts.SyntaxKind[original.kind],
-      roundtrip: ts.SyntaxKind[roundtrip.kind],
+      original: `${ts.SyntaxKind[original.kind]}: ${getNodeText(original, originalSourceFile)}`,
+      roundtrip: `${ts.SyntaxKind[roundtrip.kind]}: ${getNodeText(roundtrip, roundtripSourceFile)}`,
       reason: 'Node kind mismatch'
     });
     return { match: false, differences };
@@ -58,8 +67,8 @@ function compareASTNodes(
   if (originalChildren.length !== roundtripChildren.length) {
     differences.push({
       path,
-      original: `${originalChildren.length} children`,
-      roundtrip: `${roundtripChildren.length} children`,
+      original: `${originalChildren.length} children: ${getNodeText(original, originalSourceFile)}`,
+      roundtrip: `${roundtripChildren.length} children: ${getNodeText(roundtrip, roundtripSourceFile)}`,
       reason: 'Child count mismatch'
     });
     return { match: false, differences };
@@ -74,8 +83,8 @@ function compareASTNodes(
     if (!originalChild || !roundtripChild) {
       differences.push({
         path: `${path}.children[${i}]`,
-        original: originalChild ? 'exists' : 'undefined',
-        roundtrip: roundtripChild ? 'exists' : 'undefined',
+        original: originalChild ? getNodeText(originalChild, originalSourceFile) : 'undefined',
+        roundtrip: roundtripChild ? getNodeText(roundtripChild, roundtripSourceFile) : 'undefined',
         reason: 'Child node missing'
       });
       continue;
@@ -87,7 +96,7 @@ function compareASTNodes(
     }
     
     const childPath = `${path}.children[${i}]`;
-    const childResult = compareASTNodes(originalChild, roundtripChild, childPath);
+    const childResult = compareASTNodes(originalChild, roundtripChild, originalSourceFile, roundtripSourceFile, childPath);
     
     if (!childResult.match) {
       differences.push(...(childResult.differences || []));
@@ -182,7 +191,7 @@ function testRoundtrip(tsFile: string): void {
   const originalSourceFile = ts.createSourceFile(tsFile, originalSourceCode, ts.ScriptTarget.Latest, true);
   const roundtripSourceFile = ts.createSourceFile(roundtripFile, roundtripSourceCode, ts.ScriptTarget.Latest, true);
   
-  const comparison = compareASTNodes(originalSourceFile, roundtripSourceFile);
+  const comparison = compareASTNodes(originalSourceFile, roundtripSourceFile, originalSourceFile, roundtripSourceFile);
   
   if (!comparison.match) {
     console.log(`❌ Roundtrip failed for ${fileName}`);
