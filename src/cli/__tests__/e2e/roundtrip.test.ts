@@ -10,88 +10,124 @@ import { readFileSync, writeFileSync } from 'fs';
 import { tmpdir } from 'os';
 import { join } from 'path';
 import * as ts from 'typescript';
+// 移除未使用的导入
 
 /**
- * 获取文件的前序遍历序列
+ * AST 节点比较结果
  */
-function getASTPreorderTraversal(filePath: string): string[] {
-  const sourceCode = readFileSync(filePath, 'utf-8');
-  const sourceFile = ts.createSourceFile(filePath, sourceCode, ts.ScriptTarget.Latest, true);
-  
-  const traversal: string[] = [];
-  
-  function traverse(node: ts.Node): void {
-    // 添加节点类型和文本，但标准化格式化
-    const nodeText = node.getText(sourceFile);
-    const nodeKind = ts.SyntaxKind[node.kind];
-    
-    // 标准化文本：统一换行符、缩进、空行和注释
-    const normalizedText = nodeText
-      .replace(/\r\n/g, '\n')  // 统一换行符
-      .replace(/\r/g, '\n')    // 处理单独的 \r
-      .replace(/[ ]{2,}/g, ' ') // 将多个空格压缩为单个空格
-      .replace(/\n[ ]{2,}/g, '\n ') // 将行首多个空格压缩为单个空格
-      .replace(/\n\s*\n\s*\n/g, '\n\n') // 将多个连续空行压缩为两个空行
-      .replace(/\/\*[\s\S]*?\*\//g, '') // 移除多行注释
-      .replace(/\/\/.*$/gm, '') // 移除单行注释
-      .replace(/\n\s*\n/g, '\n') // 将两个空行压缩为一个空行
-      .replace(/\s*{\s*/g, '{') // 移除对象字面量的大括号周围的空格
-      .replace(/\s*}\s*/g, '}') // 移除对象字面量的大括号周围的空格
-      .replace(/\s*\(\s*/g, '(') // 移除括号周围的空格
-      .replace(/\s*\)\s*/g, ')') // 移除括号周围的空格
-      .replace(/\s*\[\s*/g, '[') // 移除方括号周围的空格
-      .replace(/\s*\]\s*/g, ']') // 移除方括号周围的空格
-      .replace(/\s*,\s*/g, ',') // 移除逗号周围的空格
-      .replace(/\s*;\s*/g, ';') // 移除分号周围的空格
-      .replace(/\s*:\s*/g, ':') // 移除冒号周围的空格
-      .replace(/\s*=\s*/g, '=') // 移除等号周围的空格
-      .replace(/\s*=>\s*/g, '=>') // 移除箭头函数周围的空格
-      .replace(/\s*else\s*/g, 'else') // 移除 else 周围的空格
-      .replace(/\s*catch\s*/g, 'catch') // 移除 catch 周围的空格
-      .replace(/\s*finally\s*/g, 'finally') // 移除 finally 周围的空格
-      .trim(); // 移除首尾空白
-    
-    // 只有当文本不为空时才添加
-    if (normalizedText) {
-      traversal.push(`${nodeKind}:${normalizedText}`);
-    }
-    
-    // 遍历子节点
-    node.forEachChild(traverse);
-  }
-  
-  traverse(sourceFile);
-  return traversal;
-}
+type ASTComparisonResult = {
+  match: boolean;
+  differences?: Array<{
+    path: string;
+    original: string;
+    roundtrip: string;
+    reason: string;
+  }>;
+};
 
 /**
- * 比较两个前序遍历序列
+ * 递归比较两个 AST 节点
  */
-function compareASTTraversals(original: string[], roundtrip: string[]): { match: boolean; firstMismatch?: number; context?: string } {
-  const minLength = Math.min(original.length, roundtrip.length);
+function compareASTNodes(
+  original: ts.Node, 
+  roundtrip: ts.Node, 
+  path: string = 'root'
+): ASTComparisonResult {
+  const differences: Array<{
+    path: string;
+    original: string;
+    roundtrip: string;
+    reason: string;
+  }> = [];
+
+  // 比较节点类型
+  if (original.kind !== roundtrip.kind) {
+    differences.push({
+      path,
+      original: ts.SyntaxKind[original.kind],
+      roundtrip: ts.SyntaxKind[roundtrip.kind],
+      reason: 'Node kind mismatch'
+    });
+    return { match: false, differences };
+  }
+
+  // 比较子节点数量
+  const originalChildren = original.getChildren();
+  const roundtripChildren = roundtrip.getChildren();
   
-  for (let i = 0; i < minLength; i++) {
-    if (original[i] !== roundtrip[i]) {
-      const start = Math.max(0, i - 2);
-      const end = Math.min(original.length, i + 3);
-      const context = {
-        position: i,
-        original: original.slice(start, end),
-        roundtrip: roundtrip.slice(start, end)
-      };
-      return { match: false, firstMismatch: i, context: JSON.stringify(context, null, 2) };
+  if (originalChildren.length !== roundtripChildren.length) {
+    differences.push({
+      path,
+      original: `${originalChildren.length} children`,
+      roundtrip: `${roundtripChildren.length} children`,
+      reason: 'Child count mismatch'
+    });
+    return { match: false, differences };
+  }
+
+  // 递归比较子节点
+  for (let i = 0; i < originalChildren.length; i++) {
+    const originalChild = originalChildren[i];
+    const roundtripChild = roundtripChildren[i];
+    
+    // 检查子节点是否存在
+    if (!originalChild || !roundtripChild) {
+      differences.push({
+        path: `${path}.children[${i}]`,
+        original: originalChild ? 'exists' : 'undefined',
+        roundtrip: roundtripChild ? 'exists' : 'undefined',
+        reason: 'Child node missing'
+      });
+      continue;
+    }
+    
+    // 跳过注释节点
+    if (originalChild.kind === ts.SyntaxKind.JSDocComment || roundtripChild.kind === ts.SyntaxKind.JSDocComment) {
+      continue;
+    }
+    
+    const childPath = `${path}.children[${i}]`;
+    const childResult = compareASTNodes(originalChild, roundtripChild, childPath);
+    
+    if (!childResult.match) {
+      differences.push(...(childResult.differences || []));
     }
   }
-  
-  if (original.length !== roundtrip.length) {
-    return { 
-      match: false, 
-      firstMismatch: minLength,
-      context: `Length mismatch: original=${original.length}, roundtrip=${roundtrip.length}`
-    };
+
+  // 对于某些特殊节点，比较关键属性
+  if (ts.isIdentifier(original) && ts.isIdentifier(roundtrip)) {
+    if (original.text !== roundtrip.text) {
+      differences.push({
+        path: `${path}.text`,
+        original: original.text,
+        roundtrip: roundtrip.text,
+        reason: 'Identifier text mismatch'
+      });
+    }
+  } else if (ts.isStringLiteral(original) && ts.isStringLiteral(roundtrip)) {
+    if (original.text !== roundtrip.text) {
+      differences.push({
+        path: `${path}.text`,
+        original: original.text,
+        roundtrip: roundtrip.text,
+        reason: 'String literal text mismatch'
+      });
+    }
+  } else if (ts.isNumericLiteral(original) && ts.isNumericLiteral(roundtrip)) {
+    if (original.text !== roundtrip.text) {
+      differences.push({
+        path: `${path}.text`,
+        original: original.text,
+        roundtrip: roundtrip.text,
+        reason: 'Numeric literal text mismatch'
+      });
+    }
   }
-  
-  return { match: true };
+
+  return {
+    match: differences.length === 0,
+    differences: differences.length > 0 ? differences : undefined
+  };
 }
 
 /**
@@ -139,17 +175,24 @@ function testRoundtrip(tsFile: string): void {
     throw new Error(`Stringify failed for ${fileName}: ${stringifyResult.error}`);
   }
   
-  // 步骤3: 比较 AST 前序遍历
-  const originalTraversal = getASTPreorderTraversal(tsFile);
-  const roundtripTraversal = getASTPreorderTraversal(roundtripFile);
+  // 步骤3: 比较 AST 结构
+  const originalSourceCode = readFileSync(tsFile, 'utf-8');
+  const roundtripSourceCode = readFileSync(roundtripFile, 'utf-8');
   
-  const comparison = compareASTTraversals(originalTraversal, roundtripTraversal);
+  const originalSourceFile = ts.createSourceFile(tsFile, originalSourceCode, ts.ScriptTarget.Latest, true);
+  const roundtripSourceFile = ts.createSourceFile(roundtripFile, roundtripSourceCode, ts.ScriptTarget.Latest, true);
+  
+  const comparison = compareASTNodes(originalSourceFile, roundtripSourceFile);
   
   if (!comparison.match) {
     console.log(`❌ Roundtrip failed for ${fileName}`);
-    console.log(`First mismatch at position ${comparison.firstMismatch}`);
-    console.log('Context:', comparison.context);
-    throw new Error(`Roundtrip failed for ${fileName}: AST traversal mismatch at position ${comparison.firstMismatch}`);
+    console.log('AST differences:');
+    comparison.differences?.forEach(diff => {
+      console.log(`  ${diff.path}: ${diff.reason}`);
+      console.log(`    Original: ${diff.original}`);
+      console.log(`    Roundtrip: ${diff.roundtrip}`);
+    });
+    throw new Error(`Roundtrip failed for ${fileName}: AST structure mismatch`);
   }
   
   console.log(`✅ Roundtrip passed for ${fileName}`);
