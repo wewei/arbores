@@ -2,42 +2,42 @@
 
 基于讨论和现有代码结构，本文档定义了arbores项目的Node.js API层设计。
 
-## 设计原则
+## 设计原则 ✅
 
-### 1. **函数式无状态设计**
+### 1. **函数式无状态设计** ✅
 
 - 所有API为纯函数，状态通过参数传递
 - 便于适配CLI和HTTP服务
 - 可预测的行为，易于测试和调试
 
-### 2. **统一错误处理**
+### 2. **统一错误处理** ✅
 
 - 使用`Result<T>`类型包装所有返回值
 - 避免throw，错误通过返回值传递
 - 类型安全的错误处理
 
-### 3. **数据存储外置**
+### 3. **数据存储外置** ✅
 
 - API层不处理数据存储和缓存
 - 状态管理由CLI/HTTP层负责
 - API专注于业务逻辑
 
-### 4. **单一职责原则**
+### 4. **单一职责原则** ✅
 
 - 每个函数职责明确
 - 对应现有CLI命令功能
 - 不提供复合操作
 
-### 5. **统一数据格式**
+### 5. **统一数据格式** ✅
 
 - API统一返回JSON数据结构
 - 格式转换由调用层处理
 - 接口简洁一致
 
-## 核心类型定义
+## 核心类型定义 ✅
 
 ```typescript
-// src/core/types.ts
+// src/core/types.ts - 已实现
 
 /** 错误代码枚举 - 只包含AST/数据层错误 */
 export type ErrorCode = 
@@ -113,10 +113,10 @@ export type ParseResult = {
 };
 ```
 
-## Parser API - 解析模块
+## Parser API - 解析模块 ✅
 
 ```typescript
-// src/core/parser.ts
+// src/core/parser.ts - 已实现
 
 /**
  * 解析TypeScript代码到AST
@@ -127,13 +127,13 @@ export type ParseResult = {
 export function parseCode(
   sourceCode: string, 
   baseAST: SourceFileAST
-): Result<ParseResult>;
+): Result<ParseResult>; // ✅ 已实现
 ```
 
-## Query API - 查询模块
+## Query API - 查询模块 🚧
 
 ```typescript
-// src/core/query.ts
+// src/core/query.ts - 部分实现
 
 /**
  * 获取AST中所有版本的根节点信息

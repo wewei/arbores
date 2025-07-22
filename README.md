@@ -9,7 +9,8 @@ High-performance TypeScript AST parser and code generator with complete syntax s
 - ✅ **Full AST Round-trip**: Parse TypeScript → AST → Generate TypeScript
 - ✅ **Production Ready**: Successfully handles complex TypeScript codebases
 - ✅ **Refactored Architecture**: Clean separation of concerns with core API and CLI layers
-- ✅ **Function式 Design**: Pure functions with Result<T> error handling
+- ✅ **Functional Design**: Pure functions with Result<T> error handling
+- ✅ **CLI Refactor Complete**: Modular command structure with improved usability
 
 ## 🏗️ Architecture
 
@@ -37,8 +38,8 @@ src/
 
 ### Design Principles
 
-- **Function式无状态**: All core APIs are pure functions
-- **统一错误处理**: Result<T> type for type-safe error handling
+- **Functional无状态**: All core APIs are pure functions
+- **统一错误处理**: Result type for type-safe error handling
 - **数据存储外置**: No state management in core layer
 - **适配器模式**: CLI layer adapts core APIs to command-line interface
 
@@ -294,13 +295,15 @@ bun run scripts/analyze-dead-code.ts --roots "src/main.ts,src/cli/index.ts"
 ## Recent Updates
 
 ### v0.0.3 (Latest)
+
 - ✅ **Major Architecture Refactoring**: Clean separation of core API and CLI layers
-- ✅ **Function式 Design**: Pure functions with Result<T> error handling
+- ✅ **Functional Design**: Pure functions with Result type error handling
 - ✅ **Modular CLI**: Commands organized into separate modules
 - ✅ **Dead Code Cleanup**: Removed unused files and improved code organization
 - ✅ **Enhanced Documentation**: Updated architecture and API design docs
 
 ### Previous Versions
+
 - **v0.0.2**: Advanced TypeScript syntax support (95% coverage)
 - **v0.0.1**: Basic AST parsing and code generation
 
