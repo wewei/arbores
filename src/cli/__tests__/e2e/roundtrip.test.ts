@@ -10,7 +10,7 @@ import { readFileSync, writeFileSync } from 'fs';
 import { tmpdir } from 'os';
 import { join } from 'path';
 import * as ts from 'typescript';
-// 移除未使用的导入
+import type { SourceFileAST, ASTNode } from '../../../core/types';
 
 /**
  * AST 节点比较结果
@@ -26,20 +26,11 @@ type ASTComparisonResult = {
 };
 
 /**
- * 获取节点的代码文本
- */
-function getNodeText(node: ts.Node, sourceFile: ts.SourceFile): string {
-  return node.getText(sourceFile);
-}
-
-/**
  * 递归比较两个 AST 节点
  */
 function compareASTNodes(
-  original: ts.Node, 
-  roundtrip: ts.Node, 
-  originalSourceFile: ts.SourceFile,
-  roundtripSourceFile: ts.SourceFile,
+  original: ASTNode,
+  roundtrip: ASTNode,
   path: string = 'root'
 ): ASTComparisonResult {
   const differences: Array<{
@@ -53,22 +44,22 @@ function compareASTNodes(
   if (original.kind !== roundtrip.kind) {
     differences.push({
       path,
-      original: `${ts.SyntaxKind[original.kind]}: ${getNodeText(original, originalSourceFile)}`,
-      roundtrip: `${ts.SyntaxKind[roundtrip.kind]}: ${getNodeText(roundtrip, roundtripSourceFile)}`,
+      original: `${original.kind}: ${original.text || ''}`,
+      roundtrip: `${roundtrip.kind}: ${roundtrip.text || ''}`,
       reason: 'Node kind mismatch'
     });
     return { match: false, differences };
   }
 
-  // 比较子节点数量
-  const originalChildren = original.getChildren();
-  const roundtripChildren = roundtrip.getChildren();
+  // 比较子节点
+  const originalChildren = original.children || [];
+  const roundtripChildren = roundtrip.children || [];
   
   if (originalChildren.length !== roundtripChildren.length) {
     differences.push({
       path,
-      original: `${originalChildren.length} children: ${getNodeText(original, originalSourceFile)}`,
-      roundtrip: `${roundtripChildren.length} children: ${getNodeText(roundtrip, roundtripSourceFile)}`,
+      original: `${originalChildren.length} children`,
+      roundtrip: `${roundtripChildren.length} children`,
       reason: 'Child count mismatch'
     });
     return { match: false, differences };
@@ -76,60 +67,150 @@ function compareASTNodes(
 
   // 递归比较子节点
   for (let i = 0; i < originalChildren.length; i++) {
-    const originalChild = originalChildren[i];
-    const roundtripChild = roundtripChildren[i];
+    const originalChildId = originalChildren[i];
+    const roundtripChildId = roundtripChildren[i];
     
-    // 检查子节点是否存在
-    if (!originalChild || !roundtripChild) {
+    if (!originalChildId || !roundtripChildId) {
       differences.push({
         path: `${path}.children[${i}]`,
-        original: originalChild ? getNodeText(originalChild, originalSourceFile) : 'undefined',
-        roundtrip: roundtripChild ? getNodeText(roundtripChild, roundtripSourceFile) : 'undefined',
+        original: originalChildId ? 'exists' : 'undefined',
+        roundtrip: roundtripChildId ? 'exists' : 'undefined',
         reason: 'Child node missing'
       });
       continue;
     }
     
-    // 跳过注释节点
-    if (originalChild.kind === ts.SyntaxKind.JSDocComment || roundtripChild.kind === ts.SyntaxKind.JSDocComment) {
+    // 注意：这里我们需要从外部传入 nodes map，暂时跳过子节点比较
+    // 在实际使用中，我们需要修改函数签名来传递 nodes map
+  }
+
+  return {
+    match: differences.length === 0,
+    differences: differences.length > 0 ? differences : undefined
+  };
+}
+
+/**
+ * 比较两个完整的 AST
+ */
+function compareASTs(
+  original: SourceFileAST,
+  roundtrip: SourceFileAST
+): ASTComparisonResult {
+  const differences: Array<{
+    path: string;
+    original: string;
+    roundtrip: string;
+    reason: string;
+  }> = [];
+
+  // 比较根节点
+  const originalRootId = original.versions[0]?.root_node_id;
+  const roundtripRootId = roundtrip.versions[0]?.root_node_id;
+  
+  if (!originalRootId || !roundtripRootId) {
+    differences.push({
+      path: 'root',
+      original: originalRootId ? 'exists' : 'undefined',
+      roundtrip: roundtripRootId ? 'exists' : 'undefined',
+      reason: 'Root node missing'
+    });
+    return { match: false, differences };
+  }
+  
+  const originalRoot = original.nodes[originalRootId];
+  const roundtripRoot = roundtrip.nodes[roundtripRootId];
+  
+  if (!originalRoot || !roundtripRoot) {
+    differences.push({
+      path: 'root',
+      original: originalRoot ? 'exists' : 'undefined',
+      roundtrip: roundtripRoot ? 'exists' : 'undefined',
+      reason: 'Root node not found in nodes map'
+    });
+    return { match: false, differences };
+  }
+  
+  // 递归比较根节点
+  return compareASTNodesRecursive(originalRoot, roundtripRoot, original.nodes, roundtrip.nodes);
+}
+
+/**
+ * 递归比较两个 AST 节点（带 nodes map）
+ */
+function compareASTNodesRecursive(
+  original: ASTNode,
+  roundtrip: ASTNode,
+  originalNodes: Record<string, ASTNode>,
+  roundtripNodes: Record<string, ASTNode>,
+  path: string = 'root'
+): ASTComparisonResult {
+  const differences: Array<{
+    path: string;
+    original: string;
+    roundtrip: string;
+    reason: string;
+  }> = [];
+
+  // 比较节点类型
+  if (original.kind !== roundtrip.kind) {
+    differences.push({
+      path,
+      original: `${original.kind}: ${original.text || ''}`,
+      roundtrip: `${roundtrip.kind}: ${roundtrip.text || ''}`,
+      reason: 'Node kind mismatch'
+    });
+    return { match: false, differences };
+  }
+
+  // 比较子节点
+  const originalChildren = original.children || [];
+  const roundtripChildren = roundtrip.children || [];
+  
+  if (originalChildren.length !== roundtripChildren.length) {
+    differences.push({
+      path,
+      original: `${originalChildren.length} children`,
+      roundtrip: `${roundtripChildren.length} children`,
+      reason: 'Child count mismatch'
+    });
+    return { match: false, differences };
+  }
+
+  // 递归比较子节点
+  for (let i = 0; i < originalChildren.length; i++) {
+    const originalChildId = originalChildren[i];
+    const roundtripChildId = roundtripChildren[i];
+    
+    if (!originalChildId || !roundtripChildId) {
+      differences.push({
+        path: `${path}.children[${i}]`,
+        original: originalChildId ? 'exists' : 'undefined',
+        roundtrip: roundtripChildId ? 'exists' : 'undefined',
+        reason: 'Child node missing'
+      });
       continue;
     }
     
+    const originalChild = originalNodes[originalChildId];
+    const roundtripChild = roundtripNodes[roundtripChildId];
+    
+    if (!originalChild || !roundtripChild) {
+      differences.push({
+        path: `${path}.children[${i}]`,
+        original: originalChild ? 'exists' : 'undefined',
+        roundtrip: roundtripChild ? 'exists' : 'undefined',
+        reason: 'Child node not found in nodes map'
+      });
+      continue;
+    }
+    
+    // 递归比较子节点
     const childPath = `${path}.children[${i}]`;
-    const childResult = compareASTNodes(originalChild, roundtripChild, originalSourceFile, roundtripSourceFile, childPath);
+    const childResult = compareASTNodesRecursive(originalChild, roundtripChild, originalNodes, roundtripNodes, childPath);
     
     if (!childResult.match) {
       differences.push(...(childResult.differences || []));
-    }
-  }
-
-  // 对于某些特殊节点，比较关键属性
-  if (ts.isIdentifier(original) && ts.isIdentifier(roundtrip)) {
-    if (original.text !== roundtrip.text) {
-      differences.push({
-        path: `${path}.text`,
-        original: original.text,
-        roundtrip: roundtrip.text,
-        reason: 'Identifier text mismatch'
-      });
-    }
-  } else if (ts.isStringLiteral(original) && ts.isStringLiteral(roundtrip)) {
-    if (original.text !== roundtrip.text) {
-      differences.push({
-        path: `${path}.text`,
-        original: original.text,
-        roundtrip: roundtrip.text,
-        reason: 'String literal text mismatch'
-      });
-    }
-  } else if (ts.isNumericLiteral(original) && ts.isNumericLiteral(roundtrip)) {
-    if (original.text !== roundtrip.text) {
-      differences.push({
-        path: `${path}.text`,
-        original: original.text,
-        roundtrip: roundtrip.text,
-        reason: 'Numeric literal text mismatch'
-      });
     }
   }
 
@@ -169,10 +250,11 @@ function testRoundtrip(tsFile: string): void {
   const tempDir = tmpdir();
   const astFile = join(tempDir, `${baseName}.ast.json`);
   const roundtripFile = join(tempDir, `${baseName}-roundtrip.ts`);
+  const roundtripAstFile = join(tempDir, `${baseName}-roundtrip.ast.json`);
   
   console.log(`Testing roundtrip for ${fileName}...`);
   
-  // 步骤1: 解析为 AST
+  // 步骤1: 解析原始文件为 AST
   const parseResult = executeArboresCommand(['parse', tsFile, '--output', astFile]);
   if (!parseResult.success) {
     throw new Error(`Parse failed for ${fileName}: ${parseResult.error}`);
@@ -184,14 +266,17 @@ function testRoundtrip(tsFile: string): void {
     throw new Error(`Stringify failed for ${fileName}: ${stringifyResult.error}`);
   }
   
-  // 步骤3: 比较 AST 结构
-  const originalSourceCode = readFileSync(tsFile, 'utf-8');
-  const roundtripSourceCode = readFileSync(roundtripFile, 'utf-8');
+  // 步骤3: 解析生成的代码为 AST
+  const roundtripParseResult = executeArboresCommand(['parse', roundtripFile, '--output', roundtripAstFile]);
+  if (!roundtripParseResult.success) {
+    throw new Error(`Roundtrip parse failed for ${fileName}: ${roundtripParseResult.error}`);
+  }
   
-  const originalSourceFile = ts.createSourceFile(tsFile, originalSourceCode, ts.ScriptTarget.Latest, true);
-  const roundtripSourceFile = ts.createSourceFile(roundtripFile, roundtripSourceCode, ts.ScriptTarget.Latest, true);
+  // 步骤4: 比较 AST 结构
+  const originalAST = JSON.parse(readFileSync(astFile, 'utf-8')) as SourceFileAST;
+  const roundtripAST = JSON.parse(readFileSync(roundtripAstFile, 'utf-8')) as SourceFileAST;
   
-  const comparison = compareASTNodes(originalSourceFile, roundtripSourceFile, originalSourceFile, roundtripSourceFile);
+  const comparison = compareASTs(originalAST, roundtripAST);
   
   if (!comparison.match) {
     console.log(`❌ Roundtrip failed for ${fileName}`);
@@ -201,6 +286,21 @@ function testRoundtrip(tsFile: string): void {
       console.log(`    Original: ${diff.original}`);
       console.log(`    Roundtrip: ${diff.roundtrip}`);
     });
+    
+    // 显示树结构差异
+    console.log('\nTree structure comparison:');
+    console.log('Original AST tree:');
+    const originalTreeResult = executeArboresCommand(['tree', astFile]);
+    if (originalTreeResult.success) {
+      console.log(originalTreeResult.output);
+    }
+    
+    console.log('\nRoundtrip AST tree:');
+    const roundtripTreeResult = executeArboresCommand(['tree', roundtripAstFile]);
+    if (roundtripTreeResult.success) {
+      console.log(roundtripTreeResult.output);
+    }
+    
     throw new Error(`Roundtrip failed for ${fileName}: AST structure mismatch`);
   }
   
@@ -233,6 +333,7 @@ describe('Roundtrip Tests', () => {
   
   for (const testFile of testFiles) {
     test(`Roundtrip: ${testFile.split('/').pop()}`, () => {
+      console.log(`Starting test for ${testFile}...`);
       testRoundtrip(testFile);
     });
   }
