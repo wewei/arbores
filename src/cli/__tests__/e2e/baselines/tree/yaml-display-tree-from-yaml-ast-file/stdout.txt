@@ -9,7 +9,7 @@
     │   │   │           ├── ColonToken (59)                     # :
     │   │   │           ├── StringKeyword (154)                 # string
     │   │   │           ├── FirstAssignment (64)                # =
-    │   │   │           └── StringLiteral (11)                  # "Hello, World!"
+    │   │   │           └── StringLiteral (11)                  # "Hello, Wor...
     │   │   └── SemicolonToken (27)                             # ;
     │   ├── FunctionDeclaration (262)
     │   │   ├── FunctionKeyword (100)                           # function

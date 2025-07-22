@@ -23,7 +23,9 @@ import { stringifyNode } from '../../../core/stringify';
  */
 export function executeArboresCommand(args: string[]): { success: boolean; output: string; error?: string } {
   try {
-    const output = execSync(`bun run arbores ${args.join(' ')}`, { 
+    // 使用相对路径运行本地CLI，而不是依赖全局安装
+    const cliPath = join(process.cwd(), 'src', 'cli', 'index.ts');
+    const output = execSync(`bun run ${cliPath} ${args.join(' ')}`, { 
       encoding: 'utf-8',
       cwd: process.cwd(),
       stdio: 'pipe'
