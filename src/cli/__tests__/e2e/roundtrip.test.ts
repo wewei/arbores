@@ -289,16 +289,59 @@ function testRoundtrip(tsFile: string): void {
     
     // 显示树结构差异
     console.log('\nTree structure comparison:');
-    console.log('Original AST tree:');
+    
+    // 收集所有差异路径和对应的节点ID
+    const diffNodes = new Map<string, { originalId?: string; roundtripId?: string }>();
+    
+    comparison.differences?.forEach(diff => {
+      // 从路径中提取节点ID
+      const pathParts = diff.path.split('.');
+      const nodeIndex = pathParts[pathParts.length - 1];
+      
+      // 尝试找到对应的节点ID
+      if (nodeIndex && nodeIndex.includes('children[')) {
+        const match = nodeIndex.match(/children\[(\d+)\]/);
+        if (match) {
+          const childIndex = parseInt(match[1]);
+          const parentPath = pathParts.slice(0, -1).join('.');
+          
+          // 这里我们需要从AST中找到对应的节点ID
+          // 暂时简化处理，只显示差异信息
+          diffNodes.set(diff.path, {});
+        }
+      }
+    });
+    
+    // 显示差异详情
+    console.log('\nDetailed differences:');
+    comparison.differences?.forEach(diff => {
+      console.log(`\n--- ${diff.reason} at ${diff.path} ---`);
+      console.log(`Original: ${diff.original}`);
+      console.log(`Roundtrip: ${diff.roundtrip}`);
+    });
+    
+    // 显示根节点的树结构对比（简化版本）
+    console.log('\n--- Root level comparison ---');
+    console.log('Original AST root:');
     const originalTreeResult = executeArboresCommand(['tree', astFile]);
     if (originalTreeResult.success) {
-      console.log(originalTreeResult.output);
+      // 只显示前几行，避免输出过多
+      const lines = originalTreeResult.output.split('\n').slice(0, 20);
+      console.log(lines.join('\n'));
+      if (originalTreeResult.output.split('\n').length > 20) {
+        console.log('... (truncated)');
+      }
     }
     
-    console.log('\nRoundtrip AST tree:');
+    console.log('\nRoundtrip AST root:');
     const roundtripTreeResult = executeArboresCommand(['tree', roundtripAstFile]);
     if (roundtripTreeResult.success) {
-      console.log(roundtripTreeResult.output);
+      // 只显示前几行，避免输出过多
+      const lines = roundtripTreeResult.output.split('\n').slice(0, 20);
+      console.log(lines.join('\n'));
+      if (roundtripTreeResult.output.split('\n').length > 20) {
+        console.log('... (truncated)');
+      }
     }
     
     throw new Error(`Roundtrip failed for ${fileName}: AST structure mismatch`);
