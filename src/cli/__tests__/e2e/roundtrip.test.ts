@@ -167,7 +167,19 @@ function compareASTNodesRecursive(
     return { match: false, differences };
   }
 
-  // 2. 比较子节点数量
+  // 2. 比较节点的文本内容（如果存在）
+  if (original.text !== roundtrip.text) {
+    differences.push({
+      path,
+      original: original.text || 'undefined',
+      roundtrip: roundtrip.text || 'undefined',
+      reason: 'Node text mismatch'
+    });
+    // 文本内容不同，直接返回，不继续比较子节点
+    return { match: false, differences };
+  }
+
+  // 3. 比较子节点数量
   const originalChildren = original.children || [];
   const roundtripChildren = roundtrip.children || [];
   
@@ -212,8 +224,8 @@ function compareASTNodesRecursive(
       continue;
     }
     
-    // 构建子节点路径：/node-id(kind-code:kind-name)
-    const childPath = `${path}/${originalChildId}(${originalChild.kind}:${getSyntaxKindName(originalChild.kind)})`;
+    // 构建子节点路径：使用索引而不是ID，因为ID会变化
+    const childPath = `${path}/child[${i}](${originalChild.kind}:${getSyntaxKindName(originalChild.kind)})`;
     
     // 递归比较子节点（深度优先前序遍历）
     const childResult = compareASTNodesRecursive(originalChild, roundtripChild, originalNodes, roundtripNodes, childPath);
@@ -311,43 +323,54 @@ function testRoundtrip(tsFile: string): void {
     // 显示差异节点的树结构
     console.log('\n--- Tree structure of differing nodes ---');
     
-    // 从差异中提取节点ID
-    const diffNodeIds = new Set<string>();
+    // 从差异中提取节点信息用于调试
+    console.log('\n--- Debug info ---');
     comparison.differences?.forEach(diff => {
-      // 从路径中提取最后一个节点ID
-      const pathParts = diff.path.split('/');
-      const lastPart = pathParts[pathParts.length - 1];
-      if (lastPart) {
-        const match = lastPart.match(/^([a-f0-9]+)\(/);
-        if (match && match[1]) {
-          diffNodeIds.add(match[1]);
-        }
-      }
+      console.log(`Difference at: ${diff.path}`);
+      console.log(`  Reason: ${diff.reason}`);
+      console.log(`  Original: ${diff.original}`);
+      console.log(`  Roundtrip: ${diff.roundtrip}`);
     });
 
-    // 显示原始AST中差异节点的树结构
-    if (diffNodeIds.size > 0) {
-      console.log('Original AST - differing nodes:');
-      for (const nodeId of diffNodeIds) {
-        const originalTreeResult = executeArboresCommand(['tree', astFile, '--node', nodeId]);
-        if (originalTreeResult.success) {
-          console.log(`\nNode ${nodeId}:`);
-          console.log(originalTreeResult.output);
-        }
+    // 显示根节点的树结构对比（简化版本）
+    console.log('\n--- Root level comparison ---');
+    console.log('Original AST root:');
+    const originalTreeResult = executeArboresCommand(['tree', astFile]);
+    if (originalTreeResult.success) {
+      // 只显示前几行，避免输出过多
+      const lines = originalTreeResult.output.split('\n').slice(0, 10);
+      console.log(lines.join('\n'));
+      if (originalTreeResult.output.split('\n').length > 10) {
+        console.log('... (truncated)');
       }
     }
-
-    // 显示roundtrip AST中差异节点的树结构
-    if (diffNodeIds.size > 0) {
-      console.log('\nRoundtrip AST - differing nodes:');
-      for (const nodeId of diffNodeIds) {
-        const roundtripTreeResult = executeArboresCommand(['tree', roundtripAstFile, '--node', nodeId]);
-        if (roundtripTreeResult.success) {
-          console.log(`\nNode ${nodeId}:`);
-          console.log(roundtripTreeResult.output);
-        }
+    
+    console.log('\nRoundtrip AST root:');
+    const roundtripTreeResult = executeArboresCommand(['tree', roundtripAstFile]);
+    if (roundtripTreeResult.success) {
+      // 只显示前几行，避免输出过多
+      const lines = roundtripTreeResult.output.split('\n').slice(0, 10);
+      console.log(lines.join('\n'));
+      if (roundtripTreeResult.output.split('\n').length > 10) {
+        console.log('... (truncated)');
       }
     }
+    
+    // 在失败时显示生成的代码内容，帮助调试
+    console.log('\n--- Generated roundtrip code ---');
+    try {
+      const roundtripCode = readFileSync(roundtripFile, 'utf-8');
+      console.log('Roundtrip code:');
+      console.log(roundtripCode);
+    } catch (e) {
+      console.log('Failed to read roundtrip code:', e);
+    }
+    
+    // 保留临时文件用于调试
+    console.log(`\nDebug files preserved:`);
+    console.log(`  Original AST: ${astFile}`);
+    console.log(`  Roundtrip code: ${roundtripFile}`);
+    console.log(`  Roundtrip AST: ${roundtripAstFile}`);
     
     throw new Error(`Roundtrip failed for ${fileName}: AST structure mismatch`);
   }

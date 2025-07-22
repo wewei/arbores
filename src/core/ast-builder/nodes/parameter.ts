@@ -26,6 +26,7 @@ export const createParameter: NodeBuilderFn<ts.ParameterDeclaration> = (
   }
 
   let modifiers: ts.Modifier[] = [];
+  let dotDotDotToken: ts.DotDotDotToken | undefined;
   let nameNode: ASTNode | undefined;
   let nameIndex = 0;
 
@@ -45,9 +46,15 @@ export const createParameter: NodeBuilderFn<ts.ParameterDeclaration> = (
     nameIndex = 1; // 名称在第二个位置
   }
   
+  // 检查第一个子节点是否是 DotDotDotToken (rest 参数)
+  if (firstChild && firstChild.kind === ts.SyntaxKind.DotDotDotToken) {
+    dotDotDotToken = ts.factory.createToken(ts.SyntaxKind.DotDotDotToken);
+    nameIndex = 1; // 名称在第二个位置
+  }
+  
   // 获取参数名
   if (nameIndex >= children.length) {
-    throw new Error(`Cannot find parameter name node after modifiers`);
+    throw new Error(`Cannot find parameter name node after modifiers or rest token`);
   }
   
   const nameNodeId = children[nameIndex]!;
@@ -58,8 +65,7 @@ export const createParameter: NodeBuilderFn<ts.ParameterDeclaration> = (
   
   const name = createNode(sourceFile, nameNode) as ts.BindingName;
   
-  // 处理类型注解、默认值和 rest 参数
-  let dotDotDotToken: ts.DotDotDotToken | undefined;
+  // 处理类型注解和默认值
   let type: ts.TypeNode | undefined;
   let initializer: ts.Expression | undefined;
   
@@ -70,10 +76,7 @@ export const createParameter: NodeBuilderFn<ts.ParameterDeclaration> = (
     
     const childNode = sourceFile.nodes[childId];
     if (childNode) {
-      if (childNode.kind === ts.SyntaxKind.DotDotDotToken) {
-        // 这是一个 rest 参数
-        dotDotDotToken = ts.factory.createToken(ts.SyntaxKind.DotDotDotToken);
-      } else if (childNode.kind === ts.SyntaxKind.ColonToken) {
+      if (childNode.kind === ts.SyntaxKind.ColonToken) {
         // 下一个节点应该是类型
         if (i + 1 < children.length) {
           const nextChildId = children[i + 1];
