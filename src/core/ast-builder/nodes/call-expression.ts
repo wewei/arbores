@@ -26,6 +26,9 @@ export const createCallExpression: NodeBuilderFn<ts.CallExpression> = (createNod
         case ts.SyntaxKind.PropertyAccessExpression:
           expression = createNode(sourceFile, child) as ts.PropertyAccessExpression;
           break;
+        case ts.SyntaxKind.ParenthesizedExpression:
+          expression = createNode(sourceFile, child) as ts.ParenthesizedExpression;
+          break;
         case ts.SyntaxKind.QuestionDotToken:
           // 这是 CallExpression 级别的可选调用标记 (?.())
           isOptionalCall = true;
