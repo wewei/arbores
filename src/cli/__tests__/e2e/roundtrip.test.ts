@@ -137,7 +137,7 @@ function compareASTs(
 }
 
 /**
- * 递归比较两个 AST 节点（带 nodes map）
+ * 深度优先前序遍历比较两个 AST 节点（带 nodes map）
  */
 function compareASTNodesRecursive(
   original: ASTNode,
@@ -153,7 +153,9 @@ function compareASTNodesRecursive(
     reason: string;
   }> = [];
 
-  // 比较节点类型
+  // 深度优先前序遍历：先比较当前节点，再比较子节点
+  
+  // 1. 比较当前节点的类型
   if (original.kind !== roundtrip.kind) {
     differences.push({
       path,
@@ -161,10 +163,11 @@ function compareASTNodesRecursive(
       roundtrip: `${roundtrip.kind}: ${roundtrip.text || ''}`,
       reason: 'Node kind mismatch'
     });
+    // 节点类型不同，直接返回，不继续比较子节点
     return { match: false, differences };
   }
 
-  // 比较子节点
+  // 2. 比较子节点数量
   const originalChildren = original.children || [];
   const roundtripChildren = roundtrip.children || [];
   
@@ -175,10 +178,11 @@ function compareASTNodesRecursive(
       roundtrip: `${roundtripChildren.length} children`,
       reason: 'Child count mismatch'
     });
+    // 子节点数量不同，直接返回，不继续比较子节点
     return { match: false, differences };
   }
 
-  // 递归比较子节点
+  // 3. 深度优先前序遍历比较子节点
   for (let i = 0; i < originalChildren.length; i++) {
     const originalChildId = originalChildren[i];
     const roundtripChildId = roundtripChildren[i];
@@ -190,6 +194,7 @@ function compareASTNodesRecursive(
         roundtrip: roundtripChildId ? 'exists' : 'undefined',
         reason: 'Child node missing'
       });
+      // 子节点缺失，继续检查下一个子节点
       continue;
     }
     
@@ -203,14 +208,18 @@ function compareASTNodesRecursive(
         roundtrip: roundtripChild ? 'exists' : 'undefined',
         reason: 'Child node not found in nodes map'
       });
+      // 子节点未找到，继续检查下一个子节点
       continue;
     }
     
     // 构建子节点路径：/node-id(kind-code:kind-name)
     const childPath = `${path}/${originalChildId}(${originalChild.kind}:${getSyntaxKindName(originalChild.kind)})`;
+    
+    // 递归比较子节点（深度优先前序遍历）
     const childResult = compareASTNodesRecursive(originalChild, roundtripChild, originalNodes, roundtripNodes, childPath);
     
     if (!childResult.match) {
+      // 子节点比较失败，收集差异并继续检查其他子节点
       differences.push(...(childResult.differences || []));
     }
   }
