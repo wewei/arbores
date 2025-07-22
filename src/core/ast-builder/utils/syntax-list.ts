@@ -36,6 +36,8 @@ export function flattenSyntaxLists(
 /**
  * 从子节点列表中查找并展开第一个 SyntaxList
  * 如果没有找到 SyntaxList，返回所有子节点
+ * 
+ * 重要：如果 SyntaxList 有 leadingComments，会将它们传递给第一个提取的节点
  */
 export function extractFromSyntaxList(
   children: string[],
@@ -45,7 +47,22 @@ export function extractFromSyntaxList(
   for (const childId of children) {
     const child = sourceFile.nodes[childId];
     if (child && child.kind === ts.SyntaxKind.SyntaxList && child.children) {
-      return flattenSyntaxLists(child.children, sourceFile);
+      const extractedNodes = flattenSyntaxLists(child.children, sourceFile);
+      
+      // 如果 SyntaxList 有 leadingComments，传递给第一个提取的节点
+      if (child.leadingComments && extractedNodes.length > 0) {
+        const firstNode = extractedNodes[0];
+        if (firstNode) {
+          // 合并 leadingComments（如果第一个节点已经有的话）
+          if (firstNode.leadingComments) {
+            firstNode.leadingComments = [...child.leadingComments, ...firstNode.leadingComments];
+          } else {
+            firstNode.leadingComments = [...child.leadingComments];
+          }
+        }
+      }
+      
+      return extractedNodes;
     }
   }
   

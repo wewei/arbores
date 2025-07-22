@@ -1,0 +1,105 @@
+{
+  "file_name": "src\\cli\\__tests__\\fixtures\\export-simple.ts",
+  "versions": [
+    {
+      "created_at": "2025-07-22T09:15:03.173Z",
+      "root_node_id": "5b063f8327c07f9e"
+    }
+  ],
+  "nodes": {
+    "81d8d5ca18555a48": {
+      "id": "81d8d5ca18555a48",
+      "kind": 95,
+      "text": "export"
+    },
+    "5ee9eea8efce01ca": {
+      "id": "5ee9eea8efce01ca",
+      "kind": 352,
+      "children": [
+        "81d8d5ca18555a48"
+      ]
+    },
+    "617d70a2fe95ecaa": {
+      "id": "617d70a2fe95ecaa",
+      "kind": 87,
+      "text": "const"
+    },
+    "71dc98c34264d107": {
+      "id": "71dc98c34264d107",
+      "kind": 80,
+      "text": "test"
+    },
+    "ae59a5457d3f2a59": {
+      "id": "ae59a5457d3f2a59",
+      "kind": 64,
+      "text": "="
+    },
+    "c78a0f0b6f95efc3": {
+      "id": "c78a0f0b6f95efc3",
+      "kind": 9,
+      "text": "42"
+    },
+    "87649591a0ee4a31": {
+      "id": "87649591a0ee4a31",
+      "kind": 260,
+      "properties": {
+        "name": "test",
+        "hasInitializer": true
+      },
+      "children": [
+        "71dc98c34264d107",
+        "ae59a5457d3f2a59",
+        "c78a0f0b6f95efc3"
+      ]
+    },
+    "3f02a986d32de557": {
+      "id": "3f02a986d32de557",
+      "kind": 352,
+      "children": [
+        "87649591a0ee4a31"
+      ]
+    },
+    "732cd37c1302401c": {
+      "id": "732cd37c1302401c",
+      "kind": 261,
+      "children": [
+        "617d70a2fe95ecaa",
+        "3f02a986d32de557"
+      ]
+    },
+    "32cd11979c3cbcde": {
+      "id": "32cd11979c3cbcde",
+      "kind": 27,
+      "text": ";"
+    },
+    "358b7de71ae387e0": {
+      "id": "358b7de71ae387e0",
+      "kind": 243,
+      "children": [
+        "5ee9eea8efce01ca",
+        "732cd37c1302401c",
+        "32cd11979c3cbcde"
+      ]
+    },
+    "0e14051966d20c15": {
+      "id": "0e14051966d20c15",
+      "kind": 352,
+      "children": [
+        "358b7de71ae387e0"
+      ]
+    },
+    "e73ad5df286d28d6": {
+      "id": "e73ad5df286d28d6",
+      "kind": 1,
+      "text": ""
+    },
+    "5b063f8327c07f9e": {
+      "id": "5b063f8327c07f9e",
+      "kind": 307,
+      "children": [
+        "0e14051966d20c15",
+        "e73ad5df286d28d6"
+      ]
+    }
+  }
+}

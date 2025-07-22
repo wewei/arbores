@@ -36,6 +36,9 @@ export const createInterfaceDeclaration: NodeBuilderFn<ts.InterfaceDeclaration> 
     const child = sourceFile.nodes[childId];
     if (!child) continue;
     
+    // 跳过 JSDoc 节点，因为它们通过 leadingComments 处理
+    if (child.kind === ts.SyntaxKind.JSDoc) continue;
+    
     if (child.kind === ts.SyntaxKind.Identifier) {
       interfaceName = createNode(sourceFile, child) as ts.Identifier;
     } else if (child.kind === ts.SyntaxKind.TypeParameter) {

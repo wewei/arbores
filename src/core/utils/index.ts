@@ -19,3 +19,12 @@ export {
   parseASTFile,
   stringifyASTData
 } from './file-format.js';
+
+// AST comparison utilities
+export {
+  type ASTLocation,
+  type ASTComparisonResult,
+  compareASTNodes,
+  compareSourceFileASTs,
+  formatASTLocation
+} from './ast-comparison.js';

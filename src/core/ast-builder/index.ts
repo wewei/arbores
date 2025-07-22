@@ -110,6 +110,9 @@ import { createBooleanKeyword } from './nodes/boolean-keyword';
 import { createAnyKeyword } from './nodes/any-keyword';
 import { createVoidKeyword } from './nodes/void-keyword';
 
+// JSDoc 相关节点
+import { createJSDocComment } from './nodes/jsdoc-comment';
+
 /**
  * 主要的节点创建函数
  * 这是整个系统的核心，根据 node.kind 调用相应的构建函数
@@ -118,201 +121,252 @@ export function createNode<T extends ts.Node = ts.Node>(
   sourceFile: SourceFileAST,
   node: ASTNode
 ): T {
+  const result = createNodeInternal<T>(sourceFile, node);
+  
+  // 处理 leadingComments
+  if (node.leadingComments && node.leadingComments.length > 0) {
+    const comments: ts.SynthesizedComment[] = node.leadingComments.map((comment, index) => {
+      let commentText = comment.text;
+      
+      // 对于多行注释，移除包装的注释标记，但保留JSDoc格式
+      if (comment.kind === 'MultiLineCommentTrivia') {
+        // 检查是否是JSDoc格式（以 /** 开头）
+        const isJSDoc = commentText.startsWith('/**');
+        
+        // 移除开头的 /** 或 /* 和结尾的 */
+        commentText = commentText.replace(/^\/\*\*?/, '').replace(/\*\/$/, '');
+        
+        // 如果原来是JSDoc，在开头添加 * 来保持JSDoc格式
+        if (isJSDoc) {
+          commentText = '*' + commentText;
+        }
+      } else if (comment.kind === 'SingleLineCommentTrivia') {
+        // 移除开头的 //
+        commentText = commentText.replace(/^\/\//, '');
+      }
+      
+      return {
+        kind: comment.kind === 'MultiLineCommentTrivia' 
+          ? ts.SyntaxKind.MultiLineCommentTrivia 
+          : ts.SyntaxKind.SingleLineCommentTrivia,
+        text: commentText,
+        hasTrailingNewLine: true,
+        pos: -1,
+        end: -1
+      };
+    });
+    
+    ts.setSyntheticLeadingComments(result, comments);
+  }
+  
+  return result;
+}
+
+function createNodeInternal<T extends ts.Node = ts.Node>(
+  sourceFile: SourceFileAST,
+  node: ASTNode
+): T {
   switch (node.kind) {
     // 源文件节点
     case ts.SyntaxKind.SourceFile:
-      return createSourceFile(createNode)(sourceFile, node) as unknown as T;
+      return createSourceFile(createNodeInternal)(sourceFile, node) as unknown as T;
     
     // 声明节点
     case ts.SyntaxKind.FunctionDeclaration:
-      return createFunctionDeclaration(createNode)(sourceFile, node) as unknown as T;
+      return createFunctionDeclaration(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.VariableStatement:
-      return createVariableStatement(createNode)(sourceFile, node) as unknown as T;
+      return createVariableStatement(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.VariableDeclarationList:
-      return createVariableDeclarationList(createNode)(sourceFile, node) as unknown as T;
+      return createVariableDeclarationList(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.VariableDeclaration:
-      return createVariableDeclaration(createNode)(sourceFile, node) as unknown as T;
+      return createVariableDeclaration(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.TypeAliasDeclaration:
-      return createTypeAliasDeclaration(createNode)(sourceFile, node) as unknown as T;
+      return createTypeAliasDeclaration(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.ImportDeclaration:
-      return createImportDeclaration(createNode)(sourceFile, node) as unknown as T;
+      return createImportDeclaration(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.ImportClause:
-      return createImportClause(createNode)(sourceFile, node) as unknown as T;
+      return createImportClause(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.NamedImports:
-      return createNamedImports(createNode)(sourceFile, node) as unknown as T;
+      return createNamedImports(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.ImportSpecifier:
-      return createImportSpecifier(createNode)(sourceFile, node) as unknown as T;
+      return createImportSpecifier(createNodeInternal)(sourceFile, node) as unknown as T;
+    
+    // JSDoc 相关节点
+    case ts.SyntaxKind.JSDoc:
+      // JSDoc 节点不应该作为独立节点创建，它们的内容应该通过 leadingComments 处理
+      // 返回一个空的注释节点或者跳过
+      return ts.factory.createJSDocComment("", undefined) as unknown as T;
     
     // Export 相关节点
     case ts.SyntaxKind.ExportDeclaration:
-      return createExportDeclaration(createNode)(sourceFile, node) as unknown as T;
+      return createExportDeclaration(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.ExportAssignment:
-      return createExportAssignment(createNode)(sourceFile, node) as unknown as T;
+      return createExportAssignment(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.NamedExports:
-      return createNamedExports(createNode)(sourceFile, node) as unknown as T;
+      return createNamedExports(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.ExportSpecifier:
-      return createExportSpecifier(createNode)(sourceFile, node) as unknown as T;
+      return createExportSpecifier(createNodeInternal)(sourceFile, node) as unknown as T;
     
     // 语句节点
     case ts.SyntaxKind.Block:
-      return createBlock(createNode)(sourceFile, node) as unknown as T;
+      return createBlock(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.ReturnStatement:
-      return createReturnStatement(createNode)(sourceFile, node) as unknown as T;
+      return createReturnStatement(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.ExpressionStatement:
-      return createExpressionStatement(createNode)(sourceFile, node) as unknown as T;
+      return createExpressionStatement(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.TryStatement:
-      return createTryStatement(createNode)(sourceFile, node) as unknown as T;
+      return createTryStatement(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.CatchClause:
-      return createCatchClause(createNode)(sourceFile, node) as unknown as T;
+      return createCatchClause(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.IfStatement:
-      return createIfStatement(createNode)(sourceFile, node) as unknown as T;
+      return createIfStatement(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.ForStatement:
-      return createForStatement(createNode)(sourceFile, node) as unknown as T;
+      return createForStatement(createNodeInternal)(sourceFile, node) as unknown as T;
     
     // 表达式节点
     case ts.SyntaxKind.CallExpression:
-      return createCallExpression(createNode)(sourceFile, node) as unknown as T;
+      return createCallExpression(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.BinaryExpression:
-      return createBinaryExpression(createNode)(sourceFile, node) as unknown as T;
+      return createBinaryExpression(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.AwaitExpression:
-      return createAwaitExpression(createNode)(sourceFile, node) as unknown as T;
+      return createAwaitExpression(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.PropertyAccessExpression:
-      return createPropertyAccessExpression(createNode)(sourceFile, node) as unknown as T;
+      return createPropertyAccessExpression(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.TemplateExpression:
-      return createTemplateExpression(createNode)(sourceFile, node) as unknown as T;
+      return createTemplateExpression(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.TemplateHead:
-      return createTemplateHead(createNode)(sourceFile, node) as unknown as T;
+      return createTemplateHead(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.TemplateSpan:
-      return createTemplateSpan(createNode)(sourceFile, node) as unknown as T;
+      return createTemplateSpan(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.PrefixUnaryExpression:
-      return createPrefixUnaryExpression(createNode)(sourceFile, node) as unknown as T;
+      return createPrefixUnaryExpression(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.PostfixUnaryExpression:
-      return createPostfixUnaryExpression(createNode)(sourceFile, node) as unknown as T;
+      return createPostfixUnaryExpression(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.NewExpression:
-      return createNewExpression(createNode)(sourceFile, node) as unknown as T;
+      return createNewExpression(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.ElementAccessExpression:
-      return createElementAccessExpression(createNode)(sourceFile, node) as unknown as T;
+      return createElementAccessExpression(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.AsExpression:
-      return createAsExpression(createNode)(sourceFile, node) as unknown as T;
+      return createAsExpression(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.NonNullExpression:
-      return createNonNullExpression(createNode)(sourceFile, node) as unknown as T;
+      return createNonNullExpression(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.ForOfStatement:
-      return createForOfStatement(createNode)(sourceFile, node) as unknown as T;
+      return createForOfStatement(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.ThrowStatement:
-      return createThrowStatement(createNode)(sourceFile, node) as unknown as T;
+      return createThrowStatement(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.YieldExpression:
-      return createYieldExpression(createNode)(sourceFile, node) as unknown as T;
+      return createYieldExpression(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.ArrayBindingPattern:
-      return createArrayBindingPattern(createNode)(sourceFile, node) as unknown as T;
+      return createArrayBindingPattern(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.TupleType:
-      return createTupleType(createNode)(sourceFile, node) as unknown as T;
+      return createTupleType(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.MappedType:
-      return createMappedType(createNode)(sourceFile, node) as unknown as T;
+      return createMappedType(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.TemplateLiteralType:
-      return createTemplateLiteralType(createNode)(sourceFile, node) as unknown as T;
+      return createTemplateLiteralType(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.TemplateLiteralTypeSpan:
-      return createTemplateLiteralTypeSpan(createNode)(sourceFile, node) as unknown as T;
+      return createTemplateLiteralTypeSpan(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.IntersectionType:
-      return createIntersectionType(createNode)(sourceFile, node) as unknown as T;
+      return createIntersectionType(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.ConditionalExpression:
-      return createConditionalExpression(createNode)(sourceFile, node) as unknown as T;
+      return createConditionalExpression(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.SpreadElement:
-      return createSpreadElement(createNode)(sourceFile, node) as unknown as T;
+      return createSpreadElement(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.TypeOfExpression:
-      return createTypeOfExpression(createNode)(sourceFile, node) as unknown as T;
+      return createTypeOfExpression(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.TypeQuery:
-      return createTypeQuery(createNode)(sourceFile, node) as unknown as T;
+      return createTypeQuery(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.ParenthesizedExpression:
-      return createParenthesizedExpression(createNode)(sourceFile, node) as unknown as T;
+      return createParenthesizedExpression(createNodeInternal)(sourceFile, node) as unknown as T;
     
     // 字面量节点
     case ts.SyntaxKind.NumericLiteral:
-      return createNumericLiteral(createNode)(sourceFile, node) as unknown as T;
+      return createNumericLiteral(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.StringLiteral:
-      return createStringLiteral(createNode)(sourceFile, node) as unknown as T;
+      return createStringLiteral(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.TrueKeyword:
     case ts.SyntaxKind.FalseKeyword:
-      return createBooleanLiteral(createNode)(sourceFile, node) as unknown as T;
+      return createBooleanLiteral(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.ObjectLiteralExpression:
-      return createObjectLiteralExpression(createNode)(sourceFile, node) as unknown as T;
+      return createObjectLiteralExpression(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.ArrayLiteralExpression:
-      return createArrayLiteralExpression(createNode)(sourceFile, node) as unknown as T;
+      return createArrayLiteralExpression(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.PropertyAssignment:
-      return createPropertyAssignment(createNode)(sourceFile, node) as unknown as T;
+      return createPropertyAssignment(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.ShorthandPropertyAssignment:
-      return createShorthandPropertyAssignment(createNode)(sourceFile, node) as unknown as T;
+      return createShorthandPropertyAssignment(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.ArrowFunction:
-      return createArrowFunction(createNode)(sourceFile, node) as unknown as T;
+      return createArrowFunction(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.Parameter:
-      return createParameter(createNode)(sourceFile, node) as unknown as T;
+      return createParameter(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.TypeReference:
-      return createTypeReference(createNode)(sourceFile, node) as unknown as T;
+      return createTypeReference(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.UnionType:
-      return createUnionType(createNode)(sourceFile, node) as unknown as T;
+      return createUnionType(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.LiteralType:
-      return createLiteralType(createNode)(sourceFile, node) as unknown as T;
+      return createLiteralType(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.ObjectBindingPattern:
-      return createObjectBindingPattern(createNode)(sourceFile, node) as unknown as T;
+      return createObjectBindingPattern(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.BindingElement:
-      return createBindingElement(createNode)(sourceFile, node) as unknown as T;
+      return createBindingElement(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.ClassDeclaration:
-      return createClassDeclaration(createNode)(sourceFile, node) as unknown as T;
+      return createClassDeclaration(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.InterfaceDeclaration:
-      return createInterfaceDeclaration(createNode)(sourceFile, node) as unknown as T;
+      return createInterfaceDeclaration(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.PropertyDeclaration:
-      return createPropertyDeclaration(createNode)(sourceFile, node) as unknown as T;
+      return createPropertyDeclaration(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.MethodDeclaration:
-      return createMethodDeclaration(createNode)(sourceFile, node) as unknown as T;
+      return createMethodDeclaration(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.MethodSignature:
-      return createMethodSignature(createNode)(sourceFile, node) as unknown as T;
+      return createMethodSignature(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.PropertySignature:
-      return createPropertySignature(createNode)(sourceFile, node) as unknown as T;
+      return createPropertySignature(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.Constructor:
-      return createConstructorDeclaration(createNode)(sourceFile, node) as unknown as T;
+      return createConstructorDeclaration(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.EnumDeclaration:
-      return createEnumDeclaration(createNode)(sourceFile, node) as unknown as T;
+      return createEnumDeclaration(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.EnumMember:
-      return createEnumMember(createNode)(sourceFile, node) as unknown as T;
+      return createEnumMember(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.ModuleDeclaration:
-      return createModuleDeclaration(createNode)(sourceFile, node) as unknown as T;
+      return createModuleDeclaration(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.ModuleBlock:
-      return createModuleBlock(createNode)(sourceFile, node) as unknown as T;
+      return createModuleBlock(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.QualifiedName:
-      return createQualifiedName(createNode)(sourceFile, node) as unknown as T;
+      return createQualifiedName(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.ArrayType:
-      return createArrayType(createNode)(sourceFile, node) as unknown as T;
+      return createArrayType(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.TypeLiteral:
-      return createTypeLiteral(createNode)(sourceFile, node) as unknown as T;
+      return createTypeLiteral(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.IndexedAccessType:
-      return createIndexedAccessType(createNode)(sourceFile, node) as unknown as T;
+      return createIndexedAccessType(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.IndexSignature:
-      return createIndexSignature(createNode)(sourceFile, node) as unknown as T;
+      return createIndexSignature(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.ConditionalType:
-      return createConditionalType(createNode)(sourceFile, node) as unknown as T;
+      return createConditionalType(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.TypeOperator:
-      return createTypeOperator(createNode)(sourceFile, node) as unknown as T;
+      return createTypeOperator(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.FunctionType:
-      return createFunctionType(createNode)(sourceFile, node) as unknown as T;
+      return createFunctionType(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.TypeParameter:
-      return createTypeParameter(createNode)(sourceFile, node) as unknown as T;
+      return createTypeParameter(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.TypePredicate:
-      return createTypePredicate(createNode)(sourceFile, node) as unknown as T;
+      return createTypePredicate(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.HeritageClause:
-      return createHeritageClause(createNode)(sourceFile, node) as unknown as T;
+      return createHeritageClause(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.ExpressionWithTypeArguments:
-      return createExpressionWithTypeArguments(createNode)(sourceFile, node) as unknown as T;
+      return createExpressionWithTypeArguments(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.ParenthesizedExpression:
-      return createParenthesizedExpression(createNode)(sourceFile, node) as unknown as T;
+      return createParenthesizedExpression(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.ParenthesizedType:
-      return createParenthesizedType(createNode)(sourceFile, node) as unknown as T;
+      return createParenthesizedType(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.ForStatement:
-      return createForStatement(createNode)(sourceFile, node) as unknown as T;
+      return createForStatement(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.DotDotDotToken:
-      return createDotDotDotToken(createNode)(sourceFile, node) as unknown as T;
+      return createDotDotDotToken(createNodeInternal)(sourceFile, node) as unknown as T;
     
     // 基础节点
     case ts.SyntaxKind.Identifier:
-      return createIdentifier(createNode)(sourceFile, node) as unknown as T;
+      return createIdentifier(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.ThisKeyword:
       return ts.factory.createThis() as unknown as T;
     
@@ -321,11 +375,11 @@ export function createNode<T extends ts.Node = ts.Node>(
     case ts.SyntaxKind.NumericLiteral:
     case ts.SyntaxKind.TrueKeyword:
     case ts.SyntaxKind.FalseKeyword:
-      return createLiteral(createNode)(sourceFile, node) as unknown as T;
+      return createLiteral(createNodeInternal)(sourceFile, node) as unknown as T;
     
     // 关键字节点
     case ts.SyntaxKind.ElseKeyword:
-      return createElseKeyword(createNode)(sourceFile, node) as T;
+      return createElseKeyword(createNodeInternal)(sourceFile, node) as T;
     
     // 修饰符节点
     case ts.SyntaxKind.ExportKeyword:
@@ -341,7 +395,7 @@ export function createNode<T extends ts.Node = ts.Node>(
     case ts.SyntaxKind.ConstKeyword:
     case ts.SyntaxKind.LetKeyword:
     case ts.SyntaxKind.VarKeyword:
-      return createModifier(createNode)(sourceFile, node) as unknown as T;
+      return createModifier(createNodeInternal)(sourceFile, node) as unknown as T;
     
     // Token 节点
     case ts.SyntaxKind.OpenParenToken:
@@ -384,31 +438,31 @@ export function createNode<T extends ts.Node = ts.Node>(
     case ts.SyntaxKind.SuperKeyword:
     case ts.SyntaxKind.EqualsGreaterThanToken:
     case ts.SyntaxKind.ExportKeyword:
-      return createToken(createNode)(sourceFile, node) as unknown as T;
+      return createToken(createNodeInternal)(sourceFile, node) as unknown as T;
     
     // 特殊节点
     case ts.SyntaxKind.SyntaxList:
-      return createSyntaxList(createNode)(sourceFile, node) as unknown as T;
+      return createSyntaxList(createNodeInternal)(sourceFile, node) as unknown as T;
     
     // 类型关键字节点
     case ts.SyntaxKind.NumberKeyword:
-      return createNumberKeyword(createNode)(sourceFile, node) as unknown as T;
+      return createNumberKeyword(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.StringKeyword:
-      return createStringKeyword(createNode)(sourceFile, node) as unknown as T;
+      return createStringKeyword(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.BooleanKeyword:
-      return createBooleanKeyword(createNode)(sourceFile, node) as unknown as T;
+      return createBooleanKeyword(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.AnyKeyword:
-      return createAnyKeyword(createNode)(sourceFile, node) as unknown as T;
+      return createAnyKeyword(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.VoidKeyword:
-      return createVoidKeyword(createNode)(sourceFile, node) as unknown as T;
+      return createVoidKeyword(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.NullKeyword:
-      return createNullKeyword(createNode)(sourceFile, node) as unknown as T;
+      return createNullKeyword(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.UndefinedKeyword:
-      return createUndefinedKeyword(createNode)(sourceFile, node) as unknown as T;
+      return createUndefinedKeyword(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.UnknownKeyword:
-      return createUnknownKeyword(createNode)(sourceFile, node) as unknown as T;
+      return createUnknownKeyword(createNodeInternal)(sourceFile, node) as unknown as T;
     case ts.SyntaxKind.NeverKeyword:
-      return createNeverKeyword(createNode)(sourceFile, node) as unknown as T;
+      return createNeverKeyword(createNodeInternal)(sourceFile, node) as unknown as T;
     
     // 未支持的节点类型，生成占位符
     default:

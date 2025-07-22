@@ -27,6 +27,9 @@ export const createFunctionDeclaration: NodeBuilderFn<ts.FunctionDeclaration> = 
       const childNode = sourceFile.nodes[childId];
       if (!childNode) continue;
       
+      // 跳过 JSDoc 节点，因为它们通过 leadingComments 处理
+      if (childNode.kind === ts.SyntaxKind.JSDoc) continue;
+      
       if (childNode.kind === ts.SyntaxKind.TypeParameter) {
         const typeParameter = createNode(sourceFile, childNode) as ts.TypeParameterDeclaration;
         typeParameters.push(typeParameter);
