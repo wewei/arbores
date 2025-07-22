@@ -216,10 +216,17 @@ function formatTreeLines(
       
       // Format with proper spacing and text prefix
       const padding = ' '.repeat(Math.max(0, textStartColumn - prefixContent.length));
-      result.push(`${prefixContent}${padding}${options.textPrefix}${displayText}`);
+      let fullLine = `${prefixContent}${padding}${options.textPrefix}${displayText}`;
+      
+      // Final check: if the full line is still too long, truncate it
+      if (fullLine.length > options.maxWidth) {
+        fullLine = fullLine.substring(0, options.maxWidth - 3) + '...';
+      }
+      
+      result.push(fullLine);
     } else {
-      // Truncate comments if they're too long
-      if (line.isComment && prefixContent.length > options.maxWidth) {
+      // Truncate comments and non-text lines if they're too long
+      if (prefixContent.length > options.maxWidth) {
         prefixContent = prefixContent.substring(0, options.maxWidth - 3) + '...';
       }
       result.push(prefixContent);

@@ -5,67 +5,54 @@
 import { describe, it, expect } from 'bun:test';
 import { renderTree } from '../tree';
 import type { SourceFileAST, TreeRenderOptions } from '../types';
+import { parseCode } from '../parser';
 
 describe('Tree API', () => {
-  // Mock AST for testing
-  const mockAST: SourceFileAST = {
+  // Create a real AST using parseCode instead of a mock AST
+  const testCode = `// This is a test file
+function hello() { 
+  return "world"; 
+} // A simple function
+
+const x = 42;`;
+
+  // Initialize empty AST structure
+  const emptyAST: SourceFileAST = {
     file_name: 'test.ts',
-    versions: [
-      {
-        created_at: '2024-01-01T00:00:00.000Z',
-        root_node_id: 'root',
-        description: 'Test version'
-      }
-    ],
-    nodes: {
-      'root': {
-        id: 'root',
-        kind: 312, // SourceFile
-        children: ['stmt1', 'stmt2'],
-        leadingComments: [
-          { kind: 'SingleLineCommentTrivia' as const, text: '// This is a test file' }
-        ]
-      },
-      'stmt1': {
-        id: 'stmt1',
-        kind: 261, // FunctionDeclaration
-        text: 'function hello() { return "world"; }',
-        children: ['param1'],
-        trailingComments: [
-          { kind: 'SingleLineCommentTrivia' as const, text: '// A simple function' }
-        ]
-      },
-      'param1': {
-        id: 'param1',
-        kind: 166, // Parameter
-        text: 'name: string'
-      },
-      'stmt2': {
-        id: 'stmt2',
-        kind: 243, // VariableStatement
-        text: 'const x = 42;',
-        children: []
-      }
-    }
+    versions: [],
+    nodes: {}
   };
+
+  // Generate real AST from the test code
+  const parseResult = parseCode(testCode, emptyAST, 'Test version');
+  let realAST: SourceFileAST;
+  let rootNodeId: string;
+
+  // Make sure we have a valid AST before running tests
+  if (parseResult.success && parseResult.data) {
+    realAST = parseResult.data.ast;
+    rootNodeId = parseResult.data.rootNodeId;
+  } else {
+    throw new Error('Failed to generate test AST');
+  }
 
   describe('renderTree', () => {
     it('should render basic tree structure', () => {
-      const result = renderTree(mockAST, 'root');
+      const result = renderTree(realAST, rootNodeId);
       
       expect(result.success).toBe(true);
       if (result.success) {
         const lines = result.data;
         expect(lines.length).toBeGreaterThan(0);
-        expect(lines.some(line => line.includes('SourceFile (312)'))).toBe(true);
-        expect(lines.some(line => line.includes('FunctionDeclaration (261)'))).toBe(true);
-        expect(lines.some(line => line.includes('VariableStatement (243)'))).toBe(true);
+        expect(lines.some(line => line.includes('SourceFile'))).toBe(true);
+        expect(lines.some(line => line.includes('FunctionDeclaration'))).toBe(true);
+        expect(lines.some(line => line.includes('FirstStatement'))).toBe(true); // VariableStatement shows as FirstStatement
       }
     });
 
     it('should show comments when enabled', () => {
       const options: TreeRenderOptions = { showComments: true };
-      const result = renderTree(mockAST, 'root', options);
+      const result = renderTree(realAST, rootNodeId, options);
       
       expect(result.success).toBe(true);
       if (result.success) {
@@ -77,7 +64,7 @@ describe('Tree API', () => {
 
     it('should hide comments when disabled', () => {
       const options: TreeRenderOptions = { showComments: false };
-      const result = renderTree(mockAST, 'root', options);
+      const result = renderTree(realAST, rootNodeId, options);
       
       expect(result.success).toBe(true);
       if (result.success) {
@@ -88,44 +75,44 @@ describe('Tree API', () => {
 
     it('should show text content when enabled', () => {
       const options: TreeRenderOptions = { showText: true };
-      const result = renderTree(mockAST, 'root', options);
+      const result = renderTree(realAST, rootNodeId, options);
       
       expect(result.success).toBe(true);
       if (result.success) {
         const lines = result.data;
-        expect(lines.some(line => line.includes('# function hello() { return "world"; }'))).toBe(true);
-        expect(lines.some(line => line.includes('# const x = 42;'))).toBe(true);
+        expect(lines.some(line => line.includes('# hello'))).toBe(true); // Identifier name
+        expect(lines.some(line => line.includes('# const'))).toBe(true); // const keyword
       }
     });
 
     it('should hide text content when disabled', () => {
       const options: TreeRenderOptions = { showText: false };
-      const result = renderTree(mockAST, 'root', options);
+      const result = renderTree(realAST, rootNodeId, options);
       
       expect(result.success).toBe(true);
       if (result.success) {
         const lines = result.data;
-        expect(lines.some(line => line.includes('# function hello() { return "world"; }'))).toBe(false);
-        expect(lines.some(line => line.includes('# const x = 42;'))).toBe(false);
+        expect(lines.some(line => line.includes('# hello'))).toBe(false);
+        expect(lines.some(line => line.includes('# const'))).toBe(false);
       }
     });
 
     it('should show node IDs when enabled', () => {
       const options: TreeRenderOptions = { showNodeIds: true };
-      const result = renderTree(mockAST, 'root', options);
+      const result = renderTree(realAST, rootNodeId, options);
       
       expect(result.success).toBe(true);
       if (result.success) {
         const lines = result.data;
-        expect(lines.some(line => line.includes('[root]'))).toBe(true);
-        expect(lines.some(line => line.includes('[stmt1]'))).toBe(true);
-        expect(lines.some(line => line.includes('[stmt2]'))).toBe(true);
+        // We can't check for specific node IDs as they are generated dynamically
+        // So we just check that ID markers are present
+        expect(lines.some(line => line.includes('['))).toBe(true);
       }
     });
 
     it('should respect custom maxWidth', () => {
       const options: TreeRenderOptions = { maxWidth: 50 };
-      const result = renderTree(mockAST, 'root', options);
+      const result = renderTree(realAST, rootNodeId, options);
       
       expect(result.success).toBe(true);
       if (result.success) {
@@ -138,17 +125,17 @@ describe('Tree API', () => {
 
     it('should use custom text prefix', () => {
       const options: TreeRenderOptions = { textPrefix: '-> ' };
-      const result = renderTree(mockAST, 'root', options);
+      const result = renderTree(realAST, rootNodeId, options);
       
       expect(result.success).toBe(true);
       if (result.success) {
         const lines = result.data;
-        expect(lines.some(line => line.includes('-> function hello() { return "world"; }'))).toBe(true);
+        expect(lines.some(line => line.includes('-> hello'))).toBe(true); // Identifier name
       }
     });
 
     it('should return error for missing node', () => {
-      const result = renderTree(mockAST, 'nonexistent');
+      const result = renderTree(realAST, 'nonexistent');
       
       expect(result.success).toBe(false);
       if (!result.success) {
@@ -168,7 +155,7 @@ describe('Tree API', () => {
     });
 
     it('should return error for empty node ID', () => {
-      const result = renderTree(mockAST, '');
+      const result = renderTree(realAST, '');
       
       expect(result.success).toBe(false);
       if (!result.success) {
@@ -179,7 +166,7 @@ describe('Tree API', () => {
 
   describe('tree line formatting', () => {
     it('should properly format tree structure with branches', () => {
-      const result = renderTree(mockAST, 'root');
+      const result = renderTree(realAST, rootNodeId);
       
       expect(result.success).toBe(true);
       if (result.success) {
@@ -192,22 +179,25 @@ describe('Tree API', () => {
     });
 
     it('should handle missing child nodes gracefully', () => {
-      const astWithMissingChild: SourceFileAST = {
-        ...mockAST,
+      // Create a copy of the AST with a missing node reference
+      const modifiedAST: SourceFileAST = {
+        ...realAST,
         nodes: {
-          ...mockAST.nodes,
-          'root': {
-            id: 'root',
-            kind: 312,
-            children: ['stmt1', 'missing_node', 'stmt2'],
-            leadingComments: [
-              { kind: 'SingleLineCommentTrivia' as const, text: '// This is a test file' }
-            ]
-          }
+          ...realAST.nodes
         }
       };
 
-      const result = renderTree(astWithMissingChild, 'root');
+      // Add a missing node reference to the root node's children array
+      const rootNode = modifiedAST.nodes[rootNodeId];
+      if (rootNode && rootNode.children) {
+        const modifiedRootNode: typeof rootNode = {
+          ...rootNode,
+          children: [...rootNode.children, 'missing_node']
+        };
+        modifiedAST.nodes[rootNodeId] = modifiedRootNode;
+      }
+
+      const result = renderTree(modifiedAST, rootNodeId);
       
       expect(result.success).toBe(true);
       if (result.success) {

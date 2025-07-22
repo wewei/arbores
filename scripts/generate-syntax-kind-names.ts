@@ -96,13 +96,13 @@ function main() {
   console.log(`Found ${Object.keys(syntaxKindMap).length} SyntaxKind values`);
   
   const generatedCode = generateSyntaxKindNamesFunction(syntaxKindMap);
-  const outputPath = join(process.cwd(), 'src', 'syntax-kind-names.ts');
+  const outputPath = join(process.cwd(), 'src', 'core', 'syntax-kind-names.ts');
   
   writeFileSync(outputPath, generatedCode, 'utf-8');
   console.log(`Generated syntax kind names file: ${outputPath}`);
   
   // Also generate a JSON file for reference
-  const jsonOutputPath = join(process.cwd(), 'src', 'syntax-kind-names.json');
+  const jsonOutputPath = join(process.cwd(), 'src', 'core', 'syntax-kind-names.json');
   writeFileSync(jsonOutputPath, JSON.stringify(syntaxKindMap, null, 2), 'utf-8');
   console.log(`Generated JSON reference file: ${jsonOutputPath}`);
 }
