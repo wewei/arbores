@@ -11,6 +11,7 @@ import { tmpdir } from 'os';
 import { join } from 'path';
 import * as ts from 'typescript';
 import type { SourceFileAST, ASTNode } from '../../../core/types';
+import { getSyntaxKindName } from '../../../core/syntax-kind-names';
 
 /**
  * AST 节点比较结果
@@ -143,7 +144,7 @@ function compareASTNodesRecursive(
   roundtrip: ASTNode,
   originalNodes: Record<string, ASTNode>,
   roundtripNodes: Record<string, ASTNode>,
-  path: string = 'root'
+  path: string = '/root'
 ): ASTComparisonResult {
   const differences: Array<{
     path: string;
@@ -184,7 +185,7 @@ function compareASTNodesRecursive(
     
     if (!originalChildId || !roundtripChildId) {
       differences.push({
-        path: `${path}.children[${i}]`,
+        path: `${path}/missing-child[${i}]`,
         original: originalChildId ? 'exists' : 'undefined',
         roundtrip: roundtripChildId ? 'exists' : 'undefined',
         reason: 'Child node missing'
@@ -197,7 +198,7 @@ function compareASTNodesRecursive(
     
     if (!originalChild || !roundtripChild) {
       differences.push({
-        path: `${path}.children[${i}]`,
+        path: `${path}/child[${i}]`,
         original: originalChild ? 'exists' : 'undefined',
         roundtrip: roundtripChild ? 'exists' : 'undefined',
         reason: 'Child node not found in nodes map'
@@ -205,8 +206,8 @@ function compareASTNodesRecursive(
       continue;
     }
     
-    // 递归比较子节点
-    const childPath = `${path}.children[${i}]`;
+    // 构建子节点路径：/node-id(kind-code:kind-name)
+    const childPath = `${path}/${originalChildId}(${originalChild.kind}:${getSyntaxKindName(originalChild.kind)})`;
     const childResult = compareASTNodesRecursive(originalChild, roundtripChild, originalNodes, roundtripNodes, childPath);
     
     if (!childResult.match) {
@@ -219,6 +220,8 @@ function compareASTNodesRecursive(
     differences: differences.length > 0 ? differences : undefined
   };
 }
+
+
 
 /**
  * 执行 arbores 命令
@@ -300,8 +303,8 @@ function testRoundtrip(tsFile: string): void {
       
       // 尝试找到对应的节点ID
       if (nodeIndex && nodeIndex.includes('children[')) {
-        const match = nodeIndex.match(/children\[(\d+)\]/);
-        if (match) {
+        const match = nodeIndex?.match(/children\[(\d+)\]/);
+        if (match && match[1]) {
           const childIndex = parseInt(match[1]);
           const parentPath = pathParts.slice(0, -1).join('.');
           
@@ -380,4 +383,4 @@ describe('Roundtrip Tests', () => {
       testRoundtrip(testFile);
     });
   }
-}); 
+});
