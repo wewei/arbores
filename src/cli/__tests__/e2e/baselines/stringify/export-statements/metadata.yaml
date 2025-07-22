@@ -1,12 +1,10 @@
-description: >-
-  Stringify export statements (const, let, var, function, class, interface, enum, type, named,
-  default)
+description: Stringify export statements (const, let, var, function, class, interface, enum, type, named, default)
 command:
   - stringify
   - src\cli\__tests__\fixtures\export-test.ast.json
-  - "--format"
+  - '--format'
   - readable
 exitCode: 0
 environment: {}
-created: "2025-07-20T23:50:19.827Z"
-updated: "2025-07-21T01:40:01.792Z"
+created: '2025-07-20T23:50:19.827Z'
+updated: '2025-07-22T09:15:17.424Z'

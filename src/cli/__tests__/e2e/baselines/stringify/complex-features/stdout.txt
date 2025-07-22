@@ -1,40 +1,41 @@
-import { EventEmitter } from "events";
+// Complex TypeScript code with multiple features
+import { EventEmitter } from 'events';
 interface User {
     id: number;
     name: string;
     email?: string;
 }
-type ApiResponse = {
+type ApiResponse<T> = {
     data: T;
-    status;
+    status: 'success' | 'error';
     message?: string;
 };
-abstract class BaseService {
-    serviceName;
+abstract class BaseService extends EventEmitter {
+    protected abstract serviceName: string;
     constructor(private config: Record<string, any>) {
-        func();
+        super();
     }
-    initialize() { }
+    abstract initialize(): Promise<void>;
 }
-class UserService {
-    serviceName;
-    users;
-    initialize() {
-        this.emit("initialized", this.serviceName);
+class UserService extends BaseService {
+    protected serviceName = 'UserService';
+    private users: Map<number, User> = new Map();
+    async initialize(): Promise<void> {
+        this.emit('initialized', this.serviceName);
     }
-    getUser(id: number) {
+    async getUser(id: number): Promise<ApiResponse<User>> {
         const user = this.users.get(id);
         if (!user) {
-            return { data: null as any, status: "error", message: `User with id ${id} not found` };
+            return { data: null as any, status: 'error', message: `User with id ${id} not found` };
         }
-        return { data: user, status: "success" };
+        return { data: user, status: 'success' };
     }
-    createUser(userData: T) {
-        const user: User = { id: Date.now(), name: userData.name || "Unknown", email: userData.email };
+    async createUser<T extends Partial<User>>(userData: T): Promise<ApiResponse<User>> {
+        const user: User = { id: Date.now(), name: userData.name || 'Unknown', email: userData.email };
         this.users.set(user.id, user);
-        return { data: user, status: "success" };
+        return { data: user, status: 'success' };
     }
 }
-export type {};
-export {};
+export type { User, ApiResponse };
+export { UserService };
 

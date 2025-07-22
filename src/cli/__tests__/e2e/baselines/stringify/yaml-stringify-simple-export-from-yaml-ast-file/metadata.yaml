@@ -2,11 +2,11 @@ description: Execute stringify command with readable format
 command:
   - stringify
   - src\cli\__tests__\fixtures\export-simple.ast.yaml
-  - "--format"
+  - '--format'
   - readable
 exitCode: 0
 environment:
-  COLUMNS: "80"
-  MOCK_TIMESTAMP: "2025-01-01T00:00:00.000Z"
-created: "2025-07-21T03:31:29.477Z"
-updated: "2025-07-21T03:32:29.153Z"
+  COLUMNS: '80'
+  MOCK_TIMESTAMP: '2025-01-01T00:00:00.000Z'
+created: '2025-07-21T03:31:29.477Z'
+updated: '2025-07-22T09:15:20.757Z'

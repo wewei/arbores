@@ -2,9 +2,9 @@ description: Get children from class AST
 command:
   - children
   - src/cli/__tests__/fixtures/class-test.ast.json
-  - "--format"
+  - '--format'
   - json
 exitCode: 0
 environment: {}
-created: "2025-07-20T23:20:27.621Z"
-updated: "2025-07-20T23:20:27.621Z"
+created: '2025-07-20T23:20:27.621Z'
+updated: '2025-07-22T09:15:04.709Z'

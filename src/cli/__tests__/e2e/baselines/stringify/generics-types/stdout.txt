@@ -1,30 +1,31 @@
-export interface GenericContainer {
+// Generic types and utility types
+export interface GenericContainer<T> {
     value: T;
     metadata?: Record<string, unknown>;
 }
-export type Optional = {
+export type Optional<T> = {
     [K in keyof T]?: T[K];
 };
-export type Required = {
+export type Required<T> = {
     [K in keyof T]-?: T[K];
 };
-export function identity(arg: T): T {
+export function identity<T>(arg: T): T {
     return arg;
 }
-export class Container {
-    _value;
+export class Container<T extends string | number> {
+    private _value: T;
     constructor(value: T) {
         this._value = value;
     }
-    getValue() {
+    getValue(): T {
         return this._value;
     }
-    create(value: U) {
+    static create<U extends string | number>(value: U): Container<U> {
         return new Container(value);
     }
 }
-export function isString(value: T | string): value is string {
-    return typeof value === "string";
+export function isString<T>(value: T | string): value is string {
+    return typeof value === 'string';
 }
-export type StringOrNumber = T extends string ? string : number;
+export type StringOrNumber<T> = T extends string ? string : number;
 

@@ -2,11 +2,11 @@ description: Get parents of specific node in JSON format
 command:
   - parents
   - src/cli/__tests__/fixtures/simple.ast.json
-  - "--node"
+  - '--node'
   - 617d70a2fe95ecaa
-  - "--format"
+  - '--format'
   - json
 exitCode: 0
 environment: {}
-created: "2025-07-20T23:18:31.715Z"
-updated: "2025-07-20T23:18:31.715Z"
+created: '2025-07-20T23:18:31.715Z'
+updated: '2025-07-22T09:15:10.055Z'

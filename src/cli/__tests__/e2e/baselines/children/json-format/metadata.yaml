@@ -2,9 +2,9 @@ description: Get children of root node in JSON format
 command:
   - children
   - src/cli/__tests__/fixtures/simple.ast.json
-  - "--format"
+  - '--format'
   - json
 exitCode: 0
 environment: {}
-created: "2025-07-20T23:18:19.809Z"
-updated: "2025-07-20T23:18:19.809Z"
+created: '2025-07-20T23:18:19.809Z'
+updated: '2025-07-22T09:15:06.131Z'

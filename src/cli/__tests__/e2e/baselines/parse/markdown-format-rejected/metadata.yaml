@@ -2,11 +2,11 @@ description: Execute parse command with markdown format
 command:
   - parse
   - src\cli\__tests__\fixtures\simple.ts
-  - "--format"
+  - '--format'
   - markdown
 exitCode: 1
 environment:
-  COLUMNS: "80"
-  MOCK_TIMESTAMP: "2025-01-01T00:00:00.000Z"
-created: "2025-07-21T03:33:42.047Z"
-updated: "2025-07-21T03:33:42.546Z"
+  COLUMNS: '80'
+  MOCK_TIMESTAMP: '2025-01-01T00:00:00.000Z'
+created: '2025-07-21T03:33:42.047Z'
+updated: '2025-07-22T09:15:11.485Z'

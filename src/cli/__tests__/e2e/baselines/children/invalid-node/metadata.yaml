@@ -2,11 +2,11 @@ description: Children command with invalid node ID (error case)
 command:
   - children
   - src/cli/__tests__/fixtures/simple.ast.json
-  - "--node"
+  - '--node'
   - nonexistent-node
-  - "--format"
+  - '--format'
   - json
 exitCode: 1
 environment: {}
-created: "2025-07-20T23:18:58.988Z"
-updated: "2025-07-20T23:18:58.988Z"
+created: '2025-07-20T23:18:58.988Z'
+updated: '2025-07-22T09:15:05.773Z'

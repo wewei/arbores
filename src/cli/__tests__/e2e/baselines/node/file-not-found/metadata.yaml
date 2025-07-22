@@ -2,11 +2,11 @@ description: Node command with non-existent file (error case)
 command:
   - node
   - nonexistent.ast.json
-  - "--node"
+  - '--node'
   - 617d70a2fe95ecaa
-  - "--format"
+  - '--format'
   - json
 exitCode: 1
 environment: {}
-created: "2025-07-20T23:19:06.691Z"
-updated: "2025-07-20T23:19:06.691Z"
+created: '2025-07-20T23:19:06.691Z'
+updated: '2025-07-22T09:15:07.910Z'

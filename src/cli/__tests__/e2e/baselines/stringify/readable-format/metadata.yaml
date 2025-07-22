@@ -4,5 +4,5 @@ command:
   - src\cli\__tests__\fixtures\simple.ast.json
 exitCode: 0
 environment: {}
-created: "2025-07-20T22:55:08.576Z"
-updated: "2025-07-21T01:38:32.941Z"
+created: '2025-07-20T22:55:08.576Z'
+updated: '2025-07-22T09:15:18.519Z'

@@ -4,6 +4,6 @@ command:
   - src/cli/__tests__/fixtures/function-test.ast.json
 exitCode: 0
 environment:
-  COLUMNS: "40"
-created: "2025-07-21T03:08:20.869Z"
-updated: "2025-07-21T03:08:20.869Z"
+  COLUMNS: '40'
+created: '2025-07-21T03:08:20.869Z'
+updated: '2025-07-22T09:15:21.123Z'
