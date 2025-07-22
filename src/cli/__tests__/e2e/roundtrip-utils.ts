@@ -198,7 +198,7 @@ export interface RoundtripTestOptions {
 /**
  * 测试单个文件的 roundtrip
  */
-export function testSingleRoundtrip(tsFile: string, options: RoundtripTestOptions = {}): void {
+export function testSingleRoundtrip(tsFile: string, options: RoundtripTestOptions = {}): { success: boolean; error?: string } {
   const { verbose = true, keepTempFiles = false } = options;
   
   const fileName = tsFile.split(/[/\\]/).pop()!;
@@ -332,6 +332,9 @@ export function testSingleRoundtrip(tsFile: string, options: RoundtripTestOption
     if (verbose) {
       console.log(`✅ Roundtrip passed for ${fileName}`);
     }
+    
+    // 返回成功结果
+    return { success: true };
     
   } finally {
     // 清理临时文件（除非要求保留）
