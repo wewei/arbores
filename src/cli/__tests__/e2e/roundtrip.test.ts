@@ -38,7 +38,7 @@ function discoverTestFiles(): string[] {
  */
 const knownIssues = new Set([
   'complex.ts', // JSDoc子节点问题 - 已知issue，之后修复
-  'optional-chain-test.ts', // 双重可选链问题 - 需要修复CallExpression处理
+  // 'optional-chain-test.ts', // 双重可选链问题 - 需要修复CallExpression处理 (暂时取消跳过来测试修复)
 ]);
 
 describe('Roundtrip Tests - Curated Suite', () => {
