@@ -300,31 +300,6 @@ function testRoundtrip(tsFile: string): void {
       console.log(`    Roundtrip: ${diff.roundtrip}`);
     });
     
-    // 显示树结构差异
-    console.log('\nTree structure comparison:');
-    
-    // 收集所有差异路径和对应的节点ID
-    const diffNodes = new Map<string, { originalId?: string; roundtripId?: string }>();
-    
-    comparison.differences?.forEach(diff => {
-      // 从路径中提取节点ID
-      const pathParts = diff.path.split('.');
-      const nodeIndex = pathParts[pathParts.length - 1];
-      
-      // 尝试找到对应的节点ID
-      if (nodeIndex && nodeIndex.includes('children[')) {
-        const match = nodeIndex?.match(/children\[(\d+)\]/);
-        if (match && match[1]) {
-          const childIndex = parseInt(match[1]);
-          const parentPath = pathParts.slice(0, -1).join('.');
-          
-          // 这里我们需要从AST中找到对应的节点ID
-          // 暂时简化处理，只显示差异信息
-          diffNodes.set(diff.path, {});
-        }
-      }
-    });
-    
     // 显示差异详情
     console.log('\nDetailed differences:');
     comparison.differences?.forEach(diff => {
