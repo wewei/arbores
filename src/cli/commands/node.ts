@@ -6,8 +6,8 @@ import { getNodeWithKindName } from '../../core';
 import { getSyntaxKindName } from '../../core/syntax-kind-names';
 import { 
   readFile, 
-  
-  parseASTFile,fileExists, 
+  parseASTFile, 
+  fileExists, 
   handleResult, 
   handleError, 
   outputData,
