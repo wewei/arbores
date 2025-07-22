@@ -308,27 +308,44 @@ function testRoundtrip(tsFile: string): void {
       console.log(`Roundtrip: ${diff.roundtrip}`);
     });
     
-    // 显示根节点的树结构对比（简化版本）
-    console.log('\n--- Root level comparison ---');
-    console.log('Original AST root:');
-    const originalTreeResult = executeArboresCommand(['tree', astFile]);
-    if (originalTreeResult.success) {
-      // 只显示前几行，避免输出过多
-      const lines = originalTreeResult.output.split('\n').slice(0, 20);
-      console.log(lines.join('\n'));
-      if (originalTreeResult.output.split('\n').length > 20) {
-        console.log('... (truncated)');
+    // 显示差异节点的树结构
+    console.log('\n--- Tree structure of differing nodes ---');
+    
+    // 从差异中提取节点ID
+    const diffNodeIds = new Set<string>();
+    comparison.differences?.forEach(diff => {
+      // 从路径中提取最后一个节点ID
+      const pathParts = diff.path.split('/');
+      const lastPart = pathParts[pathParts.length - 1];
+      if (lastPart) {
+        const match = lastPart.match(/^([a-f0-9]+)\(/);
+        if (match && match[1]) {
+          diffNodeIds.add(match[1]);
+        }
+      }
+    });
+
+    // 显示原始AST中差异节点的树结构
+    if (diffNodeIds.size > 0) {
+      console.log('Original AST - differing nodes:');
+      for (const nodeId of diffNodeIds) {
+        const originalTreeResult = executeArboresCommand(['tree', astFile, '--node', nodeId]);
+        if (originalTreeResult.success) {
+          console.log(`\nNode ${nodeId}:`);
+          console.log(originalTreeResult.output);
+        }
       }
     }
-    
-    console.log('\nRoundtrip AST root:');
-    const roundtripTreeResult = executeArboresCommand(['tree', roundtripAstFile]);
-    if (roundtripTreeResult.success) {
-      // 只显示前几行，避免输出过多
-      const lines = roundtripTreeResult.output.split('\n').slice(0, 20);
-      console.log(lines.join('\n'));
-      if (roundtripTreeResult.output.split('\n').length > 20) {
-        console.log('... (truncated)');
+
+    // 显示roundtrip AST中差异节点的树结构
+    if (diffNodeIds.size > 0) {
+      console.log('\nRoundtrip AST - differing nodes:');
+      for (const nodeId of diffNodeIds) {
+        const roundtripTreeResult = executeArboresCommand(['tree', roundtripAstFile, '--node', nodeId]);
+        if (roundtripTreeResult.success) {
+          console.log(`\nNode ${nodeId}:`);
+          console.log(roundtripTreeResult.output);
+        }
       }
     }
     
