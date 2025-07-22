@@ -1,4 +1,88 @@
-# CLI End-to-End Testing Framework
+# CLI End-to-End Testing Framework & Test Suite Organization
+
+## Test Suites Overview
+
+The testing suite is organized into different categories for better management and targeted testing:
+
+### 🧪 Unit Tests (ut)
+- **Location**: `src/**/__tests__/**/*.test.ts` (excluding e2e)
+- **Command**: `npm run test:ut`
+- **Purpose**: Test individual functions and modules in isolation
+- **Files**:
+  - `src/core/__tests__/parser.test.ts` - Parser API tests
+  - `src/core/__tests__/query.test.ts` - Query API tests  
+  - `src/core/__tests__/stringify.test.ts` - Stringify API tests
+  - `src/core/__tests__/types.test.ts` - Type system tests
+
+### 📊 Baseline Tests (baseline)
+- **Location**: `src/cli/__tests__/e2e/baseline-runner.test.ts`
+- **Command**: `npm run test:baseline`
+- **Purpose**: Validate CLI commands against known baseline outputs
+- **Features**: Auto-discovers baseline files and compares actual vs expected output
+
+### 🔄 Roundtrip Tests (roundtrip)
+- **Location**: `src/cli/__tests__/e2e/roundtrip.test.ts`
+- **Command**: `npm run test:roundtrip`
+- **Purpose**: Test curated TypeScript files for perfect roundtrip consistency
+- **Features**: 
+  - Tests handpicked fixture files (15 files)
+  - High success rate expected (100%)
+  - Fast execution (~20 seconds)
+  - AST-level comparison with intelligent diffing
+
+### 🚀 Full Roundtrip Tests (full-roundtrip)
+- **Location**: `src/cli/__tests__/e2e/full-roundtrip.test.ts`
+- **Command**: `npm run test:full-roundtrip`
+- **Purpose**: Comprehensive testing of all source files in the project
+- **Features**:
+  - Tests all TypeScript files in `src/` directory (43+ files)
+  - Longer execution time (~30+ seconds)
+  - Success rate tracking with minimum threshold (70%)
+  - Categorizes files by complexity and automatically skips problematic ones
+
+### 🎯 Test Commands
+
+```bash
+# Default: Run all tests except full-roundtrip (fastest feedback)
+npm run test
+
+# Individual test suites
+npm run test:ut              # Unit tests only
+npm run test:baseline        # Baseline tests only  
+npm run test:roundtrip       # Curated roundtrip tests only
+npm run test:full-roundtrip  # Complete roundtrip tests (slow)
+
+# Combined suites
+npm run test:e2e            # All E2E tests (baseline + roundtrip, excluding full-roundtrip)
+npm run test:all            # All tests including full-roundtrip
+```
+
+### 🏃‍♂️ Development Workflow
+
+1. **During development**: Use `npm run test` (excludes slow full-roundtrip)
+2. **Before commits**: Run `npm run test:e2e` to validate E2E functionality
+3. **Before releases**: Run `npm run test:all` for comprehensive validation
+4. **CI/CD pipeline**: Use `npm run test:all` for full coverage
+
+### 📈 Success Rate Expectations
+
+- **Unit Tests**: 100% (all must pass)
+- **Baseline Tests**: 100% (all must pass)  
+- **Roundtrip Tests**: 100% (curated fixtures should always work)
+- **Full Roundtrip Tests**: 70%+ (comprehensive real-world files)
+
+### 🔍 Debugging Failed Tests
+
+Each test category provides different levels of detail:
+
+- **Unit tests**: Standard Jest-style output with expect assertions
+- **Baseline tests**: Diff output comparing expected vs actual CLI results
+- **Roundtrip tests**: AST node-level comparison with path information
+- **Full roundtrip tests**: Batch results with file categorization and summary stats
+
+---
+
+# Original CLI E2E Framework Documentation
 
 ## 概述
 

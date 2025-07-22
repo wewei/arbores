@@ -160,7 +160,7 @@ async function runBaselineTest(
 }
 
 // 自动生成测试套件
-describe('E2E Baseline Tests', () => {
+describe('Baseline Tests - E2E CLI Baseline Runner', () => {
   const baselines = discoverBaselines();
   
   if (baselines.length === 0) {

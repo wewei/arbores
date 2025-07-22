@@ -14,7 +14,7 @@ import {
 } from '../query';
 import type { SourceFileAST, ASTNode, FileVersion } from '../types';
 
-describe('Query API', () => {
+describe('Unit Tests - Query API', () => {
   // Mock AST data for testing
   const mockAST: SourceFileAST = {
     file_name: 'test.ts',

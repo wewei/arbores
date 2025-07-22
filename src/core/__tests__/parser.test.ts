@@ -9,7 +9,7 @@ import { parseCode } from '../parser';
 import { isSuccess, isError } from '../types';
 import type { SourceFileAST } from '../types';
 
-describe('Parser API', () => {
+describe('Unit Tests - Parser API', () => {
   let emptyAST: SourceFileAST;
   
   beforeEach(() => {

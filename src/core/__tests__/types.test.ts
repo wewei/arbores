@@ -16,7 +16,7 @@ import {
 } from '../types.ts';
 import type { ASTNode, FileVersion } from '../types.ts';
 
-describe('Result<T> Type System', () => {
+describe('Unit Tests - Result<T> Type System', () => {
   describe('success()', () => {
     it('should create a success result', () => {
       const data = { message: 'hello' };

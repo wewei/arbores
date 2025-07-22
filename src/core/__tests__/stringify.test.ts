@@ -14,7 +14,7 @@ import {
 } from '../stringify';
 import type { SourceFileAST, FileVersion } from '../types';
 
-describe('Stringify API', () => {
+describe('Unit Tests - Stringify API', () => {
   // Mock AST data for testing
   const mockAST: SourceFileAST = {
     file_name: 'test.ts',
