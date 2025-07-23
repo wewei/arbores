@@ -20,6 +20,14 @@ export {
   stringifyASTData
 } from './file-format.js';
 
+// String case conversion utilities
+export {
+  toCamelCase,
+  toKebabCase,
+  pascalCaseToCamelCase,
+  pascalCaseToKebabCase
+} from './string-case.js';
+
 // AST comparison utilities
 export {
   type ASTLocation,

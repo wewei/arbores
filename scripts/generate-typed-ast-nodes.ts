@@ -3,17 +3,8 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { Command } from 'commander';
+import { toCamelCase, toKebabCase } from '../src/core/utils/string-case';
 import syntaxKindNames from '../src/core/syntax-kind-names.json';
-
-// 将PascalCase转换为camelCase
-function toCamelCase(str: string): string {
-  return str.charAt(0).toLowerCase() + str.slice(1);
-}
-
-// 将PascalCase转换为kebab-case
-function toKebabCase(str: string): string {
-  return str.replace(/([A-Z])/g, '-$1').toLowerCase().replace(/^-/, '');
-}
 
 // 格式化SyntaxKind代码为3位数字
 function formatSyntaxKindCode(code: number): string {
