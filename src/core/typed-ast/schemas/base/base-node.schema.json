@@ -5,6 +5,11 @@
   "description": "基础 AST 节点，所有其他节点的根接口",
   "type": "object",
   "properties": {
+    "id": {
+      "description": "节点内容哈希值，用于唯一标识和去重",
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
     "kind": {
       "description": "AST 节点的类型标识符",
       "type": "integer",
@@ -13,6 +18,7 @@
     }
   },
   "required": [
+    "id",
     "kind"
   ],
   "additionalProperties": false

@@ -1,60 +1,102 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "typed-ast-schemas-index",
-  "title": "Typed AST Schemas Index",
-  "description": "TypeScript AST Schema 集合的索引文件",
+  "title": "TypeScript AST Schema Registry",
+  "description": "所有 TypeScript 语法节点的 Schema 注册表",
   "version": "1.0.0",
+  "generated": "2025-07-23T10:16:49.725Z",
+  "metadata": {
+    "generator": {
+      "script": "scripts/generate-typed-ast-schemas.ts",
+      "outputPaths": {
+        "types": "src/core/typed-ast/types/",
+        "converters": "src/core/typed-ast/converters/",
+        "tests": "src/core/typed-ast/__tests__/"
+      },
+      "validation": true
+    },
+    "boundaries": {
+      "tokens": "0-165",
+      "types": "182-205",
+      "statements": "243-259",
+      "jsdoc": "309-351",
+      "nodes": "166-357 (excluding other categories)"
+    },
+    "categories": [
+      {
+        "name": "tokens",
+        "description": "Token 类型 - 词法单元和标点符号",
+        "baseType": "BaseTokenNode",
+        "range": [
+          0,
+          165
+        ],
+        "count": 165
+      },
+      {
+        "name": "types",
+        "description": "TypeScript 类型节点",
+        "baseType": "BaseTypeNode",
+        "range": [
+          182,
+          205
+        ],
+        "count": 24
+      },
+      {
+        "name": "statements",
+        "description": "语句类型 - 可执行的语句",
+        "baseType": "BaseStatementNode",
+        "range": [
+          243,
+          259
+        ],
+        "count": 17
+      },
+      {
+        "name": "jsdoc",
+        "description": "JSDoc 节点 - 文档注释相关",
+        "baseType": "BaseJSDocNode",
+        "range": [
+          309,
+          351
+        ],
+        "count": 43
+      },
+      {
+        "name": "nodes",
+        "description": "其他 AST 节点 - 表达式、声明、绑定等",
+        "baseType": "BaseNode",
+        "range": [
+          166,
+          357
+        ],
+        "count": 108
+      }
+    ]
+  },
   "schemas": {
-    "base": {
-      "description": "基础节点类型",
-      "schemas": [
-        "base/base-typed-node.schema.json",
-        "base/base-token-node.schema.json",
-        "base/base-type-node.schema.json",
-        "base/base-statement-node.schema.json",
-        "base/base-jsdoc-node.schema.json"
+    "base": [
+      "base/base-typed-node.schema.json",
+      "base/base-token-node.schema.json",
+      "base/base-type-node.schema.json",
+      "base/base-statement-node.schema.json",
+      "base/base-jsdoc-node.schema.json"
+    ],
+    "common": [
+      "common/type-unions.schema.json",
+      "common/operator-types.schema.json",
+      "common/modifier-types.schema.json"
+    ],
+    "generated": {
+      "tokens": [
+        "tokens/s080-identifier.schema.json"
       ]
-    },
-    "common": {
-      "description": "通用类型定义",
-      "schemas": [
-        "common/type-unions.schema.json",
-        "common/operator-types.schema.json",
-        "common/modifier-types.schema.json"
-      ]
-    },
-    "tokens": {
-      "description": "Token 类型 (SyntaxKind 1-165)",
-      "count": 165,
-      "range": "1-165",
-      "schemas": "tokens/s*.schema.json"
-    },
-    "types": {
-      "description": "TypeScript 类型节点 (SyntaxKind 182-205)",
-      "count": 24,
-      "range": "182-205",
-      "schemas": "types/s*.schema.json"
-    },
-    "statements": {
-      "description": "语句类型 (SyntaxKind 243-259)",
-      "count": 17,
-      "range": "243-259",
-      "schemas": "statements/s*.schema.json"
-    },
-    "jsdoc": {
-      "description": "JSDoc 节点 (SyntaxKind 309-351)",
-      "count": 43,
-      "range": "309-351",
-      "schemas": "jsdoc/s*.schema.json"
-    },
-    "nodes": {
-      "description": "其他 AST 节点 (SyntaxKind 166-357)",
-      "count": 108,
-      "range": "166-357",
-      "schemas": "nodes/s*.schema.json"
     }
   },
-  "totalSchemas": 365,
-  "generated": "2024-12-28T10:00:00Z",
-  "generator": "scripts/generate-typed-ast-schemas.ts"
+  "statistics": {
+    "totalSchemas": 1,
+    "byCategory": {
+      "tokens": 1
+    }
+  }
 }
