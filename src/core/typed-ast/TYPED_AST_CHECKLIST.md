@@ -503,6 +503,10 @@
 
 **更新日志:**
 - 2025-07-23: 创建初始检查清单
+- 2025-07-23: **重构** - 将 `base.ts` 改为手写文件，增加扩展性
+  - 移除了生成器对 `base.ts` 的自动生成
+  - 添加了 `BaseLiteralNode`, `BaseNamedNode`, `BaseModifiableNode`, `BaseTypedAnnotationNode` 等基础类型
+  - 为重构过程中的类型扩展提供了更好的灵活性
 - 待补充: 第一个类型实现完成时间
 
 **注意事项:**

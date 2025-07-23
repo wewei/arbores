@@ -7,24 +7,22 @@
  * 如需重新生成，请使用 -f 参数强制覆盖
  */
 
-import type { BaseTokenNode } from '../base';
+import type { BaseLiteralNode, BaseTypedNode } from '../base';
 
-export interface StringLiteralNode extends BaseTokenNode {
+export interface StringLiteralNode extends BaseLiteralNode<string> {
   kind: 11; // StringLiteral
   
-  /** 字符串字面量的原始文本，包括引号 */
-  text: string;
+  // 继承自 BaseLiteralNode:
+  // - text: string (Token文本内容)
+  // - value: string (字符串的实际值，去除引号)
   
-  /** 字符串的解析值，不包含引号且已处理转义字符 */
-  value: string;
-  
-  /** 引号类型 */
-  quoteKind: 'single' | 'double';
+  /** 字符串字面量的引号类型 */
+  quoteKind?: 'single' | 'double' | 'template';
 }
 
 /**
  * 类型判定函数
  */
-export function isStringLiteral(node: BaseTokenNode): node is StringLiteralNode {
+export function isStringLiteral(node: BaseTypedNode): node is StringLiteralNode {
   return node.kind === 11;
 }

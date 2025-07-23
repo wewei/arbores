@@ -118,49 +118,13 @@ export function ${camelCaseName}ToTsNode(node: ${nodeTypeName}): ts.Node {
 `;
 }
 
-// 创建基础类型文件
-function createBaseTypes(): void {
-  const baseTypesPath = path.join(process.cwd(), 'src/core/typed-ast/base.ts');
-  
-  const baseTypesContent = `/**
- * 基础AST节点类型
- * 
- * ⚠️ 警告：此文件由生成器自动生成，请勿手动修改！
- * 如需修改，请编辑 scripts/generate-typed-ast-nodes.ts 中的 createBaseTypes() 函数
- */
-
-import type { CommentInfo } from '../types';
-
-/**
- * 类型化AST节点基类
- * 仅保留必要的标识信息，移除通用字段如text、children、properties
- * 这些信息应该通过具体节点类型的强类型属性来表达
- */
-export interface BaseTypedNode {
-  id: string;
-  kind: number;
-  leadingComments?: CommentInfo[];
-  trailingComments?: CommentInfo[];
-}
-`;
-
-  fs.writeFileSync(baseTypesPath, baseTypesContent);
-  console.log(`✅ 创建基础类型文件: ${baseTypesPath}`);
-}
-
 // 清理生成的文件
 function clearGeneratedFiles(): void {
-  const baseTypesPath = path.join(process.cwd(), 'src/core/typed-ast/base.ts');
   const typesDir = path.join(process.cwd(), 'src/core/typed-ast/types');
   const convertersDir = path.join(process.cwd(), 'src/core/typed-ast/converters');
   
   console.log('🧹 清理生成的文件...');
-  
-  // 删除 base.ts
-  if (fs.existsSync(baseTypesPath)) {
-    fs.unlinkSync(baseTypesPath);
-    console.log(`🗑️  删除: base.ts`);
-  }
+  console.log('ℹ️  注意：base.ts 现在是手写文件，不会被删除');
   
   // 删除 types 目录下的所有 .ts 文件
   if (fs.existsSync(typesDir)) {
@@ -288,10 +252,7 @@ async function main() {
     if (options.force) {
       console.log('⚠️  强制覆盖模式：将覆盖现有的 types 和 converters 文件');
     }
-    
-    // 始终创建基础类型文件
-    createBaseTypes();
-    
+
     let targetSyntaxKinds: string[];
     
     if (options.all) {
