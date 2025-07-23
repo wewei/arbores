@@ -61,7 +61,7 @@ const CATEGORIES: CategoryConfig[] = [
   {
     name: 'nodes',
     description: '其他 AST 节点 - 表达式、声明、绑定等',
-    baseType: 'BaseTypedNode',
+    baseType: 'BaseNode',
     directory: 'nodes',
     range: [ts.SyntaxKind.FirstNode, 357] // 166-357 (排除其他已分类的范围)
   }

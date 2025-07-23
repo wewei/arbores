@@ -1,0 +1,19 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "base-node",
+  "title": "Base Node",
+  "description": "基础 AST 节点，所有其他节点的根接口",
+  "type": "object",
+  "properties": {
+    "kind": {
+      "description": "AST 节点的类型标识符",
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 357
+    }
+  },
+  "required": [
+    "kind"
+  ],
+  "additionalProperties": false
+}
