@@ -1,0 +1,276 @@
+#!/usr/bin/env bun
+
+import * as ts from 'typescript';
+import { writeFileSync } from 'fs';
+import { join } from 'path';
+import { Command } from 'commander';
+
+/**
+ * Advanced SyntaxKind Analyzer
+ * 
+ * This script generates comprehensive and clean data structures for TypeScript's SyntaxKind enum:
+ * - Separates actual syntax kinds from markers/aliases
+ * - Identifies deprecated names
+ * - Creates clean value-to-name mappings
+ * - Provides metadata for further processing
+ */
+
+// ============================================================================
+// Type Definitions
+// ============================================================================
+
+interface SyntaxKindEntry {
+  /** The numeric value of the SyntaxKind */
+  value: number;
+  /** The primary name for this value */
+  name: string;
+}
+
+interface SyntaxKindData {
+  /** All syntax kinds as value-name pairs */
+  kinds: SyntaxKindEntry[];
+  /** Marker entries (FirstXxx, LastXxx, Count, Unknown) */
+  markers: SyntaxKindEntry[];
+  /** Deprecated or alias names mapped to their canonical values */
+  aliases: Record<string, number>;
+  /** Generated metadata */
+  metadata: {
+    version: string;
+    generatedAt: string;
+    totalKinds: number;
+    totalMarkers: number;
+    totalAliases: number;
+  };
+}
+
+// ============================================================================
+// Core Analysis Logic
+// ============================================================================
+
+class AdvancedSyntaxKindAnalyzer {
+  private allEntries: Array<{ name: string; value: number }> = [];
+  private valueToNames = new Map<number, string[]>();
+
+  constructor() {
+    this.parseAllSyntaxKinds();
+  }
+
+  private parseAllSyntaxKinds(): void {
+    for (const key in ts.SyntaxKind) {
+      if (isNaN(Number(key))) {
+        const value = (ts.SyntaxKind as any)[key];
+        if (typeof value === 'number') {
+          this.allEntries.push({ name: key, value });
+          
+          // Group by value
+          if (this.valueToNames.has(value)) {
+            this.valueToNames.get(value)!.push(key);
+          } else {
+            this.valueToNames.set(value, [key]);
+          }
+        }
+      }
+    }
+  }
+
+  private isMarker(name: string): boolean {
+    return (
+      name.startsWith('First') ||
+      name.startsWith('Last') ||
+      name === 'Count' ||
+      name === 'Unknown'
+    );
+  }
+
+  private getCanonicalName(names: string[]): string {
+    // Priority: non-markers first, then prefer shorter names, then alphabetical
+    const nonMarkers = names.filter(name => !this.isMarker(name));
+    
+    if (nonMarkers.length > 0) {
+      // For non-markers, prefer the canonical TypeScript name
+      // Some known aliases to prefer canonical names:
+      const preferredNames = {
+        'JSDocComment': 'JSDoc',
+        'AssertClause': 'ImportAttributes',
+        'AssertEntry': 'ImportAttribute',
+      };
+      
+      for (const name of nonMarkers) {
+        if (Object.values(preferredNames).includes(name)) {
+          return name;
+        }
+      }
+      
+      // Otherwise, prefer shorter name, then alphabetical
+      nonMarkers.sort((a, b) => {
+        if (a.length !== b.length) {
+          return a.length - b.length;
+        }
+        return a.localeCompare(b);
+      });
+      
+      return nonMarkers[0]!;
+    }
+    
+    // If all are markers, pick the first alphabetically
+    names.sort();
+    return names[0]!;
+  }
+
+  analyze(): SyntaxKindData {
+    const kinds: SyntaxKindEntry[] = [];
+    const markers: SyntaxKindEntry[] = [];
+    const aliases: Record<string, number> = {};
+
+    // Process each unique value
+    for (const [value, names] of this.valueToNames) {
+      const canonicalName = this.getCanonicalName(names);
+      
+      // Create the primary entry
+      const entry: SyntaxKindEntry = { value, name: canonicalName };
+      
+      if (this.isMarker(canonicalName)) {
+        markers.push(entry);
+      } else {
+        kinds.push(entry);
+      }
+      
+      // Record aliases
+      for (const name of names) {
+        if (name !== canonicalName) {
+          aliases[name] = value;
+        }
+      }
+    }
+
+    // Sort by value
+    kinds.sort((a, b) => a.value - b.value);
+    markers.sort((a, b) => a.value - b.value);
+
+    return {
+      kinds,
+      markers,
+      aliases,
+      metadata: {
+        version: process.env.npm_package_version || '0.0.0',
+        generatedAt: new Date().toISOString(),
+        totalKinds: kinds.length,
+        totalMarkers: markers.length,
+        totalAliases: Object.keys(aliases).length,
+      }
+    };
+  }
+}
+
+// ============================================================================
+// Code Generation
+// ============================================================================
+
+function generateTypescriptFile(data: SyntaxKindData): string {
+  const header = `// WARNING: This file is AUTO-GENERATED by scripts/generate-syntax-kind-data.ts
+// DO NOT EDIT MANUALLY - Your changes will be overwritten!
+// Generated from TypeScript SyntaxKind enum analysis
+// Generated at: ${data.metadata.generatedAt}
+
+/**
+ * Clean SyntaxKind data structures
+ * 
+ * This file contains the essential SyntaxKind data without processing logic.
+ * Use syntax-kind-utils.ts for query and analysis functions.
+ */
+`;
+
+  const kindsArray = `
+/**
+ * All actual SyntaxKind values as [value, name] pairs.
+ * Excludes markers (FirstXxx, LastXxx, Count, Unknown) and aliases.
+ */
+export const SYNTAX_KINDS: ReadonlyArray<readonly [number, string]> = [
+${data.kinds.map(k => `  [${k.value}, '${k.name}']`).join(',\n')}
+];`;
+
+  const markersArray = `
+/**
+ * Marker SyntaxKind values (FirstXxx, LastXxx, Count, Unknown).
+ * These are used for range definitions and boundaries.
+ */
+export const SYNTAX_KIND_MARKERS: ReadonlyArray<readonly [number, string]> = [
+${data.markers.map(m => `  [${m.value}, '${m.name}']`).join(',\n')}
+];`;
+
+  const aliasesObject = `
+/**
+ * Deprecated and alias names mapped to their canonical values.
+ */
+export const SYNTAX_KIND_ALIASES: Record<string, number> = {
+${Object.entries(data.aliases).map(([name, value]) => `  '${name}': ${value}`).join(',\n')}
+};`;
+
+  const metadata = `
+/**
+ * Generation metadata
+ */
+export const SYNTAX_KIND_METADATA = {
+  version: '${data.metadata.version}',
+  generatedAt: '${data.metadata.generatedAt}',
+  totalKinds: ${data.metadata.totalKinds},
+  totalMarkers: ${data.metadata.totalMarkers},
+  totalAliases: ${data.metadata.totalAliases}
+} as const;`;
+
+  return header + kindsArray + markersArray + aliasesObject + metadata + '\n';
+}
+
+function generateJsonFile(data: SyntaxKindData): string {
+  return JSON.stringify(data, null, 2);
+}
+
+// ============================================================================
+// CLI Interface
+// ============================================================================
+
+const program = new Command();
+
+program
+  .name('generate-syntax-kind-data')
+  .description('Generate clean SyntaxKind data structures')
+  .option('--output-ts <path>', 'Output TypeScript file path', 'src/core/syntax-kind-data.ts')
+  .option('--output-json <path>', 'Output JSON file path', 'src/core/syntax-kind-data.json')
+  .option('--dry-run', 'Show output without writing files')
+  .action(async (options) => {
+    try {
+      console.log('🔍 Analyzing TypeScript SyntaxKind enum...');
+      
+      const analyzer = new AdvancedSyntaxKindAnalyzer();
+      const data = analyzer.analyze();
+      
+      console.log(`📊 Analysis complete:`);
+      console.log(`   - ${data.metadata.totalKinds} actual syntax kinds`);
+      console.log(`   - ${data.metadata.totalMarkers} markers`);
+      console.log(`   - ${data.metadata.totalAliases} aliases/deprecated names`);
+      
+      const tsCode = generateTypescriptFile(data);
+      const jsonData = generateJsonFile(data);
+      
+      if (options.dryRun) {
+        console.log('\n=== TypeScript Output (preview) ===');
+        console.log(tsCode.slice(0, 500) + '...');
+        console.log('\n=== JSON Output (preview) ===');
+        console.log(jsonData.slice(0, 500) + '...');
+      } else {
+        writeFileSync(options.outputTs, tsCode);
+        writeFileSync(options.outputJson, jsonData);
+        
+        console.log(`✅ Generated ${options.outputTs}`);
+        console.log(`✅ Generated ${options.outputJson}`);
+      }
+      
+    } catch (error) {
+      console.error('❌ Error:', error);
+      process.exit(1);
+    }
+  });
+
+if (import.meta.main) {
+  program.parse();
+}

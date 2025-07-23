@@ -1,0 +1,1487 @@
+{
+  "kinds": [
+    {
+      "value": 1,
+      "name": "EndOfFileToken"
+    },
+    {
+      "value": 2,
+      "name": "SingleLineCommentTrivia"
+    },
+    {
+      "value": 3,
+      "name": "MultiLineCommentTrivia"
+    },
+    {
+      "value": 4,
+      "name": "NewLineTrivia"
+    },
+    {
+      "value": 5,
+      "name": "WhitespaceTrivia"
+    },
+    {
+      "value": 6,
+      "name": "ShebangTrivia"
+    },
+    {
+      "value": 7,
+      "name": "ConflictMarkerTrivia"
+    },
+    {
+      "value": 8,
+      "name": "NonTextFileMarkerTrivia"
+    },
+    {
+      "value": 9,
+      "name": "NumericLiteral"
+    },
+    {
+      "value": 10,
+      "name": "BigIntLiteral"
+    },
+    {
+      "value": 11,
+      "name": "StringLiteral"
+    },
+    {
+      "value": 12,
+      "name": "JsxText"
+    },
+    {
+      "value": 13,
+      "name": "JsxTextAllWhiteSpaces"
+    },
+    {
+      "value": 14,
+      "name": "RegularExpressionLiteral"
+    },
+    {
+      "value": 15,
+      "name": "NoSubstitutionTemplateLiteral"
+    },
+    {
+      "value": 16,
+      "name": "TemplateHead"
+    },
+    {
+      "value": 17,
+      "name": "TemplateMiddle"
+    },
+    {
+      "value": 18,
+      "name": "TemplateTail"
+    },
+    {
+      "value": 19,
+      "name": "OpenBraceToken"
+    },
+    {
+      "value": 20,
+      "name": "CloseBraceToken"
+    },
+    {
+      "value": 21,
+      "name": "OpenParenToken"
+    },
+    {
+      "value": 22,
+      "name": "CloseParenToken"
+    },
+    {
+      "value": 23,
+      "name": "OpenBracketToken"
+    },
+    {
+      "value": 24,
+      "name": "CloseBracketToken"
+    },
+    {
+      "value": 25,
+      "name": "DotToken"
+    },
+    {
+      "value": 26,
+      "name": "DotDotDotToken"
+    },
+    {
+      "value": 27,
+      "name": "SemicolonToken"
+    },
+    {
+      "value": 28,
+      "name": "CommaToken"
+    },
+    {
+      "value": 29,
+      "name": "QuestionDotToken"
+    },
+    {
+      "value": 30,
+      "name": "LessThanToken"
+    },
+    {
+      "value": 31,
+      "name": "LessThanSlashToken"
+    },
+    {
+      "value": 32,
+      "name": "GreaterThanToken"
+    },
+    {
+      "value": 33,
+      "name": "LessThanEqualsToken"
+    },
+    {
+      "value": 34,
+      "name": "GreaterThanEqualsToken"
+    },
+    {
+      "value": 35,
+      "name": "EqualsEqualsToken"
+    },
+    {
+      "value": 36,
+      "name": "ExclamationEqualsToken"
+    },
+    {
+      "value": 37,
+      "name": "EqualsEqualsEqualsToken"
+    },
+    {
+      "value": 38,
+      "name": "ExclamationEqualsEqualsToken"
+    },
+    {
+      "value": 39,
+      "name": "EqualsGreaterThanToken"
+    },
+    {
+      "value": 40,
+      "name": "PlusToken"
+    },
+    {
+      "value": 41,
+      "name": "MinusToken"
+    },
+    {
+      "value": 42,
+      "name": "AsteriskToken"
+    },
+    {
+      "value": 43,
+      "name": "AsteriskAsteriskToken"
+    },
+    {
+      "value": 44,
+      "name": "SlashToken"
+    },
+    {
+      "value": 45,
+      "name": "PercentToken"
+    },
+    {
+      "value": 46,
+      "name": "PlusPlusToken"
+    },
+    {
+      "value": 47,
+      "name": "MinusMinusToken"
+    },
+    {
+      "value": 48,
+      "name": "LessThanLessThanToken"
+    },
+    {
+      "value": 49,
+      "name": "GreaterThanGreaterThanToken"
+    },
+    {
+      "value": 50,
+      "name": "GreaterThanGreaterThanGreaterThanToken"
+    },
+    {
+      "value": 51,
+      "name": "AmpersandToken"
+    },
+    {
+      "value": 52,
+      "name": "BarToken"
+    },
+    {
+      "value": 53,
+      "name": "CaretToken"
+    },
+    {
+      "value": 54,
+      "name": "ExclamationToken"
+    },
+    {
+      "value": 55,
+      "name": "TildeToken"
+    },
+    {
+      "value": 56,
+      "name": "AmpersandAmpersandToken"
+    },
+    {
+      "value": 57,
+      "name": "BarBarToken"
+    },
+    {
+      "value": 58,
+      "name": "QuestionToken"
+    },
+    {
+      "value": 59,
+      "name": "ColonToken"
+    },
+    {
+      "value": 60,
+      "name": "AtToken"
+    },
+    {
+      "value": 61,
+      "name": "QuestionQuestionToken"
+    },
+    {
+      "value": 62,
+      "name": "BacktickToken"
+    },
+    {
+      "value": 63,
+      "name": "HashToken"
+    },
+    {
+      "value": 64,
+      "name": "EqualsToken"
+    },
+    {
+      "value": 65,
+      "name": "PlusEqualsToken"
+    },
+    {
+      "value": 66,
+      "name": "MinusEqualsToken"
+    },
+    {
+      "value": 67,
+      "name": "AsteriskEqualsToken"
+    },
+    {
+      "value": 68,
+      "name": "AsteriskAsteriskEqualsToken"
+    },
+    {
+      "value": 69,
+      "name": "SlashEqualsToken"
+    },
+    {
+      "value": 70,
+      "name": "PercentEqualsToken"
+    },
+    {
+      "value": 71,
+      "name": "LessThanLessThanEqualsToken"
+    },
+    {
+      "value": 72,
+      "name": "GreaterThanGreaterThanEqualsToken"
+    },
+    {
+      "value": 73,
+      "name": "GreaterThanGreaterThanGreaterThanEqualsToken"
+    },
+    {
+      "value": 74,
+      "name": "AmpersandEqualsToken"
+    },
+    {
+      "value": 75,
+      "name": "BarEqualsToken"
+    },
+    {
+      "value": 76,
+      "name": "BarBarEqualsToken"
+    },
+    {
+      "value": 77,
+      "name": "AmpersandAmpersandEqualsToken"
+    },
+    {
+      "value": 78,
+      "name": "QuestionQuestionEqualsToken"
+    },
+    {
+      "value": 79,
+      "name": "CaretEqualsToken"
+    },
+    {
+      "value": 80,
+      "name": "Identifier"
+    },
+    {
+      "value": 81,
+      "name": "PrivateIdentifier"
+    },
+    {
+      "value": 82,
+      "name": "JSDocCommentTextToken"
+    },
+    {
+      "value": 83,
+      "name": "BreakKeyword"
+    },
+    {
+      "value": 84,
+      "name": "CaseKeyword"
+    },
+    {
+      "value": 85,
+      "name": "CatchKeyword"
+    },
+    {
+      "value": 86,
+      "name": "ClassKeyword"
+    },
+    {
+      "value": 87,
+      "name": "ConstKeyword"
+    },
+    {
+      "value": 88,
+      "name": "ContinueKeyword"
+    },
+    {
+      "value": 89,
+      "name": "DebuggerKeyword"
+    },
+    {
+      "value": 90,
+      "name": "DefaultKeyword"
+    },
+    {
+      "value": 91,
+      "name": "DeleteKeyword"
+    },
+    {
+      "value": 92,
+      "name": "DoKeyword"
+    },
+    {
+      "value": 93,
+      "name": "ElseKeyword"
+    },
+    {
+      "value": 94,
+      "name": "EnumKeyword"
+    },
+    {
+      "value": 95,
+      "name": "ExportKeyword"
+    },
+    {
+      "value": 96,
+      "name": "ExtendsKeyword"
+    },
+    {
+      "value": 97,
+      "name": "FalseKeyword"
+    },
+    {
+      "value": 98,
+      "name": "FinallyKeyword"
+    },
+    {
+      "value": 99,
+      "name": "ForKeyword"
+    },
+    {
+      "value": 100,
+      "name": "FunctionKeyword"
+    },
+    {
+      "value": 101,
+      "name": "IfKeyword"
+    },
+    {
+      "value": 102,
+      "name": "ImportKeyword"
+    },
+    {
+      "value": 103,
+      "name": "InKeyword"
+    },
+    {
+      "value": 104,
+      "name": "InstanceOfKeyword"
+    },
+    {
+      "value": 105,
+      "name": "NewKeyword"
+    },
+    {
+      "value": 106,
+      "name": "NullKeyword"
+    },
+    {
+      "value": 107,
+      "name": "ReturnKeyword"
+    },
+    {
+      "value": 108,
+      "name": "SuperKeyword"
+    },
+    {
+      "value": 109,
+      "name": "SwitchKeyword"
+    },
+    {
+      "value": 110,
+      "name": "ThisKeyword"
+    },
+    {
+      "value": 111,
+      "name": "ThrowKeyword"
+    },
+    {
+      "value": 112,
+      "name": "TrueKeyword"
+    },
+    {
+      "value": 113,
+      "name": "TryKeyword"
+    },
+    {
+      "value": 114,
+      "name": "TypeOfKeyword"
+    },
+    {
+      "value": 115,
+      "name": "VarKeyword"
+    },
+    {
+      "value": 116,
+      "name": "VoidKeyword"
+    },
+    {
+      "value": 117,
+      "name": "WhileKeyword"
+    },
+    {
+      "value": 118,
+      "name": "WithKeyword"
+    },
+    {
+      "value": 119,
+      "name": "ImplementsKeyword"
+    },
+    {
+      "value": 120,
+      "name": "InterfaceKeyword"
+    },
+    {
+      "value": 121,
+      "name": "LetKeyword"
+    },
+    {
+      "value": 122,
+      "name": "PackageKeyword"
+    },
+    {
+      "value": 123,
+      "name": "PrivateKeyword"
+    },
+    {
+      "value": 124,
+      "name": "ProtectedKeyword"
+    },
+    {
+      "value": 125,
+      "name": "PublicKeyword"
+    },
+    {
+      "value": 126,
+      "name": "StaticKeyword"
+    },
+    {
+      "value": 127,
+      "name": "YieldKeyword"
+    },
+    {
+      "value": 128,
+      "name": "AbstractKeyword"
+    },
+    {
+      "value": 129,
+      "name": "AccessorKeyword"
+    },
+    {
+      "value": 130,
+      "name": "AsKeyword"
+    },
+    {
+      "value": 131,
+      "name": "AssertsKeyword"
+    },
+    {
+      "value": 132,
+      "name": "AssertKeyword"
+    },
+    {
+      "value": 133,
+      "name": "AnyKeyword"
+    },
+    {
+      "value": 134,
+      "name": "AsyncKeyword"
+    },
+    {
+      "value": 135,
+      "name": "AwaitKeyword"
+    },
+    {
+      "value": 136,
+      "name": "BooleanKeyword"
+    },
+    {
+      "value": 137,
+      "name": "ConstructorKeyword"
+    },
+    {
+      "value": 138,
+      "name": "DeclareKeyword"
+    },
+    {
+      "value": 139,
+      "name": "GetKeyword"
+    },
+    {
+      "value": 140,
+      "name": "InferKeyword"
+    },
+    {
+      "value": 141,
+      "name": "IntrinsicKeyword"
+    },
+    {
+      "value": 142,
+      "name": "IsKeyword"
+    },
+    {
+      "value": 143,
+      "name": "KeyOfKeyword"
+    },
+    {
+      "value": 144,
+      "name": "ModuleKeyword"
+    },
+    {
+      "value": 145,
+      "name": "NamespaceKeyword"
+    },
+    {
+      "value": 146,
+      "name": "NeverKeyword"
+    },
+    {
+      "value": 147,
+      "name": "OutKeyword"
+    },
+    {
+      "value": 148,
+      "name": "ReadonlyKeyword"
+    },
+    {
+      "value": 149,
+      "name": "RequireKeyword"
+    },
+    {
+      "value": 150,
+      "name": "NumberKeyword"
+    },
+    {
+      "value": 151,
+      "name": "ObjectKeyword"
+    },
+    {
+      "value": 152,
+      "name": "SatisfiesKeyword"
+    },
+    {
+      "value": 153,
+      "name": "SetKeyword"
+    },
+    {
+      "value": 154,
+      "name": "StringKeyword"
+    },
+    {
+      "value": 155,
+      "name": "SymbolKeyword"
+    },
+    {
+      "value": 156,
+      "name": "TypeKeyword"
+    },
+    {
+      "value": 157,
+      "name": "UndefinedKeyword"
+    },
+    {
+      "value": 158,
+      "name": "UniqueKeyword"
+    },
+    {
+      "value": 159,
+      "name": "UnknownKeyword"
+    },
+    {
+      "value": 160,
+      "name": "UsingKeyword"
+    },
+    {
+      "value": 161,
+      "name": "FromKeyword"
+    },
+    {
+      "value": 162,
+      "name": "GlobalKeyword"
+    },
+    {
+      "value": 163,
+      "name": "BigIntKeyword"
+    },
+    {
+      "value": 164,
+      "name": "OverrideKeyword"
+    },
+    {
+      "value": 165,
+      "name": "OfKeyword"
+    },
+    {
+      "value": 166,
+      "name": "QualifiedName"
+    },
+    {
+      "value": 167,
+      "name": "ComputedPropertyName"
+    },
+    {
+      "value": 168,
+      "name": "TypeParameter"
+    },
+    {
+      "value": 169,
+      "name": "Parameter"
+    },
+    {
+      "value": 170,
+      "name": "Decorator"
+    },
+    {
+      "value": 171,
+      "name": "PropertySignature"
+    },
+    {
+      "value": 172,
+      "name": "PropertyDeclaration"
+    },
+    {
+      "value": 173,
+      "name": "MethodSignature"
+    },
+    {
+      "value": 174,
+      "name": "MethodDeclaration"
+    },
+    {
+      "value": 175,
+      "name": "ClassStaticBlockDeclaration"
+    },
+    {
+      "value": 176,
+      "name": "Constructor"
+    },
+    {
+      "value": 177,
+      "name": "GetAccessor"
+    },
+    {
+      "value": 178,
+      "name": "SetAccessor"
+    },
+    {
+      "value": 179,
+      "name": "CallSignature"
+    },
+    {
+      "value": 180,
+      "name": "ConstructSignature"
+    },
+    {
+      "value": 181,
+      "name": "IndexSignature"
+    },
+    {
+      "value": 182,
+      "name": "TypePredicate"
+    },
+    {
+      "value": 183,
+      "name": "TypeReference"
+    },
+    {
+      "value": 184,
+      "name": "FunctionType"
+    },
+    {
+      "value": 185,
+      "name": "ConstructorType"
+    },
+    {
+      "value": 186,
+      "name": "TypeQuery"
+    },
+    {
+      "value": 187,
+      "name": "TypeLiteral"
+    },
+    {
+      "value": 188,
+      "name": "ArrayType"
+    },
+    {
+      "value": 189,
+      "name": "TupleType"
+    },
+    {
+      "value": 190,
+      "name": "OptionalType"
+    },
+    {
+      "value": 191,
+      "name": "RestType"
+    },
+    {
+      "value": 192,
+      "name": "UnionType"
+    },
+    {
+      "value": 193,
+      "name": "IntersectionType"
+    },
+    {
+      "value": 194,
+      "name": "ConditionalType"
+    },
+    {
+      "value": 195,
+      "name": "InferType"
+    },
+    {
+      "value": 196,
+      "name": "ParenthesizedType"
+    },
+    {
+      "value": 197,
+      "name": "ThisType"
+    },
+    {
+      "value": 198,
+      "name": "TypeOperator"
+    },
+    {
+      "value": 199,
+      "name": "IndexedAccessType"
+    },
+    {
+      "value": 200,
+      "name": "MappedType"
+    },
+    {
+      "value": 201,
+      "name": "LiteralType"
+    },
+    {
+      "value": 202,
+      "name": "NamedTupleMember"
+    },
+    {
+      "value": 203,
+      "name": "TemplateLiteralType"
+    },
+    {
+      "value": 204,
+      "name": "TemplateLiteralTypeSpan"
+    },
+    {
+      "value": 205,
+      "name": "ImportType"
+    },
+    {
+      "value": 206,
+      "name": "ObjectBindingPattern"
+    },
+    {
+      "value": 207,
+      "name": "ArrayBindingPattern"
+    },
+    {
+      "value": 208,
+      "name": "BindingElement"
+    },
+    {
+      "value": 209,
+      "name": "ArrayLiteralExpression"
+    },
+    {
+      "value": 210,
+      "name": "ObjectLiteralExpression"
+    },
+    {
+      "value": 211,
+      "name": "PropertyAccessExpression"
+    },
+    {
+      "value": 212,
+      "name": "ElementAccessExpression"
+    },
+    {
+      "value": 213,
+      "name": "CallExpression"
+    },
+    {
+      "value": 214,
+      "name": "NewExpression"
+    },
+    {
+      "value": 215,
+      "name": "TaggedTemplateExpression"
+    },
+    {
+      "value": 216,
+      "name": "TypeAssertionExpression"
+    },
+    {
+      "value": 217,
+      "name": "ParenthesizedExpression"
+    },
+    {
+      "value": 218,
+      "name": "FunctionExpression"
+    },
+    {
+      "value": 219,
+      "name": "ArrowFunction"
+    },
+    {
+      "value": 220,
+      "name": "DeleteExpression"
+    },
+    {
+      "value": 221,
+      "name": "TypeOfExpression"
+    },
+    {
+      "value": 222,
+      "name": "VoidExpression"
+    },
+    {
+      "value": 223,
+      "name": "AwaitExpression"
+    },
+    {
+      "value": 224,
+      "name": "PrefixUnaryExpression"
+    },
+    {
+      "value": 225,
+      "name": "PostfixUnaryExpression"
+    },
+    {
+      "value": 226,
+      "name": "BinaryExpression"
+    },
+    {
+      "value": 227,
+      "name": "ConditionalExpression"
+    },
+    {
+      "value": 228,
+      "name": "TemplateExpression"
+    },
+    {
+      "value": 229,
+      "name": "YieldExpression"
+    },
+    {
+      "value": 230,
+      "name": "SpreadElement"
+    },
+    {
+      "value": 231,
+      "name": "ClassExpression"
+    },
+    {
+      "value": 232,
+      "name": "OmittedExpression"
+    },
+    {
+      "value": 233,
+      "name": "ExpressionWithTypeArguments"
+    },
+    {
+      "value": 234,
+      "name": "AsExpression"
+    },
+    {
+      "value": 235,
+      "name": "NonNullExpression"
+    },
+    {
+      "value": 236,
+      "name": "MetaProperty"
+    },
+    {
+      "value": 237,
+      "name": "SyntheticExpression"
+    },
+    {
+      "value": 238,
+      "name": "SatisfiesExpression"
+    },
+    {
+      "value": 239,
+      "name": "TemplateSpan"
+    },
+    {
+      "value": 240,
+      "name": "SemicolonClassElement"
+    },
+    {
+      "value": 241,
+      "name": "Block"
+    },
+    {
+      "value": 242,
+      "name": "EmptyStatement"
+    },
+    {
+      "value": 243,
+      "name": "VariableStatement"
+    },
+    {
+      "value": 244,
+      "name": "ExpressionStatement"
+    },
+    {
+      "value": 245,
+      "name": "IfStatement"
+    },
+    {
+      "value": 246,
+      "name": "DoStatement"
+    },
+    {
+      "value": 247,
+      "name": "WhileStatement"
+    },
+    {
+      "value": 248,
+      "name": "ForStatement"
+    },
+    {
+      "value": 249,
+      "name": "ForInStatement"
+    },
+    {
+      "value": 250,
+      "name": "ForOfStatement"
+    },
+    {
+      "value": 251,
+      "name": "ContinueStatement"
+    },
+    {
+      "value": 252,
+      "name": "BreakStatement"
+    },
+    {
+      "value": 253,
+      "name": "ReturnStatement"
+    },
+    {
+      "value": 254,
+      "name": "WithStatement"
+    },
+    {
+      "value": 255,
+      "name": "SwitchStatement"
+    },
+    {
+      "value": 256,
+      "name": "LabeledStatement"
+    },
+    {
+      "value": 257,
+      "name": "ThrowStatement"
+    },
+    {
+      "value": 258,
+      "name": "TryStatement"
+    },
+    {
+      "value": 259,
+      "name": "DebuggerStatement"
+    },
+    {
+      "value": 260,
+      "name": "VariableDeclaration"
+    },
+    {
+      "value": 261,
+      "name": "VariableDeclarationList"
+    },
+    {
+      "value": 262,
+      "name": "FunctionDeclaration"
+    },
+    {
+      "value": 263,
+      "name": "ClassDeclaration"
+    },
+    {
+      "value": 264,
+      "name": "InterfaceDeclaration"
+    },
+    {
+      "value": 265,
+      "name": "TypeAliasDeclaration"
+    },
+    {
+      "value": 266,
+      "name": "EnumDeclaration"
+    },
+    {
+      "value": 267,
+      "name": "ModuleDeclaration"
+    },
+    {
+      "value": 268,
+      "name": "ModuleBlock"
+    },
+    {
+      "value": 269,
+      "name": "CaseBlock"
+    },
+    {
+      "value": 270,
+      "name": "NamespaceExportDeclaration"
+    },
+    {
+      "value": 271,
+      "name": "ImportEqualsDeclaration"
+    },
+    {
+      "value": 272,
+      "name": "ImportDeclaration"
+    },
+    {
+      "value": 273,
+      "name": "ImportClause"
+    },
+    {
+      "value": 274,
+      "name": "NamespaceImport"
+    },
+    {
+      "value": 275,
+      "name": "NamedImports"
+    },
+    {
+      "value": 276,
+      "name": "ImportSpecifier"
+    },
+    {
+      "value": 277,
+      "name": "ExportAssignment"
+    },
+    {
+      "value": 278,
+      "name": "ExportDeclaration"
+    },
+    {
+      "value": 279,
+      "name": "NamedExports"
+    },
+    {
+      "value": 280,
+      "name": "NamespaceExport"
+    },
+    {
+      "value": 281,
+      "name": "ExportSpecifier"
+    },
+    {
+      "value": 282,
+      "name": "MissingDeclaration"
+    },
+    {
+      "value": 283,
+      "name": "ExternalModuleReference"
+    },
+    {
+      "value": 284,
+      "name": "JsxElement"
+    },
+    {
+      "value": 285,
+      "name": "JsxSelfClosingElement"
+    },
+    {
+      "value": 286,
+      "name": "JsxOpeningElement"
+    },
+    {
+      "value": 287,
+      "name": "JsxClosingElement"
+    },
+    {
+      "value": 288,
+      "name": "JsxFragment"
+    },
+    {
+      "value": 289,
+      "name": "JsxOpeningFragment"
+    },
+    {
+      "value": 290,
+      "name": "JsxClosingFragment"
+    },
+    {
+      "value": 291,
+      "name": "JsxAttribute"
+    },
+    {
+      "value": 292,
+      "name": "JsxAttributes"
+    },
+    {
+      "value": 293,
+      "name": "JsxSpreadAttribute"
+    },
+    {
+      "value": 294,
+      "name": "JsxExpression"
+    },
+    {
+      "value": 295,
+      "name": "JsxNamespacedName"
+    },
+    {
+      "value": 296,
+      "name": "CaseClause"
+    },
+    {
+      "value": 297,
+      "name": "DefaultClause"
+    },
+    {
+      "value": 298,
+      "name": "HeritageClause"
+    },
+    {
+      "value": 299,
+      "name": "CatchClause"
+    },
+    {
+      "value": 300,
+      "name": "ImportAttributes"
+    },
+    {
+      "value": 301,
+      "name": "ImportAttribute"
+    },
+    {
+      "value": 302,
+      "name": "ImportTypeAssertionContainer"
+    },
+    {
+      "value": 303,
+      "name": "PropertyAssignment"
+    },
+    {
+      "value": 304,
+      "name": "ShorthandPropertyAssignment"
+    },
+    {
+      "value": 305,
+      "name": "SpreadAssignment"
+    },
+    {
+      "value": 306,
+      "name": "EnumMember"
+    },
+    {
+      "value": 307,
+      "name": "SourceFile"
+    },
+    {
+      "value": 308,
+      "name": "Bundle"
+    },
+    {
+      "value": 309,
+      "name": "JSDocTypeExpression"
+    },
+    {
+      "value": 310,
+      "name": "JSDocNameReference"
+    },
+    {
+      "value": 311,
+      "name": "JSDocMemberName"
+    },
+    {
+      "value": 312,
+      "name": "JSDocAllType"
+    },
+    {
+      "value": 313,
+      "name": "JSDocUnknownType"
+    },
+    {
+      "value": 314,
+      "name": "JSDocNullableType"
+    },
+    {
+      "value": 315,
+      "name": "JSDocNonNullableType"
+    },
+    {
+      "value": 316,
+      "name": "JSDocOptionalType"
+    },
+    {
+      "value": 317,
+      "name": "JSDocFunctionType"
+    },
+    {
+      "value": 318,
+      "name": "JSDocVariadicType"
+    },
+    {
+      "value": 319,
+      "name": "JSDocNamepathType"
+    },
+    {
+      "value": 320,
+      "name": "JSDoc"
+    },
+    {
+      "value": 321,
+      "name": "JSDocText"
+    },
+    {
+      "value": 322,
+      "name": "JSDocTypeLiteral"
+    },
+    {
+      "value": 323,
+      "name": "JSDocSignature"
+    },
+    {
+      "value": 324,
+      "name": "JSDocLink"
+    },
+    {
+      "value": 325,
+      "name": "JSDocLinkCode"
+    },
+    {
+      "value": 326,
+      "name": "JSDocLinkPlain"
+    },
+    {
+      "value": 327,
+      "name": "JSDocTag"
+    },
+    {
+      "value": 328,
+      "name": "JSDocAugmentsTag"
+    },
+    {
+      "value": 329,
+      "name": "JSDocImplementsTag"
+    },
+    {
+      "value": 330,
+      "name": "JSDocAuthorTag"
+    },
+    {
+      "value": 331,
+      "name": "JSDocDeprecatedTag"
+    },
+    {
+      "value": 332,
+      "name": "JSDocClassTag"
+    },
+    {
+      "value": 333,
+      "name": "JSDocPublicTag"
+    },
+    {
+      "value": 334,
+      "name": "JSDocPrivateTag"
+    },
+    {
+      "value": 335,
+      "name": "JSDocProtectedTag"
+    },
+    {
+      "value": 336,
+      "name": "JSDocReadonlyTag"
+    },
+    {
+      "value": 337,
+      "name": "JSDocOverrideTag"
+    },
+    {
+      "value": 338,
+      "name": "JSDocCallbackTag"
+    },
+    {
+      "value": 339,
+      "name": "JSDocOverloadTag"
+    },
+    {
+      "value": 340,
+      "name": "JSDocEnumTag"
+    },
+    {
+      "value": 341,
+      "name": "JSDocParameterTag"
+    },
+    {
+      "value": 342,
+      "name": "JSDocReturnTag"
+    },
+    {
+      "value": 343,
+      "name": "JSDocThisTag"
+    },
+    {
+      "value": 344,
+      "name": "JSDocTypeTag"
+    },
+    {
+      "value": 345,
+      "name": "JSDocTemplateTag"
+    },
+    {
+      "value": 346,
+      "name": "JSDocTypedefTag"
+    },
+    {
+      "value": 347,
+      "name": "JSDocSeeTag"
+    },
+    {
+      "value": 348,
+      "name": "JSDocPropertyTag"
+    },
+    {
+      "value": 349,
+      "name": "JSDocThrowsTag"
+    },
+    {
+      "value": 350,
+      "name": "JSDocSatisfiesTag"
+    },
+    {
+      "value": 351,
+      "name": "JSDocImportTag"
+    },
+    {
+      "value": 352,
+      "name": "SyntaxList"
+    },
+    {
+      "value": 353,
+      "name": "NotEmittedStatement"
+    },
+    {
+      "value": 354,
+      "name": "NotEmittedTypeElement"
+    },
+    {
+      "value": 355,
+      "name": "PartiallyEmittedExpression"
+    },
+    {
+      "value": 356,
+      "name": "CommaListExpression"
+    },
+    {
+      "value": 357,
+      "name": "SyntheticReferenceExpression"
+    }
+  ],
+  "markers": [
+    {
+      "value": 0,
+      "name": "FirstToken"
+    },
+    {
+      "value": 358,
+      "name": "Count"
+    }
+  ],
+  "aliases": {
+    "Unknown": 0,
+    "FirstTriviaToken": 2,
+    "LastTriviaToken": 7,
+    "FirstLiteralToken": 9,
+    "LastLiteralToken": 15,
+    "FirstTemplateToken": 15,
+    "LastTemplateToken": 18,
+    "FirstPunctuation": 19,
+    "FirstBinaryOperator": 30,
+    "FirstAssignment": 64,
+    "FirstCompoundAssignment": 65,
+    "LastAssignment": 79,
+    "LastCompoundAssignment": 79,
+    "LastPunctuation": 79,
+    "LastBinaryOperator": 79,
+    "FirstReservedWord": 83,
+    "FirstKeyword": 83,
+    "LastReservedWord": 118,
+    "FirstFutureReservedWord": 119,
+    "LastFutureReservedWord": 127,
+    "FirstContextualKeyword": 128,
+    "LastKeyword": 165,
+    "LastToken": 165,
+    "LastContextualKeyword": 165,
+    "FirstNode": 166,
+    "FirstTypeNode": 182,
+    "LastTypeNode": 205,
+    "FirstStatement": 243,
+    "LastStatement": 259,
+    "AssertClause": 300,
+    "AssertEntry": 301,
+    "FirstJSDocNode": 309,
+    "JSDocComment": 320,
+    "FirstJSDocTagNode": 327,
+    "LastJSDocNode": 351,
+    "LastJSDocTagNode": 351
+  },
+  "metadata": {
+    "version": "0.0.0",
+    "generatedAt": "2025-07-23T23:45:38.397Z",
+    "totalKinds": 357,
+    "totalMarkers": 2,
+    "totalAliases": 36
+  }
+}

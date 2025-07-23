@@ -4,19 +4,21 @@ import * as ts from 'typescript';
 import { writeFileSync } from 'fs';
 import { join } from 'path';
 import { Command } from 'commander';
+import * as yaml from 'js-yaml';
 
 /**
  * Enhanced SyntaxKind Analyzer
  * 
  * This script provides comprehensive analysis of TypeScript's SyntaxKind enum,
- * including group detection, boundary analysis, and schema preparation.
+ * including group detection, boundary analysis, and YAML data generation.
  * 
  * Features:
  * - Group boundary detection using First/Last markers
  * - Detailed group analysis with characteristics
- * - Clean data structures without processing functions
+ * - Clean YAML data structures for better maintainability
+ * - Support for comments in YAML output
  * - Ruler visualization for group understanding
- * - JSON output for schema generation
+ * - Separation of data (YAML) and logic (TypeScript utils)
  */
 
 // ============================================================================
@@ -88,16 +90,16 @@ class SyntaxKindAnalyzer {
 
   private isMarker(name: string): boolean {
     return (
-      name.startsWith('First') || 
-      name.startsWith('Last') || 
-      name === 'Count' || 
+      name.startsWith('First') ||
+      name.startsWith('Last') ||
+      name === 'Count' ||
       name === 'Unknown'
     );
   }
 
   private identifyMarkers(): void {
     this.markers = this.allKinds.filter(kind => kind.isMarker);
-    
+
     // Classify marker types
     this.markers.forEach(marker => {
       if (marker.name.startsWith('First')) {
@@ -123,7 +125,7 @@ class SyntaxKindAnalyzer {
         characteristics: ['lexical', 'positioned', 'has-text']
       },
       {
-        name: 'TriviaTokens', 
+        name: 'TriviaTokens',
         firstMarker: 'FirstTriviaToken',
         lastMarker: 'LastTriviaToken',
         description: 'Comments and whitespace tokens',
@@ -131,7 +133,7 @@ class SyntaxKindAnalyzer {
       },
       {
         name: 'LiteralTokens',
-        firstMarker: 'FirstLiteralToken', 
+        firstMarker: 'FirstLiteralToken',
         lastMarker: 'LastLiteralToken',
         description: 'Literal value tokens',
         characteristics: ['literal', 'has-value', 'typed']
@@ -139,7 +141,7 @@ class SyntaxKindAnalyzer {
       {
         name: 'TemplateTokens',
         firstMarker: 'FirstTemplateToken',
-        lastMarker: 'LastTemplateToken', 
+        lastMarker: 'LastTemplateToken',
         description: 'Template string tokens',
         characteristics: ['template', 'literal', 'interpolation']
       },
@@ -152,7 +154,7 @@ class SyntaxKindAnalyzer {
       },
       {
         name: 'BinaryOperators',
-        firstMarker: 'FirstBinaryOperator', 
+        firstMarker: 'FirstBinaryOperator',
         lastMarker: 'LastBinaryOperator',
         description: 'Binary operator tokens',
         characteristics: ['binary-operator', 'expression', 'precedence']
@@ -160,7 +162,7 @@ class SyntaxKindAnalyzer {
       {
         name: 'Keywords',
         firstMarker: 'FirstKeyword',
-        lastMarker: 'LastKeyword', 
+        lastMarker: 'LastKeyword',
         description: 'Reserved language keywords',
         characteristics: ['keyword', 'reserved', 'language']
       },
@@ -172,7 +174,7 @@ class SyntaxKindAnalyzer {
         characteristics: ['future-reserved', 'language', 'evolution']
       },
       {
-        name: 'ContextualKeywords', 
+        name: 'ContextualKeywords',
         firstMarker: 'FirstContextualKeyword',
         lastMarker: 'LastContextualKeyword',
         description: 'Context-dependent keywords',
@@ -187,7 +189,7 @@ class SyntaxKindAnalyzer {
       },
       {
         name: 'Statements',
-        firstMarker: 'FirstStatement', 
+        firstMarker: 'FirstStatement',
         lastMarker: 'LastStatement',
         description: 'Executable statement nodes',
         characteristics: ['statement', 'executable', 'control-flow']
@@ -195,7 +197,7 @@ class SyntaxKindAnalyzer {
       {
         name: 'JSDocNodes',
         firstMarker: 'FirstJSDocNode',
-        lastMarker: 'LastJSDocNode', 
+        lastMarker: 'LastJSDocNode',
         description: 'JSDoc documentation nodes',
         characteristics: ['documentation', 'jsdoc', 'metadata']
       },
@@ -265,7 +267,7 @@ class SyntaxKindAnalyzer {
     lines.push('Value Range Ruler:');
     lines.push('0    50   100  150  200  250  300  350');
     lines.push('|    |    |    |    |    |    |    |');
-    
+
     // Add group ranges
     for (const group of this.groups) {
       const startPos = Math.floor(group.start / 10);
@@ -274,14 +276,14 @@ class SyntaxKindAnalyzer {
       const range = `[${group.start}-${group.end}]`;
       lines.push(`${padding}${range} ${group.name}`);
     }
-    
+
     lines.push('```');
     lines.push('');
-    
+
     // Add detailed group information
     lines.push('## Group Details');
     lines.push('');
-    
+
     for (const group of this.groups) {
       lines.push(`### ${group.name}`);
       lines.push(`- **Range**: ${group.start} - ${group.end}`);
@@ -291,7 +293,7 @@ class SyntaxKindAnalyzer {
       lines.push(`- **Characteristics**: ${group.characteristics.join(', ')}`);
       lines.push('');
     }
-    
+
     return lines.join('\n');
   }
 }
@@ -299,6 +301,66 @@ class SyntaxKindAnalyzer {
 // ============================================================================
 // Output Generation
 // ============================================================================
+
+function generateYAMLData(analysis: SyntaxKindAnalysis): string {
+  // Separate actual syntax kinds from markers
+  const actualKinds = analysis.allKinds.filter(kind => !kind.isMarker);
+  const markers = analysis.markers;
+  
+  // Create aliases mapping for deprecated/alternative names
+  const aliases: Record<string, number> = {};
+  markers.forEach(marker => {
+    if (marker.name.startsWith('First') || marker.name.startsWith('Last')) {
+      aliases[marker.name] = marker.value;
+    }
+  });
+  
+  // Build the YAML structure
+  const yamlData = {
+    // Main syntax kinds as [code, name] pairs
+    syntax_kinds: actualKinds.map(kind => [kind.value, kind.name]),
+    
+    // Markers (First*, Last*, Count, Unknown)
+    syntax_kind_markers: markers.map(marker => [marker.value, marker.name]),
+    
+    // Aliases for lookup convenience
+    syntax_kind_aliases: aliases,
+    
+    // Metadata about generation
+    metadata: {
+      version: analysis.version,
+      generated_at: analysis.generatedAt,
+      total_kinds: actualKinds.length,
+      total_markers: markers.length,
+      total_aliases: Object.keys(aliases).length,
+      source: 'TypeScript compiler API',
+      generator: 'scripts/generate-syntax-kind-analysis.ts'
+    }
+  };
+  
+  // Convert to YAML with custom formatting
+  let yamlString = yaml.dump(yamlData, {
+    indent: 2,
+    lineWidth: 120,
+    noRefs: true,
+    sortKeys: false
+  });
+  
+  // Add header comment
+  const headerComment = `# SyntaxKind data structure for TypeScript AST analysis
+# Generated from TypeScript compiler API
+# Generated at: ${analysis.generatedAt}
+# 
+# Structure:
+# - syntax_kinds: Array of [code, name] pairs for actual syntax kinds
+# - syntax_kind_markers: Array of [code, name] pairs for First/Last/Count markers
+# - syntax_kind_aliases: Object mapping alias names to their canonical values
+# - metadata: Generation information and statistics
+
+`;
+  
+  return headerComment + yamlString;
+}
 
 function generateTypeScriptOutput(analysis: SyntaxKindAnalysis): string {
   const header = `// WARNING: This file is AUTO-GENERATED by scripts/generate-syntax-kind-names.ts
@@ -413,20 +475,20 @@ const options = program.opts();
 
 function main() {
   console.log('🔍 Analyzing TypeScript SyntaxKind enum...');
-  
+
   const analyzer = new SyntaxKindAnalyzer();
   const analysis = analyzer.getAnalysis();
-  
+
   console.log(`📊 Analysis complete:`);
   console.log(`   - Total SyntaxKinds: ${analysis.totalCount}`);
   console.log(`   - Groups identified: ${analysis.groups.length}`);
   console.log(`   - Markers found: ${analysis.markers.length}`);
   console.log(`   - Unmapped kinds: ${analysis.unmappedKinds.length}`);
-  
+
   if (analysis.unmappedKinds.length > 0) {
     console.log(`⚠️  Unmapped kinds: ${analysis.unmappedKinds.map(k => k.name).join(', ')}`);
   }
-  
+
   if (options.dryRun) {
     console.log('\n🔍 Dry run mode - showing what would be generated:');
     console.log('Groups:');
@@ -435,21 +497,27 @@ function main() {
     });
     return;
   }
-  
+
   const outputDir = join(process.cwd(), options.outputDir);
-  
-  // Generate JSON analysis
+
+  // Generate YAML data file (primary output)
+  const yamlData = generateYAMLData(analysis);
+  const yamlPath = join(outputDir, 'syntax-kind-data.yaml');
+  writeFileSync(yamlPath, yamlData, 'utf-8');
+  console.log(`📁 Generated YAML data: ${yamlPath}`);
+
+  // Generate JSON analysis for detailed information
   const jsonPath = join(outputDir, 'syntax-kind-analysis.json');
   writeFileSync(jsonPath, JSON.stringify(analysis, null, 2), 'utf-8');
   console.log(`📁 Generated analysis JSON: ${jsonPath}`);
-  
+
   if (!options.jsonOnly) {
-    // Generate TypeScript file
+    // Generate TypeScript file (backward compatibility)
     const tsCode = generateTypeScriptOutput(analysis);
     const tsPath = join(outputDir, 'syntax-kind-names.ts');
     writeFileSync(tsPath, tsCode, 'utf-8');
     console.log(`📁 Generated TypeScript: ${tsPath}`);
-    
+
     // Keep the simple JSON for backward compatibility
     const simpleMap: Record<number, string> = {};
     analysis.allKinds
@@ -457,12 +525,12 @@ function main() {
       .forEach(kind => {
         simpleMap[kind.value] = kind.name;
       });
-    
+
     const simpleJsonPath = join(outputDir, 'syntax-kind-names.json');
     writeFileSync(simpleJsonPath, JSON.stringify(simpleMap, null, 2), 'utf-8');
     console.log(`📁 Generated simple JSON: ${simpleJsonPath}`);
   }
-  
+
   if (options.generateDocs) {
     // Generate documentation with ruler
     const docsPath = join(process.cwd(), 'docs', 'syntax-kind-ruler.md');
@@ -470,7 +538,7 @@ function main() {
     writeFileSync(docsPath, ruler, 'utf-8');
     console.log(`📁 Generated ruler docs: ${docsPath}`);
   }
-  
+
   console.log('✅ SyntaxKind analysis complete!');
 }
 
