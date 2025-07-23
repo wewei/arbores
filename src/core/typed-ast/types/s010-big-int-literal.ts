@@ -7,22 +7,24 @@
  * 如需重新生成，请使用 -f 参数强制覆盖
  */
 
-import type { BaseTypedNode } from '../base';
+import type { BaseTokenNode } from '../base';
 
-export interface BigIntLiteralNode extends BaseTypedNode {
+export interface BigIntLiteralNode extends BaseTokenNode {
   kind: 10; // BigIntLiteral
-  
-  // TODO: 添加BigIntLiteral特定属性
-  // 注意：不要使用text, children, properties等通用字段
-  // 而是定义具体的强类型属性，如：
-  // - value: string (for literals)
-  // - name: string (for declarations)  
-  // - parameters: ParameterNode[] (for functions)
+
+  /** BigInt字面量的原始文本，包含 'n' 后缀 */
+  text: string;
+
+  /** BigInt的字符串值（不包含 'n' 后缀） */
+  value: string;
+
+  /** 数字的进制 (2, 8, 10, 16) */
+  base: 2 | 8 | 10 | 16;
 }
 
 /**
  * 类型判定函数
  */
-export function isBigIntLiteral(node: BaseTypedNode): node is BigIntLiteralNode {
+export function isBigIntLiteral(node: BaseTokenNode): node is BigIntLiteralNode {
   return node.kind === 10;
 }

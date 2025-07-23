@@ -7,22 +7,24 @@
  * 如需重新生成，请使用 -f 参数强制覆盖
  */
 
-import type { BaseTypedNode } from '../base';
+import type { BaseTokenNode } from '../base';
 
-export interface TemplateHeadNode extends BaseTypedNode {
+export interface TemplateHeadNode extends BaseTokenNode {
   kind: 16; // TemplateHead
-  
-  // TODO: 添加TemplateHead特定属性
-  // 注意：不要使用text, children, properties等通用字段
-  // 而是定义具体的强类型属性，如：
-  // - value: string (for literals)
-  // - name: string (for declarations)  
-  // - parameters: ParameterNode[] (for functions)
+
+  /** 模板头部的原始文本，包括反引号和 ${ */
+  text: string;
+
+  /** 模板头部的解析值（不包含反引号和 ${ 且已处理转义字符） */
+  value: string;
+
+  /** 原始字符串值（包含转义字符但不包含反引号和 ${） */
+  rawText: string;
 }
 
 /**
  * 类型判定函数
  */
-export function isTemplateHead(node: BaseTypedNode): node is TemplateHeadNode {
+export function isTemplateHead(node: BaseTokenNode): node is TemplateHeadNode {
   return node.kind === 16;
 }

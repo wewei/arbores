@@ -7,22 +7,24 @@
  * 如需重新生成，请使用 -f 参数强制覆盖
  */
 
-import type { BaseTypedNode } from '../base';
+import type { BaseTokenNode } from '../base';
 
-export interface RegularExpressionLiteralNode extends BaseTypedNode {
+export interface RegularExpressionLiteralNode extends BaseTokenNode {
   kind: 14; // RegularExpressionLiteral
-  
-  // TODO: 添加RegularExpressionLiteral特定属性
-  // 注意：不要使用text, children, properties等通用字段
-  // 而是定义具体的强类型属性，如：
-  // - value: string (for literals)
-  // - name: string (for declarations)  
-  // - parameters: ParameterNode[] (for functions)
+
+  /** 正则表达式的完整文本，包括 / 分隔符和标志 */
+  text: string;
+
+  /** 正则表达式模式（不包含分隔符） */
+  pattern: string;
+
+  /** 正则表达式标志（如 'g', 'i', 'm' 等） */
+  flags: string;
 }
 
 /**
  * 类型判定函数
  */
-export function isRegularExpressionLiteral(node: BaseTypedNode): node is RegularExpressionLiteralNode {
+export function isRegularExpressionLiteral(node: BaseTokenNode): node is RegularExpressionLiteralNode {
   return node.kind === 14;
 }

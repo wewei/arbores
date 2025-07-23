@@ -15,49 +15,50 @@ import type { IdentifierNode } from '../types/s080-identifier';
  * 从通用ASTNode转换为类型化IdentifierNode
  */
 export function identifierFromASTNode(node: ASTNode): IdentifierNode {
-  // TODO: 实现转换逻辑
+  const text = node.text || '';
+
   return {
-    ...node,
-    kind: 80
-  } as IdentifierNode;
+    id: node.id,
+    kind: 80,
+    text,
+    escapedText: text, // 通常与 text 相同，除非有特殊字符
+    leadingComments: node.leadingComments,
+    trailingComments: node.trailingComments,
+  };
 }
 
 /**
  * 从类型化IdentifierNode转换为通用ASTNode
  */
 export function identifierToASTNode(node: IdentifierNode): ASTNode {
-  // TODO: 实现转换逻辑
-  // 将类型化节点的强类型属性转换回通用ASTNode结构
   return {
     id: node.id,
     kind: node.kind,
-    // TODO: 根据具体节点类型映射属性
-    // text: node.value || node.name || ...,
-    // children: [...],
+    text: node.text,
     leadingComments: node.leadingComments,
     trailingComments: node.trailingComments
   };
 }
 
 /**
- * 从TypeScript编译器节点转换为类型化IdentifierNode
+ * 从TypeScript AST节点转换为类型化IdentifierNode
  */
-export function identifierFromTsNode(tsNode: ts.Node, nodeId: string): IdentifierNode {
-  // TODO: 实现从TypeScript AST节点的转换
+export function identifierFromTsNode(node: ts.Identifier): IdentifierNode {
+  const text = node.text || node.escapedText?.toString() || '';
+
   return {
-    id: nodeId,
+    id: `identifier-${node.pos}-${node.end}`,
     kind: 80,
-    // TODO: 根据具体节点类型映射TypeScript节点属性到强类型属性
-    // 例如：value: tsNode.text, name: tsNode.name?.getText(), 等
-  } as IdentifierNode;
+    text,
+    escapedText: node.escapedText?.toString() || text,
+  };
 }
 
 /**
- * 从类型化IdentifierNode转换为TypeScript编译器节点
+ * 从类型化IdentifierNode转换为TypeScript AST节点
  */
-export function identifierToTsNode(node: IdentifierNode): ts.Node {
-  // TODO: 实现转换为TypeScript AST节点
-  // 注意：这个转换可能需要创建新的TypeScript节点
-  // 可以使用 TypeScript 工厂函数或者其他方式
-  throw new Error('identifierToTsNode not implemented yet');
+export function identifierToTsNode(node: IdentifierNode): ts.Identifier {
+  // TODO: 实现 TypeScript 节点创建逻辑
+  // 这通常需要使用 TypeScript factory 函数
+  throw new Error('Converting to TypeScript AST node not yet implemented');
 }

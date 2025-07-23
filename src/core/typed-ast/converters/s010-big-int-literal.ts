@@ -12,52 +12,81 @@ import type { ASTNode } from '../../types';
 import type { BigIntLiteralNode } from '../types/s010-big-int-literal';
 
 /**
+ * 解析 BigInt 字面量的值和进制
+ */
+function parseBigIntLiteral(text: string): { value: string; base: 2 | 8 | 10 | 16 } {
+  // 移除末尾的 'n' 后缀
+  const cleanText = text.replace(/n$/, '');
+
+  if (cleanText.startsWith('0x') || cleanText.startsWith('0X')) {
+    // 十六进制
+    return { value: cleanText.slice(2), base: 16 };
+  } else if (cleanText.startsWith('0b') || cleanText.startsWith('0B')) {
+    // 二进制
+    return { value: cleanText.slice(2), base: 2 };
+  } else if (cleanText.startsWith('0o') || cleanText.startsWith('0O')) {
+    // 八进制
+    return { value: cleanText.slice(2), base: 8 };
+  } else {
+    // 十进制
+    return { value: cleanText, base: 10 };
+  }
+}
+
+/**
  * 从通用ASTNode转换为类型化BigIntLiteralNode
  */
 export function bigIntLiteralFromASTNode(node: ASTNode): BigIntLiteralNode {
-  // TODO: 实现转换逻辑
+  const text = node.text || '';
+
+  // 解析 BigInt 的值和进制
+  const { value, base } = parseBigIntLiteral(text);
+
   return {
-    ...node,
-    kind: 10
-  } as BigIntLiteralNode;
+    id: node.id,
+    kind: 10,
+    text,
+    value,
+    base,
+    leadingComments: node.leadingComments,
+    trailingComments: node.trailingComments,
+  };
 }
 
 /**
  * 从类型化BigIntLiteralNode转换为通用ASTNode
  */
 export function bigIntLiteralToASTNode(node: BigIntLiteralNode): ASTNode {
-  // TODO: 实现转换逻辑
-  // 将类型化节点的强类型属性转换回通用ASTNode结构
   return {
     id: node.id,
     kind: node.kind,
-    // TODO: 根据具体节点类型映射属性
-    // text: node.value || node.name || ...,
-    // children: [...],
+    text: node.text,
     leadingComments: node.leadingComments,
     trailingComments: node.trailingComments
   };
 }
 
 /**
- * 从TypeScript编译器节点转换为类型化BigIntLiteralNode
+ * 从TypeScript AST节点转换为类型化BigIntLiteralNode
  */
-export function bigIntLiteralFromTsNode(tsNode: ts.Node, nodeId: string): BigIntLiteralNode {
-  // TODO: 实现从TypeScript AST节点的转换
+export function bigIntLiteralFromTsNode(node: ts.BigIntLiteral): BigIntLiteralNode {
+  const text = node.text;
+  const { value, base } = parseBigIntLiteral(text);
+
   return {
-    id: nodeId,
+    id: `bigint-${node.pos}-${node.end}`,
     kind: 10,
-    // TODO: 根据具体节点类型映射TypeScript节点属性到强类型属性
-    // 例如：value: tsNode.text, name: tsNode.name?.getText(), 等
-  } as BigIntLiteralNode;
+    text,
+    value,
+    base,
+  };
 }
 
 /**
- * 从类型化BigIntLiteralNode转换为TypeScript编译器节点
+ * 从类型化BigIntLiteralNode转换为TypeScript AST节点
  */
-export function bigIntLiteralToTsNode(node: BigIntLiteralNode): ts.Node {
-  // TODO: 实现转换为TypeScript AST节点
-  // 注意：这个转换可能需要创建新的TypeScript节点
-  // 可以使用 TypeScript 工厂函数或者其他方式
-  throw new Error('bigIntLiteralToTsNode not implemented yet');
+export function bigIntLiteralToTsNode(node: BigIntLiteralNode): ts.BigIntLiteral {
+  // TODO: 实现 TypeScript 节点创建逻辑
+  // 这通常需要使用 TypeScript factory 函数
+  throw new Error('Converting to TypeScript AST node not yet implemented');
 }
