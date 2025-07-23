@@ -49,12 +49,7 @@
     "test:full-roundtrip": "bun test src/cli/__tests__/e2e/full-roundtrip.test.ts",
     "test:e2e": "bun test src/cli/__tests__/e2e/baseline-runner.test.ts src/cli/__tests__/e2e/roundtrip.test.ts",
     "test:all": "bun test",
-    "generate:syntax-kinds": "bun run scripts/generate-syntax-kind-names.ts",
-    "generate:ast-schema": "bun run scripts/generate-typed-ast-schemas.ts",
-    "schema:validate": "bun run scripts/schema-analyzer.ts validate",
-    "schema:check": "bun run scripts/schema-analyzer.ts check",
-    "schema:search": "bun run scripts/schema-analyzer.ts search",
-    "schema:stats": "bun run scripts/schema-analyzer.ts stats"
+    "generate:syntax-kinds": "bun run scripts/generate-syntax-kind-names.ts"
   },
   "bin": {
     "arbores": "./src/cli/index.ts"
