@@ -86,7 +86,7 @@ function getKindsForCategory(category: CategoryConfig): number[] {
       const isInOtherCategory = CATEGORIES
         .filter(c => c.name !== 'nodes')
         .some(c => kind >= c.range[0] && kind <= c.range[1]);
-      
+
       if (isInOtherCategory) continue;
     }
 
@@ -169,8 +169,8 @@ function generateSchemaContent(kind: number, syntaxName: string, category: Categ
  * 生成单个 Schema 文件
  */
 async function generateSchemaFile(
-  kind: number, 
-  syntaxName: string, 
+  kind: number,
+  syntaxName: string,
   category: CategoryConfig,
   options: { force: boolean; dryRun: boolean }
 ): Promise<{ generated: boolean; file: string }> {

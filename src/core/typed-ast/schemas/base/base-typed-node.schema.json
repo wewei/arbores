@@ -16,24 +16,20 @@
       "type": "integer",
       "minimum": 0
     },
-    "pos": {
-      "description": "节点在源文件中的开始位置",
-      "type": "integer",
-      "minimum": 0
-    },
-    "end": {
-      "description": "节点在源文件中的结束位置",
-      "type": "integer",
-      "minimum": 0
-    },
     "parent": {
       "description": "父节点引用",
       "anyOf": [
-        { "$ref": "common/type-unions#/definitions/AnyTypedNode" },
-        { "type": "null" }
+        {
+          "$ref": "common/type-unions#/definitions/AnyTypedNode"
+        },
+        {
+          "type": "null"
+        }
       ]
     }
   },
-  "required": ["kind", "pos", "end"],
+  "required": [
+    "kind"
+  ],
   "additionalProperties": false
 }

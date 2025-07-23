@@ -4,7 +4,9 @@
   "title": "Base Statement Node",
   "description": "基础语句节点，所有可执行语句的基类",
   "allOf": [
-    { "$ref": "base-typed-node" }
+    {
+      "$ref": "base-typed-node"
+    }
   ],
   "properties": {
     "jsDoc": {

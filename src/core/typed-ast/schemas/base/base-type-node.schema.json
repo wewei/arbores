@@ -4,7 +4,9 @@
   "title": "Base Type Node",
   "description": "基础类型节点，所有 TypeScript 类型的基类",
   "allOf": [
-    { "$ref": "base-typed-node" }
+    {
+      "$ref": "base-typed-node"
+    }
   ],
   "properties": {
     "symbol": {

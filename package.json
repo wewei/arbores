@@ -2,7 +2,16 @@
   "name": "arbores",
   "version": "0.0.3",
   "description": "High-performance TypeScript AST parser and code generator with complete syntax support",
-  "keywords": ["typescript", "ast", "parser", "stringifier", "cli", "compiler", "code-generation", "syntax-analysis"],
+  "keywords": [
+    "typescript",
+    "ast",
+    "parser",
+    "stringifier",
+    "cli",
+    "compiler",
+    "code-generation",
+    "syntax-analysis"
+  ],
   "author": "Your Name",
   "license": "MIT",
   "repository": {

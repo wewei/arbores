@@ -4,7 +4,9 @@
   "title": "Base JSDoc Node",
   "description": "基础 JSDoc 节点，所有文档注释的基类",
   "allOf": [
-    { "$ref": "base-typed-node" }
+    {
+      "$ref": "base-typed-node"
+    }
   ],
   "properties": {
     "comment": {

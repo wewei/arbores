@@ -7,27 +7,49 @@
     "AccessibilityModifier": {
       "description": "访问性修饰符",
       "type": "string",
-      "enum": ["public", "private", "protected"]
+      "enum": [
+        "public",
+        "private",
+        "protected"
+      ]
     },
     "DeclarationModifier": {
       "description": "声明修饰符",
       "type": "string",
       "enum": [
-        "static", "abstract", "async", "const", "declare", 
-        "default", "export", "readonly", "override"
+        "static",
+        "abstract",
+        "async",
+        "const",
+        "declare",
+        "default",
+        "export",
+        "readonly",
+        "override"
       ]
     },
     "TypeModifier": {
       "description": "类型修饰符",
       "type": "string",
-      "enum": ["keyof", "typeof", "infer", "readonly"]
+      "enum": [
+        "keyof",
+        "typeof",
+        "infer",
+        "readonly"
+      ]
     },
     "Modifier": {
       "description": "所有修饰符的联合类型",
       "anyOf": [
-        { "$ref": "#/definitions/AccessibilityModifier" },
-        { "$ref": "#/definitions/DeclarationModifier" },
-        { "$ref": "#/definitions/TypeModifier" }
+        {
+          "$ref": "#/definitions/AccessibilityModifier"
+        },
+        {
+          "$ref": "#/definitions/DeclarationModifier"
+        },
+        {
+          "$ref": "#/definitions/TypeModifier"
+        }
       ]
     }
   }

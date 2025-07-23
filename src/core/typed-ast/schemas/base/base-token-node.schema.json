@@ -4,7 +4,9 @@
   "title": "Base Token Node",
   "description": "基础 Token 节点，所有词法单元的基类",
   "allOf": [
-    { "$ref": "base-typed-node" }
+    {
+      "$ref": "base-typed-node"
+    }
   ],
   "properties": {
     "text": {
@@ -12,6 +14,8 @@
       "type": "string"
     }
   },
-  "required": ["text"],
+  "required": [
+    "text"
+  ],
   "additionalProperties": false
 }
