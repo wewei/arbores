@@ -7,22 +7,24 @@
  * 如需重新生成，请使用 -f 参数强制覆盖
  */
 
-import type { BaseTypedNode } from '../base';
+import type { BaseTokenNode } from '../base';
 
-export interface StringLiteralNode extends BaseTypedNode {
+export interface StringLiteralNode extends BaseTokenNode {
   kind: 11; // StringLiteral
   
-  // TODO: 添加StringLiteral特定属性
-  // 注意：不要使用text, children, properties等通用字段
-  // 而是定义具体的强类型属性，如：
-  // - value: string (for literals)
-  // - name: string (for declarations)  
-  // - parameters: ParameterNode[] (for functions)
+  /** 字符串字面量的原始文本，包括引号 */
+  text: string;
+  
+  /** 字符串的解析值，不包含引号且已处理转义字符 */
+  value: string;
+  
+  /** 引号类型 */
+  quoteKind: 'single' | 'double';
 }
 
 /**
  * 类型判定函数
  */
-export function isStringLiteral(node: BaseTypedNode): node is StringLiteralNode {
+export function isStringLiteral(node: BaseTokenNode): node is StringLiteralNode {
   return node.kind === 11;
 }

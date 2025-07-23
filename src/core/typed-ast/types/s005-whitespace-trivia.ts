@@ -7,22 +7,18 @@
  * 如需重新生成，请使用 -f 参数强制覆盖
  */
 
-import type { BaseTypedNode } from '../base';
+import type { BaseTokenNode } from '../base';
 
-export interface WhitespaceTriviaNode extends BaseTypedNode {
+export interface WhitespaceTriviaNode extends BaseTokenNode {
   kind: 5; // WhitespaceTrivia
   
-  // TODO: 添加WhitespaceTrivia特定属性
-  // 注意：不要使用text, children, properties等通用字段
-  // 而是定义具体的强类型属性，如：
-  // - value: string (for literals)
-  // - name: string (for declarations)  
-  // - parameters: ParameterNode[] (for functions)
+  /** 空白符的文本内容，可能包含空格、制表符等 */
+  text: string;
 }
 
 /**
  * 类型判定函数
  */
-export function isWhitespaceTrivia(node: BaseTypedNode): node is WhitespaceTriviaNode {
+export function isWhitespaceTrivia(node: BaseTokenNode): node is WhitespaceTriviaNode {
   return node.kind === 5;
 }

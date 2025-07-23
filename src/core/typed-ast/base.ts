@@ -18,3 +18,12 @@ export interface BaseTypedNode {
   leadingComments?: CommentInfo[];
   trailingComments?: CommentInfo[];
 }
+
+/**
+ * Token节点基类
+ * 所有Token类型都包含text属性，表示其在源代码中的文本内容
+ */
+export interface BaseTokenNode extends BaseTypedNode {
+  /** Token在源代码中的文本内容 */
+  text: string;
+}

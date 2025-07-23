@@ -7,22 +7,24 @@
  * 如需重新生成，请使用 -f 参数强制覆盖
  */
 
-import type { BaseTypedNode } from '../base';
+import type { BaseTokenNode } from '../base';
 
-export interface NumericLiteralNode extends BaseTypedNode {
+export interface NumericLiteralNode extends BaseTokenNode {
   kind: 9; // NumericLiteral
   
-  // TODO: 添加NumericLiteral特定属性
-  // 注意：不要使用text, children, properties等通用字段
-  // 而是定义具体的强类型属性，如：
-  // - value: string (for literals)
-  // - name: string (for declarations)  
-  // - parameters: ParameterNode[] (for functions)
+  /** 数字字面量的原始文本，可能包含下划线分隔符 */
+  text: string;
+  
+  /** 数字的解析值 */
+  value: number;
+  
+  /** 数字的进制 (2, 8, 10, 16) */
+  base: 2 | 8 | 10 | 16;
 }
 
 /**
  * 类型判定函数
  */
-export function isNumericLiteral(node: BaseTypedNode): node is NumericLiteralNode {
+export function isNumericLiteral(node: BaseTokenNode): node is NumericLiteralNode {
   return node.kind === 9;
 }

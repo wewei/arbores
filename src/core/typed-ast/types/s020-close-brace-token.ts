@@ -7,22 +7,18 @@
  * 如需重新生成，请使用 -f 参数强制覆盖
  */
 
-import type { BaseTypedNode } from '../base';
+import type { BaseTokenNode } from '../base';
 
-export interface CloseBraceTokenNode extends BaseTypedNode {
+export interface CloseBraceTokenNode extends BaseTokenNode {
   kind: 20; // CloseBraceToken
   
-  // TODO: 添加CloseBraceToken特定属性
-  // 注意：不要使用text, children, properties等通用字段
-  // 而是定义具体的强类型属性，如：
-  // - value: string (for literals)
-  // - name: string (for declarations)  
-  // - parameters: ParameterNode[] (for functions)
+  /** 右花括号的文本，固定为 '}' */
+  text: '}';
 }
 
 /**
  * 类型判定函数
  */
-export function isCloseBraceToken(node: BaseTypedNode): node is CloseBraceTokenNode {
+export function isCloseBraceToken(node: BaseTokenNode): node is CloseBraceTokenNode {
   return node.kind === 20;
 }

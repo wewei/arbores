@@ -14,10 +14,14 @@ describe('Typed AST Integration Tests', () => {
     const mockIdentifierNode: IdentifierNode = {
       id: 'test-id',
       kind: 80, // Identifier
+      text: 'testVariable',
+      escapedText: 'testVariable',
     };
 
     expect(mockIdentifierNode.kind).toBe(80);
     expect(mockIdentifierNode.id).toBe('test-id');
+    expect(mockIdentifierNode.text).toBe('testVariable');
+    expect(mockIdentifierNode.escapedText).toBe('testVariable');
   });
 
   test('should have converter functions available', () => {

@@ -7,22 +7,18 @@
  * 如需重新生成，请使用 -f 参数强制覆盖
  */
 
-import type { BaseTypedNode } from '../base';
+import type { BaseTokenNode } from '../base';
 
-export interface NewLineTriviaNode extends BaseTypedNode {
+export interface NewLineTriviaNode extends BaseTokenNode {
   kind: 4; // NewLineTrivia
   
-  // TODO: 添加NewLineTrivia特定属性
-  // 注意：不要使用text, children, properties等通用字段
-  // 而是定义具体的强类型属性，如：
-  // - value: string (for literals)
-  // - name: string (for declarations)  
-  // - parameters: ParameterNode[] (for functions)
+  /** 换行符的文本内容，可能是 '\n'、'\r' 或 '\r\n' */
+  text: '\n' | '\r' | '\r\n';
 }
 
 /**
  * 类型判定函数
  */
-export function isNewLineTrivia(node: BaseTypedNode): node is NewLineTriviaNode {
+export function isNewLineTrivia(node: BaseTokenNode): node is NewLineTriviaNode {
   return node.kind === 4;
 }

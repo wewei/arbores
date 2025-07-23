@@ -7,22 +7,21 @@
  * 如需重新生成，请使用 -f 参数强制覆盖
  */
 
-import type { BaseTypedNode } from '../base';
+import type { BaseTokenNode } from '../base';
 
-export interface MultiLineCommentTriviaNode extends BaseTypedNode {
+export interface MultiLineCommentTriviaNode extends BaseTokenNode {
   kind: 3; // MultiLineCommentTrivia
   
-  // TODO: 添加MultiLineCommentTrivia特定属性
-  // 注意：不要使用text, children, properties等通用字段
-  // 而是定义具体的强类型属性，如：
-  // - value: string (for literals)
-  // - name: string (for declarations)  
-  // - parameters: ParameterNode[] (for functions)
+  /** 多行注释的完整文本，包括开始和结束标记 */
+  text: string;
+  
+  /** 注释内容（不包含开始和结束标记） */
+  content: string;
 }
 
 /**
  * 类型判定函数
  */
-export function isMultiLineCommentTrivia(node: BaseTypedNode): node is MultiLineCommentTriviaNode {
+export function isMultiLineCommentTrivia(node: BaseTokenNode): node is MultiLineCommentTriviaNode {
   return node.kind === 3;
 }

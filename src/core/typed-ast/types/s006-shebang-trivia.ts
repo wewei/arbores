@@ -7,22 +7,21 @@
  * 如需重新生成，请使用 -f 参数强制覆盖
  */
 
-import type { BaseTypedNode } from '../base';
+import type { BaseTokenNode } from '../base';
 
-export interface ShebangTriviaNode extends BaseTypedNode {
+export interface ShebangTriviaNode extends BaseTokenNode {
   kind: 6; // ShebangTrivia
   
-  // TODO: 添加ShebangTrivia特定属性
-  // 注意：不要使用text, children, properties等通用字段
-  // 而是定义具体的强类型属性，如：
-  // - value: string (for literals)
-  // - name: string (for declarations)  
-  // - parameters: ParameterNode[] (for functions)
+  /** Shebang的完整文本，包括 '#!' 前缀 */
+  text: string;
+  
+  /** Shebang指定的命令路径 */
+  command: string;
 }
 
 /**
  * 类型判定函数
  */
-export function isShebangTrivia(node: BaseTypedNode): node is ShebangTriviaNode {
+export function isShebangTrivia(node: BaseTokenNode): node is ShebangTriviaNode {
   return node.kind === 6;
 }
