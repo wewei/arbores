@@ -40,7 +40,7 @@ const CATEGORIES: CategoryConfig[] = [
   {
     name: 'types',
     description: 'TypeScript 类型节点',
-    baseType: 'BaseTypeNode',
+    baseType: 'BaseNode',
     directory: 'types',
     range: [ts.SyntaxKind.FirstTypeNode, ts.SyntaxKind.LastTypeNode] // 182-205
   },

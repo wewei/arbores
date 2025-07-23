@@ -3,7 +3,7 @@
   "title": "TypeScript AST Schema Registry",
   "description": "所有 TypeScript 语法节点的 Schema 注册表",
   "version": "1.0.0",
-  "generated": "2025-07-23T10:16:49.725Z",
+  "generated": "2025-07-23T10:22:38.538Z",
   "metadata": {
     "generator": {
       "script": "scripts/generate-typed-ast-schemas.ts",
@@ -35,7 +35,7 @@
       {
         "name": "types",
         "description": "TypeScript 类型节点",
-        "baseType": "BaseTypeNode",
+        "baseType": "BaseNode",
         "range": [
           182,
           205
@@ -88,15 +88,15 @@
       "common/modifier-types.schema.json"
     ],
     "generated": {
-      "tokens": [
-        "tokens/s080-identifier.schema.json"
+      "types": [
+        "types/s183-type-reference.schema.json"
       ]
     }
   },
   "statistics": {
     "totalSchemas": 1,
     "byCategory": {
-      "tokens": 1
+      "types": 1
     }
   }
 }

@@ -5,7 +5,7 @@
   "description": "TypeReference AST 节点 (SyntaxKind: 183)",
   "allOf": [
     {
-      "$ref": "../base/base-type-node"
+      "$ref": "../base/base-node"
     },
     {
       "type": "object",
@@ -22,8 +22,21 @@
     "category": "types",
     "syntaxKind": 183,
     "syntaxName": "TypeReference",
-    "baseType": "BaseTypeNode",
+    "baseType": "BaseNode",
     "generated": true,
+    "hashing": {
+      "algorithm": "SHA-256",
+      "includes": [
+        "kind",
+        "children",
+        "properties"
+      ],
+      "excludes": [
+        "id",
+        "metadata"
+      ],
+      "note": "节点 ID 通过对节点内容进行 SHA-256 哈希生成，用于去重和缓存"
+    },
     "conversion": {
       "children": {},
       "properties": {},
