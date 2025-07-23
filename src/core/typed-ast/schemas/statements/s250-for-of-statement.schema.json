@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "s250-for-of-statement",
+  "title": "ForOfStatementNode",
+  "description": "ForOfStatement AST 节点 (SyntaxKind: 250)",
+  "allOf": [
+    {
+      "$ref": "../base/base-statement-node"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "const": 250,
+          "description": "语法种类：ForOfStatement"
+        }
+      },
+      "required": []
+    }
+  ],
+  "metadata": {
+    "category": "statements",
+    "syntaxKind": 250,
+    "syntaxName": "ForOfStatement",
+    "baseType": "BaseStatementNode",
+    "generated": true,
+    "conversion": {
+      "children": {},
+      "properties": {},
+      "fromASTNode": {},
+      "fromTsNode": {}
+    }
+  }
+}

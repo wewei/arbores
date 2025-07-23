@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "s116-void-keyword",
+  "title": "VoidKeywordNode",
+  "description": "VoidKeyword AST 节点 (SyntaxKind: 116)",
+  "allOf": [
+    {
+      "$ref": "../base/base-keyword-node"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "const": 116,
+          "description": "语法种类：VoidKeyword"
+        }
+      },
+      "required": []
+    }
+  ],
+  "metadata": {
+    "category": "keywords",
+    "syntaxKind": 116,
+    "name": "VoidKeyword",
+    "generated": true,
+    "conversion": {
+      "properties": {},
+      "children": {}
+    }
+  }
+}

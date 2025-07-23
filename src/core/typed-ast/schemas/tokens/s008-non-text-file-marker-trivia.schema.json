@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "s008-non-text-file-marker-trivia",
+  "title": "NonTextFileMarkerTriviaNode",
+  "description": "NonTextFileMarkerTrivia AST 节点 (SyntaxKind: 8)",
+  "allOf": [
+    {
+      "$ref": "../base/base-token-node"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "const": 8,
+          "description": "语法种类：NonTextFileMarkerTrivia"
+        }
+      },
+      "required": []
+    }
+  ],
+  "metadata": {
+    "category": "tokens",
+    "syntaxKind": 8,
+    "syntaxName": "NonTextFileMarkerTrivia",
+    "baseType": "BaseTokenNode",
+    "generated": true,
+    "conversion": {
+      "children": {},
+      "properties": {},
+      "fromASTNode": {},
+      "fromTsNode": {}
+    }
+  }
+}

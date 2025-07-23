@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "s025-dot-token",
+  "title": "DotTokenNode",
+  "description": "DotToken AST 节点 (SyntaxKind: 25)",
+  "allOf": [
+    {
+      "$ref": "../base/base-token-node"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "const": 25,
+          "description": "语法种类：DotToken"
+        }
+      },
+      "required": []
+    }
+  ],
+  "metadata": {
+    "category": "tokens",
+    "syntaxKind": 25,
+    "syntaxName": "DotToken",
+    "baseType": "BaseTokenNode",
+    "generated": true,
+    "conversion": {
+      "children": {},
+      "properties": {},
+      "fromASTNode": {},
+      "fromTsNode": {}
+    }
+  }
+}

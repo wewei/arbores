@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "s052-bar-token",
+  "title": "BarTokenNode",
+  "description": "BarToken AST 节点 (SyntaxKind: 52)",
+  "allOf": [
+    {
+      "$ref": "../base/base-token-node"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "const": 52,
+          "description": "语法种类：BarToken"
+        }
+      },
+      "required": []
+    }
+  ],
+  "metadata": {
+    "category": "tokens",
+    "syntaxKind": 52,
+    "syntaxName": "BarToken",
+    "baseType": "BaseTokenNode",
+    "generated": true,
+    "conversion": {
+      "children": {},
+      "properties": {},
+      "fromASTNode": {},
+      "fromTsNode": {}
+    }
+  }
+}

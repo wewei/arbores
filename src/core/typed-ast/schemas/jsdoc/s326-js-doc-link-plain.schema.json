@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "s326-js-doc-link-plain",
+  "title": "JSDocLinkPlainNode",
+  "description": "JSDocLinkPlain AST 节点 (SyntaxKind: 326)",
+  "allOf": [
+    {
+      "$ref": "../base/base-js-doc-node"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "const": 326,
+          "description": "语法种类：JSDocLinkPlain"
+        }
+      },
+      "required": []
+    }
+  ],
+  "metadata": {
+    "category": "jsdoc",
+    "syntaxKind": 326,
+    "syntaxName": "JSDocLinkPlain",
+    "baseType": "BaseJSDocNode",
+    "generated": true,
+    "conversion": {
+      "children": {},
+      "properties": {},
+      "fromASTNode": {},
+      "fromTsNode": {}
+    }
+  }
+}

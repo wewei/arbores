@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "s307-source-file",
+  "title": "SourceFileNode",
+  "description": "SourceFile AST 节点 (SyntaxKind: 307)",
+  "allOf": [
+    {
+      "$ref": "../base/base-typed-node"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "const": 307,
+          "description": "语法种类：SourceFile"
+        }
+      },
+      "required": []
+    }
+  ],
+  "metadata": {
+    "category": "nodes",
+    "syntaxKind": 307,
+    "syntaxName": "SourceFile",
+    "baseType": "BaseTypedNode",
+    "generated": true,
+    "conversion": {
+      "children": {},
+      "properties": {},
+      "fromASTNode": {},
+      "fromTsNode": {}
+    }
+  }
+}

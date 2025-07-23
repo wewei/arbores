@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "s088-continue-keyword",
+  "title": "ContinueKeywordNode",
+  "description": "ContinueKeyword AST 节点 (SyntaxKind: 88)",
+  "allOf": [
+    {
+      "$ref": "../base/base-token-node"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "const": 88,
+          "description": "语法种类：ContinueKeyword"
+        }
+      },
+      "required": []
+    }
+  ],
+  "metadata": {
+    "category": "tokens",
+    "syntaxKind": 88,
+    "syntaxName": "ContinueKeyword",
+    "baseType": "BaseTokenNode",
+    "generated": true,
+    "conversion": {
+      "children": {},
+      "properties": {},
+      "fromASTNode": {},
+      "fromTsNode": {}
+    }
+  }
+}

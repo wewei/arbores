@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "s141-intrinsic-keyword",
+  "title": "IntrinsicKeywordNode",
+  "description": "IntrinsicKeyword AST 节点 (SyntaxKind: 141)",
+  "allOf": [
+    {
+      "$ref": "../base/base-keyword-node"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "const": 141,
+          "description": "语法种类：IntrinsicKeyword"
+        }
+      },
+      "required": []
+    }
+  ],
+  "metadata": {
+    "category": "keywords",
+    "syntaxKind": 141,
+    "name": "IntrinsicKeyword",
+    "generated": true,
+    "conversion": {
+      "properties": {},
+      "children": {}
+    }
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "s076-bar-bar-equals-token",
+  "title": "BarBarEqualsTokenNode",
+  "description": "BarBarEqualsToken AST 节点 (SyntaxKind: 76)",
+  "allOf": [
+    {
+      "$ref": "../base/base-token-node"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "const": 76,
+          "description": "语法种类：BarBarEqualsToken"
+        }
+      },
+      "required": []
+    }
+  ],
+  "metadata": {
+    "category": "tokens",
+    "syntaxKind": 76,
+    "syntaxName": "BarBarEqualsToken",
+    "baseType": "BaseTokenNode",
+    "generated": true,
+    "conversion": {
+      "children": {},
+      "properties": {},
+      "fromASTNode": {},
+      "fromTsNode": {}
+    }
+  }
+}

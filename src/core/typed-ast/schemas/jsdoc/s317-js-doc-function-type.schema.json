@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "s317-js-doc-function-type",
+  "title": "JSDocFunctionTypeNode",
+  "description": "JSDocFunctionType AST 节点 (SyntaxKind: 317)",
+  "allOf": [
+    {
+      "$ref": "../base/base-js-doc-node"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "const": 317,
+          "description": "语法种类：JSDocFunctionType"
+        }
+      },
+      "required": []
+    }
+  ],
+  "metadata": {
+    "category": "jsdoc",
+    "syntaxKind": 317,
+    "syntaxName": "JSDocFunctionType",
+    "baseType": "BaseJSDocNode",
+    "generated": true,
+    "conversion": {
+      "children": {},
+      "properties": {},
+      "fromASTNode": {},
+      "fromTsNode": {}
+    }
+  }
+}

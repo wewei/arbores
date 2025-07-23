@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "s257-throw-statement",
+  "title": "ThrowStatementNode",
+  "description": "ThrowStatement AST 节点 (SyntaxKind: 257)",
+  "allOf": [
+    {
+      "$ref": "../base/base-statement-node"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "const": 257,
+          "description": "语法种类：ThrowStatement"
+        }
+      },
+      "required": []
+    }
+  ],
+  "metadata": {
+    "category": "statements",
+    "syntaxKind": 257,
+    "syntaxName": "ThrowStatement",
+    "baseType": "BaseStatementNode",
+    "generated": true,
+    "conversion": {
+      "children": {},
+      "properties": {},
+      "fromASTNode": {},
+      "fromTsNode": {}
+    }
+  }
+}

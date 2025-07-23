@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "s193-intersection-type",
+  "title": "IntersectionTypeNode",
+  "description": "IntersectionType AST 节点 (SyntaxKind: 193)",
+  "allOf": [
+    {
+      "$ref": "../base/base-type-node"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "const": 193,
+          "description": "语法种类：IntersectionType"
+        }
+      },
+      "required": []
+    }
+  ],
+  "metadata": {
+    "category": "types",
+    "syntaxKind": 193,
+    "syntaxName": "IntersectionType",
+    "baseType": "BaseTypeNode",
+    "generated": true,
+    "conversion": {
+      "children": {},
+      "properties": {},
+      "fromASTNode": {},
+      "fromTsNode": {}
+    }
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "s347-js-doc-see-tag",
+  "title": "JSDocSeeTagNode",
+  "description": "JSDocSeeTag AST 节点 (SyntaxKind: 347)",
+  "allOf": [
+    {
+      "$ref": "../base/base-js-doc-node"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "const": 347,
+          "description": "语法种类：JSDocSeeTag"
+        }
+      },
+      "required": []
+    }
+  ],
+  "metadata": {
+    "category": "jsdoc",
+    "syntaxKind": 347,
+    "syntaxName": "JSDocSeeTag",
+    "baseType": "BaseJSDocNode",
+    "generated": true,
+    "conversion": {
+      "children": {},
+      "properties": {},
+      "fromASTNode": {},
+      "fromTsNode": {}
+    }
+  }
+}

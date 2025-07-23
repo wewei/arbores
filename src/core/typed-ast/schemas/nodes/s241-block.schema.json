@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "s241-block",
+  "title": "BlockNode",
+  "description": "Block AST 节点 (SyntaxKind: 241)",
+  "allOf": [
+    {
+      "$ref": "../base/base-typed-node"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "const": 241,
+          "description": "语法种类：Block"
+        }
+      },
+      "required": []
+    }
+  ],
+  "metadata": {
+    "category": "nodes",
+    "syntaxKind": 241,
+    "syntaxName": "Block",
+    "baseType": "BaseTypedNode",
+    "generated": true,
+    "conversion": {
+      "children": {},
+      "properties": {},
+      "fromASTNode": {},
+      "fromTsNode": {}
+    }
+  }
+}

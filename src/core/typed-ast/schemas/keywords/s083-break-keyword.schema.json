@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "s083-break-keyword",
+  "title": "BreakKeywordNode",
+  "description": "BreakKeyword AST 节点 (SyntaxKind: 83)",
+  "allOf": [
+    {
+      "$ref": "../base/base-keyword-node"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "const": 83,
+          "description": "语法种类：BreakKeyword"
+        }
+      },
+      "required": []
+    }
+  ],
+  "metadata": {
+    "category": "keywords",
+    "syntaxKind": 83,
+    "name": "BreakKeyword",
+    "generated": true,
+    "conversion": {
+      "properties": {},
+      "children": {}
+    }
+  }
+}

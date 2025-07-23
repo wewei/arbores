@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "s114-type-of-keyword",
+  "title": "TypeOfKeywordNode",
+  "description": "TypeOfKeyword AST 节点 (SyntaxKind: 114)",
+  "allOf": [
+    {
+      "$ref": "../base/base-keyword-node"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "const": 114,
+          "description": "语法种类：TypeOfKeyword"
+        }
+      },
+      "required": []
+    }
+  ],
+  "metadata": {
+    "category": "keywords",
+    "syntaxKind": 114,
+    "name": "TypeOfKeyword",
+    "generated": true,
+    "conversion": {
+      "properties": {},
+      "children": {}
+    }
+  }
+}

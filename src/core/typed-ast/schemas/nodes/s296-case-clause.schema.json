@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "s296-case-clause",
+  "title": "CaseClauseNode",
+  "description": "CaseClause AST 节点 (SyntaxKind: 296)",
+  "allOf": [
+    {
+      "$ref": "../base/base-typed-node"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "const": 296,
+          "description": "语法种类：CaseClause"
+        }
+      },
+      "required": []
+    }
+  ],
+  "metadata": {
+    "category": "nodes",
+    "syntaxKind": 296,
+    "syntaxName": "CaseClause",
+    "baseType": "BaseTypedNode",
+    "generated": true,
+    "conversion": {
+      "children": {},
+      "properties": {},
+      "fromASTNode": {},
+      "fromTsNode": {}
+    }
+  }
+}

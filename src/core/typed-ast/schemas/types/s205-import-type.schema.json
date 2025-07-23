@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "s205-import-type",
+  "title": "ImportTypeNode",
+  "description": "ImportType AST 节点 (SyntaxKind: 205)",
+  "allOf": [
+    {
+      "$ref": "../base/base-type-node"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "const": 205,
+          "description": "语法种类：ImportType"
+        }
+      },
+      "required": []
+    }
+  ],
+  "metadata": {
+    "category": "types",
+    "syntaxKind": 205,
+    "syntaxName": "ImportType",
+    "baseType": "BaseTypeNode",
+    "generated": true,
+    "conversion": {
+      "children": {},
+      "properties": {},
+      "fromASTNode": {},
+      "fromTsNode": {}
+    }
+  }
+}

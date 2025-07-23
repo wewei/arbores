@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "s013-jsx-text-all-white-spaces",
+  "title": "JsxTextAllWhiteSpacesNode",
+  "description": "JsxTextAllWhiteSpaces AST 节点 (SyntaxKind: 13)",
+  "allOf": [
+    {
+      "$ref": "../base/base-token-node"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "const": 13,
+          "description": "语法种类：JsxTextAllWhiteSpaces"
+        }
+      },
+      "required": []
+    }
+  ],
+  "metadata": {
+    "category": "tokens",
+    "syntaxKind": 13,
+    "syntaxName": "JsxTextAllWhiteSpaces",
+    "baseType": "BaseTokenNode",
+    "generated": true,
+    "conversion": {
+      "children": {},
+      "properties": {},
+      "fromASTNode": {},
+      "fromTsNode": {}
+    }
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "s255-switch-statement",
+  "title": "SwitchStatementNode",
+  "description": "SwitchStatement AST 节点 (SyntaxKind: 255)",
+  "allOf": [
+    {
+      "$ref": "../base/base-statement-node"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "const": 255,
+          "description": "语法种类：SwitchStatement"
+        }
+      },
+      "required": []
+    }
+  ],
+  "metadata": {
+    "category": "statements",
+    "syntaxKind": 255,
+    "syntaxName": "SwitchStatement",
+    "baseType": "BaseStatementNode",
+    "generated": true,
+    "conversion": {
+      "children": {},
+      "properties": {},
+      "fromASTNode": {},
+      "fromTsNode": {}
+    }
+  }
+}

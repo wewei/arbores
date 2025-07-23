@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "s259-debugger-statement",
+  "title": "DebuggerStatementNode",
+  "description": "DebuggerStatement AST 节点 (SyntaxKind: 259)",
+  "allOf": [
+    {
+      "$ref": "../base/base-statement-node"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "const": 259,
+          "description": "语法种类：DebuggerStatement"
+        }
+      },
+      "required": []
+    }
+  ],
+  "metadata": {
+    "category": "statements",
+    "syntaxKind": 259,
+    "syntaxName": "DebuggerStatement",
+    "baseType": "BaseStatementNode",
+    "generated": true,
+    "conversion": {
+      "children": {},
+      "properties": {},
+      "fromASTNode": {},
+      "fromTsNode": {}
+    }
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "s188-array-type",
+  "title": "ArrayTypeNode",
+  "description": "ArrayType AST 节点 (SyntaxKind: 188)",
+  "allOf": [
+    {
+      "$ref": "../base/base-type-node"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "const": 188,
+          "description": "语法种类：ArrayType"
+        }
+      },
+      "required": []
+    }
+  ],
+  "metadata": {
+    "category": "types",
+    "syntaxKind": 188,
+    "syntaxName": "ArrayType",
+    "baseType": "BaseTypeNode",
+    "generated": true,
+    "conversion": {
+      "children": {},
+      "properties": {},
+      "fromASTNode": {},
+      "fromTsNode": {}
+    }
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "s333-js-doc-public-tag",
+  "title": "JSDocPublicTagNode",
+  "description": "JSDocPublicTag AST 节点 (SyntaxKind: 333)",
+  "allOf": [
+    {
+      "$ref": "../base/base-js-doc-node"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "const": 333,
+          "description": "语法种类：JSDocPublicTag"
+        }
+      },
+      "required": []
+    }
+  ],
+  "metadata": {
+    "category": "jsdoc",
+    "syntaxKind": 333,
+    "syntaxName": "JSDocPublicTag",
+    "baseType": "BaseJSDocNode",
+    "generated": true,
+    "conversion": {
+      "children": {},
+      "properties": {},
+      "fromASTNode": {},
+      "fromTsNode": {}
+    }
+  }
+}

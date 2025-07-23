@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "s166-qualified-name",
+  "title": "QualifiedNameNode",
+  "description": "QualifiedName AST 节点 (SyntaxKind: 166)",
+  "allOf": [
+    {
+      "$ref": "../base/base-typed-node"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "const": 166,
+          "description": "语法种类：QualifiedName"
+        }
+      },
+      "required": []
+    }
+  ],
+  "metadata": {
+    "category": "nodes",
+    "syntaxKind": 166,
+    "syntaxName": "QualifiedName",
+    "baseType": "BaseTypedNode",
+    "generated": true,
+    "conversion": {
+      "children": {},
+      "properties": {},
+      "fromASTNode": {},
+      "fromTsNode": {}
+    }
+  }
+}

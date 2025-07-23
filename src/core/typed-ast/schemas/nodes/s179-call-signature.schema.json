@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "s179-call-signature",
+  "title": "CallSignatureNode",
+  "description": "CallSignature AST 节点 (SyntaxKind: 179)",
+  "allOf": [
+    {
+      "$ref": "../base/base-typed-node"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "const": 179,
+          "description": "语法种类：CallSignature"
+        }
+      },
+      "required": []
+    }
+  ],
+  "metadata": {
+    "category": "nodes",
+    "syntaxKind": 179,
+    "syntaxName": "CallSignature",
+    "baseType": "BaseTypedNode",
+    "generated": true,
+    "conversion": {
+      "children": {},
+      "properties": {},
+      "fromASTNode": {},
+      "fromTsNode": {}
+    }
+  }
+}

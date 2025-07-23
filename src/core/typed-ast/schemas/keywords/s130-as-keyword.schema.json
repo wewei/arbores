@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "s130-as-keyword",
+  "title": "AsKeywordNode",
+  "description": "AsKeyword AST 节点 (SyntaxKind: 130)",
+  "allOf": [
+    {
+      "$ref": "../base/base-keyword-node"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "const": 130,
+          "description": "语法种类：AsKeyword"
+        }
+      },
+      "required": []
+    }
+  ],
+  "metadata": {
+    "category": "keywords",
+    "syntaxKind": 130,
+    "name": "AsKeyword",
+    "generated": true,
+    "conversion": {
+      "properties": {},
+      "children": {}
+    }
+  }
+}

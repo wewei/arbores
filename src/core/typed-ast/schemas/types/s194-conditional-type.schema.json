@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "s194-conditional-type",
+  "title": "ConditionalTypeNode",
+  "description": "ConditionalType AST 节点 (SyntaxKind: 194)",
+  "allOf": [
+    {
+      "$ref": "../base/base-type-node"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "const": 194,
+          "description": "语法种类：ConditionalType"
+        }
+      },
+      "required": []
+    }
+  ],
+  "metadata": {
+    "category": "types",
+    "syntaxKind": 194,
+    "syntaxName": "ConditionalType",
+    "baseType": "BaseTypeNode",
+    "generated": true,
+    "conversion": {
+      "children": {},
+      "properties": {},
+      "fromASTNode": {},
+      "fromTsNode": {}
+    }
+  }
+}

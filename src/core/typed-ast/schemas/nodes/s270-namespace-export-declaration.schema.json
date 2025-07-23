@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "s270-namespace-export-declaration",
+  "title": "NamespaceExportDeclarationNode",
+  "description": "NamespaceExportDeclaration AST 节点 (SyntaxKind: 270)",
+  "allOf": [
+    {
+      "$ref": "../base/base-typed-node"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "const": 270,
+          "description": "语法种类：NamespaceExportDeclaration"
+        }
+      },
+      "required": []
+    }
+  ],
+  "metadata": {
+    "category": "nodes",
+    "syntaxKind": 270,
+    "syntaxName": "NamespaceExportDeclaration",
+    "baseType": "BaseTypedNode",
+    "generated": true,
+    "conversion": {
+      "children": {},
+      "properties": {},
+      "fromASTNode": {},
+      "fromTsNode": {}
+    }
+  }
+}

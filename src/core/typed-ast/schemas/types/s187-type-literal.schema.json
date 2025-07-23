@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "s187-type-literal",
+  "title": "TypeLiteralNode",
+  "description": "TypeLiteral AST 节点 (SyntaxKind: 187)",
+  "allOf": [
+    {
+      "$ref": "../base/base-type-node"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "const": 187,
+          "description": "语法种类：TypeLiteral"
+        }
+      },
+      "required": []
+    }
+  ],
+  "metadata": {
+    "category": "types",
+    "syntaxKind": 187,
+    "syntaxName": "TypeLiteral",
+    "baseType": "BaseTypeNode",
+    "generated": true,
+    "conversion": {
+      "children": {},
+      "properties": {},
+      "fromASTNode": {},
+      "fromTsNode": {}
+    }
+  }
+}

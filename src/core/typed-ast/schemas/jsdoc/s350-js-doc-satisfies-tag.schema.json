@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "s350-js-doc-satisfies-tag",
+  "title": "JSDocSatisfiesTagNode",
+  "description": "JSDocSatisfiesTag AST 节点 (SyntaxKind: 350)",
+  "allOf": [
+    {
+      "$ref": "../base/base-js-doc-node"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "const": 350,
+          "description": "语法种类：JSDocSatisfiesTag"
+        }
+      },
+      "required": []
+    }
+  ],
+  "metadata": {
+    "category": "jsdoc",
+    "syntaxKind": 350,
+    "syntaxName": "JSDocSatisfiesTag",
+    "baseType": "BaseJSDocNode",
+    "generated": true,
+    "conversion": {
+      "children": {},
+      "properties": {},
+      "fromASTNode": {},
+      "fromTsNode": {}
+    }
+  }
+}

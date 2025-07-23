@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "s252-break-statement",
+  "title": "BreakStatementNode",
+  "description": "BreakStatement AST 节点 (SyntaxKind: 252)",
+  "allOf": [
+    {
+      "$ref": "../base/base-statement-node"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "const": 252,
+          "description": "语法种类：BreakStatement"
+        }
+      },
+      "required": []
+    }
+  ],
+  "metadata": {
+    "category": "statements",
+    "syntaxKind": 252,
+    "syntaxName": "BreakStatement",
+    "baseType": "BaseStatementNode",
+    "generated": true,
+    "conversion": {
+      "children": {},
+      "properties": {},
+      "fromASTNode": {},
+      "fromTsNode": {}
+    }
+  }
+}

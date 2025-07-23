@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "s068-asterisk-asterisk-equals-token",
+  "title": "AsteriskAsteriskEqualsTokenNode",
+  "description": "AsteriskAsteriskEqualsToken AST 节点 (SyntaxKind: 68)",
+  "allOf": [
+    {
+      "$ref": "../base/base-token-node"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "const": 68,
+          "description": "语法种类：AsteriskAsteriskEqualsToken"
+        }
+      },
+      "required": []
+    }
+  ],
+  "metadata": {
+    "category": "tokens",
+    "syntaxKind": 68,
+    "syntaxName": "AsteriskAsteriskEqualsToken",
+    "baseType": "BaseTokenNode",
+    "generated": true,
+    "conversion": {
+      "children": {},
+      "properties": {},
+      "fromASTNode": {},
+      "fromTsNode": {}
+    }
+  }
+}

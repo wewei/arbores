@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "base-jsdoc-node",
+  "title": "Base JSDoc Node",
+  "description": "基础 JSDoc 节点，所有文档注释的基类",
+  "allOf": [
+    { "$ref": "base-typed-node" }
+  ],
+  "properties": {
+    "comment": {
+      "description": "注释内容",
+      "type": "string"
+    },
+    "tags": {
+      "description": "JSDoc 标签",
+      "type": "array",
+      "items": {
+        "$ref": "common/type-unions#/definitions/JSDocTagNode"
+      }
+    }
+  },
+  "additionalProperties": false
+}

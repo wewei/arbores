@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "s302-import-type-assertion-container",
+  "title": "ImportTypeAssertionContainerNode",
+  "description": "ImportTypeAssertionContainer AST 节点 (SyntaxKind: 302)",
+  "allOf": [
+    {
+      "$ref": "../base/base-typed-node"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "const": 302,
+          "description": "语法种类：ImportTypeAssertionContainer"
+        }
+      },
+      "required": []
+    }
+  ],
+  "metadata": {
+    "category": "nodes",
+    "syntaxKind": 302,
+    "syntaxName": "ImportTypeAssertionContainer",
+    "baseType": "BaseTypedNode",
+    "generated": true,
+    "conversion": {
+      "children": {},
+      "properties": {},
+      "fromASTNode": {},
+      "fromTsNode": {}
+    }
+  }
+}

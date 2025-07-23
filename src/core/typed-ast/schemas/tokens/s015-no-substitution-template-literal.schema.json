@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "s015-no-substitution-template-literal",
+  "title": "NoSubstitutionTemplateLiteralNode",
+  "description": "NoSubstitutionTemplateLiteral AST 节点 (SyntaxKind: 15)",
+  "allOf": [
+    {
+      "$ref": "../base/base-token-node"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "const": 15,
+          "description": "语法种类：NoSubstitutionTemplateLiteral"
+        }
+      },
+      "required": []
+    }
+  ],
+  "metadata": {
+    "category": "tokens",
+    "syntaxKind": 15,
+    "syntaxName": "NoSubstitutionTemplateLiteral",
+    "baseType": "BaseTokenNode",
+    "generated": true,
+    "conversion": {
+      "children": {},
+      "properties": {},
+      "fromASTNode": {},
+      "fromTsNode": {}
+    }
+  }
+}

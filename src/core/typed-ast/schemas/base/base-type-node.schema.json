@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "base-type-node",
+  "title": "Base Type Node",
+  "description": "基础类型节点，所有 TypeScript 类型的基类",
+  "allOf": [
+    { "$ref": "base-typed-node" }
+  ],
+  "properties": {
+    "symbol": {
+      "description": "关联的符号信息",
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": false
+}

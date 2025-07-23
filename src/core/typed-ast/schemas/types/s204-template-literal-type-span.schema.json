@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "s204-template-literal-type-span",
+  "title": "TemplateLiteralTypeSpanNode",
+  "description": "TemplateLiteralTypeSpan AST 节点 (SyntaxKind: 204)",
+  "allOf": [
+    {
+      "$ref": "../base/base-type-node"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "const": 204,
+          "description": "语法种类：TemplateLiteralTypeSpan"
+        }
+      },
+      "required": []
+    }
+  ],
+  "metadata": {
+    "category": "types",
+    "syntaxKind": 204,
+    "syntaxName": "TemplateLiteralTypeSpan",
+    "baseType": "BaseTypeNode",
+    "generated": true,
+    "conversion": {
+      "children": {},
+      "properties": {},
+      "fromASTNode": {},
+      "fromTsNode": {}
+    }
+  }
+}

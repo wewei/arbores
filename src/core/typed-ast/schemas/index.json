@@ -1,0 +1,60 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "typed-ast-schemas-index",
+  "title": "Typed AST Schemas Index",
+  "description": "TypeScript AST Schema 集合的索引文件",
+  "version": "1.0.0",
+  "schemas": {
+    "base": {
+      "description": "基础节点类型",
+      "schemas": [
+        "base/base-typed-node.schema.json",
+        "base/base-token-node.schema.json",
+        "base/base-type-node.schema.json",
+        "base/base-statement-node.schema.json",
+        "base/base-jsdoc-node.schema.json"
+      ]
+    },
+    "common": {
+      "description": "通用类型定义",
+      "schemas": [
+        "common/type-unions.schema.json",
+        "common/operator-types.schema.json",
+        "common/modifier-types.schema.json"
+      ]
+    },
+    "tokens": {
+      "description": "Token 类型 (SyntaxKind 1-165)",
+      "count": 165,
+      "range": "1-165",
+      "schemas": "tokens/s*.schema.json"
+    },
+    "types": {
+      "description": "TypeScript 类型节点 (SyntaxKind 182-205)",
+      "count": 24,
+      "range": "182-205",
+      "schemas": "types/s*.schema.json"
+    },
+    "statements": {
+      "description": "语句类型 (SyntaxKind 243-259)",
+      "count": 17,
+      "range": "243-259",
+      "schemas": "statements/s*.schema.json"
+    },
+    "jsdoc": {
+      "description": "JSDoc 节点 (SyntaxKind 309-351)",
+      "count": 43,
+      "range": "309-351",
+      "schemas": "jsdoc/s*.schema.json"
+    },
+    "nodes": {
+      "description": "其他 AST 节点 (SyntaxKind 166-357)",
+      "count": 108,
+      "range": "166-357",
+      "schemas": "nodes/s*.schema.json"
+    }
+  },
+  "totalSchemas": 365,
+  "generated": "2024-12-28T10:00:00Z",
+  "generator": "scripts/generate-typed-ast-schemas.ts"
+}

@@ -1,0 +1,85 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "type-unions",
+  "title": "Type Unions",
+  "description": "类型联合定义，用于解决循环引用问题",
+  "definitions": {
+    "AnyTypedNode": {
+      "description": "任意类型化 AST 节点",
+      "anyOf": [
+        { "$ref": "#/definitions/TokenNode" },
+        { "$ref": "#/definitions/TypeNode" },
+        { "$ref": "#/definitions/StatementNode" },
+        { "$ref": "#/definitions/JSDocNode" },
+        { "$ref": "#/definitions/ExpressionNode" },
+        { "$ref": "#/definitions/DeclarationNode" }
+      ]
+    },
+    "TokenNode": {
+      "description": "Token 类型节点",
+      "anyOf": [
+        { "$ref": "../tokens/s001-end-of-file-token" },
+        { "$ref": "../tokens/s009-numeric-literal" },
+        { "$ref": "../tokens/s010-big-int-literal" },
+        { "$ref": "../tokens/s011-string-literal" },
+        { "$ref": "../tokens/s080-identifier" }
+      ]
+    },
+    "TypeNode": {
+      "description": "TypeScript 类型节点",
+      "anyOf": [
+        { "$ref": "../types/s182-type-predicate" },
+        { "$ref": "../types/s183-type-reference" },
+        { "$ref": "../types/s184-function-type" },
+        { "$ref": "../types/s192-union-type" },
+        { "$ref": "../types/s193-intersection-type" }
+      ]
+    },
+    "StatementNode": {
+      "description": "语句节点",
+      "anyOf": [
+        { "$ref": "../statements/s243-variable-statement" },
+        { "$ref": "../statements/s244-expression-statement" },
+        { "$ref": "../statements/s245-if-statement" },
+        { "$ref": "../statements/s248-for-statement" },
+        { "$ref": "../statements/s255-switch-statement" }
+      ]
+    },
+    "JSDocNode": {
+      "description": "JSDoc 文档节点",
+      "anyOf": [
+        { "$ref": "../jsdoc/s320-js-doc-comment" },
+        { "$ref": "../jsdoc/s321-js-doc-text" },
+        { "$ref": "../jsdoc/s327-js-doc-tag" }
+      ]
+    },
+    "JSDocTagNode": {
+      "description": "JSDoc 标签节点",
+      "anyOf": [
+        { "$ref": "../jsdoc/s327-js-doc-tag" },
+        { "$ref": "../jsdoc/s341-js-doc-parameter-tag" },
+        { "$ref": "../jsdoc/s342-js-doc-return-tag" }
+      ]
+    },
+    "ExpressionNode": {
+      "description": "表达式节点",
+      "anyOf": [
+        { "$ref": "../nodes/s209-array-literal-expression" },
+        { "$ref": "../nodes/s210-object-literal-expression" },
+        { "$ref": "../nodes/s213-call-expression" },
+        { "$ref": "../nodes/s218-function-expression" },
+        { "$ref": "../nodes/s226-binary-expression" }
+      ]
+    },
+    "DeclarationNode": {
+      "description": "声明节点",
+      "anyOf": [
+        { "$ref": "../nodes/s262-function-declaration" },
+        { "$ref": "../nodes/s263-class-declaration" },
+        { "$ref": "../nodes/s264-interface-declaration" },
+        { "$ref": "../nodes/s265-type-alias-declaration" },
+        { "$ref": "../nodes/s266-enum-declaration" }
+      ]
+    }
+  }
+}
