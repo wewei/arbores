@@ -5,7 +5,7 @@
   "description": "TypePredicate AST 节点 (SyntaxKind: 182)",
   "allOf": [
     {
-      "$ref": "../base/base-type-node"
+      "$ref": "base-node"
     },
     {
       "type": "object",
@@ -22,13 +22,6 @@
     "category": "types",
     "syntaxKind": 182,
     "syntaxName": "TypePredicate",
-    "baseType": "BaseTypeNode",
-    "generated": true,
-    "conversion": {
-      "children": {},
-      "properties": {},
-      "fromASTNode": {},
-      "fromTsNode": {}
-    }
+    "baseType": "BaseNode"
   }
 }

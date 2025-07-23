@@ -5,7 +5,7 @@
   "description": "JsxText AST 节点 (SyntaxKind: 12)",
   "allOf": [
     {
-      "$ref": "../base/base-token-node"
+      "$ref": "base-token-node"
     },
     {
       "type": "object",
@@ -22,13 +22,6 @@
     "category": "tokens",
     "syntaxKind": 12,
     "syntaxName": "JsxText",
-    "baseType": "BaseTokenNode",
-    "generated": true,
-    "conversion": {
-      "children": {},
-      "properties": {},
-      "fromASTNode": {},
-      "fromTsNode": {}
-    }
+    "baseType": "BaseTokenNode"
   }
 }

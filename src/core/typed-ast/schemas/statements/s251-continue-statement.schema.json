@@ -5,7 +5,7 @@
   "description": "ContinueStatement AST 节点 (SyntaxKind: 251)",
   "allOf": [
     {
-      "$ref": "../base/base-statement-node"
+      "$ref": "base-statement-node"
     },
     {
       "type": "object",
@@ -22,13 +22,6 @@
     "category": "statements",
     "syntaxKind": 251,
     "syntaxName": "ContinueStatement",
-    "baseType": "BaseStatementNode",
-    "generated": true,
-    "conversion": {
-      "children": {},
-      "properties": {},
-      "fromASTNode": {},
-      "fromTsNode": {}
-    }
+    "baseType": "BaseStatementNode"
   }
 }

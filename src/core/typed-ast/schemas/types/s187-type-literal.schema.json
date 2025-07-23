@@ -5,7 +5,7 @@
   "description": "TypeLiteral AST 节点 (SyntaxKind: 187)",
   "allOf": [
     {
-      "$ref": "../base/base-type-node"
+      "$ref": "base-node"
     },
     {
       "type": "object",
@@ -22,13 +22,6 @@
     "category": "types",
     "syntaxKind": 187,
     "syntaxName": "TypeLiteral",
-    "baseType": "BaseTypeNode",
-    "generated": true,
-    "conversion": {
-      "children": {},
-      "properties": {},
-      "fromASTNode": {},
-      "fromTsNode": {}
-    }
+    "baseType": "BaseNode"
   }
 }

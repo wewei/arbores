@@ -5,7 +5,7 @@
   "description": "PropertyAccessExpression AST 节点 (SyntaxKind: 211)",
   "allOf": [
     {
-      "$ref": "../base/base-typed-node"
+      "$ref": "base-node"
     },
     {
       "type": "object",
@@ -22,13 +22,6 @@
     "category": "nodes",
     "syntaxKind": 211,
     "syntaxName": "PropertyAccessExpression",
-    "baseType": "BaseTypedNode",
-    "generated": true,
-    "conversion": {
-      "children": {},
-      "properties": {},
-      "fromASTNode": {},
-      "fromTsNode": {}
-    }
+    "baseType": "BaseNode"
   }
 }

@@ -5,7 +5,7 @@
   "description": "EqualsEqualsEqualsToken AST 节点 (SyntaxKind: 37)",
   "allOf": [
     {
-      "$ref": "../base/base-token-node"
+      "$ref": "base-token-node"
     },
     {
       "type": "object",
@@ -22,13 +22,6 @@
     "category": "tokens",
     "syntaxKind": 37,
     "syntaxName": "EqualsEqualsEqualsToken",
-    "baseType": "BaseTokenNode",
-    "generated": true,
-    "conversion": {
-      "children": {},
-      "properties": {},
-      "fromASTNode": {},
-      "fromTsNode": {}
-    }
+    "baseType": "BaseTokenNode"
   }
 }

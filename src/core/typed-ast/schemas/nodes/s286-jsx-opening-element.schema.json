@@ -5,7 +5,7 @@
   "description": "JsxOpeningElement AST 节点 (SyntaxKind: 286)",
   "allOf": [
     {
-      "$ref": "../base/base-typed-node"
+      "$ref": "base-node"
     },
     {
       "type": "object",
@@ -22,13 +22,6 @@
     "category": "nodes",
     "syntaxKind": 286,
     "syntaxName": "JsxOpeningElement",
-    "baseType": "BaseTypedNode",
-    "generated": true,
-    "conversion": {
-      "children": {},
-      "properties": {},
-      "fromASTNode": {},
-      "fromTsNode": {}
-    }
+    "baseType": "BaseNode"
   }
 }

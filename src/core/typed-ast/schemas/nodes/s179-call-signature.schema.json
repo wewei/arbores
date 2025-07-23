@@ -5,7 +5,7 @@
   "description": "CallSignature AST 节点 (SyntaxKind: 179)",
   "allOf": [
     {
-      "$ref": "../base/base-typed-node"
+      "$ref": "base-node"
     },
     {
       "type": "object",
@@ -22,13 +22,6 @@
     "category": "nodes",
     "syntaxKind": 179,
     "syntaxName": "CallSignature",
-    "baseType": "BaseTypedNode",
-    "generated": true,
-    "conversion": {
-      "children": {},
-      "properties": {},
-      "fromASTNode": {},
-      "fromTsNode": {}
-    }
+    "baseType": "BaseNode"
   }
 }

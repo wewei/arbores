@@ -5,7 +5,7 @@
   "description": "JSDocNameReference AST 节点 (SyntaxKind: 310)",
   "allOf": [
     {
-      "$ref": "../base/base-js-doc-node"
+      "$ref": "base-js-doc-node"
     },
     {
       "type": "object",
@@ -22,13 +22,6 @@
     "category": "jsdoc",
     "syntaxKind": 310,
     "syntaxName": "JSDocNameReference",
-    "baseType": "BaseJSDocNode",
-    "generated": true,
-    "conversion": {
-      "children": {},
-      "properties": {},
-      "fromASTNode": {},
-      "fromTsNode": {}
-    }
+    "baseType": "BaseJSDocNode"
   }
 }

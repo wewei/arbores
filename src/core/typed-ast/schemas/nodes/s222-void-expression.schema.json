@@ -5,7 +5,7 @@
   "description": "VoidExpression AST 节点 (SyntaxKind: 222)",
   "allOf": [
     {
-      "$ref": "../base/base-typed-node"
+      "$ref": "base-node"
     },
     {
       "type": "object",
@@ -22,13 +22,6 @@
     "category": "nodes",
     "syntaxKind": 222,
     "syntaxName": "VoidExpression",
-    "baseType": "BaseTypedNode",
-    "generated": true,
-    "conversion": {
-      "children": {},
-      "properties": {},
-      "fromASTNode": {},
-      "fromTsNode": {}
-    }
+    "baseType": "BaseNode"
   }
 }

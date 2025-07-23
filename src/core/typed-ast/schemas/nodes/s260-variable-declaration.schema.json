@@ -5,7 +5,7 @@
   "description": "VariableDeclaration AST 节点 (SyntaxKind: 260)",
   "allOf": [
     {
-      "$ref": "../base/base-typed-node"
+      "$ref": "base-node"
     },
     {
       "type": "object",
@@ -22,13 +22,6 @@
     "category": "nodes",
     "syntaxKind": 260,
     "syntaxName": "VariableDeclaration",
-    "baseType": "BaseTypedNode",
-    "generated": true,
-    "conversion": {
-      "children": {},
-      "properties": {},
-      "fromASTNode": {},
-      "fromTsNode": {}
-    }
+    "baseType": "BaseNode"
   }
 }

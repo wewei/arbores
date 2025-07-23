@@ -5,7 +5,7 @@
   "description": "JsxTextAllWhiteSpaces AST 节点 (SyntaxKind: 13)",
   "allOf": [
     {
-      "$ref": "../base/base-token-node"
+      "$ref": "base-token-node"
     },
     {
       "type": "object",
@@ -22,13 +22,6 @@
     "category": "tokens",
     "syntaxKind": 13,
     "syntaxName": "JsxTextAllWhiteSpaces",
-    "baseType": "BaseTokenNode",
-    "generated": true,
-    "conversion": {
-      "children": {},
-      "properties": {},
-      "fromASTNode": {},
-      "fromTsNode": {}
-    }
+    "baseType": "BaseTokenNode"
   }
 }

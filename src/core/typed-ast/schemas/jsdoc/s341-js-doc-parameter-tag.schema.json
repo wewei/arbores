@@ -5,7 +5,7 @@
   "description": "JSDocParameterTag AST 节点 (SyntaxKind: 341)",
   "allOf": [
     {
-      "$ref": "../base/base-js-doc-node"
+      "$ref": "base-js-doc-node"
     },
     {
       "type": "object",
@@ -22,13 +22,6 @@
     "category": "jsdoc",
     "syntaxKind": 341,
     "syntaxName": "JSDocParameterTag",
-    "baseType": "BaseJSDocNode",
-    "generated": true,
-    "conversion": {
-      "children": {},
-      "properties": {},
-      "fromASTNode": {},
-      "fromTsNode": {}
-    }
+    "baseType": "BaseJSDocNode"
   }
 }

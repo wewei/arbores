@@ -5,7 +5,7 @@
   "description": "OptionalType AST 节点 (SyntaxKind: 190)",
   "allOf": [
     {
-      "$ref": "../base/base-type-node"
+      "$ref": "base-node"
     },
     {
       "type": "object",
@@ -22,13 +22,6 @@
     "category": "types",
     "syntaxKind": 190,
     "syntaxName": "OptionalType",
-    "baseType": "BaseTypeNode",
-    "generated": true,
-    "conversion": {
-      "children": {},
-      "properties": {},
-      "fromASTNode": {},
-      "fromTsNode": {}
-    }
+    "baseType": "BaseNode"
   }
 }

@@ -5,7 +5,7 @@
   "description": "LessThanSlashToken AST 节点 (SyntaxKind: 31)",
   "allOf": [
     {
-      "$ref": "../base/base-token-node"
+      "$ref": "base-token-node"
     },
     {
       "type": "object",
@@ -22,13 +22,6 @@
     "category": "tokens",
     "syntaxKind": 31,
     "syntaxName": "LessThanSlashToken",
-    "baseType": "BaseTokenNode",
-    "generated": true,
-    "conversion": {
-      "children": {},
-      "properties": {},
-      "fromASTNode": {},
-      "fromTsNode": {}
-    }
+    "baseType": "BaseTokenNode"
   }
 }

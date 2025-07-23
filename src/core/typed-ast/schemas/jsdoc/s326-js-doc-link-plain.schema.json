@@ -5,7 +5,7 @@
   "description": "JSDocLinkPlain AST 节点 (SyntaxKind: 326)",
   "allOf": [
     {
-      "$ref": "../base/base-js-doc-node"
+      "$ref": "base-js-doc-node"
     },
     {
       "type": "object",
@@ -22,13 +22,6 @@
     "category": "jsdoc",
     "syntaxKind": 326,
     "syntaxName": "JSDocLinkPlain",
-    "baseType": "BaseJSDocNode",
-    "generated": true,
-    "conversion": {
-      "children": {},
-      "properties": {},
-      "fromASTNode": {},
-      "fromTsNode": {}
-    }
+    "baseType": "BaseJSDocNode"
   }
 }

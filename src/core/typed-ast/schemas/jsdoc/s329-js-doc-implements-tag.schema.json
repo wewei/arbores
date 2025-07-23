@@ -5,7 +5,7 @@
   "description": "JSDocImplementsTag AST 节点 (SyntaxKind: 329)",
   "allOf": [
     {
-      "$ref": "../base/base-js-doc-node"
+      "$ref": "base-js-doc-node"
     },
     {
       "type": "object",
@@ -22,13 +22,6 @@
     "category": "jsdoc",
     "syntaxKind": 329,
     "syntaxName": "JSDocImplementsTag",
-    "baseType": "BaseJSDocNode",
-    "generated": true,
-    "conversion": {
-      "children": {},
-      "properties": {},
-      "fromASTNode": {},
-      "fromTsNode": {}
-    }
+    "baseType": "BaseJSDocNode"
   }
 }

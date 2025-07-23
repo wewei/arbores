@@ -5,7 +5,7 @@
   "description": "StaticKeyword AST 节点 (SyntaxKind: 126)",
   "allOf": [
     {
-      "$ref": "../base/base-token-node"
+      "$ref": "base-token-node"
     },
     {
       "type": "object",
@@ -22,13 +22,6 @@
     "category": "tokens",
     "syntaxKind": 126,
     "syntaxName": "StaticKeyword",
-    "baseType": "BaseTokenNode",
-    "generated": true,
-    "conversion": {
-      "children": {},
-      "properties": {},
-      "fromASTNode": {},
-      "fromTsNode": {}
-    }
+    "baseType": "BaseTokenNode"
   }
 }

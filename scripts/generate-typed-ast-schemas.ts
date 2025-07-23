@@ -121,7 +121,8 @@ function generateSchemaContent(kind: number, syntaxName: string, category: Categ
   const schemaId = `s${kind.toString().padStart(3, '0')}-${pascalCaseToKebabCase(syntaxName)}`;
   const nodeName = `${syntaxName}Node`;
 
-  const baseRef = `../base/${pascalCaseToKebabCase(category.baseType)}`;
+  // 使用 Schema ID 引用而不是文件路径
+  const baseRef = pascalCaseToKebabCase(category.baseType);
 
   const schema = {
     $schema: "http://json-schema.org/draft-07/schema#",
@@ -150,21 +151,7 @@ function generateSchemaContent(kind: number, syntaxName: string, category: Categ
       category: category.name,
       syntaxKind: kind,
       syntaxName: syntaxName,
-      baseType: category.baseType,
-      generated: true,
-      hashing: {
-        algorithm: "SHA-256",
-        includes: ["kind", "children", "properties"],
-        excludes: ["id", "metadata"],
-        note: "节点 ID 通过对节点内容进行 SHA-256 哈希生成，用于去重和缓存"
-      },
-      conversion: {
-        // TODO: 定义转换规则
-        children: {},
-        properties: {},
-        fromASTNode: {},
-        fromTsNode: {}
-      }
+      baseType: category.baseType
     }
   };
 

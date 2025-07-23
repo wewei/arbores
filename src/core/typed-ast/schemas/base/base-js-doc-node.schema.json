@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "base-jsdoc-node",
+  "$id": "base-js-doc-node",
   "title": "Base JSDoc Node",
   "description": "基础 JSDoc 节点，所有文档注释的基类",
   "allOf": [

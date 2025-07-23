@@ -5,7 +5,7 @@
   "description": "ThisType AST 节点 (SyntaxKind: 197)",
   "allOf": [
     {
-      "$ref": "../base/base-type-node"
+      "$ref": "base-node"
     },
     {
       "type": "object",
@@ -22,13 +22,6 @@
     "category": "types",
     "syntaxKind": 197,
     "syntaxName": "ThisType",
-    "baseType": "BaseTypeNode",
-    "generated": true,
-    "conversion": {
-      "children": {},
-      "properties": {},
-      "fromASTNode": {},
-      "fromTsNode": {}
-    }
+    "baseType": "BaseNode"
   }
 }

@@ -5,7 +5,7 @@
   "description": "TypeQuery AST 节点 (SyntaxKind: 186)",
   "allOf": [
     {
-      "$ref": "../base/base-type-node"
+      "$ref": "base-node"
     },
     {
       "type": "object",
@@ -22,13 +22,6 @@
     "category": "types",
     "syntaxKind": 186,
     "syntaxName": "TypeQuery",
-    "baseType": "BaseTypeNode",
-    "generated": true,
-    "conversion": {
-      "children": {},
-      "properties": {},
-      "fromASTNode": {},
-      "fromTsNode": {}
-    }
+    "baseType": "BaseNode"
   }
 }
