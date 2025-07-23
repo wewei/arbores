@@ -3,7 +3,7 @@ Format: markdown
 Parent ID        | Kind | Kind Name               | Text
 ---------------- | ---- | ----------------------- | ----
 f8538355c91441e7 | 261  | VariableDeclarationList | None
-e660bbd0b7acee95 | 243  | FirstStatement          | None
+e660bbd0b7acee95 | 243  | VariableStatement       | None
 e1bc1054054e0e2e | 352  | SyntaxList              | None
 d34879e61c10bc93 | 307  | SourceFile              | None
 Found 4 parent nodes for node 617d70a2fe95ecaa

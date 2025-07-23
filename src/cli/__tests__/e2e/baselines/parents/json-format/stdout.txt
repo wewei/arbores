@@ -10,7 +10,7 @@
     {
       "id": "e660bbd0b7acee95",
       "kind": 243,
-      "kind_name": "FirstStatement",
+      "kind_name": "VariableStatement",
       "text": null
     },
     {

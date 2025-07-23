@@ -1,48 +1,48 @@
 └── SourceFile (307)
     ├── SyntaxList (352)
-    │   ├── FirstStatement (243)
+    │   ├── VariableStatement (243)
     │   │   ├── VariableDeclarationList (261)
-    │   │   │   ├── ConstKeyword (87)                           # const
+    │   │   │   ├── ConstKeyword (87)                      # const
     │   │   │   └── SyntaxList (352)
     │   │   │       └── VariableDeclaration (260)
-    │   │   │           ├── Identifier (80)                     # message
-    │   │   │           ├── ColonToken (59)                     # :
-    │   │   │           ├── StringKeyword (154)                 # string
-    │   │   │           ├── FirstAssignment (64)                # =
-    │   │   │           └── StringLiteral (11)                  # "Hello, Wor...
-    │   │   └── SemicolonToken (27)                             # ;
+    │   │   │           ├── Identifier (80)                # message
+    │   │   │           ├── ColonToken (59)                # :
+    │   │   │           ├── StringKeyword (154)            # string
+    │   │   │           ├── EqualsToken (64)               # =
+    │   │   │           └── StringLiteral (11)             # "Hello, World!"
+    │   │   └── SemicolonToken (27)                        # ;
     │   ├── FunctionDeclaration (262)
-    │   │   ├── FunctionKeyword (100)                           # function
-    │   │   ├── Identifier (80)                                 # greet
-    │   │   ├── OpenParenToken (21)                             # (
+    │   │   ├── FunctionKeyword (100)                      # function
+    │   │   ├── Identifier (80)                            # greet
+    │   │   ├── OpenParenToken (21)                        # (
     │   │   ├── SyntaxList (352)
     │   │   │   └── Parameter (169)
-    │   │   │       ├── Identifier (80)                         # name
-    │   │   │       ├── ColonToken (59)                         # :
-    │   │   │       └── StringKeyword (154)                     # string
-    │   │   ├── CloseParenToken (22)                            # )
-    │   │   ├── ColonToken (59)                                 # :
-    │   │   ├── StringKeyword (154)                             # string
+    │   │   │       ├── Identifier (80)                    # name
+    │   │   │       ├── ColonToken (59)                    # :
+    │   │   │       └── StringKeyword (154)                # string
+    │   │   ├── CloseParenToken (22)                       # )
+    │   │   ├── ColonToken (59)                            # :
+    │   │   ├── StringKeyword (154)                        # string
     │   │   └── Block (241)
-    │   │       ├── FirstPunctuation (19)                       # {
+    │   │       ├── OpenBraceToken (19)                    # {
     │   │       ├── SyntaxList (352)
     │   │       │   └── ReturnStatement (253)
-    │   │       │       ├── ReturnKeyword (107)                 # return
+    │   │       │       ├── ReturnKeyword (107)            # return
     │   │       │       ├── TemplateExpression (228)
-    │   │       │       │   ├── TemplateHead (16)               # `Hello, ${
+    │   │       │       │   ├── TemplateHead (16)          # `Hello, ${
     │   │       │       │   └── SyntaxList (352)
     │   │       │       │       └── TemplateSpan (239)
-    │   │       │       │           ├── Identifier (80)         # name
-    │   │       │       │           └── LastTemplateToken (18)  # }!`
-    │   │       │       └── SemicolonToken (27)                 # ;
-    │   │       └── CloseBraceToken (20)                        # }
+    │   │       │       │           ├── Identifier (80)    # name
+    │   │       │       │           └── TemplateTail (18)  # }!`
+    │   │       │       └── SemicolonToken (27)            # ;
+    │   │       └── CloseBraceToken (20)                   # }
     │   └── ExportDeclaration (278)
-    │       ├── ExportKeyword (95)                              # export
+    │       ├── ExportKeyword (95)                         # export
     │       ├── NamedExports (279)
-    │       │   ├── FirstPunctuation (19)                       # {
+    │       │   ├── OpenBraceToken (19)                    # {
     │       │   ├── SyntaxList (352)
     │       │   │   └── ExportSpecifier (281)
-    │       │   │       └── Identifier (80)                     # greet
-    │       │   └── CloseBraceToken (20)                        # }
-    │       └── SemicolonToken (27)                             # ;
+    │       │   │       └── Identifier (80)                # greet
+    │       │   └── CloseBraceToken (20)                   # }
+    │       └── SemicolonToken (27)                        # ;
     └── EndOfFileToken (1)

@@ -6,7 +6,7 @@ parents:
     text: null
   - id: e660bbd0b7acee95
     kind: 243
-    kind_name: FirstStatement
+    kind_name: VariableStatement
     text: null
   - id: e1bc1054054e0e2e
     kind: 352
