@@ -56,37 +56,44 @@ All code generation scripts must follow these standards:
 
 ```
 scripts/
-  ├── generate-syntax-kind-names.ts     # SyntaxKind analysis
-  ├── generate-ast-schemas.ts           # JSON schema generation
-  ├── generate-ast-types.ts             # TypeScript types from schemas
-  └── generate-ast-converters.ts        # Conversion functions
+  ├── generate-syntax-kind-names.ts         # Legacy SyntaxKind name mapping
+  ├── generate-syntax-kind-analysis.ts      # ✅ Enhanced SyntaxKind analyzer
+  ├── generate-ast-schemas.ts               # JSON schema generation (TODO)
+  ├── generate-ast-types.ts                 # TypeScript types from schemas (TODO)
+  └── generate-ast-converters.ts            # Conversion functions (TODO)
   
 src/core/
-  ├── syntax-kind-names.ts              # Generated: SyntaxKind mappings
-  ├── ast-schemas.ts                    # Generated: JSON schemas
-  ├── ast-types.ts                      # Generated: TypeScript types
-  └── ast-converters.ts                 # Generated: Conversion functions
+  ├── syntax-kind-names.ts                  # ✅ Generated: SyntaxKind mappings & groups
+  ├── syntax-kind-names.json                # ✅ Generated: Simple name mapping
+  ├── syntax-kind-analysis.json             # ✅ Generated: Complete analysis data
+  ├── ast-schemas.ts                        # Generated: JSON schemas (TODO)
+  ├── ast-types.ts                          # Generated: TypeScript types (TODO)
+  └── ast-converters.ts                     # Generated: Conversion functions (TODO)
 
 docs/
-  ├── ast-schema-design.md              # This document
-  └── syntax-kind-analysis.md           # SyntaxKind group analysis
+  ├── ast-schema-design.md                  # This document
+  ├── syntax-kind-analysis.md               # SyntaxKind group analysis
+  └── syntax-kind-ruler.md                  # ✅ Generated: Group visualization
 ```
 
 ## Implementation Roadmap
 
-### Phase 1: Foundation
-1. **SyntaxKind Analysis Script**
-   - Parse TypeScript SyntaxKind enum
-   - Identify boundary markers (FirstXxx/LastXxx)
-   - Generate group analysis and ruler visualization
-   - Output clean data structures without processing functions
+### Phase 1: Foundation ✅ COMPLETED
+1. **SyntaxKind Analysis Script** ✅
+   - ✅ Parse TypeScript SyntaxKind enum
+   - ✅ Identify boundary markers (FirstXxx/LastXxx)
+   - ✅ Generate group analysis and ruler visualization
+   - ✅ Output clean data structures without processing functions
+   - ✅ Enhanced analysis with 13 identified groups
+   - ✅ Generated comprehensive documentation and visualizations
 
-2. **Documentation**
-   - Complete SyntaxKind group analysis
-   - Document shared characteristics of each group
-   - Establish naming conventions
+2. **Documentation** ✅
+   - ✅ Complete SyntaxKind group analysis
+   - ✅ Document shared characteristics of each group
+   - ✅ Establish naming conventions
+   - ✅ Generated ruler visualization and group details
 
-### Phase 2: Schema Generation
+### Phase 2: Schema Generation 🚧 IN PROGRESS
 1. **JSON Schema Development**
    - Create base schema for common AST node properties
    - Define group-specific schemas based on SyntaxKind analysis
