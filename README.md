@@ -1,16 +1,15 @@
-# Arbores
+# Arbores - TypeScript AST 工具项目
 
-High-performance TypeScript AST parser and code generator with complete syntax support.
+高性能的 TypeScript AST 处理和转换工具，提供完整的语法支持和代码生成能力。
 
-## 🎉 Version 0.0.3 Highlights
+## 🎉 最新进展
 
-- ✅ **Complete TypeScript Support**: 95% of modern TypeScript syntax supported
-- ✅ **Advanced Features**: Constructor parameter modifiers, type guards, conditional types
-- ✅ **Full AST Round-trip**: Parse TypeScript → AST → Generate TypeScript
-- ✅ **Production Ready**: Successfully handles complex TypeScript codebases
-- ✅ **Refactored Architecture**: Clean separation of concerns with core API and CLI layers
-- ✅ **Functional Design**: Pure functions with Result<T> error handling
-- ✅ **CLI Refactor Complete**: Modular command structure with improved usability
+- ✅ **核心 AST 处理** - 完整的 TypeScript 解析、查询和字符串化功能
+- ✅ **命令行工具** - 模块化的 CLI 命令结构
+- ✅ **语法分析增强** - 基于 YAML 的 SyntaxKind 数据管理
+- ✅ **测试完善** - 162 项测试通过，包括往返一致性测试
+- 🚧 **BNF 模型系统** - 正在开发基于 BNF 的语法规则建模
+- 🚧 **类型化转换器** - ts.Node 到 BNF 语法树的转换能力
 
 ## 🏗️ Architecture
 
@@ -301,11 +300,40 @@ bun run scripts/analyze-dead-code.ts --roots "src/main.ts,src/cli/index.ts"
 - ✅ **Modular CLI**: Commands organized into separate modules
 - ✅ **Dead Code Cleanup**: Removed unused files and improved code organization
 - ✅ **Enhanced Documentation**: Updated architecture and API design docs
+- ✅ **YAML Data Structure**: Migrated from TypeScript to YAML for syntax kind data
+- ✅ **Syntax Analysis**: Enhanced SyntaxKind analysis with grouping and metadata
+- 🚧 **BNF Model System**: In development - syntax rule modeling with BNF
 
 ### Previous Versions
 
 - **v0.0.2**: Advanced TypeScript syntax support (95% coverage)
 - **v0.0.1**: Basic AST parsing and code generation
+
+## 🛣️ 发展路线图
+
+### 当前阶段: BNF 模型系统开发
+按照 [BNF 模型实施规划](docs/bnf-model-implementation-plan.md) 执行：
+
+1. **Phase 1**: 核心 BNF 模型基础设施 (3.5天)
+2. **Phase 2**: 命令行工具开发 (2天)  
+3. **Phase 3**: TypeScript 语言支持 (4天)
+4. **Phase 4**: TypeScript 转换器 (2天)
+5. **Phase 5**: 集成与测试 (4天)
+
+详细任务跟踪: [BNF 模型任务清单](docs/bnf-model-tasks.md)
+
+### 未来规划
+- 多语言支持 (JavaScript, Python)
+- 增量解析优化
+- 可视化工具开发
+- VS Code 扩展
+
+## 🤝 贡献指南
+
+1. **开发环境**: 使用 Bun 运行时
+2. **代码风格**: TypeScript 严格模式
+3. **测试要求**: 新功能需包含测试
+4. **文档更新**: 重要更改需更新相关文档
 
 ## License
 
