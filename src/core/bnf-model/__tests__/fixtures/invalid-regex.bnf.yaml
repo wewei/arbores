@@ -1,0 +1,10 @@
+name: InvalidRegex
+version: 1.0.0
+start: BadToken
+
+nodes:
+  BadToken:
+    type: token
+    description: Token with invalid regex pattern
+    pattern:
+      regex: "[invalid regex"  # Missing closing bracket

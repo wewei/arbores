@@ -17,15 +17,16 @@
 - **预计耗时**: 0.5天
 - **注意**: 探索性开发，不强制时间要求
 
-#### 1.2 模型验证器
-- **文件**: `src/core/bnf-model/validator.ts`
+#### 1.2 BNF 模型解析器
+- **文件**: `src/core/bnf-model/bnf-parser.ts`
 - **功能**:
+  - 实现 `parseBNF<M>(input: any)` 函数，从 JSON/YAML 解析的 object 验证并转换为 BNFModel<M>
+  - 返回类型: `{ success: true, bnf: BNFModel<M>, warnings?: string[] } | { success: false, errors: string[], warnings?: string[] }`
   - 验证 BNF 模型的完整性和正确性
   - 检查节点类型、引用关系、循环依赖
   - 验证 Token 模式、正则表达式的有效性
   - 检查 DeductionElement 的属性命名规范
-- **预计耗时**: 1天
-- **注意**: 探索性开发，重在模型正确性
+- **注意**: 探索性开发，重在类型安全的解析和验证
 
 #### 1.3 语法树生成器
 - **文件**: `src/core/bnf-model/generator.ts`
@@ -136,7 +137,7 @@
 ┌─────────────────────────────────────────────────────────────┐
 │                    BNF Model Core                          │
 ├─────────────────────────────────────────────────────────────┤
-│  types.ts          │  validator.ts     │  generator.ts      │
+│  types.ts          │  bnf-parser.ts    │  generator.ts      │
 │  └─ Basic Types    │  └─ Validation    │  └─ Code Gen       │
 └─────────────────────────────────────────────────────────────┘
                                 │
@@ -178,7 +179,7 @@ graph TD
     C --> D
     D --> E[Phase 5: Integration & Testing]
     
-    A1[1.1 Type Definitions] --> A2[1.2 Validator]
+    A1[1.1 Type Definitions] --> A2[1.2 BNF Parser]
     A2 --> A3[1.3 Generator]
     
     B1[2.1 Stringify Generator] --> B2[2.2 CLI Scripts]

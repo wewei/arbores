@@ -6,16 +6,22 @@
 ## 📋 任务进度跟踪
 
 ### Phase 1: 核心 BNF 模型基础设施
-- [ ] **1.1 核心类型定义** (`src/core/bnf-model/types.ts`) 
-  - [ ] BaseNode, TokenNode, DeductionNode, UnionNode 类型
-  - [ ] TokenPattern, DeductionElement 辅助类型  
-  - [ ] BNFModel 根类型
+- [x] **1.1 核心类型定义** (`src/core/bnf-model/types.ts`) *(已完成)*
+  - [x] BaseNode, TokenNode, DeductionNode, UnionNode 类型
+  - [x] TokenPattern, DeductionElement 辅助类型  
+  - [x] BNFModel 根类型
+  - [x] TypeScript 元数据支持
+  - [x] 代码生成相关类型
   
-- [ ] **1.2 模型验证器** (`src/core/bnf-model/validator.ts`)
-  - [ ] BNF 模型完整性验证
-  - [ ] 节点类型和引用关系检查
-  - [ ] Token 模式和正则表达式验证
-  - [ ] DeductionElement 属性命名检查
+- [x] **1.2 BNF 模型解析器** (`src/core/bnf-model/bnf-parser.ts`) *(已完成)*
+  - [x] BNF 模型类型安全解析
+  - [x] `parseBNF<M>()` 函数实现 (输入: any, 输出: 成功/失败结果)
+  - [x] 节点类型和引用关系检查
+  - [x] Token 模式和正则表达式验证
+  - [x] DeductionElement 属性命名检查
+  - [x] JSON/YAML 输入支持
+  - [x] 移除循环依赖检测 (BNF 中递归引用是合法的)
+  - [x] 完整的测试覆盖 (14 个测试用例全部通过)
   
 - [ ] **1.3 语法树生成器** (`src/core/bnf-model/generator.ts`)
   - [ ] TypeScript 类型定义生成
@@ -136,6 +142,22 @@
 - 📅 下周计划: [任务列表]
 ```
 
+## 📈 最新进度报告
+
+### 2025-07-25 进度更新
+- ✅ **已完成**: 
+  - Phase 1.1: 核心类型定义 (types.ts) - 完整的 BNF 模型类型系统
+  - Phase 1.2: BNF 模型解析器 (bnf-parser.ts) - 类型安全的解析和验证
+  - 测试基础设施: 14 个测试用例全部通过，支持 YAML/JSON fixture
+  - 移除了过于严格的循环依赖检测，支持合法的语法递归
+
+- 🔄 **进行中**: 
+  - Phase 1.3: 语法树生成器 - 准备开始实现
+
+- 📅 **下期计划**: 
+  - 完成 Phase 1.3: 实现 TypeScript 类型定义生成器
+  - 开始 Phase 2.1: 字符串化生成器 (CLI 工具的前置条件)
+
 ## 🎯 开发重点
 
 ### 关键原则
@@ -152,5 +174,5 @@
 - **Phase 5**: 通过完整的测试和文档验证
 
 ---
-*最后更新: 2025-07-25*  
+*最后更新: 2025-07-25 - Phase 1.2 BNF 解析器完成*  
 *开发方法: Vibe Coding - 探索性质量驱动开发*

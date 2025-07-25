@@ -1,0 +1,17 @@
+name: InvalidPropNames
+version: 1.0.0
+start: Expression
+
+nodes:
+  Identifier:
+    type: token
+    description: Identifier token
+    pattern:
+      regex: "[a-z]+"
+
+  Expression:
+    type: deduction
+    description: Expression with invalid property name
+    sequence:
+      - node: Identifier
+        prop: Invalid_Name  # Should be camelCase

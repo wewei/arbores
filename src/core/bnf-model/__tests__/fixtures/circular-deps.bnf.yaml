@@ -1,0 +1,18 @@
+name: CircularDeps
+version: 1.0.0
+start: NodeA
+
+nodes:
+  NodeA:
+    type: deduction
+    description: Node A that references Node B
+    sequence:
+      - node: NodeB
+        prop: b
+
+  NodeB:
+    type: deduction
+    description: Node B that references Node A (circular)
+    sequence:
+      - node: NodeA
+        prop: a

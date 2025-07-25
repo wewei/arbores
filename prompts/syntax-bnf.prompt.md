@@ -8,7 +8,7 @@
 - BNF 核心逻辑
   - `src/core/bnf-model/`: 实现 BNF 模型的核心逻辑。
   - `src/core/bnf-model/types.ts`: 定义 BNF 模型的 TypeScript 类型。
-  - `src/core/bnf-model/validator.ts`: BNF 模型的验证器，检查模型的正确性。
+  - `src/core/bnf-model/bnf-parser.ts`: BNF 模型的解析器，从 JSON/YAML 输入解析和验证模型。
   - `src/core/bnf-model/generator.ts`: BNF 模型的代码生成器，生成 TypeScript 语法树节点。
 - TypeScript 语言支持
   - `src/core/languages/typescript/`: TypeScript 语言的 BNF 模型实现
