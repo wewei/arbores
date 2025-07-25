@@ -32,7 +32,7 @@
   - [x] 可配置的命名约定和文档生成
   - [x] 完整的测试覆盖 (12 个测试用例 + 演示脚本验证)
 
-### Phase 2: 命令行工具开发  
+### Phase 2: 命令行工具开发 ✅ (已完成) 
 - [x] **2.1 字符串化生成器** (`src/core/bnf-model/stringifier-generator.ts`) *(已完成)*
   - [x] 递归代码字符串化函数生成
   - [x] Token 和 Deduction 节点输出逻辑
@@ -47,13 +47,45 @@
   - [x] `validate` 子命令实现
   - [x] `generate schema` 子命令实现  
   - [x] `generate stringifier` 子命令实现 (依赖 2.1 - ✅ 已完成)
+  - [x] `generate parser` 子命令集成 (依赖 3.1 - 🔄 待实现)
   - [x] package.json 脚本注册
   - [x] 完整的 commander.js 帮助信息
   - [x] 彩色输出和详细错误处理
   - [x] 支持 JSON/YAML 输入格式
   - [x] 默认输出到 stdout，-o 参数写入文件
+  - [x] **重命名完成**: stringify → stringifier 保持与 parser 的命名一致性
 
-### Phase 3: TypeScript 语言支持
+### Phase 3: PEG.js 语法解析器开发 (第三阶段)
+- [ ] **3.1 BNF 模型到 PEG.js 语法转换器** (`src/core/bnf-model/peg-generator.ts`)
+  - [ ] 从 BNF Model 生成 PEG.js 语法文件内容
+  - [ ] 转换 TokenNode → PEG.js Token 规则 (支持字符串和正则表达式)
+  - [ ] 转换 DeductionNode → PEG.js 序列规则 (处理属性映射)
+  - [ ] 转换 UnionNode → PEG.js 选择规则 (优先级处理)
+  - [ ] 处理左递归问题 (转换为右递归或迭代)
+  - [ ] 嵌入 AST 构造代码 (生成符合我们类型定义的节点)
+  - [ ] **注意**: 核心转换逻辑，需要处理 PEG.js 的特殊限制
+
+- [ ] **3.2 解析器生成与包装** (`src/core/parsers/parser-wrapper.ts`)
+  - [ ] 调用 PEG.js 编译器生成 JavaScript 解析器模块
+  - [ ] 包装生成的解析器为统一的 API 接口
+  - [ ] 实现错误处理和友好的错误消息
+  - [ ] 提供类型安全的解析结果
+  - [ ] 支持解析选项配置 (起始规则、调试模式等)
+  - [ ] **CLI 集成**: `generate parser` 命令集成到 `scripts/bnf-model.ts`
+  - [ ] **注意**: 重点关注错误处理和类型安全，与 stringifier 形成对应关系
+
+- [ ] **3.3 语言特定解析器生成**
+  - [ ] 基于语言的 BNF 模型自动生成专用解析器
+  - [ ] 为每种语言提供独立的解析器模块 (`src/core/languages/{language}/parser.ts`)
+  - [ ] 生成的 PEG.js 语法文件 (`src/core/languages/{language}/grammar.pegjs`)
+  - [ ] 集成语言特定的 AST 类型定义
+  - [ ] 支持语言特定的解析配置和优化
+  - [ ] 与对应的 stringifier 函数形成完整的 roundtrip 转换链
+  - [ ] **CLI 使用**: `bnf-model generate parser <file> -o <output>`
+  - [ ] **示例**: 为 simple-math 语法生成完整的解析器
+  - [ ] **注意**: 确保生成的解析器性能和准确性，与 stringifier 输出兼容
+
+### Phase 4: TypeScript 语言支持 (第四阶段) - 延后实现
 - [ ] **3.1 TypeScript 语法规则模型** (`src/core/languages/typescript/syntax.bnf.ts`)
   - [ ] **第一步**: 基于所有 SyntaxKind 自动生成 TokenNode 和 DeductionNode 的基础框架
   - [ ] **第二步**: 手工逐步补全和完善语法规则定义
