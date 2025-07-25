@@ -43,11 +43,15 @@
   - [x] 完整的测试覆盖 (17 个测试用例全部通过)
   - [x] 演示脚本验证 (scripts/demo-stringify-generator.ts)
 
-- [ ] **2.2 BNF 模型工具脚本** (`scripts/bnf-model.ts`)
-  - [ ] `validate` 子命令实现
-  - [ ] `generate schema` 子命令实现  
-  - [ ] `generate stringify` 子命令实现 (依赖 2.1 - ✅ 已完成)
-  - [ ] package.json 脚本注册
+- [x] **2.2 BNF 模型工具脚本** (`scripts/bnf-model.ts`) *(已完成)*
+  - [x] `validate` 子命令实现
+  - [x] `generate schema` 子命令实现  
+  - [x] `generate stringify` 子命令实现 (依赖 2.1 - ✅ 已完成)
+  - [x] package.json 脚本注册
+  - [x] 完整的 commander.js 帮助信息
+  - [x] 彩色输出和详细错误处理
+  - [x] 支持 JSON/YAML 输入格式
+  - [x] 默认输出到 stdout，-o 参数写入文件
 
 ### Phase 3: TypeScript 语言支持
 - [ ] **3.1 TypeScript 语法规则模型** (`src/core/languages/typescript/syntax.bnf.ts`)

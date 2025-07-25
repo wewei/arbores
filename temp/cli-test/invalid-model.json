@@ -1,0 +1,12 @@
+{
+  "name": "InvalidModel",
+  "version": "1.0.0",
+  "start": "NonExistent",
+  "nodes": {
+    "TestToken": {
+      "type": "token",
+      "description": "Test token",
+      "pattern": "[invalid regex"
+    }
+  }
+}
