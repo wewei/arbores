@@ -22,36 +22,43 @@
   - [ ] 文件结构管理 (token-types.ts, node/*.ts 等)
   - [ ] 依赖关系和导入语句处理
   - [ ] 常量注册表生成
+  - [ ] **代码质量检查**: 验证生成的 TypeScript 代码语法和类型正确性
 
 ### Phase 2: 命令行工具开发  
-- [ ] **2.1 BNF 模型工具脚本** (`scripts/bnf-model.ts`)
-  - [ ] `validate` 子命令实现
-  - [ ] `generate schema` 子命令实现  
-  - [ ] `generate stringify` 子命令实现
-  - [ ] package.json 脚本注册
-  
-- [ ] **2.2 字符串化生成器** (`src/core/bnf-model/stringify-generator.ts`)
+- [ ] **2.1 字符串化生成器** (`src/core/bnf-model/stringify-generator.ts`) **[优先级高]**
   - [ ] 递归代码字符串化函数生成
   - [ ] Token 和 Deduction 节点输出逻辑
   - [ ] 格式化选项和缩进控制
+  - [ ] **注意**: 这是 2.2 BNF 模型工具脚本中 `generate stringify` 命令的前置条件
+
+- [ ] **2.2 BNF 模型工具脚本** (`scripts/bnf-model.ts`)
+  - [ ] `validate` 子命令实现
+  - [ ] `generate schema` 子命令实现  
+  - [ ] `generate stringify` 子命令实现 (依赖 2.1)
+  - [ ] package.json 脚本注册
 
 ### Phase 3: TypeScript 语言支持
 - [ ] **3.1 TypeScript 语法规则模型** (`src/core/languages/typescript/syntax.bnf.ts`)
+  - [ ] **第一步**: 基于所有 SyntaxKind 自动生成 TokenNode 和 DeductionNode 的基础框架
+  - [ ] **第二步**: 手工逐步补全和完善语法规则定义
   - [ ] Token 定义 (关键字、标识符、字面量)
   - [ ] 语句推导规则
   - [ ] 表达式推导规则  
   - [ ] 声明推导规则
   - [ ] 联合类型定义
   - [ ] SyntaxKind 元数据映射
+  - [ ] **注意**: 生成架子 + 手工补全的混合模式
   
 - [ ] **3.2 自动生成 Schema** (`src/core/languages/typescript/schema/`)
   - [ ] 运行生成器产生类型定义
   - [ ] Token 常量注册表
   - [ ] 优先级和结合性注册表
+  - [ ] **验证**: 确保生成的类型定义质量
   
 - [ ] **3.3 字符串化函数生成** (`src/core/languages/typescript/stringify.ts`)
   - [ ] 自动生成字符串化函数
   - [ ] 格式化和美化输出支持
+  - [ ] **验证**: 确保生成的函数正确性
 
 ### Phase 4: TypeScript 转换器
 - [ ] **4.1 转换器脚本生成** (`scripts/generate-from-ts-node.ts`)  
@@ -65,27 +72,31 @@
   - [ ] SyntaxKind 专用转换函数
 
 ### Phase 5: 集成与测试
-- [ ] **5.1 单元测试** (`src/core/bnf-model/__tests__/`)
+- [ ] **5.1 单元测试** (`src/core/bnf-model/__tests__/`) **[穿插开发]**
   - [ ] BNF 模型验证器测试
   - [ ] 语法树生成器测试
   - [ ] 字符串化函数测试
   - [ ] TypeScript 转换器测试
+  - [ ] **重要**: 不要延迟到最后，在各个核心模块开发过程中同步编写测试
   
-- [ ] **5.2 端到端测试** (`src/core/languages/typescript/__tests__/`)
+- [ ] **5.2 端到端测试** (`src/core/languages/typescript/__tests__/`) **[CLI 功能测试]**
   - [ ] 往返一致性测试
   - [ ] 复杂语法结构测试
   - [ ] 性能基准测试
+  - [ ] CLI 命令端到端测试
+  - [ ] **注意**: 这是 CLI 实现的一部分，不是独立的测试阶段
   
-- [ ] **5.3 文档和示例**
+- [ ] **5.3 文档和示例** **[持续更新]**
   - [ ] BNF 模型使用指南
   - [ ] TypeScript BNF 架构文档
   - [ ] 使用示例和教程
+  - [ ] **注意**: 随开发进度同步更新文档
 
 ## 🏃‍♂️ 快速开始检查清单
 
 开始 Phase 1 之前的准备工作：
 
-- [ ] 创建目录结构
+- [x] 创建目录结构 *(已完成)*
   ```
   src/core/bnf-model/
   src/core/languages/typescript/
@@ -95,19 +106,25 @@
 
 - [ ] 更新 package.json 依赖
   - [ ] 添加 commander (用于 CLI)
-  - [ ] 确保 TypeScript 相关依赖完整
+  - [x] 确保 TypeScript 相关依赖完整 *(已完成)*
 
 - [ ] 建立基础测试结构
-  - [ ] 配置测试框架 (已有 Bun)
+  - [x] 配置测试框架 (已有 Bun) *(已完成)*
   - [ ] 创建测试目录结构
 
 ## 🔄 迭代策略
 
-每个 Phase 完成后：
+### Vibe Coding 方法
+- **探索性开发**: 不设定严格时间限制，重在质量和探索
+- **持续验证**: 每个模块都要确保生成的代码语法和类型正确
+- **TDD 方式**: 单元测试穿插在各个核心模块开发过程中
+- **文档同步**: 重要更改随时更新相关文档
+
+### 每个模块完成后：
 1. 运行现有测试确保不破坏已有功能
-2. 提交代码并打标签 
-3. 更新文档
-4. 进行代码审查
+2. 验证生成的代码质量（语法和类型正确性）
+3. 提交代码并记录进展
+4. 更新相关文档
 
 ## 📊 进度报告模板
 
@@ -119,11 +136,21 @@
 - 📅 下周计划: [任务列表]
 ```
 
-## 🎯 里程碑时间点
+## 🎯 开发重点
 
-- **Week 1**: Phase 1 完成 - 核心 BNF 模型基础设施
-- **Week 2**: Phase 2-3 完成 - 命令行工具 + TypeScript 语法支持  
-- **Week 3**: Phase 4-5 完成 - 转换器 + 测试集成
+### 关键原则
+- **质量优先**: 生成的 TypeScript 代码必须语法和类型正确
+- **混合开发**: Phase 3 采用生成架子 + 手工补全模式
+- **测试驱动**: 单元测试贯穿整个开发过程
+- **依赖管理**: 注意 Phase 2 的开发顺序调整
+
+### 里程碑目标
+- **Phase 1**: 建立可靠的 BNF 模型基础设施
+- **Phase 2**: 完成支持代码生成的命令行工具  
+- **Phase 3**: 实现完整的 TypeScript 语法支持
+- **Phase 4**: 建立 ts.Node 到 BNF 的转换能力
+- **Phase 5**: 通过完整的测试和文档验证
 
 ---
-*最后更新: 2025-07-24*
+*最后更新: 2025-07-25*  
+*开发方法: Vibe Coding - 探索性质量驱动开发*
