@@ -40,13 +40,14 @@
 
 ### Phase 2: 命令行工具开发 (第二阶段)
 
-#### 2.1 代码生成增强 (优先级高)
+#### 2.1 代码生成增强 ✅ (已完成)
 - **文件**: `src/core/bnf-model/stringify-generator.ts`
 - **功能**:
   - 生成递归的代码字符串化函数
   - 处理 Token 和 Deduction 节点的输出逻辑
   - 支持格式化选项和缩进控制
-- **注意**: 这是 2.2 BNF 模型工具脚本中 `generate stringify` 命令的前置条件
+  - 完整的 StringifyGenerator 类实现
+  - 配置选项支持和测试覆盖
 
 #### 2.2 BNF 模型工具脚本
 - **文件**: `scripts/bnf-model.ts`
