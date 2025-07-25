@@ -1,12 +1,12 @@
 /**
- * BNF Model Stringify Generator
+ * BNF Model Stringifier Generator
  * 
  * Generates recursive code stringification functions from BNF models.
  * This is a key component for CLI tools that need to convert BNF syntax trees
  * back to source code with proper formatting and indentation.
  * 
  * Features:
- * - Generate stringify functions for each node type
+ * - Generate stringifier functions for each node type
  * - Handle Token, Deduction, and Union node output logic
  * - Support configurable formatting and indentation
  * - Generate recursive traversal logic
@@ -16,10 +16,10 @@
 import type { BNFModel, BNFNode, TokenNode, DeductionNode, UnionNode } from './types.js';
 
 /**
- * Configuration for stringify function generation
+ * Configuration for stringifier function generation
  */
-export interface StringifyConfig {
-  /** Function name prefix (default: 'stringify') */
+export interface StringifierConfig {
+  /** Function name prefix (default: 'stringifier') */
   functionPrefix?: string;
   /** Indentation style (default: '  ') */
   indentStyle?: string;
@@ -32,9 +32,9 @@ export interface StringifyConfig {
 }
 
 /**
- * Options passed to stringify functions at runtime
+ * Options passed to stringifier functions at runtime
  */
-export interface StringifyOptions {
+export interface StringifierOptions {
   /** Current indentation level */
   indent?: number;
   /** Indentation string (spaces or tabs) */
@@ -55,14 +55,14 @@ export interface StringifyOptions {
 }
 
 /**
- * Result of stringify generation
+ * Result of stringifier generation
  */
-export interface StringifyGenerationResult {
+export interface StringifierGenerationResult {
   /** Whether generation was successful */
   success: boolean;
   /** Generated function code */
   code?: string;
-  /** Type definitions for the stringify functions */
+  /** Type definitions for the stringifier functions */
   types?: string;
   /** Warnings during generation */
   warnings?: string[];
@@ -71,18 +71,18 @@ export interface StringifyGenerationResult {
 }
 
 /**
- * Main generator class for stringify functions
+ * Main generator class for stringifier functions
  */
-export class StringifyGenerator<M = any> {
+export class StringifierGenerator<M = any> {
   private model: BNFModel<M>;
-  private config: StringifyConfig;
+  private config: StringifierConfig;
   private warnings: string[] = [];
   private errors: string[] = [];
 
-  constructor(model: BNFModel<M>, config: StringifyConfig = {}) {
+  constructor(model: BNFModel<M>, config: StringifierConfig = {}) {
     this.model = model;
     this.config = {
-      functionPrefix: 'stringify',
+      functionPrefix: 'stringifier',
       indentStyle: '  ',
       includeWhitespace: true,
       includeFormatting: true,
@@ -91,9 +91,9 @@ export class StringifyGenerator<M = any> {
   }
 
   /**
-   * Generate all stringify functions for the BNF model
+   * Generate all stringifier functions for the BNF model
    */
-  public generate(): StringifyGenerationResult {
+  public generate(): StringifierGenerationResult {
     try {
       this.reset();
 
@@ -107,7 +107,7 @@ export class StringifyGenerator<M = any> {
       }
 
       // Generate function code
-      const code = this.generateStringifyFunctions();
+      const code = this.generatestringifierFunctions();
       const types = this.generateTypeDefinitions();
 
       return {
@@ -121,7 +121,7 @@ export class StringifyGenerator<M = any> {
       const errorMsg = error instanceof Error ? error.message : String(error);
       return {
         success: false,
-        errors: [`Stringify generation failed: ${errorMsg}`],
+        errors: [`stringifier generation failed: ${errorMsg}`],
       };
     }
   }
@@ -152,9 +152,9 @@ export class StringifyGenerator<M = any> {
   }
 
   /**
-   * Generate the main stringify functions
+   * Generate the main stringifier functions
    */
-  private generateStringifyFunctions(): string {
+  private generatestringifierFunctions(): string {
     const parts: string[] = [];
 
     // Add file header
@@ -165,13 +165,13 @@ export class StringifyGenerator<M = any> {
     parts.push(this.generateImports());
     parts.push('');
 
-    // Generate main stringify function
-    parts.push(this.generateMainStringifyFunction());
+    // Generate main stringifier function
+    parts.push(this.generateMainstringifierFunction());
     parts.push('');
 
-    // Generate individual node stringify functions
+    // Generate individual node stringifier functions
     for (const [nodeName, node] of Object.entries(this.model.nodes)) {
-      parts.push(this.generateNodeStringifyFunction(nodeName, node));
+      parts.push(this.generateNodestringifierFunction(nodeName, node));
       parts.push('');
     }
 
@@ -186,7 +186,7 @@ export class StringifyGenerator<M = any> {
    */
   private generateFileHeader(): string {
     return `/**
- * Stringify functions for ${this.model.name} grammar
+ * stringifier functions for ${this.model.name} grammar
  * 
  * Generated from BNF model: ${this.model.name} v${this.model.version}
  * Generation time: ${new Date().toISOString()}
@@ -211,16 +211,16 @@ export class StringifyGenerator<M = any> {
   }
 
   /**
-   * Generate the main stringify function that dispatches to specific node functions
+   * Generate the main stringifier function that dispatches to specific node functions
    */
-  private generateMainStringifyFunction(): string {
+  private generateMainstringifierFunction(): string {
     const functionName = `${this.config.functionPrefix}${this.model.name}`;
     const rootType = this.getNodeTypeName(this.model.start);
 
     return `/**
- * Main stringify function for ${this.model.name} nodes
+ * Main stringifier function for ${this.model.name} nodes
  */
-export function ${functionName}(node: ${rootType}, options: StringifyOptions = {}): string {
+export function ${functionName}(node: ${rootType}, options: StringifierOptions = {}): string {
   const opts = {
     indent: 0,
     indentString: '${this.config.indentStyle}',
@@ -233,9 +233,9 @@ export function ${functionName}(node: ${rootType}, options: StringifyOptions = {
 }
 
 /**
- * Generic node stringify function that dispatches to specific node types
+ * Generic node stringifier function that dispatches to specific node types
  */
-function ${this.config.functionPrefix}Node(node: any, options: StringifyOptions): string {
+function ${this.config.functionPrefix}Node(node: any, options: StringifierOptions): string {
   if (!node || typeof node !== 'object' || !node.type) {
     throw new Error('Invalid node: must have a type property');
   }
@@ -264,19 +264,19 @@ function ${this.config.functionPrefix}Node(node: any, options: StringifyOptions)
   }
 
   /**
-   * Generate stringify function for a specific node
+   * Generate stringifier function for a specific node
    */
-  private generateNodeStringifyFunction(nodeName: string, node: BNFNode): string {
+  private generateNodestringifierFunction(nodeName: string, node: BNFNode): string {
     const functionName = `${this.config.functionPrefix}${nodeName}`;
     const nodeType = this.getNodeTypeName(nodeName);
 
     switch (node.type) {
       case 'token':
-        return this.generateTokenStringifyFunction(functionName, nodeName, nodeType, node as TokenNode);
+        return this.generateTokenstringifierFunction(functionName, nodeName, nodeType, node as TokenNode);
       case 'deduction':
-        return this.generateDeductionStringifyFunction(functionName, nodeName, nodeType, node as DeductionNode);
+        return this.generateDeductionstringifierFunction(functionName, nodeName, nodeType, node as DeductionNode);
       case 'union':
-        return this.generateUnionStringifyFunction(functionName, nodeName, nodeType, node as UnionNode);
+        return this.generateUnionstringifierFunction(functionName, nodeName, nodeType, node as UnionNode);
       default:
         this.errors.push(`Unknown node type for ${nodeName}: ${(node as any).type}`);
         return '';
@@ -284,27 +284,27 @@ function ${this.config.functionPrefix}Node(node: any, options: StringifyOptions)
   }
 
   /**
-   * Generate stringify function for a token node
+   * Generate stringifier function for a token node
    */
-  private generateTokenStringifyFunction(
+  private generateTokenstringifierFunction(
     functionName: string,
     nodeName: string,
     nodeType: string,
     node: TokenNode
   ): string {
     return `/**
- * Stringify ${nodeName} token
+ * stringifier ${nodeName} token
  * ${node.description}
  */
-function ${functionName}(node: ${nodeType}, options: StringifyOptions): string {
+function ${functionName}(node: ${nodeType}, options: StringifierOptions): string {
   return node.value;
 }`;
   }
 
   /**
-   * Generate stringify function for a deduction node
+   * Generate stringifier function for a deduction node
    */
-  private generateDeductionStringifyFunction(
+  private generateDeductionstringifierFunction(
     functionName: string,
     nodeName: string,
     nodeType: string,
@@ -313,10 +313,10 @@ function ${functionName}(node: ${nodeType}, options: StringifyOptions): string {
     const sequenceCode = this.generateSequenceStringification(node);
 
     return `/**
- * Stringify ${nodeName} deduction node
+ * stringifier ${nodeName} deduction node
  * ${node.description}
  */
-function ${functionName}(node: ${nodeType}, options: StringifyOptions): string {
+function ${functionName}(node: ${nodeType}, options: StringifierOptions): string {
   const parts: string[] = [];
   const indent = getIndentation(options);
   
@@ -327,19 +327,19 @@ ${sequenceCode}
   }
 
   /**
-   * Generate stringify function for a union node
+   * Generate stringifier function for a union node
    */
-  private generateUnionStringifyFunction(
+  private generateUnionstringifierFunction(
     functionName: string,
     nodeName: string,
     nodeType: string,
     node: UnionNode
   ): string {
     return `/**
- * Stringify ${nodeName} union node
+ * stringifier ${nodeName} union node
  * ${node.description}
  */
-function ${functionName}(node: ${nodeType}, options: StringifyOptions): string {
+function ${functionName}(node: ${nodeType}, options: StringifierOptions): string {
   // Union nodes delegate to their actual type
   return ${this.config.functionPrefix}Node(node, options);
 }`;
@@ -392,7 +392,7 @@ function ${functionName}(node: ${nodeType}, options: StringifyOptions): string {
     return `/**
  * Get indentation string based on options
  */
-function getIndentation(options: StringifyOptions): string {
+function getIndentation(options: StringifierOptions): string {
   const level = options.indent || 0;
   const indentStr = options.indentString || '${this.config.indentStyle}';
   return indentStr.repeat(level);
@@ -401,7 +401,7 @@ function getIndentation(options: StringifyOptions): string {
 /**
  * Add formatting whitespace if enabled
  */
-function addWhitespace(parts: string[], options: StringifyOptions, type: 'space' | 'newline' = 'space'): void {
+function addWhitespace(parts: string[], options: StringifierOptions, type: 'space' | 'newline' = 'space'): void {
   if (options.format && options.includeWhitespace) {
     if (type === 'newline') {
       parts.push('\\n');
@@ -414,7 +414,7 @@ function addWhitespace(parts: string[], options: StringifyOptions, type: 'space'
 /**
  * Format token output with optional spacing
  */
-function formatToken(value: string, options: StringifyOptions, context?: string): string {
+function formatToken(value: string, options: StringifierOptions, context?: string): string {
   if (!options.format || !options.includeWhitespace) {
     return value;
   }
@@ -429,17 +429,17 @@ function formatToken(value: string, options: StringifyOptions, context?: string)
   }
 
   /**
-   * Generate TypeScript type definitions for the stringify functions
+   * Generate TypeScript type definitions for the stringifier functions
    */
   private generateTypeDefinitions(): string {
     const mainFunctionName = `${this.config.functionPrefix}${this.model.name}`;
     const rootType = this.getNodeTypeName(this.model.start);
 
     return `/**
- * Type definitions for stringify functions
+ * Type definitions for stringifier functions
  */
 
-export interface StringifyOptions {
+export interface StringifierOptions {
   /** Current indentation level */
   indent?: number;
   /** Indentation string (spaces or tabs) */
@@ -460,15 +460,15 @@ export interface StringifyOptions {
 }
 
 /**
- * Main stringify function type
+ * Main stringifier function type
  */
 export type ${this.capitalize(mainFunctionName)}Function = (
   node: ${rootType}, 
-  options?: StringifyOptions
+  options?: StringifierOptions
 ) => string;
 
 /**
- * Export the main stringify function
+ * Export the main stringifier function
  */
 export declare const ${mainFunctionName}: ${this.capitalize(mainFunctionName)}Function;`;
   }
@@ -513,12 +513,12 @@ export declare const ${mainFunctionName}: ${this.capitalize(mainFunctionName)}Fu
 }
 
 /**
- * Convenience function to generate stringify functions
+ * Convenience function to generate stringifier functions
  */
-export function generateStringifyFunctions<M = any>(
+export function generateStringifierFunctions<M = any>(
   model: BNFModel<M>,
-  config: StringifyConfig = {}
-): StringifyGenerationResult {
-  const generator = new StringifyGenerator(model, config);
+  config: StringifierConfig = {}
+): StringifierGenerationResult {
+  const generator = new StringifierGenerator(model, config);
   return generator.generate();
 }

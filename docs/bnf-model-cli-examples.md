@@ -14,7 +14,7 @@ bun scripts/bnf-model.ts --help
 bun scripts/bnf-model.ts validate --help
 bun scripts/bnf-model.ts generate --help
 bun scripts/bnf-model.ts generate schema --help
-bun scripts/bnf-model.ts generate stringify --help
+bun scripts/bnf-model.ts generate Stringifier --help
 ```
 
 ### 2. 使用 package.json 脚本
@@ -83,31 +83,31 @@ temp/generated-schema/
 └── index.ts            # 统一导出文件
 ```
 
-### 生成 Stringify 函数
+### 生成 Stringifier 函数
 
 ```powershell
 # 输出到控制台
-bun scripts/bnf-model.ts generate stringify src/core/bnf-model/__tests__/fixtures/simple-math.bnf.yaml
+bun scripts/bnf-model.ts generate Stringifier src/core/bnf-model/__tests__/fixtures/simple-math.bnf.yaml
 
 # 保存到文件
-bun scripts/bnf-model.ts generate stringify src/core/bnf-model/__tests__/fixtures/simple-math.bnf.yaml -o temp/stringify-functions.ts
+bun scripts/bnf-model.ts generate Stringifier src/core/bnf-model/__tests__/fixtures/simple-math.bnf.yaml -o temp/Stringifier-functions.ts
 
 # 自定义函数前缀
-bun scripts/bnf-model.ts generate stringify src/core/bnf-model/__tests__/fixtures/simple-math.bnf.yaml --function-prefix "render" -o temp/render-functions.ts
+bun scripts/bnf-model.ts generate Stringifier src/core/bnf-model/__tests__/fixtures/simple-math.bnf.yaml --function-prefix "render" -o temp/render-functions.ts
 
 # 自定义缩进风格（Tab）
-bun scripts/bnf-model.ts generate stringify src/core/bnf-model/__tests__/fixtures/simple-math.bnf.yaml --indent-style "\\t" -o temp/stringify-tabs.ts
+bun scripts/bnf-model.ts generate Stringifier src/core/bnf-model/__tests__/fixtures/simple-math.bnf.yaml --indent-style "\\t" -o temp/Stringifier-tabs.ts
 
 # 生成分离的类型定义文件
-bun scripts/bnf-model.ts generate stringify src/core/bnf-model/__tests__/fixtures/simple-math.bnf.yaml -o temp/stringify.ts --types-file
+bun scripts/bnf-model.ts generate Stringifier src/core/bnf-model/__tests__/fixtures/simple-math.bnf.yaml -o temp/Stringifier.ts --types-file
 
 # 禁用格式化选项
-bun scripts/bnf-model.ts generate stringify src/core/bnf-model/__tests__/fixtures/simple-math.bnf.yaml --no-whitespace --no-formatting -o temp/minimal-stringify.ts
+bun scripts/bnf-model.ts generate Stringifier src/core/bnf-model/__tests__/fixtures/simple-math.bnf.yaml --no-whitespace --no-formatting -o temp/minimal-Stringifier.ts
 ```
 
 **生成的文件包含：**
-- 主要的 stringify 函数（如 `stringifySimpleMath`）
-- 每个节点类型的专用函数（如 `stringifyIdentifier`, `stringifyBinaryExpression`）
+- 主要的 Stringifier 函数（如 `StringifierSimpleMath`）
+- 每个节点类型的专用函数（如 `StringifierIdentifier`, `StringifierBinaryExpression`）
 - 工具函数（缩进、格式化等）
 - TypeScript 类型定义
 
@@ -129,12 +129,12 @@ bun ../scripts/bnf-model.ts validate my-grammar.bnf.yaml --verbose
 # 4. 生成 TypeScript 类型定义
 bun ../scripts/bnf-model.ts generate schema my-grammar.bnf.yaml -o generated/types --include-docs
 
-# 5. 生成 stringify 函数
-bun ../scripts/bnf-model.ts generate stringify my-grammar.bnf.yaml -o generated/stringify.ts --types-file
+# 5. 生成 Stringifier 函数
+bun ../scripts/bnf-model.ts generate Stringifier my-grammar.bnf.yaml -o generated/Stringifier.ts --types-file
 
 # 6. 查看生成的文件
 ls generated/
-cat generated/stringify.ts | head -20
+cat generated/Stringifier.ts | head -20
 ```
 
 ### 错误处理示例
@@ -159,11 +159,11 @@ Errors:
 
 ```powershell
 # 使用自定义函数前缀和风格
-bun scripts/bnf-model.ts generate stringify src/core/bnf-model/__tests__/fixtures/simple-math.bnf.yaml \\
+bun scripts/bnf-model.ts generate Stringifier src/core/bnf-model/__tests__/fixtures/simple-math.bnf.yaml \\
   --function-prefix "convert" \\
   --indent-style "    " \\
   --no-whitespace \\
-  -o temp/custom-stringify.ts
+  -o temp/custom-Stringifier.ts
 
 # 生成最小化的 schema（无文档）
 bun scripts/bnf-model.ts generate schema src/core/bnf-model/__tests__/fixtures/simple-math.bnf.yaml \\
@@ -174,7 +174,7 @@ bun scripts/bnf-model.ts generate schema src/core/bnf-model/__tests__/fixtures/s
 
 ```powershell
 # 生成代码并查看前几行
-bun scripts/bnf-model.ts generate stringify src/core/bnf-model/__tests__/fixtures/simple-math.bnf.yaml | Select-Object -First 20
+bun scripts/bnf-model.ts generate Stringifier src/core/bnf-model/__tests__/fixtures/simple-math.bnf.yaml | Select-Object -First 20
 
 # 验证多个文件
 Get-ChildItem "*.bnf.yaml" | ForEach-Object { 

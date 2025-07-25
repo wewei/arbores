@@ -14,7 +14,7 @@ import chalk from 'chalk';
 
 import { parseBNF } from '../src/core/bnf-model/bnf-parser.js';
 import { generateCode, type GenerationConfig } from '../src/core/bnf-model/generator.js';
-import { generateStringifyFunctions, type StringifyConfig } from '../src/core/bnf-model/stringify-generator.js';
+import { generateStringifierFunctions, type StringifierConfig } from '../src/core/bnf-model/stringifier-generator.js';
 import type { BNFModel } from '../src/core/bnf-model/types.js';
 
 const program = new Command();
@@ -185,7 +185,7 @@ program
 // Generate command
 const generateCmd = program
   .command('generate')
-  .description('Generate code from BNF model');
+  .description('Generate code from BNF model (schema, stringify, parser)');
 
 // Generate schema subcommand
 generateCmd
@@ -280,14 +280,14 @@ generateCmd
     }
   });
 
-// Generate stringify subcommand
+// Generate stringifier subcommand
 generateCmd
-  .command('stringify')
-  .description('Generate stringify functions from BNF model')
+  .command('stringifier')
+  .description('Generate stringifier functions from BNF model')
   .argument('<file>', 'Path to BNF model file (.json, .yaml, or .yml)')
-  .option('-o, --output <file>', 'Output file for generated stringify functions (default: stdout)')
+  .option('-o, --output <file>', 'Output file for generated stringifier functions (default: stdout)')
   .option('-c, --clean', 'Clean output file before generation (only for file output)')
-  .option('--function-prefix <prefix>', 'Prefix for generated function names', 'stringify')
+  .option('--function-prefix <prefix>', 'Prefix for generated function names', 'stringifier')
   .option('--indent-style <style>', 'Indentation style for generated code', '  ')
   .option('--no-whitespace', 'Disable whitespace formatting in generated functions')
   .option('--no-formatting', 'Disable advanced formatting options')
@@ -333,14 +333,14 @@ generateCmd
         }
       }
 
-      const config: StringifyConfig = {
+      const config: StringifierConfig = {
         functionPrefix: options.functionPrefix || 'stringify',
         indentStyle: options.indentStyle || '  ',
         includeWhitespace: options.whitespace !== false,
         includeFormatting: options.formatting !== false,
       };
 
-      const stringifyResult = generateStringifyFunctions(parseResult.model, config);
+      const stringifyResult = generateStringifierFunctions(parseResult.model, config);
 
       if (!stringifyResult.success) {
         console.error(chalk.red('❌ Stringify generation failed:'));
@@ -371,6 +371,114 @@ generateCmd
       if (verbose) {
         console.error(chalk.green('✅ Stringify generation completed'));
       }
+    } catch (error: any) {
+      console.error(chalk.red(`❌ Error: ${error?.message || error}`));
+      process.exit(1);
+    }
+  });
+
+// Generate parser subcommand
+generateCmd
+  .command('parser')
+  .description('Generate PEG.js parser from BNF model')
+  .argument('<file>', 'Path to BNF model file (.json, .yaml, or .yml)')
+  .option('-o, --output <file>', 'Output file for generated parser (default: stdout)')
+  .option('-c, --clean', 'Clean output file before generation (only for file output)')
+  .option('--grammar-only', 'Generate only PEG.js grammar file (no compiled parser)')
+  .option('--function-prefix <prefix>', 'Prefix for generated parser functions', 'parse')
+  .option('--no-whitespace', 'Disable automatic whitespace handling in grammar')
+  .option('--no-formatting', 'Disable advanced parsing options')
+  .option('--types-file', 'Generate separate .d.ts file for TypeScript definitions')
+  .option('--start-rule <rule>', 'Override start rule for the parser')
+  .action(async (file: string, options: GlobalOptions & {
+    grammarOnly?: boolean;
+    functionPrefix?: string;
+    whitespace?: boolean;
+    formatting?: boolean;
+    typesFile?: boolean;
+    clean?: boolean;
+    startRule?: string;
+  }, command: any) => {
+    try {
+      // Get global options from parent command
+      const globalOptions = command.parent.opts();
+      const verbose = globalOptions.verbose || options.verbose;
+
+      if (verbose) {
+        console.error(chalk.blue(`🔍 Loading BNF model from: ${file}`));
+      }
+
+      const modelData = loadBNFModel(file);
+      const parseResult = parseBNF(modelData);
+
+      if (!parseResult.success) {
+        console.error(chalk.red('❌ BNF model validation failed:'));
+        parseResult.errors?.forEach(error => console.error(chalk.red(`  - ${error}`)));
+        process.exit(1);
+      }
+
+      if (verbose) {
+        console.error(chalk.blue('🔧 Generating PEG.js parser...'));
+      }
+
+      // Clean output file(s) if requested and output file is specified
+      if (options.clean && options.output) {
+        cleanTarget(options.output, verbose);
+
+        if (options.typesFile) {
+          const baseName = basename(options.output, extname(options.output));
+          const typesPath = join(dirname(options.output), `${baseName}.d.ts`);
+          cleanTarget(typesPath, verbose);
+        }
+      }
+
+      // TODO: Implement PEG.js parser generation
+      // This will be implemented in Phase 3.1
+      console.error(chalk.yellow('⚠️  Parser generation not yet implemented'));
+      console.error(chalk.blue('💡 This feature will be available in Phase 3.1'));
+      console.error(chalk.blue('   Current available commands: validate, generate schema, generate stringify'));
+
+      /*
+      const config: ParserConfig = {
+        functionPrefix: options.functionPrefix || 'parse',
+        startRule: options.startRule || parseResult.model.start,
+        includeWhitespace: options.whitespace !== false,
+        includeFormatting: options.formatting !== false,
+        grammarOnly: options.grammarOnly || false,
+      };
+
+      const parserResult = generateParser(parseResult.model, config);
+
+      if (!parserResult.success) {
+        console.error(chalk.red('❌ Parser generation failed:'));
+        parserResult.errors?.forEach(error => console.error(chalk.red(`  - ${error}`)));
+        process.exit(1);
+      }
+
+      if (options.typesFile && options.output) {
+        // Generate separate .d.ts file
+        const baseName = basename(options.output, extname(options.output));
+        const typesPath = join(dirname(options.output), `${baseName}.d.ts`);
+
+        writeFileSync(options.output, parserResult.code || '', 'utf-8');
+        writeFileSync(typesPath, parserResult.types || '', 'utf-8');
+
+        console.error(chalk.green(`✅ Parser written to: ${options.output}`));
+        console.error(chalk.green(`✅ Type definitions written to: ${typesPath}`));
+      } else {
+        // Single file output
+        const combinedContent = [
+          parserResult.types || '',
+          parserResult.code || ''
+        ].filter(Boolean).join('\n\n');
+
+        outputResult(combinedContent, options, `${parseResult.model.name.toLowerCase()}-parser.ts`);
+      }
+
+      if (verbose) {
+        console.error(chalk.green('✅ Parser generation completed'));
+      }
+      */
     } catch (error: any) {
       console.error(chalk.red(`❌ Error: ${error?.message || error}`));
       process.exit(1);

@@ -33,20 +33,20 @@
   - [x] 完整的测试覆盖 (12 个测试用例 + 演示脚本验证)
 
 ### Phase 2: 命令行工具开发  
-- [x] **2.1 字符串化生成器** (`src/core/bnf-model/stringify-generator.ts`) *(已完成)*
+- [x] **2.1 字符串化生成器** (`src/core/bnf-model/stringifier-generator.ts`) *(已完成)*
   - [x] 递归代码字符串化函数生成
   - [x] Token 和 Deduction 节点输出逻辑
   - [x] 格式化选项和缩进控制
-  - [x] StringifyGenerator 类实现
+  - [x] StringifierGenerator 类实现
   - [x] 主调度函数和类型特定的字符串化函数
   - [x] 配置选项支持 (函数前缀、缩进风格、空格格式化)
   - [x] 完整的测试覆盖 (17 个测试用例全部通过)
-  - [x] 演示脚本验证 (scripts/demo-stringify-generator.ts)
+  - [x] 演示脚本验证 (scripts/demo-stringifier-generator.ts)
 
 - [x] **2.2 BNF 模型工具脚本** (`scripts/bnf-model.ts`) *(已完成)*
   - [x] `validate` 子命令实现
   - [x] `generate schema` 子命令实现  
-  - [x] `generate stringify` 子命令实现 (依赖 2.1 - ✅ 已完成)
+  - [x] `generate stringifier` 子命令实现 (依赖 2.1 - ✅ 已完成)
   - [x] package.json 脚本注册
   - [x] 完整的 commander.js 帮助信息
   - [x] 彩色输出和详细错误处理
@@ -71,7 +71,7 @@
   - [ ] 优先级和结合性注册表
   - [ ] **验证**: 确保生成的类型定义质量
   
-- [ ] **3.3 字符串化函数生成** (`src/core/languages/typescript/stringify.ts`)
+- [ ] **3.3 字符串化函数生成** (`src/core/languages/typescript/stringifier.ts`)
   - [ ] 自动生成字符串化函数
   - [ ] 格式化和美化输出支持
   - [ ] **验证**: 确保生成的函数正确性

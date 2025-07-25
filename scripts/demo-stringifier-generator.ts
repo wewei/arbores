@@ -1,7 +1,7 @@
 #!/usr/bin/env bun
 /**
- * Demo script for BNF stringify generator
- * Shows how to generate stringify functions and test round-trip conversion
+ * Demo script for BNF stringifier generator
+ * Shows how to generate stringifier functions and test round-trip conversion
  */
 
 import { readFileSync, writeFileSync, mkdirSync } from 'fs';
@@ -9,7 +9,7 @@ import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { load as loadYaml } from 'js-yaml';
 import { parseBNF } from '../src/core/bnf-model/bnf-parser.js';
-import { generateStringifyFunctions } from '../src/core/bnf-model/stringify-generator.js';
+import { generatestringifierFunctions } from '../src/core/bnf-model/stringifier-generator.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -19,7 +19,7 @@ const mathGrammarPath = join(__dirname, '../src/core/bnf-model/__tests__/fixture
 const grammarContent = readFileSync(mathGrammarPath, 'utf-8');
 const grammarModel = loadYaml(grammarContent) as any;
 
-console.log('🎯 BNF Stringify Generator Demo');
+console.log('🎯 BNF stringifier Generator Demo');
 console.log('='.repeat(50));
 
 console.log('\n1. Loading BNF grammar model...');
@@ -39,23 +39,23 @@ if (!parseResult.success) {
 
 console.log('✅ BNF model parsed successfully');
 
-console.log('\n3. Generating stringify functions...');
-const stringifyResult = generateStringifyFunctions(parseResult.model, {
-  functionPrefix: 'stringify',
+console.log('\n3. Generating stringifier functions...');
+const stringifierResult = generatestringifierFunctions(parseResult.model, {
+  functionPrefix: 'stringifier',
   indentStyle: '  ',
   includeWhitespace: true,
   includeFormatting: true,
 });
 
-if (!stringifyResult.success) {
-  console.error('❌ Failed to generate stringify functions:');
-  stringifyResult.errors?.forEach(error => console.error(`   - ${error}`));
+if (!stringifierResult.success) {
+  console.error('❌ Failed to generate stringifier functions:');
+  stringifierResult.errors?.forEach(error => console.error(`   - ${error}`));
   process.exit(1);
 }
 
-console.log('✅ Stringify functions generated successfully');
-console.log(`   Generated code: ${stringifyResult.code?.length || 0} chars`);
-console.log(`   Generated types: ${stringifyResult.types?.length || 0} chars`);
+console.log('✅ stringifier functions generated successfully');
+console.log(`   Generated code: ${stringifierResult.code?.length || 0} chars`);
+console.log(`   Generated types: ${stringifierResult.types?.length || 0} chars`);
 
 // Save generated files
 const outputDir = join(__dirname, '../temp');
@@ -69,11 +69,11 @@ try {
     // Directory already exists
   }
 
-  const codeFile = join(outputDir, 'stringify-simple-math.ts');
-  const typesFile = join(outputDir, 'stringify-simple-math.d.ts');
+  const codeFile = join(outputDir, 'stringifier-simple-math.ts');
+  const typesFile = join(outputDir, 'stringifier-simple-math.d.ts');
 
-  writeFileSync(codeFile, stringifyResult.code || '');
-  writeFileSync(typesFile, stringifyResult.types || '');
+  writeFileSync(codeFile, stringifierResult.code || '');
+  writeFileSync(typesFile, stringifierResult.types || '');
 
   console.log(`✅ Code saved to: ${codeFile}`);
   console.log(`✅ Types saved to: ${typesFile}`);
@@ -82,19 +82,19 @@ try {
   process.exit(1);
 }
 
-console.log('\n5. Analyzing generated stringify functions...');
+console.log('\n5. Analyzing generated stringifier functions...');
 
 // Extract function names from generated code
-const functionMatches = stringifyResult.code?.match(/function (stringify\w+)/g) || [];
+const functionMatches = stringifierResult.code?.match(/function (stringifier\w+)/g) || [];
 const functionNames = functionMatches.map(match => match.replace('function ', ''));
 
 console.log(`   Functions generated: ${functionNames.length}`);
 functionNames.forEach(name => console.log(`   - ${name}`));
 
 // Show sample token function
-console.log('\n6. Sample Token Stringify Function:');
-const identifierFunction = stringifyResult.code?.match(
-  /\/\*\*[\s\S]*?\*\/\s*function stringifyIdentifier[\s\S]*?^}/m
+console.log('\n6. Sample Token stringifier Function:');
+const identifierFunction = stringifierResult.code?.match(
+  /\/\*\*[\s\S]*?\*\/\s*function stringifierIdentifier[\s\S]*?^}/m
 )?.[0];
 
 if (identifierFunction) {
@@ -104,9 +104,9 @@ if (identifierFunction) {
 }
 
 // Show sample deduction function
-console.log('\n7. Sample Deduction Stringify Function:');
-const binaryExprFunction = stringifyResult.code?.match(
-  /\/\*\*[\s\S]*?\*\/\s*function stringifyBinaryExpression[\s\S]*?^}/m
+console.log('\n7. Sample Deduction stringifier Function:');
+const binaryExprFunction = stringifierResult.code?.match(
+  /\/\*\*[\s\S]*?\*\/\s*function stringifierBinaryExpression[\s\S]*?^}/m
 )?.[0];
 
 if (binaryExprFunction) {
@@ -117,14 +117,14 @@ if (binaryExprFunction) {
 
 console.log('\n8. Configuration Analysis:');
 console.log('   Default options used:');
-console.log('   - Function prefix: "stringify"');
+console.log('   - Function prefix: "stringifier"');
 console.log('   - Indent style: "  " (2 spaces)');
 console.log('   - Include whitespace: true');
 console.log('   - Include formatting: true');
 
 console.log('\n🎉 Demo completed successfully!');
 console.log('\nNext steps:');
-console.log('1. Import the generated stringify functions in your project');
+console.log('1. Import the generated stringifier functions in your project');
 console.log('2. Use them to convert AST nodes back to source code');
-console.log('3. Test round-trip conversion (parse → stringify → parse)');
+console.log('3. Test round-trip conversion (parse → stringifier → parse)');
 console.log('4. Customize formatting options as needed');

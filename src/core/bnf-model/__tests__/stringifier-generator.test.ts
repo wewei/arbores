@@ -1,5 +1,5 @@
 /**
- * Tests for BNF Stringify Generator
+ * Tests for BNF stringifier Generator
  */
 
 import { describe, it, expect } from 'bun:test';
@@ -8,7 +8,7 @@ import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { load as loadYaml } from 'js-yaml';
 import { parseBNF } from '../bnf-parser.js';
-import { StringifyGenerator, generateStringifyFunctions, type StringifyConfig } from '../stringify-generator.js';
+import { StringifierGenerator, generateStringifierFunctions, type StringifierConfig } from '../stringifier-generator.js';
 import type { BNFModel } from '../types.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -27,23 +27,23 @@ const loadFixture = (filename: string): any => {
   }
 };
 
-describe('BNF Stringify Generator', () => {
-  describe('StringifyGenerator class', () => {
-    it('should generate stringify functions for simple math grammar', () => {
+describe('BNF stringifier Generator', () => {
+  describe('StringifierGenerator class', () => {
+    it('should generate stringifier functions for simple math grammar', () => {
       const input = loadFixture('simple-math.bnf.yaml');
       const parseResult = parseBNF(input);
 
       expect(parseResult.success).toBe(true);
       if (!parseResult.success) return;
 
-      const config: StringifyConfig = {
-        functionPrefix: 'stringify',
+      const config: StringifierConfig = {
+        functionPrefix: 'stringifier',
         indentStyle: '  ',
         includeWhitespace: true,
         includeFormatting: true,
       };
 
-      const generator = new StringifyGenerator(parseResult.model, config);
+      const generator = new StringifierGenerator(parseResult.model, config);
       const result = generator.generate();
 
       expect(result.success).toBe(true);
@@ -52,63 +52,63 @@ describe('BNF Stringify Generator', () => {
       expect(result.types).toBeDefined();
 
       // Check that main function is generated
-      expect(result.code).toContain('export function stringifySimpleMath');
-      expect(result.code).toContain('function stringifyNode');
+      expect(result.code).toContain('export function stringifierSimpleMath');
+      expect(result.code).toContain('function stringifierNode');
 
       // Check that specific node functions are generated
-      expect(result.code).toContain('function stringifyIdentifier');
-      expect(result.code).toContain('function stringifyBinaryExpression');
-      expect(result.code).toContain('function stringifyExpression');
+      expect(result.code).toContain('function stringifierIdentifier');
+      expect(result.code).toContain('function stringifierBinaryExpression');
+      expect(result.code).toContain('function stringifierExpression');
     });
 
-    it('should generate token stringify functions correctly', () => {
+    it('should generate token stringifier functions correctly', () => {
       const input = loadFixture('simple-math.bnf.yaml');
       const parseResult = parseBNF(input);
 
       expect(parseResult.success).toBe(true);
       if (!parseResult.success) return;
 
-      const generator = new StringifyGenerator(parseResult.model);
+      const generator = new StringifierGenerator(parseResult.model);
       const result = generator.generate();
 
       expect(result.success).toBe(true);
-      expect(result.code).toContain('function stringifyIdentifier(node: IdentifierToken');
+      expect(result.code).toContain('function stringifierIdentifier(node: IdentifierToken');
       expect(result.code).toContain('return node.value;');
-      expect(result.code).toContain('function stringifyPlus(node: PlusToken');
-      expect(result.code).toContain('* Stringify Identifier token');
+      expect(result.code).toContain('function stringifierPlus(node: PlusToken');
+      expect(result.code).toContain('* stringifier Identifier token');
     });
 
-    it('should generate deduction stringify functions correctly', () => {
+    it('should generate deduction stringifier functions correctly', () => {
       const input = loadFixture('simple-math.bnf.yaml');
       const parseResult = parseBNF(input);
 
       expect(parseResult.success).toBe(true);
       if (!parseResult.success) return;
 
-      const generator = new StringifyGenerator(parseResult.model);
+      const generator = new StringifierGenerator(parseResult.model);
       const result = generator.generate();
 
       expect(result.success).toBe(true);
-      expect(result.code).toContain('function stringifyBinaryExpression(node: BinaryExpressionNode');
+      expect(result.code).toContain('function stringifierBinaryExpression(node: BinaryExpressionNode');
       expect(result.code).toContain('const parts: string[] = [];');
-      expect(result.code).toContain('parts.push(stringifyNode(node.');
+      expect(result.code).toContain('parts.push(stringifierNode(node.');
       expect(result.code).toContain('return parts.join(\'\');');
     });
 
-    it('should generate union stringify functions correctly', () => {
+    it('should generate union stringifier functions correctly', () => {
       const input = loadFixture('simple-math.bnf.yaml');
       const parseResult = parseBNF(input);
 
       expect(parseResult.success).toBe(true);
       if (!parseResult.success) return;
 
-      const generator = new StringifyGenerator(parseResult.model);
+      const generator = new StringifierGenerator(parseResult.model);
       const result = generator.generate();
 
       expect(result.success).toBe(true);
-      expect(result.code).toContain('function stringifyExpression(node: Expression');
-      expect(result.code).toContain('return stringifyNode(node, options);');
-      expect(result.code).toContain('* Stringify Expression union node');
+      expect(result.code).toContain('function stringifierExpression(node: Expression');
+      expect(result.code).toContain('return stringifierNode(node, options);');
+      expect(result.code).toContain('* stringifier Expression union node');
     });
 
     it('should generate main dispatch function with switch cases', () => {
@@ -118,13 +118,13 @@ describe('BNF Stringify Generator', () => {
       expect(parseResult.success).toBe(true);
       if (!parseResult.success) return;
 
-      const generator = new StringifyGenerator(parseResult.model);
+      const generator = new StringifierGenerator(parseResult.model);
       const result = generator.generate();
 
       expect(result.success).toBe(true);
       expect(result.code).toContain('switch (node.type) {');
       expect(result.code).toContain('case \'Identifier\':');
-      expect(result.code).toContain('return stringifyIdentifier(node, options);');
+      expect(result.code).toContain('return stringifierIdentifier(node, options);');
       expect(result.code).toContain('case \'BinaryExpression\':');
       expect(result.code).toContain('default:');
       expect(result.code).toContain('throw new Error(`Unknown node type: ${node.type}`);');
@@ -137,11 +137,11 @@ describe('BNF Stringify Generator', () => {
       expect(parseResult.success).toBe(true);
       if (!parseResult.success) return;
 
-      const generator = new StringifyGenerator(parseResult.model);
+      const generator = new StringifierGenerator(parseResult.model);
       const result = generator.generate();
 
       expect(result.success).toBe(true);
-      expect(result.code).toContain('function getIndentation(options: StringifyOptions)');
+      expect(result.code).toContain('function getIndentation(options: StringifierOptions)');
       expect(result.code).toContain('function addWhitespace(parts: string[]');
       expect(result.code).toContain('function formatToken(value: string');
       expect(result.code).toContain('indentStr.repeat(level)');
@@ -154,15 +154,15 @@ describe('BNF Stringify Generator', () => {
       expect(parseResult.success).toBe(true);
       if (!parseResult.success) return;
 
-      const generator = new StringifyGenerator(parseResult.model);
+      const generator = new StringifierGenerator(parseResult.model);
       const result = generator.generate();
 
       expect(result.success).toBe(true);
-      expect(result.types).toContain('export interface StringifyOptions');
+      expect(result.types).toContain('export interface StringifierOptions');
       expect(result.types).toContain('indent?: number;');
       expect(result.types).toContain('includeWhitespace?: boolean;');
-      expect(result.types).toContain('export type StringifySimpleMathFunction');
-      expect(result.types).toContain('export declare const stringifySimpleMath');
+      expect(result.types).toContain('export type StringifierSimpleMathFunction');
+      expect(result.types).toContain('export declare const stringifierSimpleMath');
     });
 
     it('should handle custom configuration', () => {
@@ -172,14 +172,14 @@ describe('BNF Stringify Generator', () => {
       expect(parseResult.success).toBe(true);
       if (!parseResult.success) return;
 
-      const config: StringifyConfig = {
+      const config: StringifierConfig = {
         functionPrefix: 'render',
         indentStyle: '\t',
         includeWhitespace: false,
         includeFormatting: false,
       };
 
-      const generator = new StringifyGenerator(parseResult.model, config);
+      const generator = new StringifierGenerator(parseResult.model, config);
       const result = generator.generate();
 
       expect(result.success).toBe(true);
@@ -198,19 +198,19 @@ describe('BNF Stringify Generator', () => {
       expect(parseResult.success).toBe(true);
       if (!parseResult.success) return;
 
-      const config: StringifyConfig = {
+      const config: StringifierConfig = {
         typeMapping: {
           'Identifier': 'CustomIdentifierType',
           'BinaryExpression': 'CustomBinaryExprType',
         },
       };
 
-      const generator = new StringifyGenerator(parseResult.model, config);
+      const generator = new StringifierGenerator(parseResult.model, config);
       const result = generator.generate();
 
       expect(result.success).toBe(true);
-      expect(result.code).toContain('function stringifyIdentifier(node: CustomIdentifierType');
-      expect(result.code).toContain('function stringifyBinaryExpression(node: CustomBinaryExprType');
+      expect(result.code).toContain('function stringifierIdentifier(node: CustomIdentifierType');
+      expect(result.code).toContain('function stringifierBinaryExpression(node: CustomBinaryExprType');
     });
 
     it('should validate model before generation', () => {
@@ -221,7 +221,7 @@ describe('BNF Stringify Generator', () => {
         nodes: {},
       };
 
-      const generator = new StringifyGenerator(invalidModel);
+      const generator = new StringifierGenerator(invalidModel);
       const result = generator.generate();
 
       expect(result.success).toBe(false);
@@ -238,19 +238,19 @@ describe('BNF Stringify Generator', () => {
       expect(parseResult.success).toBe(true);
       if (!parseResult.success) return;
 
-      const generator = new StringifyGenerator(parseResult.model);
+      const generator = new StringifierGenerator(parseResult.model);
       const result = generator.generate();
 
       expect(result.success).toBe(true);
 
       // Check that BinaryExpression function handles properties correctly
       const binaryExprFunction = result.code?.match(
-        /function stringifyBinaryExpression[\s\S]*?^}/m
+        /function stringifierBinaryExpression[\s\S]*?^}/m
       )?.[0];
 
       expect(binaryExprFunction).toContain('// Property: left');
       expect(binaryExprFunction).toContain('if (node.left)');
-      expect(binaryExprFunction).toContain('parts.push(stringifyNode(node.left, options));');
+      expect(binaryExprFunction).toContain('parts.push(stringifierNode(node.left, options));');
       expect(binaryExprFunction).toContain('// Property: operator');
       expect(binaryExprFunction).toContain('// Property: right');
     });
@@ -262,11 +262,11 @@ describe('BNF Stringify Generator', () => {
       expect(parseResult.success).toBe(true);
       if (!parseResult.success) return;
 
-      const generator = new StringifyGenerator(parseResult.model);
+      const generator = new StringifierGenerator(parseResult.model);
       const result = generator.generate();
 
       expect(result.success).toBe(true);
-      expect(result.code).toContain('* Stringify functions for SimpleMath grammar');
+      expect(result.code).toContain('* stringifier functions for SimpleMath grammar');
       expect(result.code).toContain('* Generated from BNF model: SimpleMath v1.0.0');
       expect(result.code).toContain('* @fileoverview This file is auto-generated. Do not edit manually.');
       expect(result.code).toContain('import type {');
@@ -274,7 +274,7 @@ describe('BNF Stringify Generator', () => {
     });
   });
 
-  describe('generateStringifyFunctions convenience function', () => {
+  describe('generatestringifierFunctions convenience function', () => {
     it('should work as a convenience wrapper', () => {
       const input = loadFixture('simple-math.bnf.yaml');
       const parseResult = parseBNF(input);
@@ -282,12 +282,12 @@ describe('BNF Stringify Generator', () => {
       expect(parseResult.success).toBe(true);
       if (!parseResult.success) return;
 
-      const result = generateStringifyFunctions(parseResult.model);
+      const result = generateStringifierFunctions(parseResult.model);
 
       expect(result.success).toBe(true);
       expect(result.code).toBeDefined();
       expect(result.types).toBeDefined();
-      expect(result.code).toContain('export function stringifySimpleMath');
+      expect(result.code).toContain('export function stringifierSimpleMath');
     });
 
     it('should accept custom configuration', () => {
@@ -297,12 +297,12 @@ describe('BNF Stringify Generator', () => {
       expect(parseResult.success).toBe(true);
       if (!parseResult.success) return;
 
-      const config: StringifyConfig = {
+      const config: StringifierConfig = {
         functionPrefix: 'print',
         indentStyle: '    ',
       };
 
-      const result = generateStringifyFunctions(parseResult.model, config);
+      const result = generateStringifierFunctions(parseResult.model, config);
 
       expect(result.success).toBe(true);
       expect(result.code).toContain('export function printSimpleMath');
@@ -325,10 +325,10 @@ describe('BNF Stringify Generator', () => {
         },
       };
 
-      const result = generateStringifyFunctions(model);
+      const result = generateStringifierFunctions(model);
 
       expect(result.success).toBe(true);
-      expect(result.code).toContain('function stringifyOnlyToken(node: OnlyTokenToken');
+      expect(result.code).toContain('function stringifierOnlyToken(node: OnlyTokenToken');
       expect(result.code).toContain('return node.value;');
     });
 
@@ -356,11 +356,11 @@ describe('BNF Stringify Generator', () => {
         },
       };
 
-      const result = generateStringifyFunctions(model);
+      const result = generateStringifierFunctions(model);
 
       expect(result.success).toBe(true);
-      expect(result.code).toContain('function stringifyMainUnion(node: MainUnion');
-      expect(result.code).toContain('return stringifyNode(node, options);');
+      expect(result.code).toContain('function stringifierMainUnion(node: MainUnion');
+      expect(result.code).toContain('return stringifierNode(node, options);');
     });
 
     it('should handle generation errors gracefully', () => {
@@ -378,7 +378,7 @@ describe('BNF Stringify Generator', () => {
         },
       } as unknown as BNFModel;
 
-      const generator = new StringifyGenerator(model);
+      const generator = new StringifierGenerator(model);
       const result = generator.generate();
 
       expect(result.success).toBe(false);
