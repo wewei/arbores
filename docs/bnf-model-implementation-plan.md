@@ -15,6 +15,7 @@
   - 定义 `TokenPattern`, `DeductionElement` 等辅助类型
   - 定义 `BNFModel<M>` 根类型
 - **预计耗时**: 0.5天
+- **注意**: 探索性开发，不强制时间要求
 
 #### 1.2 模型验证器
 - **文件**: `src/core/bnf-model/validator.ts`
@@ -24,6 +25,7 @@
   - 验证 Token 模式、正则表达式的有效性
   - 检查 DeductionElement 的属性命名规范
 - **预计耗时**: 1天
+- **注意**: 探索性开发，重在模型正确性
 
 #### 1.3 语法树生成器
 - **文件**: `src/core/bnf-model/generator.ts`
@@ -32,38 +34,40 @@
   - 生成 Token 类型、Deduction 对象类型、Union 联合类型
   - 输出文件结构管理 (`token-types.ts`, `node/*.ts`, 常量文件等)
   - 处理依赖关系和导入语句
-- **预计耗时**: 2天
+  - **代码质量检查**: 验证生成的 TypeScript 代码语法和类型正确性
+- **注意**: 探索性开发，重点在于代码质量而非时间进度
 
 ### Phase 2: 命令行工具开发 (第二阶段)
 
-#### 2.1 BNF 模型工具脚本
-- **文件**: `scripts/bnf-model.ts`
-- **子命令**:
-  - `validate`: 验证 BNF 模型正确性
-  - `generate schema`: 生成 TypeScript 类型定义
-  - `generate stringify`: 生成字符串化函数
-- **集成**: 注册到 `package.json` 脚本
-- **预计耗时**: 1天
-
-#### 2.2 代码生成增强
+#### 2.1 代码生成增强 (优先级高)
 - **文件**: `src/core/bnf-model/stringify-generator.ts`
 - **功能**:
   - 生成递归的代码字符串化函数
   - 处理 Token 和 Deduction 节点的输出逻辑
   - 支持格式化选项和缩进控制
-- **预计耗时**: 1天
+- **注意**: 这是 2.2 BNF 模型工具脚本中 `generate stringify` 命令的前置条件
+
+#### 2.2 BNF 模型工具脚本
+- **文件**: `scripts/bnf-model.ts`
+- **子命令**:
+  - `validate`: 验证 BNF 模型正确性
+  - `generate schema`: 生成 TypeScript 类型定义
+  - `generate stringify`: 生成字符串化函数 (依赖 2.1)
+- **集成**: 注册到 `package.json` 脚本
 
 ### Phase 3: TypeScript 语言支持 (第三阶段)
 
 #### 3.1 TypeScript 语法规则模型
 - **文件**: `src/core/languages/typescript/syntax.bnf.ts`
 - **内容**:
-  - 手工编写 TypeScript 核心语法的 BNF 规则
+  - **分阶段实现**: 生成架子 + 手工补全的混合模式
+  - **第一步**: 基于所有 SyntaxKind 自动生成 TokenNode 和 DeductionNode 的基础框架
+  - **第二步**: 手工逐步补全和完善语法规则定义
   - 包含 Token 定义 (关键字、标识符、字面量等)
   - 包含语句、表达式、声明的推导规则
   - 包含联合类型定义 (如 Statement, Expression 等)
   - 添加 SyntaxKind 元数据映射
-- **预计耗时**: 3天
+- **注意**: 探索性开发，重在质量和准确性
 
 #### 3.2 自动生成 Schema 和类型
 - **文件**: `src/core/languages/typescript/schema/`
@@ -71,7 +75,7 @@
   - 运行生成器产生的 TypeScript 类型定义
   - Token 常量、优先级、结合性注册表
   - 完整的导出索引文件
-- **预计耗时**: 0.5天 (自动生成)
+- **注意**: 自动生成，需要验证输出质量
 
 #### 3.3 字符串化函数生成
 - **文件**: `src/core/languages/typescript/stringify.ts`
@@ -79,7 +83,7 @@
   - 从生成的语法树节点重新构造 TypeScript 代码
   - 支持格式化和美化输出
   - 处理空白、注释的保留
-- **预计耗时**: 0.5天 (自动生成)
+- **注意**: 自动生成，需要验证输出质量
 
 ### Phase 4: TypeScript 转换器 (第四阶段)
 
@@ -89,7 +93,7 @@
   - 基于 BNF 模型和元数据生成转换函数
   - 创建 `ts.Node` → BNF 语法树的映射
   - 实现递归转换逻辑和查表函数
-- **预计耗时**: 1.5天
+- **注意**: 探索性开发，重在转换准确性
 
 #### 4.2 转换器实现
 - **文件**: `src/core/languages/typescript/fromTsNode/`
@@ -97,33 +101,34 @@
   - 自动生成的转换函数集合
   - 通用节点转换器 (switch-case 查表)
   - 每个 SyntaxKind 对应的专用转换函数
-- **预计耗时**: 0.5天 (自动生成)
+- **注意**: 自动生成，需要验证转换正确性
 
 ### Phase 5: 集成与测试 (第五阶段)
 
-#### 5.1 单元测试
+#### 5.1 单元测试 (穿插开发)
 - **文件**: `src/core/bnf-model/__tests__/`
 - **覆盖**:
   - BNF 模型验证器测试
   - 语法树生成器测试
   - 字符串化函数测试
   - TypeScript 转换器测试
-- **预计耗时**: 2天
+- **注意**: **不要延迟到最后**，在各个核心模块开发过程中同步编写测试
 
-#### 5.2 端到端测试
-- **文件**: `src/core/languages/typescript/__tests__/`
+#### 5.2 端到端测试 (CLI 功能测试)
+- **文件**: `src/core/languages/typescript/__tests__/` 和 CLI 测试
 - **场景**:
   - TypeScript 代码 → ts.Node → BNF 语法树 → 字符串化
   - 往返一致性测试
   - 复杂语法结构测试
-- **预计耗时**: 1天
+  - CLI 命令端到端测试
+- **注意**: 这是 CLI 实现的一部分，不是独立的测试阶段
 
 #### 5.3 文档和示例
 - **文件**: 
   - `docs/bnf-model-guide.md` - 使用指南
   - `docs/typescript-bnf-schema.md` - TypeScript BNF 架构说明
   - `examples/` - 使用示例
-- **预计耗时**: 1天
+- **注意**: 随开发进度同步更新文档
 
 ## 技术架构图
 
@@ -132,7 +137,7 @@
 │                    BNF Model Core                          │
 ├─────────────────────────────────────────────────────────────┤
 │  types.ts          │  validator.ts     │  generator.ts      │
-│  └─ 基础类型定义      │  └─ 模型验证       │  └─ 代码生成        │
+│  └─ Basic Types    │  └─ Validation    │  └─ Code Gen       │
 └─────────────────────────────────────────────────────────────┘
                                 │
                 ┌───────────────┼───────────────┐
@@ -150,16 +155,16 @@
                     │  TypeScript Support  │
                     ├──────────────────────┤
                     │  syntax.bnf.ts       │
-                    │  └─ 语法规则定义       │
+                    │  └─ Grammar Rules    │
                     │                      │
-                    │  schema/ (生成)       │
-                    │  └─ 类型定义          │
+                    │  schema/ (generated) │
+                    │  └─ Type Definitions │
                     │                      │
-                    │  stringify.ts (生成)  │
-                    │  └─ 字符串化函数       │
+                    │  stringify.ts (gen)  │
+                    │  └─ Code Generator   │
                     │                      │
-                    │  fromTsNode/ (生成)   │
-                    │  └─ 转换函数          │
+                    │  fromTsNode/ (gen)   │
+                    │  └─ Converters       │
                     └──────────────────────┘
 ```
 
@@ -167,21 +172,25 @@
 
 ```mermaid
 graph TD
-    A[Phase 1: 核心 BNF 模型] --> B[Phase 2: 命令行工具]
-    A --> C[Phase 3: TypeScript 语言支持]
-    B --> D[Phase 4: TypeScript 转换器]
+    A[Phase 1: Core BNF Model] --> B[Phase 2: CLI Tools]
+    A --> C[Phase 3: TypeScript Language Support]
+    B --> D[Phase 4: TypeScript Converter]
     C --> D
-    D --> E[Phase 5: 集成与测试]
+    D --> E[Phase 5: Integration & Testing]
     
-    A1[1.1 类型定义] --> A2[1.2 验证器]
-    A2 --> A3[1.3 生成器]
+    A1[1.1 Type Definitions] --> A2[1.2 Validator]
+    A2 --> A3[1.3 Generator]
     
-    B1[2.1 CLI 工具] --> B2[2.2 代码生成增强]
+    B1[2.1 Stringify Generator] --> B2[2.2 CLI Scripts]
     
-    C1[3.1 语法规则] --> C2[3.2 Schema 生成]
-    C2 --> C3[3.3 字符串化生成]
+    C1[3.1 Grammar Rules] --> C2[3.2 Schema Generation]
+    C2 --> C3[3.3 Stringify Generation]
     
-    D1[4.1 转换器脚本] --> D2[4.2 转换器实现]
+    D1[4.1 Converter Scripts] --> D2[4.2 Converter Implementation]
+    
+    E1[5.1 Unit Tests - Continuous]
+    E2[5.2 E2E Tests - Part of CLI]
+    E3[5.3 Documentation - Continuous]
 ```
 
 ## 风险评估与缓解
@@ -220,18 +229,35 @@ graph TD
    - ✅ 转换 1000 行 TypeScript 代码 < 1秒
    - ✅ 内存使用合理，无明显泄漏
 
+## 开发方法与原则
+
+### Vibe Coding 方法
+- **探索性开发**: 项目更多是探索性的，不做严格的时间要求
+- **质量优先**: 重点关注代码质量、类型安全和功能正确性
+- **迭代改进**: 允许在开发过程中调整设计和实现方案
+- **持续验证**: 每个模块都要确保生成的代码语法和类型正确
+
+### 开发流程
+1. **TDD 方式**: 单元测试穿插在各个核心模块开发过程中
+2. **持续集成**: CLI 端到端测试作为功能实现的一部分
+3. **文档同步**: 重要更改随时更新相关文档
+4. **代码审查**: 生成的代码需要验证语法和类型正确性
+
 ## 总预计耗时
 
-- **Phase 1**: 3.5天
-- **Phase 2**: 2天  
-- **Phase 3**: 4天
-- **Phase 4**: 2天
-- **Phase 5**: 4天
+- **Phase 1**: 核心 BNF 模型基础设施
+- **Phase 2**: 命令行工具开发 (注意优先级调整)
+- **Phase 3**: TypeScript 语言支持 (生成 + 手工混合模式)
+- **Phase 4**: TypeScript 转换器
+- **Phase 5**: 集成与测试 (穿插进行)
 
-**总计**: 15.5天 (约 3周)
+**注意**: 采用 Vibe Coding 方法，不设定严格时间限制，重在探索和质量
 
 ## 下一步行动
 
-1. 创建目录结构
-2. 实现核心类型定义
-3. 开始 Phase 1 的开发工作
+1. **创建目录结构** (已完成)
+2. **开始 Phase 1.1**: 实现核心类型定义，注重类型安全
+3. **同步编写测试**: 每个模块都要有对应的单元测试
+4. **验证生成代码**: 确保所有生成的 TypeScript 代码语法正确
+5. **注意开发顺序**: Phase 2 中先做 stringify-generator，再做 CLI 脚本
+6. **混合开发模式**: Phase 3 中先生成架子，再手工补全语法规则
