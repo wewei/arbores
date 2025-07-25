@@ -7,7 +7,7 @@
  */
 
 import { Command } from 'commander';
-import { readFileSync, writeFileSync, mkdirSync } from 'fs';
+import { readFileSync, writeFileSync, mkdirSync, rmSync, existsSync } from 'fs';
 import { dirname, join, basename, extname } from 'path';
 import { load as loadYaml } from 'js-yaml';
 import chalk from 'chalk';
@@ -42,6 +42,23 @@ function loadBNFModel(filePath: string): any {
     }
   } catch (error: any) {
     throw new Error(`Failed to load BNF model from ${filePath}: ${error?.message || error}`);
+  }
+}
+
+/**
+ * Clean target directory or file if it exists
+ */
+function cleanTarget(targetPath: string, verbose: boolean = false): void {
+  if (existsSync(targetPath)) {
+    try {
+      rmSync(targetPath, { recursive: true, force: true });
+      if (verbose) {
+        console.error(chalk.yellow(`🗑️  Cleaned: ${targetPath}`));
+      }
+    } catch (error: any) {
+      console.error(chalk.red(`❌ Failed to clean ${targetPath}: ${error?.message || error}`));
+      process.exit(1);
+    }
   }
 }
 
@@ -134,15 +151,19 @@ program
   .description('Validate a BNF model file for correctness and completeness')
   .argument('<file>', 'Path to BNF model file (.json, .yaml, or .yml)')
   .option('-o, --output <file>', 'Write validation report to file instead of stdout')
-  .action(async (file: string, options: GlobalOptions) => {
+  .action(async (file: string, options: GlobalOptions, command: any) => {
     try {
-      if (options.verbose) {
+      // Get global options from parent command
+      const globalOptions = command.parent.opts();
+      const verbose = globalOptions.verbose || options.verbose;
+
+      if (verbose) {
         console.error(chalk.blue(`🔍 Loading BNF model from: ${file}`));
       }
 
       const modelData = loadBNFModel(file);
 
-      if (options.verbose) {
+      if (verbose) {
         console.error(chalk.blue('🔧 Validating BNF model...'));
       }
 
@@ -172,12 +193,17 @@ generateCmd
   .description('Generate TypeScript type definitions from BNF model')
   .argument('<file>', 'Path to BNF model file (.json, .yaml, or .yml)')
   .option('-o, --output <dir>', 'Output directory for generated files')
+  .option('-c, --clean', 'Clean output directory before generation')
   .option('--include-docs', 'Include JSDoc documentation in generated code')
   .action(async (file: string, options: GlobalOptions & {
     includeDocs?: boolean;
-  }) => {
+    clean?: boolean;
+  }, command: any) => {
     try {
-      if (options.verbose) {
+      // Get global options from parent command
+      const globalOptions = command.parent.opts();
+      const verbose = globalOptions.verbose || options.verbose;
+      if (verbose) {
         console.error(chalk.blue(`🔍 Loading BNF model from: ${file}`));
       }
 
@@ -190,7 +216,7 @@ generateCmd
         process.exit(1);
       }
 
-      if (options.verbose) {
+      if (verbose) {
         console.error(chalk.blue('🏗️  Generating TypeScript schema...'));
       }
 
@@ -198,6 +224,11 @@ generateCmd
         console.error(chalk.red('❌ Output directory is required for schema generation'));
         console.error(chalk.yellow('💡 Use -o <dir> to specify output directory'));
         process.exit(1);
+      }
+
+      // Clean output directory if requested
+      if (options.clean) {
+        cleanTarget(options.output, verbose);
       }
 
       // Ensure output directory exists
@@ -240,7 +271,7 @@ generateCmd
         }
       }
 
-      if (options.verbose) {
+      if (verbose) {
         console.error(chalk.green('✅ Schema generation completed'));
       }
     } catch (error: any) {
@@ -255,6 +286,7 @@ generateCmd
   .description('Generate stringify functions from BNF model')
   .argument('<file>', 'Path to BNF model file (.json, .yaml, or .yml)')
   .option('-o, --output <file>', 'Output file for generated stringify functions (default: stdout)')
+  .option('-c, --clean', 'Clean output file before generation (only for file output)')
   .option('--function-prefix <prefix>', 'Prefix for generated function names', 'stringify')
   .option('--indent-style <style>', 'Indentation style for generated code', '  ')
   .option('--no-whitespace', 'Disable whitespace formatting in generated functions')
@@ -266,9 +298,14 @@ generateCmd
     whitespace?: boolean;
     formatting?: boolean;
     typesFile?: boolean;
-  }) => {
+    clean?: boolean;
+  }, command: any) => {
     try {
-      if (options.verbose) {
+      // Get global options from parent command
+      const globalOptions = command.parent.opts();
+      const verbose = globalOptions.verbose || options.verbose;
+
+      if (verbose) {
         console.error(chalk.blue(`🔍 Loading BNF model from: ${file}`));
       }
 
@@ -281,8 +318,19 @@ generateCmd
         process.exit(1);
       }
 
-      if (options.verbose) {
+      if (verbose) {
         console.error(chalk.blue('🔧 Generating stringify functions...'));
+      }
+
+      // Clean output file(s) if requested and output file is specified
+      if (options.clean && options.output) {
+        cleanTarget(options.output, verbose);
+
+        if (options.typesFile) {
+          const baseName = basename(options.output, extname(options.output));
+          const typesPath = join(dirname(options.output), `${baseName}.d.ts`);
+          cleanTarget(typesPath, verbose);
+        }
       }
 
       const config: StringifyConfig = {
@@ -320,7 +368,7 @@ generateCmd
         outputResult(combinedContent, options, `${parseResult.model.name.toLowerCase()}-stringify.ts`);
       }
 
-      if (options.verbose) {
+      if (verbose) {
         console.error(chalk.green('✅ Stringify generation completed'));
       }
     } catch (error: any) {

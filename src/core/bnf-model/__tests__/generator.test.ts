@@ -189,8 +189,12 @@ describe('BNF Code Generator', () => {
       expect(indexFile).toContain('export * from \'./token-types.js\'');
       expect(indexFile).toContain('export * from \'./union-types.js\'');
       expect(indexFile).toContain('export * from \'./constants.js\'');
-      expect(indexFile).toContain('export type SimpleMathNode =');
-      expect(indexFile).toContain('export type SimpleMathRoot =');
+
+      // SimpleMathNode and SimpleMathRoot are now in union-types.ts
+      const unionFile = result.files!.get('union-types.ts');
+      expect(unionFile).toBeDefined();
+      expect(unionFile).toContain('export type SimpleMathNode =');
+      expect(unionFile).toContain('export type SimpleMathRoot =');
     });
 
     it('should handle custom naming configuration', () => {

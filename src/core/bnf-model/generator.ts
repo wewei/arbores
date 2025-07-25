@@ -13,6 +13,7 @@
  */
 
 import type { BNFModel, BNFNode, TokenNode, DeductionNode, UnionNode } from './types.js';
+import { pascalCaseToCamelCase } from '../utils/string-case.js';
 
 /**
  * Configuration for code generation
@@ -260,27 +261,24 @@ export type ${this.model.name}Token = ${tokenUnion.join(' | ')};`;
    * Generate imports needed for a deduction node
    */
   private generateDeductionNodeImports(node: DeductionNode): string[] {
-    const imports = new Set<string>();
+    const unionImports = new Set<string>();
     const tokenImports = new Set<string>();
+    const nodeImports = new Set<string>();
 
     for (const element of node.sequence) {
-      if (typeof element === 'string') {
-        // String reference to token
-        const referencedNode = this.model.nodes[element];
-        if (referencedNode?.type === 'token') {
-          tokenImports.add(this.getTokenTypeName(element));
-        }
-      } else if (typeof element === 'object' && element.node) {
-        // Object reference to any node
+      // Only process elements that have 'prop' - these become interface properties
+      if (typeof element === 'object' && element.prop && element.node) {
         const referencedNode = this.model.nodes[element.node];
         if (referencedNode?.type === 'token') {
           tokenImports.add(this.getTokenTypeName(element.node));
         } else if (referencedNode?.type === 'union') {
-          imports.add(this.getUnionTypeName(element.node));
+          unionImports.add(this.getUnionTypeName(element.node));
         } else if (referencedNode?.type === 'deduction') {
-          imports.add(this.getNodeTypeName(element.node));
+          nodeImports.add(this.getNodeTypeName(element.node));
         }
       }
+      // Note: String references and object references without 'prop' 
+      // don't become interface properties, so we don't need to import them
     }
 
     const importLines: string[] = [];
@@ -289,10 +287,24 @@ export type ${this.model.name}Token = ${tokenUnion.join(' | ')};`;
       importLines.push(`import type { ${Array.from(tokenImports).join(', ')} } from '../token-types.js';`);
     }
 
-    if (imports.size > 0) {
-      // For now, assume other types are in the same module
-      // This can be enhanced later for better dependency management
-      importLines.push(`import type { ${Array.from(imports).join(', ')} } from './index.js';`);
+    if (unionImports.size > 0) {
+      importLines.push(`import type { ${Array.from(unionImports).join(', ')} } from '../union-types.js';`);
+    }
+
+    // For deduction nodes, we need to import from sibling files
+    for (const nodeType of nodeImports) {
+      // Find the original node name for this type
+      let originalName = '';
+      for (const [name] of this.getNodesByType('deduction')) {
+        if (this.getNodeTypeName(name) === nodeType) {
+          originalName = name;
+          break;
+        }
+      }
+      if (originalName) {
+        const fileName = this.kebabCase(originalName);
+        importLines.push(`import type { ${nodeType} } from './${fileName}.js';`);
+      }
     }
 
     return importLines;
@@ -312,10 +324,7 @@ export type ${this.model.name}Token = ${tokenUnion.join(' | ')};`;
     for (const element of node.sequence) {
       if (typeof element === 'object' && element.prop) {
         const propType = this.getElementType(element.node);
-        const docs = this.config.includeDocumentation
-          ? `  /** Reference to ${element.node} */\n`
-          : '';
-        properties.push(`${docs}  readonly ${element.prop}: ${propType};`);
+        properties.push(`readonly ${element.prop}: ${propType};`);
       }
     }
 
@@ -332,7 +341,7 @@ export type ${this.model.name}Token = ${tokenUnion.join(' | ')};`;
       : '';
 
     return `${docs}export interface ${typeName} {
-${properties.map(p => `  ${p}`).join('\n')}
+  ${properties.join('\n  ')}
 }`;
   }
 
@@ -347,7 +356,8 @@ ${properties.map(p => `  ${p}`).join('\n')}
       return;
     }
 
-    const imports = new Set<string>();
+    const tokenImports = new Set<string>();
+    const nodeImports = new Set<string>();
     const unionTypes: string[] = [];
 
     for (const [name, node] of unionNodes) {
@@ -360,10 +370,10 @@ ${properties.map(p => `  ${p}`).join('\n')}
           let memberType: string;
           if (memberNode.type === 'token') {
             memberType = this.getTokenTypeName(member);
-            imports.add('token-types');
+            tokenImports.add(memberType);
           } else if (memberNode.type === 'deduction') {
             memberType = this.getNodeTypeName(member);
-            imports.add(`nodes/${this.kebabCase(member)}`);
+            nodeImports.add(`nodes/${this.kebabCase(member)}`);
           } else if (memberNode.type === 'union') {
             memberType = this.getUnionTypeName(member);
             // Self-reference or other union - handle carefully
@@ -383,10 +393,62 @@ ${properties.map(p => `  ${p}`).join('\n')}
       unionTypes.push(unionType);
     }
 
+    // Generate all node types union and root type
+    const allNodeTypes: string[] = [];
+    const allTokenImports = new Set<string>();
+    const allNodeImports = new Set<string>();
+    const allUnionImports = new Set<string>();
+
+    for (const [name, node] of Object.entries(this.model.nodes)) {
+      if (node.type === 'token') {
+        const typeName = this.getTokenTypeName(name);
+        allNodeTypes.push(typeName);
+        allTokenImports.add(typeName);
+      } else if (node.type === 'deduction') {
+        const typeName = this.getNodeTypeName(name);
+        allNodeTypes.push(typeName);
+        allNodeImports.add(`nodes/${this.kebabCase(name)}`);
+      } else if (node.type === 'union') {
+        const typeName = this.getUnionTypeName(name);
+        allNodeTypes.push(typeName);
+        // Union types are in the same file, no need to import
+      }
+    }
+
+    const allNodeUnion = `
+/**
+ * Union of all node types in the ${this.model.name} grammar
+ */
+export type ${this.model.name}Node = ${allNodeTypes.join(' | ')};
+
+/**
+ * The root node type for the grammar
+ */
+export type ${this.model.name}Root = ${this.getElementType(this.model.start)};`;
+
     // Generate import statements
     const importLines: string[] = [];
-    if (imports.has('token-types')) {
-      importLines.push(`import type { ${this.model.name}Token } from './token-types.js';`);
+
+    // Combine token imports from unions and all nodes
+    const combinedTokenImports = new Set([...tokenImports, ...allTokenImports]);
+    if (combinedTokenImports.size > 0) {
+      importLines.push(`import type { ${Array.from(combinedTokenImports).join(', ')} } from './token-types.js';`);
+    }
+
+    // Combine node imports from unions and all nodes
+    const combinedNodeImports = new Set([...nodeImports, ...allNodeImports]);
+    for (const nodeImport of combinedNodeImports) {
+      const memberName = nodeImport.replace('nodes/', '').replace('-', '');
+      // Convert kebab-case back to original name to get the proper node type name
+      let originalName = '';
+      for (const [name] of this.getNodesByType('deduction')) {
+        if (this.kebabCase(name) === nodeImport.replace('nodes/', '')) {
+          originalName = name;
+          break;
+        }
+      }
+      const nodeTypeName = this.getNodeTypeName(originalName);
+      importLines.push(`import type { ${nodeTypeName} } from './${nodeImport}.js';`);
     }
 
     const content = [
@@ -394,6 +456,7 @@ ${properties.map(p => `  ${p}`).join('\n')}
       ...importLines,
       '',
       ...unionTypes,
+      allNodeUnion,
     ].join('\n');
 
     this.files.set('union-types.ts', content);
@@ -485,34 +548,9 @@ ${properties.map(p => `  ${p}`).join('\n')}
     // Export constants
     exports.push("export * from './constants.js';");
 
-    // Generate root type union
-    const allNodeTypes: string[] = [];
-    for (const [name, node] of Object.entries(this.model.nodes)) {
-      if (node.type === 'token') {
-        allNodeTypes.push(this.getTokenTypeName(name));
-      } else if (node.type === 'deduction') {
-        allNodeTypes.push(this.getNodeTypeName(name));
-      } else if (node.type === 'union') {
-        allNodeTypes.push(this.getUnionTypeName(name));
-      }
-    }
-
-    const rootUnion = `
-/**
- * Union of all node types in the ${this.model.name} grammar
- */
-export type ${this.model.name}Node = ${allNodeTypes.join(' | ')};
-
-/**
- * The root node type for the grammar
- */
-export type ${this.model.name}Root = ${this.getElementType(this.model.start)};
-`;
-
     const content = [
       this.generateFileHeader(`${this.model.name} grammar type definitions`),
       ...exports,
-      rootUnion,
     ].join('\n');
 
     this.files.set('index.ts', content);
