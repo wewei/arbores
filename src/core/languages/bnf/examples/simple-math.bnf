@@ -1,0 +1,42 @@
+name: SimpleMath
+version: 1.0.0
+start: Expression
+
+# A numeric literal like 42 or 3.14
+Number :: /\d+(\.\d+)?/
+
+# A variable identifier like 'x' or 'myVar'
+Identifier :: /[a-zA-Z_][a-zA-Z0-9_]*/
+
+# Addition operator
+Plus :: '+'
+
+# Subtraction operator  
+Minus :: '-'
+
+# Multiplication operator
+Star :: '*'
+
+# Division operator
+Slash :: '/'
+
+# Left parenthesis
+LeftParen :: '('
+
+# Right parenthesis
+RightParen :: ')'
+
+# A basic term in an expression
+Term :: Number | Identifier | ParenExpression
+
+# Arithmetic operators
+Operator :: Plus | Minus | Star | Slash
+
+# Binary arithmetic expression with left and right operands
+BinaryExpression :: left:Expression operator:Operator right:Expression
+
+# Parenthesized expression
+ParenExpression :: LeftParen expression:Expression RightParen
+
+# Any valid mathematical expression
+Expression :: Term | BinaryExpression
