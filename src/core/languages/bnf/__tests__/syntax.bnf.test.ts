@@ -1,5 +1,12 @@
 import { describe, it, expect } from 'bun:test';
-import { bnfGrammarModel } from '../syntax.bnf';
+import { load as loadYaml } from 'js-yaml';
+import { readFileSync } from 'fs';
+import { join, dirname } from 'path';
+
+// Load the BNF grammar model from YAML file
+const yamlPath = join(dirname(__filename), '../bnf-grammar.yaml');
+const yamlContent = readFileSync(yamlPath, 'utf-8');
+const bnfGrammarModel = loadYaml(yamlContent) as any;
 
 describe('BNF Grammar Model', () => {
   it('should be a valid BNF model', () => {

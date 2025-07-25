@@ -107,7 +107,7 @@ export class StringifierGenerator<M = any> {
       }
 
       // Generate function code
-      const code = this.generatestringifierFunctions();
+      const code = this.generateStringifierFunctions();
       const types = this.generateTypeDefinitions();
 
       return {
@@ -154,7 +154,7 @@ export class StringifierGenerator<M = any> {
   /**
    * Generate the main stringifier functions
    */
-  private generatestringifierFunctions(): string {
+  private generateStringifierFunctions(): string {
     const parts: string[] = [];
 
     // Add file header
@@ -163,6 +163,8 @@ export class StringifierGenerator<M = any> {
 
     // Add imports and type definitions
     parts.push(this.generateImports());
+    parts.push('');
+    parts.push(this.generateStringifierOptionsType());
     parts.push('');
 
     // Generate main stringifier function
@@ -208,6 +210,34 @@ export class StringifierGenerator<M = any> {
     }
 
     return imports.join('\n');
+  }
+
+  /**
+   * Generate StringifierOptions type definition for the output file
+   */
+  private generateStringifierOptionsType(): string {
+    return `/**
+ * Options for stringifier functions
+ */
+export interface StringifierOptions {
+  /** Current indentation level */
+  indent?: number;
+  /** Indentation string (spaces or tabs) */
+  indentString?: string;
+  /** Whether to include whitespace */
+  includeWhitespace?: boolean;
+  /** Whether to format output */
+  format?: boolean;
+  /** Custom formatting rules */
+  formatting?: {
+    /** Insert newlines after certain tokens */
+    newlineAfter?: string[];
+    /** Insert spaces around certain tokens */
+    spaceAround?: string[];
+    /** Compact mode (minimal whitespace) */
+    compact?: boolean;
+  };
+}`;
   }
 
   /**
