@@ -16,7 +16,7 @@ describe('BNF Grammar Model', () => {
 
   it('should have basic token nodes', () => {
     const nodes = bnfGrammarModel.nodes;
-    
+
     expect(nodes.Identifier).toBeDefined();
     expect(nodes.String).toBeDefined();
     expect(nodes.Regex).toBeDefined();
@@ -28,7 +28,7 @@ describe('BNF Grammar Model', () => {
 
   it('should have structural nodes', () => {
     const nodes = bnfGrammarModel.nodes;
-    
+
     expect(nodes.Grammar).toBeDefined();
     expect(nodes.Header).toBeDefined();
     expect(nodes.RuleList).toBeDefined();
@@ -44,11 +44,11 @@ describe('BNF Grammar Model', () => {
 
   it('should define union nodes for alternatives', () => {
     const nodes = bnfGrammarModel.nodes;
-    
+
     // Find union nodes by type
     const unionNodes = Object.keys(nodes).filter(name => nodes[name]?.type === 'union');
     expect(unionNodes.length).toBeGreaterThan(0);
-    
+
     // Check the actual union nodes
     expect(nodes.TokenPattern?.type).toBe('union');
     expect(nodes.RuleBody?.type).toBe('union');
@@ -57,16 +57,16 @@ describe('BNF Grammar Model', () => {
   it('should have reasonable node counts', () => {
     const nodes = bnfGrammarModel.nodes;
     const nodeNames = Object.keys(nodes);
-    
+
     // Should have around 30+ nodes for a comprehensive BNF grammar
     expect(nodeNames.length).toBeGreaterThan(25);
     expect(nodeNames.length).toBeLessThan(50);
-    
+
     // Should have a mix of node types
     const tokenNodes = nodeNames.filter(name => nodes[name]?.type === 'token');
     const deductionNodes = nodeNames.filter(name => nodes[name]?.type === 'deduction');
     const unionNodes = nodeNames.filter(name => nodes[name]?.type === 'union');
-    
+
     expect(tokenNodes.length).toBeGreaterThan(5);
     expect(deductionNodes.length).toBeGreaterThan(5);
     expect(unionNodes.length).toBeGreaterThan(1);
@@ -74,7 +74,7 @@ describe('BNF Grammar Model', () => {
 
   it('should include keywords and operators', () => {
     const nodes = bnfGrammarModel.nodes;
-    
+
     expect(nodes.NameKeyword).toBeDefined();
     expect(nodes.VersionKeyword).toBeDefined();
     expect(nodes.StartKeyword).toBeDefined();

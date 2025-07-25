@@ -32,90 +32,90 @@ export const bnfGrammarModel: BNFModel = {
   start: 'Grammar',
   nodes: {
     // ==== TOKENS ====
-    
+
     // Basic tokens
     Identifier: {
       type: 'token',
       description: 'An identifier (node name, property name, etc.)',
       pattern: { regex: '[a-zA-Z_][a-zA-Z0-9_]*' }
     },
-    
+
     String: {
-      type: 'token', 
+      type: 'token',
       description: 'A quoted string literal',
       pattern: { regex: "'([^'\\\\]|\\\\.)*'" }
     },
-    
+
     Regex: {
       type: 'token',
       description: 'A regular expression pattern',
       pattern: { regex: '/([^/\\\\]|\\\\.)+/' }
     },
-    
+
     Number: {
       type: 'token',
       description: 'A numeric value',
       pattern: { regex: '\\d+(\\.\\d+)?' }
     },
-    
+
     Comment: {
       type: 'token',
       description: 'A comment line starting with #',
       pattern: { regex: '#[^\\n]*' }
     },
-    
+
     // Keywords and operators
     NameKeyword: {
       type: 'token',
       description: 'The "name:" keyword',
       pattern: 'name:'
     },
-    
+
     VersionKeyword: {
-      type: 'token', 
+      type: 'token',
       description: 'The "version:" keyword',
       pattern: 'version:'
     },
-    
+
     StartKeyword: {
       type: 'token',
-      description: 'The "start:" keyword', 
+      description: 'The "start:" keyword',
       pattern: 'start:'
     },
-    
+
     DefineOperator: {
       type: 'token',
       description: 'The "::" definition operator',
       pattern: '::'
     },
-    
+
     UnionOperator: {
       type: 'token',
       description: 'The "|" union operator',
       pattern: '|'
     },
-    
+
     PropertyOperator: {
       type: 'token',
       description: 'The ":" property assignment operator',
       pattern: ':'
     },
-    
+
     // Whitespace and newlines
     Whitespace: {
       type: 'token',
       description: 'Whitespace characters',
       pattern: { regex: '[ \\t]+' }
     },
-    
+
     Newline: {
       type: 'token',
       description: 'Line break character',
       pattern: { regex: '\\r?\\n' }
     },
-    
+
     // ==== DEDUCTION RULES ====
-    
+
     Grammar: {
       type: 'deduction',
       description: 'Complete BNF grammar definition',
@@ -124,9 +124,9 @@ export const bnfGrammarModel: BNFModel = {
         { node: 'RuleList', prop: 'rules' }
       ]
     },
-    
+
     Header: {
-      type: 'deduction', 
+      type: 'deduction',
       description: 'Grammar header with metadata',
       sequence: [
         { node: 'NameDeclaration', prop: 'name' },
@@ -134,7 +134,7 @@ export const bnfGrammarModel: BNFModel = {
         { node: 'StartDeclaration', prop: 'start' }
       ]
     },
-    
+
     NameDeclaration: {
       type: 'deduction',
       description: 'Grammar name declaration',
@@ -144,27 +144,27 @@ export const bnfGrammarModel: BNFModel = {
         'Newline'
       ]
     },
-    
+
     VersionDeclaration: {
       type: 'deduction',
-      description: 'Grammar version declaration', 
+      description: 'Grammar version declaration',
       sequence: [
         'VersionKeyword',
         { node: 'Identifier', prop: 'value' },
         'Newline'
       ]
     },
-    
+
     StartDeclaration: {
       type: 'deduction',
       description: 'Grammar start rule declaration',
       sequence: [
-        'StartKeyword', 
+        'StartKeyword',
         { node: 'Identifier', prop: 'value' },
         'Newline'
       ]
     },
-    
+
     RuleList: {
       type: 'deduction',
       description: 'List of grammar rules',
@@ -172,7 +172,7 @@ export const bnfGrammarModel: BNFModel = {
         { node: 'Rule', prop: 'rules' } // This should be a repetition in real implementation
       ]
     },
-    
+
     Rule: {
       type: 'deduction',
       description: 'A single grammar rule definition',
@@ -182,7 +182,7 @@ export const bnfGrammarModel: BNFModel = {
         'Newline'
       ]
     },
-    
+
     OptionalComment: {
       type: 'deduction',
       description: 'Optional comment before rule',
@@ -191,7 +191,7 @@ export const bnfGrammarModel: BNFModel = {
         'Newline'
       ]
     },
-    
+
     RuleDefinition: {
       type: 'deduction',
       description: 'Rule name and body definition',
@@ -201,7 +201,7 @@ export const bnfGrammarModel: BNFModel = {
         { node: 'RuleBody', prop: 'body' }
       ]
     },
-    
+
     // Token rule body
     TokenRule: {
       type: 'deduction',
@@ -210,7 +210,7 @@ export const bnfGrammarModel: BNFModel = {
         { node: 'TokenPattern', prop: 'pattern' }
       ]
     },
-    
+
     // Deduction rule body  
     DeductionRule: {
       type: 'deduction',
@@ -219,16 +219,16 @@ export const bnfGrammarModel: BNFModel = {
         { node: 'ElementList', prop: 'sequence' }
       ]
     },
-    
+
     // Union rule body
     UnionRule: {
-      type: 'deduction', 
+      type: 'deduction',
       description: 'Union rule with alternative choices',
       sequence: [
         { node: 'UnionMemberList', prop: 'members' }
       ]
     },
-    
+
     ElementList: {
       type: 'deduction',
       description: 'Sequence of elements in a deduction rule',
@@ -236,7 +236,7 @@ export const bnfGrammarModel: BNFModel = {
         { node: 'Element', prop: 'elements' } // Should be repetition
       ]
     },
-    
+
     Element: {
       type: 'deduction',
       description: 'Single element in a sequence',
@@ -245,7 +245,7 @@ export const bnfGrammarModel: BNFModel = {
         { node: 'OptionalProperty', prop: 'property' }
       ]
     },
-    
+
     OptionalProperty: {
       type: 'deduction',
       description: 'Optional property assignment',
@@ -254,7 +254,7 @@ export const bnfGrammarModel: BNFModel = {
         { node: 'Identifier', prop: 'name' }
       ]
     },
-    
+
     UnionMemberList: {
       type: 'deduction',
       description: 'List of union members separated by |',
@@ -263,7 +263,7 @@ export const bnfGrammarModel: BNFModel = {
         { node: 'AdditionalMembers', prop: 'rest' }
       ]
     },
-    
+
     AdditionalMembers: {
       type: 'deduction',
       description: 'Additional union members',
@@ -273,15 +273,15 @@ export const bnfGrammarModel: BNFModel = {
         // Should be repetition
       ]
     },
-    
+
     // ==== UNION RULES ====
-    
+
     TokenPattern: {
       type: 'union',
       description: 'Either a string literal or regex pattern',
       members: ['String', 'Regex']
     },
-    
+
     RuleBody: {
       type: 'union',
       description: 'Body of a rule - can be token, deduction, or union',
