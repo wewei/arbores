@@ -2,28 +2,28 @@
  * Union type definitions
  * 
  * Generated from BNF model: BNFGrammar v1.0.0
- * Generation time: 2025-07-26T08:31:39.643Z
+ * Generation time: 2025-07-26T09:37:45.220Z
  * 
  * @fileoverview This file is auto-generated. Do not edit manually.
  */
 import type { StringToken, RegexToken, IdentifierToken, NumberToken, CommentToken, NameKeywordToken, VersionKeywordToken, StartKeywordToken, DefineOperatorToken, UnionOperatorToken, PropertyOperatorToken, WhitespaceToken, NewlineToken } from './token-types.js';
-import type { TokenRuleNode } from './nodes/token-rule.js';
-import type { DeductionRuleNode } from './nodes/deduction-rule.js';
-import type { UnionRuleNode } from './nodes/union-rule.js';
-import type { GrammarNode } from './nodes/grammar.js';
-import type { HeaderNode } from './nodes/header.js';
-import type { NameDeclarationNode } from './nodes/name-declaration.js';
-import type { VersionDeclarationNode } from './nodes/version-declaration.js';
-import type { StartDeclarationNode } from './nodes/start-declaration.js';
-import type { RuleListNode } from './nodes/rule-list.js';
-import type { RuleNode } from './nodes/rule.js';
-import type { OptionalCommentNode } from './nodes/optional-comment.js';
-import type { RuleDefinitionNode } from './nodes/rule-definition.js';
-import type { ElementListNode } from './nodes/element-list.js';
-import type { ElementNode } from './nodes/element.js';
-import type { OptionalPropertyNode } from './nodes/optional-property.js';
-import type { UnionMemberListNode } from './nodes/union-member-list.js';
-import type { AdditionalMembersNode } from './nodes/additional-members.js';
+import type { TokenRuleNode } from './nodes/TokenRule.js';
+import type { DeductionRuleNode } from './nodes/DeductionRule.js';
+import type { UnionRuleNode } from './nodes/UnionRule.js';
+import type { GrammarNode } from './nodes/Grammar.js';
+import type { HeaderNode } from './nodes/Header.js';
+import type { NameDeclarationNode } from './nodes/NameDeclaration.js';
+import type { VersionDeclarationNode } from './nodes/VersionDeclaration.js';
+import type { StartDeclarationNode } from './nodes/StartDeclaration.js';
+import type { RuleListNode } from './nodes/RuleList.js';
+import type { RuleNode } from './nodes/Rule.js';
+import type { OptionalCommentNode } from './nodes/OptionalComment.js';
+import type { RuleDefinitionNode } from './nodes/RuleDefinition.js';
+import type { ElementListNode } from './nodes/ElementList.js';
+import type { ElementNode } from './nodes/Element.js';
+import type { OptionalPropertyNode } from './nodes/OptionalProperty.js';
+import type { UnionMemberListNode } from './nodes/UnionMemberList.js';
+import type { AdditionalMembersNode } from './nodes/AdditionalMembers.js';
 
 /**
  * Either a string literal or regex pattern

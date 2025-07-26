@@ -254,7 +254,7 @@ export type ${this.model.name}Token = ${tokenUnion.join(' | ')};`;
       interface_,
     ].join('\n');
 
-    this.files.set(`nodes/${this.kebabCase(name)}.ts`, content);
+    this.files.set(`nodes/${name}.ts`, content);
   }
 
   /**
@@ -302,8 +302,7 @@ export type ${this.model.name}Token = ${tokenUnion.join(' | ')};`;
         }
       }
       if (originalName) {
-        const fileName = this.kebabCase(originalName);
-        importLines.push(`import type { ${nodeType} } from './${fileName}.js';`);
+        importLines.push(`import type { ${nodeType} } from './${originalName}.js';`);
       }
     }
 
@@ -373,7 +372,7 @@ export type ${this.model.name}Token = ${tokenUnion.join(' | ')};`;
             tokenImports.add(memberType);
           } else if (memberNode.type === 'deduction') {
             memberType = this.getNodeTypeName(member);
-            nodeImports.add(`nodes/${this.kebabCase(member)}`);
+            nodeImports.add(`nodes/${member}`);
           } else if (memberNode.type === 'union') {
             memberType = this.getUnionTypeName(member);
             // Self-reference or other union - handle carefully
@@ -407,7 +406,7 @@ export type ${this.model.name}Token = ${tokenUnion.join(' | ')};`;
       } else if (node.type === 'deduction') {
         const typeName = this.getNodeTypeName(name);
         allNodeTypes.push(typeName);
-        allNodeImports.add(`nodes/${this.kebabCase(name)}`);
+        allNodeImports.add(`nodes/${name}`);
       } else if (node.type === 'union') {
         const typeName = this.getUnionTypeName(name);
         allNodeTypes.push(typeName);
@@ -438,16 +437,8 @@ export type ${this.model.name}Root = ${this.getElementType(this.model.start)};`;
     // Combine node imports from unions and all nodes
     const combinedNodeImports = new Set([...nodeImports, ...allNodeImports]);
     for (const nodeImport of combinedNodeImports) {
-      const memberName = nodeImport.replace('nodes/', '').replace('-', '');
-      // Convert kebab-case back to original name to get the proper node type name
-      let originalName = '';
-      for (const [name] of this.getNodesByType('deduction')) {
-        if (this.kebabCase(name) === nodeImport.replace('nodes/', '')) {
-          originalName = name;
-          break;
-        }
-      }
-      const nodeTypeName = this.getNodeTypeName(originalName);
+      const nodeName = nodeImport.replace('nodes/', '');
+      const nodeTypeName = this.getNodeTypeName(nodeName);
       importLines.push(`import type { ${nodeTypeName} } from './${nodeImport}.js';`);
     }
 
@@ -548,7 +539,7 @@ export type ${this.model.name}Root = ${this.getElementType(this.model.start)};`;
     const deductionNodes = this.getNodesByType('deduction');
     if (this.config.separateFiles && deductionNodes.length > 0) {
       for (const [name] of deductionNodes) {
-        exports.push(`export * from './nodes/${this.kebabCase(name)}.js';`);
+        exports.push(`export * from './nodes/${name}.js';`);
       }
     }
 
@@ -633,6 +624,10 @@ export type ${this.model.name}Root = ${this.getElementType(this.model.start)};`;
   readonly metadata?: any;`;
   }
 
+  /**
+   * Convert string to kebab-case
+   * @deprecated No longer used - file names now match node names exactly
+   */
   private kebabCase(str: string): string {
     return str.replace(/([A-Z])/g, '-$1').toLowerCase().replace(/^-/, '');
   }

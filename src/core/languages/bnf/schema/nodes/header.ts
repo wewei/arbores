@@ -2,13 +2,13 @@
  * Header node definition
  * 
  * Generated from BNF model: BNFGrammar v1.0.0
- * Generation time: 2025-07-26T08:31:39.642Z
+ * Generation time: 2025-07-26T09:37:45.220Z
  * 
  * @fileoverview This file is auto-generated. Do not edit manually.
  */
-import type { NameDeclarationNode } from './name-declaration.js';
-import type { VersionDeclarationNode } from './version-declaration.js';
-import type { StartDeclarationNode } from './start-declaration.js';
+import type { NameDeclarationNode } from './NameDeclaration.js';
+import type { VersionDeclarationNode } from './VersionDeclaration.js';
+import type { StartDeclarationNode } from './StartDeclaration.js';
 
 /**
  * Grammar header with metadata

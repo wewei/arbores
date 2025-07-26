@@ -1,19 +1,19 @@
 /**
- * StartDeclaration node definition
+ * VersionDeclaration node definition
  * 
  * Generated from BNF model: BNFGrammar v1.0.0
- * Generation time: 2025-07-26T08:31:39.643Z
+ * Generation time: 2025-07-26T09:37:45.220Z
  * 
  * @fileoverview This file is auto-generated. Do not edit manually.
  */
 import type { IdentifierToken, NewlineToken } from '../token-types.js';
 
 /**
- * Grammar start rule declaration
+ * Grammar version declaration
  *
  */
-export interface StartDeclarationNode {
-  readonly type: 'StartDeclaration';
+export interface VersionDeclarationNode {
+  readonly type: 'VersionDeclaration';
   readonly value: IdentifierToken;
   readonly newline: NewlineToken;
 }

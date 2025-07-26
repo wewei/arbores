@@ -2,11 +2,11 @@
  * DeductionRule node definition
  * 
  * Generated from BNF model: BNFGrammar v1.0.0
- * Generation time: 2025-07-26T08:31:39.643Z
+ * Generation time: 2025-07-26T09:37:45.220Z
  * 
  * @fileoverview This file is auto-generated. Do not edit manually.
  */
-import type { ElementListNode } from './element-list.js';
+import type { ElementListNode } from './ElementList.js';
 
 /**
  * Deduction rule with sequence of elements

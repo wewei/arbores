@@ -2,13 +2,13 @@
  * Rule node definition
  * 
  * Generated from BNF model: BNFGrammar v1.0.0
- * Generation time: 2025-07-26T08:31:39.643Z
+ * Generation time: 2025-07-26T09:37:45.220Z
  * 
  * @fileoverview This file is auto-generated. Do not edit manually.
  */
 import type { NewlineToken } from '../token-types.js';
-import type { OptionalCommentNode } from './optional-comment.js';
-import type { RuleDefinitionNode } from './rule-definition.js';
+import type { OptionalCommentNode } from './OptionalComment.js';
+import type { RuleDefinitionNode } from './RuleDefinition.js';
 
 /**
  * A single grammar rule definition
