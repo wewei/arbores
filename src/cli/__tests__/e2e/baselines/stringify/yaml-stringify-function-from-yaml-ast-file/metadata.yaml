@@ -1,12 +1,12 @@
 description: Execute stringify command with readable format
 command:
   - stringify
-  - src/cli\__tests__\fixtures\function-test.ast.yaml
+  - src/cli/__tests__/fixtures/function-test.ast.yaml
   - '--format'
   - readable
-exitCode: 1
+exitCode: 0
 environment:
   COLUMNS: '80'
   MOCK_TIMESTAMP: '2025-01-01T00:00:00.000Z'
 created: '2025-07-21T03:31:29.484Z'
-updated: '2025-07-26T03:51:59.442Z'
+updated: '2025-07-26T03:58:26.032Z'

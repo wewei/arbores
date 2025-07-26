@@ -1,7 +1,7 @@
 description: Execute parse command with markdown format
 command:
   - parse
-  - src/cli\__tests__\fixtures\simple.ts
+  - src/cli/__tests__/fixtures/simple.ts
   - '--format'
   - markdown
 exitCode: 1
@@ -9,4 +9,4 @@ environment:
   COLUMNS: '80'
   MOCK_TIMESTAMP: '2025-01-01T00:00:00.000Z'
 created: '2025-07-21T03:33:42.047Z'
-updated: '2025-07-26T03:52:01.618Z'
+updated: '2025-07-26T03:58:28.307Z'

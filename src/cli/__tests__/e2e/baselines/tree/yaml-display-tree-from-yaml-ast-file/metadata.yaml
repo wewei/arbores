@@ -2,9 +2,7 @@ description: Execute tree command
 command:
   - tree
   - src/cli/__tests__/fixtures/simple.ast.yaml
-exitCode: 1
-environment:
-  COLUMNS: '80'
-  MOCK_TIMESTAMP: '2025-01-01T00:00:00.000Z'
+exitCode: 0
+environment: {}
 created: '2025-07-21T03:31:29.491Z'
-updated: '2025-07-26T03:47:45.774Z'
+updated: '2025-07-26T03:58:23.783Z'

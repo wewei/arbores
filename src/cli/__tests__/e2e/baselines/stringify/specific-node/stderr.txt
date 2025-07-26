@@ -1,2 +1,0 @@
-error: unknown option '--node-id'
-(Did you mean one of --node, --nodes?)

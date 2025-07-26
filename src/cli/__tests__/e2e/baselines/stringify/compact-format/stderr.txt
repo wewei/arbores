@@ -1,1 +1,0 @@
-Error: AST file not found: src/cli\__tests__\fixtures\simple.ast.json

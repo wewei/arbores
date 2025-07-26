@@ -1,8 +1,8 @@
 description: Execute stringify command
 command:
   - stringify
-  - src/cli\__tests__\fixtures\simple.ast.json
-exitCode: 1
+  - src/cli/__tests__/fixtures/simple.ast.json
+exitCode: 0
 environment: {}
 created: '2025-07-20T22:55:08.576Z'
-updated: '2025-07-26T03:51:58.881Z'
+updated: '2025-07-26T03:58:25.410Z'
