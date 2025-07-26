@@ -93,7 +93,7 @@ export class PegGenerator {
       }
 
       // Check for complex regex patterns
-      this.checkComplexPatterns(model, warnings);
+      this.checkProblematicPatterns(model, warnings);
 
       // Generate ordered rules (including left recursive ones with warnings)
       const orderedRules = this.getTopologicalOrder(model);
@@ -402,17 +402,24 @@ export class PegGenerator {
   }
 
   /**
-   * Check for complex regex patterns that might need warnings
+   * Check for problematic patterns that might cause PEG.js issues
    */
-  private checkComplexPatterns(model: BNFModel, warnings: string[]): void {
+  private checkProblematicPatterns(model: BNFModel, warnings: string[]): void {
     for (const [nodeName, node] of Object.entries(model.nodes)) {
       if (node.type === 'token' && typeof node.pattern === 'object') {
         const pattern = node.pattern.regex;
 
-        // Check for complex patterns that might be problematic in PEG.js
-        if (pattern.includes('?') || pattern.includes('*') || pattern.includes('+') ||
-          pattern.includes('|') || pattern.includes('(') || pattern.includes('[')) {
-          warnings.push(`Complex regex pattern in token "${nodeName}": ${pattern}`);
+        // Only warn about patterns that are likely to cause actual problems
+        // Rather than warning about any "complex" patterns, we focus on specific issues
+        
+        // Check for patterns that might conflict with PEG.js whitespace handling
+        if (pattern.includes('\\s') && !pattern.includes('\\\\s')) {
+          warnings.push(`Token "${nodeName}" uses \\s which may conflict with PEG.js whitespace handling. Consider using [ \\t\\r\\n] instead.`);
+        }
+        
+        // Check for very long patterns that might be hard to debug
+        if (pattern.length > 200) {
+          warnings.push(`Token "${nodeName}" has a very long regex pattern (${pattern.length} characters) which may be hard to debug.`);
         }
       }
     }

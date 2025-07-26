@@ -23,6 +23,7 @@ import type {
  */
 export function parseBNF<M = any>(input: any): ParseResult<M> {
   const errors: string[] = [];
+  const warnings: string[] = [];
 
   // Basic type and structure validation
   if (!input || typeof input !== 'object') {
@@ -57,6 +58,11 @@ export function parseBNF<M = any>(input: any): ParseResult<M> {
       errors.push(...nodeResult.errors);
     } else {
       parsedNodes[nodeName] = nodeResult.node;
+      // Validate regex patterns
+      if (nodeResult.node.type === 'token' && typeof nodeResult.node.pattern === 'object' && nodeResult.node.pattern.regex) {
+        const regexErrors = validateRegexPattern(nodeResult.node.pattern.regex, nodeName);
+        errors.push(...regexErrors);
+      }
     }
   }
 
@@ -67,7 +73,7 @@ export function parseBNF<M = any>(input: any): ParseResult<M> {
 
   // If we have parsing errors, return them
   if (errors.length > 0) {
-    return { success: false, errors };
+    return { success: false, errors, warnings: warnings.length > 0 ? warnings : undefined };
   }
 
   // Create the model
@@ -82,10 +88,21 @@ export function parseBNF<M = any>(input: any): ParseResult<M> {
   // Perform structural validations
   const structuralErrors = validateModelStructure(model);
   if (structuralErrors.length > 0) {
-    return { success: false, errors: structuralErrors };
+    return { success: false, errors: structuralErrors, warnings: warnings.length > 0 ? warnings : undefined };
   }
 
-  return { success: true, model };
+  // Check for orphan nodes (warnings only)
+  const orphanNodes = findOrphanNodes(model);
+  if (orphanNodes.length > 0) {
+    warnings.push(`Found ${orphanNodes.length} orphan (unreferenced) node(s): ${orphanNodes.join(', ')}`);
+    warnings.push('Consider removing orphan nodes if they are not needed, or check if references are missing');
+  }
+
+  return { 
+    success: true, 
+    model, 
+    warnings: warnings.length > 0 ? warnings : undefined 
+  };
 }
 
 /**
@@ -366,6 +383,51 @@ function parseUnionNode(nodeName: string, nodeData: any, allNodeNames: string[])
   };
 
   return { success: true, node: unionNode };
+}
+
+/**
+ * Validates a regex pattern to ensure it can be parsed by JavaScript RegExp
+ */
+function validateRegexPattern(pattern: string, nodeName: string): string[] {
+  const errors: string[] = [];
+  
+  try {
+    // Try to create a RegExp object to validate the pattern
+    new RegExp(pattern);
+  } catch (error) {
+    errors.push(`Token node "${nodeName}" has invalid regex pattern: ${error instanceof Error ? error.message : 'Unknown error'}`);
+  }
+  
+  return errors;
+}
+
+/**
+ * Finds orphan (unreferenced) nodes in the model
+ */
+function findOrphanNodes<M>(model: BNFModel<M>): string[] {
+  const allNodeNames = new Set(Object.keys(model.nodes));
+  const referencedNodes = new Set<string>();
+
+  // Add the start node as referenced
+  if (model.start && allNodeNames.has(model.start)) {
+    referencedNodes.add(model.start);
+  }
+
+  // Find all node references
+  for (const [nodeName, node] of Object.entries(model.nodes)) {
+    const refs = getNodeDependencies(node);
+    refs.forEach(ref => referencedNodes.add(ref));
+  }
+
+  // Find orphan nodes
+  const orphanNodes: string[] = [];
+  for (const nodeName of allNodeNames) {
+    if (!referencedNodes.has(nodeName)) {
+      orphanNodes.push(nodeName);
+    }
+  }
+
+  return orphanNodes.sort();
 }
 
 /**
