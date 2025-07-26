@@ -38,6 +38,6 @@ stringifier 和 parser 都依赖 schema。
 │   ├── <node-name-b>.ts # Stringifier function for node b
 │   └── index.ts
 └── parser/
-    ├── <language>.syntax.pegjsa # PEG.js parser file for the language
-    └── index.ts                 # Main parser entry point, it should read the PEG.js file and export the parser function
+    ├── grammar.pegjs     # PEG.js parser file for the language
+    └── index.ts         # Main parser entry point, it should read the PEG.js file and export the parser function
 ```

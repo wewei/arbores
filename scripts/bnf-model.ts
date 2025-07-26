@@ -536,7 +536,7 @@ export const PARSER_STATS = ${JSON.stringify(pegResult.stats, null, 2)} as const
  * Load the PEG.js grammar
  */
 function loadGrammar(): string {
-  const grammarPath = join(__dirname, '${model.name.toLowerCase()}.syntax.pegjs');
+  const grammarPath = join(__dirname, 'grammar.pegjs');
   return readFileSync(grammarPath, 'utf-8');
 }
 
@@ -545,7 +545,7 @@ function loadGrammar(): string {
  * 
  * Note: This requires PEG.js to be installed and the grammar to be compiled.
  * You need to compile the grammar first using:
- * npx pegjs --output ${model.name.toLowerCase()}-parser.js ${model.name.toLowerCase()}.syntax.pegjs
+ * npx pegjs --output grammar-parser.js grammar.pegjs
  * 
  * @param input - The input text to parse
  * @returns The parsed AST
@@ -571,7 +571,7 @@ export function getStats() {
 
     if (dryRun) {
       console.error(chalk.yellow(`📄 Would generate: ${join(parserDir, 'index.ts')}`));
-      console.error(chalk.yellow(`📄 Would generate: ${join(parserDir, `${model.name.toLowerCase()}.syntax.pegjs`)}`));
+      console.error(chalk.yellow(`📄 Would generate: ${join(parserDir, 'grammar.pegjs')}`));
       if (verbose) {
         console.error(chalk.blue('📝 Parser content preview:'));
         console.error(parserContent.split('\n').slice(0, 20).join('\n') + '\n...');
@@ -586,14 +586,14 @@ export function getStats() {
       console.error(chalk.green(`✅ Generated: ${indexFile}`));
       
       // Write PEG grammar file
-      const grammarFile = join(parserDir, `${model.name.toLowerCase()}.syntax.pegjs`);
+      const grammarFile = join(parserDir, 'grammar.pegjs');
       writeFileSync(grammarFile, pegResult.grammar, 'utf-8');
       console.error(chalk.green(`✅ Generated: ${grammarFile}`));
       
       if (verbose) {
         console.error(chalk.blue('💡 To compile the parser, run:'));
         console.error(chalk.gray(`   cd ${parserDir}`));
-        console.error(chalk.gray(`   npx pegjs --output ${model.name.toLowerCase()}-parser.js ${model.name.toLowerCase()}.syntax.pegjs`));
+        console.error(chalk.gray(`   npx pegjs --output ${model.name.toLowerCase()}-parser.js grammar.pegjs`));
       }
     }
   } catch (error: any) {

@@ -56,7 +56,7 @@ bun bnf-model generate model.bnf.yaml schema stringifier parser -o src/core/lang
 │   ├── <node-name-b>.ts # 节点 b 的字符串化函数
 │   └── index.ts
 └── parser/              # PEG.js 解析器
-    ├── <language>.syntax.pegjs # PEG.js 语法文件
+    ├── grammar.pegjs # PEG.js 语法文件
     └── index.ts               # 主解析器入口点
 ```
 

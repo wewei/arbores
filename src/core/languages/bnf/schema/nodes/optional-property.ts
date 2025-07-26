@@ -2,7 +2,7 @@
  * OptionalProperty node definition
  * 
  * Generated from BNF model: BNFGrammar v1.0.0
- * Generation time: 2025-07-26T07:58:08.211Z
+ * Generation time: 2025-07-26T08:02:29.782Z
  * 
  * @fileoverview This file is auto-generated. Do not edit manually.
  */

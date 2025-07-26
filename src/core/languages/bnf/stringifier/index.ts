@@ -2,7 +2,7 @@
  * stringifier functions for BNFGrammar grammar
  * 
  * Generated from BNF model: BNFGrammar v1.0.0
- * Generation time: 2025-07-26T07:58:08.214Z
+ * Generation time: 2025-07-26T08:02:29.785Z
  * 
  * @fileoverview This file is auto-generated. Do not edit manually.
  */

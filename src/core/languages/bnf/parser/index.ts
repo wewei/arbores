@@ -2,7 +2,7 @@
  * Parser for BNFGrammar v1.0.0
  * 
  * Generated from BNF model: BNFGrammar v1.0.0
- * Generation time: 2025-07-26T07:58:08.217Z
+ * Generation time: 2025-07-26T08:02:29.786Z
  * 
  * @fileoverview This file is auto-generated. Do not edit manually.
  */
@@ -28,7 +28,7 @@ export const PARSER_STATS = {
  * Load the PEG.js grammar
  */
 function loadGrammar(): string {
-  const grammarPath = join(__dirname, 'bnfgrammar.syntax.pegjs');
+  const grammarPath = join(__dirname, 'grammar.pegjs');
   return readFileSync(grammarPath, 'utf-8');
 }
 
@@ -37,7 +37,7 @@ function loadGrammar(): string {
  * 
  * Note: This requires PEG.js to be installed and the grammar to be compiled.
  * You need to compile the grammar first using:
- * npx pegjs --output bnfgrammar-parser.js bnfgrammar.syntax.pegjs
+ * npx pegjs --output grammar-parser.js grammar.pegjs
  * 
  * @param input - The input text to parse
  * @returns The parsed AST

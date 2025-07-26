@@ -9,7 +9,7 @@ import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { load as loadYaml } from 'js-yaml';
 import { parseBNF } from '../src/core/bnf-model/bnf-parser.js';
-import { generatestringifierFunctions } from '../src/core/bnf-model/stringifier-generator.js';
+import { generateStringifierFunctions } from '../src/core/bnf-model/stringifier-generator.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -40,7 +40,7 @@ if (!parseResult.success) {
 console.log('✅ BNF model parsed successfully');
 
 console.log('\n3. Generating stringifier functions...');
-const stringifierResult = generatestringifierFunctions(parseResult.model, {
+const stringifierResult = generateStringifierFunctions(parseResult.model, {
   functionPrefix: 'stringifier',
   indentStyle: '  ',
   includeWhitespace: true,
@@ -49,7 +49,7 @@ const stringifierResult = generatestringifierFunctions(parseResult.model, {
 
 if (!stringifierResult.success) {
   console.error('❌ Failed to generate stringifier functions:');
-  stringifierResult.errors?.forEach(error => console.error(`   - ${error}`));
+  stringifierResult.errors?.forEach((error: any) => console.error(`   - ${error}`));
   process.exit(1);
 }
 
@@ -86,10 +86,10 @@ console.log('\n5. Analyzing generated stringifier functions...');
 
 // Extract function names from generated code
 const functionMatches = stringifierResult.code?.match(/function (stringifier\w+)/g) || [];
-const functionNames = functionMatches.map(match => match.replace('function ', ''));
+const functionNames = functionMatches.map((match: any) => match.replace('function ', ''));
 
 console.log(`   Functions generated: ${functionNames.length}`);
-functionNames.forEach(name => console.log(`   - ${name}`));
+functionNames.forEach((name: any) => console.log(`   - ${name}`));
 
 // Show sample token function
 console.log('\n6. Sample Token stringifier Function:');
