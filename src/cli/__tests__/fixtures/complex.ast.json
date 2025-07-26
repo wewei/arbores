@@ -1,9 +1,9 @@
 {
-  "file_name": "src\\cli\\__tests__\\fixtures\\complex.ts",
+  "file_name": "src/cli/__tests__/fixtures/complex.ts",
   "versions": [
     {
-      "created_at": "2025-07-23T01:54:55.135Z",
-      "root_node_id": "b445ba295780f475"
+      "created_at": "2025-07-26T03:51:55.822Z",
+      "root_node_id": "0d99dc94b01272cf"
     }
   ],
   "nodes": {
@@ -95,8 +95,8 @@
         }
       ]
     },
-    "0f5583cdd536a5d6": {
-      "id": "0f5583cdd536a5d6",
+    "7b88e4676650497a": {
+      "id": "7b88e4676650497a",
       "kind": 320
     },
     "cf6d9a02b7269390": {
@@ -106,7 +106,7 @@
       "leadingComments": [
         {
           "kind": "MultiLineCommentTrivia",
-          "text": "/**\r\n * User interface with optional properties\r\n */"
+          "text": "/**\n * User interface with optional properties\n */"
         }
       ]
     },
@@ -181,8 +181,8 @@
         "32cd11979c3cbcde"
       ]
     },
-    "e3c3f132d1079a00": {
-      "id": "e3c3f132d1079a00",
+    "4446940c90bfc258": {
+      "id": "4446940c90bfc258",
       "kind": 352,
       "children": [
         "7591b7fc80aedbff",
@@ -190,30 +190,30 @@
         "55b7d042b45e548a"
       ]
     },
-    "2170892d7d06b62c": {
-      "id": "2170892d7d06b62c",
+    "5cff96a4414c32b6": {
+      "id": "5cff96a4414c32b6",
       "kind": 264,
       "properties": {
         "name": "User",
         "hasExtends": false
       },
       "children": [
-        "0f5583cdd536a5d6",
+        "7b88e4676650497a",
         "cf6d9a02b7269390",
         "978c2d93afdecf5a",
         "4713eebfd36a6d5e",
-        "e3c3f132d1079a00",
+        "4446940c90bfc258",
         "6e0340aa5cf0f794"
       ],
       "leadingComments": [
         {
           "kind": "MultiLineCommentTrivia",
-          "text": "/**\r\n * User interface with optional properties\r\n */"
+          "text": "/**\n * User interface with optional properties\n */"
         }
       ]
     },
-    "ba0dbd1df3975220": {
-      "id": "ba0dbd1df3975220",
+    "0d79c6b0e082e4a2": {
+      "id": "0d79c6b0e082e4a2",
       "kind": 320
     },
     "76b02ec6ef6745d2": {
@@ -223,7 +223,7 @@
       "leadingComments": [
         {
           "kind": "MultiLineCommentTrivia",
-          "text": "/**\r\n * Generic utility type\r\n */"
+          "text": "/**\n * Generic utility type\n */"
         }
       ]
     },
@@ -364,8 +364,8 @@
         "32cd11979c3cbcde"
       ]
     },
-    "4fa577a98ab4c148": {
-      "id": "4fa577a98ab4c148",
+    "585fc4a2348a24c7": {
+      "id": "585fc4a2348a24c7",
       "kind": 352,
       "children": [
         "3b8210e6e3988b35",
@@ -373,38 +373,38 @@
         "0c8ea3773be76654"
       ]
     },
-    "79577997c2e81c43": {
-      "id": "79577997c2e81c43",
+    "727092474b044b0f": {
+      "id": "727092474b044b0f",
       "kind": 187,
       "children": [
         "4713eebfd36a6d5e",
-        "4fa577a98ab4c148",
+        "585fc4a2348a24c7",
         "6e0340aa5cf0f794"
       ]
     },
-    "71b24b38465fd09a": {
-      "id": "71b24b38465fd09a",
+    "8cae22981f169d3d": {
+      "id": "8cae22981f169d3d",
       "kind": 265,
       "children": [
-        "ba0dbd1df3975220",
+        "0d79c6b0e082e4a2",
         "76b02ec6ef6745d2",
         "e226f9f90ccb1706",
         "bcf863b4f71a73b2",
         "04994e3c53342cfa",
         "3021576ac8313fb0",
         "ae59a5457d3f2a59",
-        "79577997c2e81c43",
+        "727092474b044b0f",
         "32cd11979c3cbcde"
       ],
       "leadingComments": [
         {
           "kind": "MultiLineCommentTrivia",
-          "text": "/**\r\n * Generic utility type\r\n */"
+          "text": "/**\n * Generic utility type\n */"
         }
       ]
     },
-    "5d184d2a17dd1ffd": {
-      "id": "5d184d2a17dd1ffd",
+    "39eda36f6b89b969": {
+      "id": "39eda36f6b89b969",
       "kind": 320
     },
     "5e94e1c2adce7cf1": {
@@ -414,7 +414,7 @@
       "leadingComments": [
         {
           "kind": "MultiLineCommentTrivia",
-          "text": "/**\r\n * Abstract base class\r\n */"
+          "text": "/**\n * Abstract base class\n */"
         }
       ]
     },
@@ -427,7 +427,7 @@
       "leadingComments": [
         {
           "kind": "MultiLineCommentTrivia",
-          "text": "/**\r\n * Abstract base class\r\n */"
+          "text": "/**\n * Abstract base class\n */"
         }
       ]
     },
@@ -621,8 +621,8 @@
         "3d0897d1f50f8d5a"
       ]
     },
-    "e5d840f38416ee57": {
-      "id": "e5d840f38416ee57",
+    "5452aa52f5589adb": {
+      "id": "5452aa52f5589adb",
       "kind": 241,
       "children": [
         "4713eebfd36a6d5e",
@@ -630,15 +630,15 @@
         "6e0340aa5cf0f794"
       ]
     },
-    "801e7680cc0dd6a7": {
-      "id": "801e7680cc0dd6a7",
+    "1b27de721d10ba62": {
+      "id": "1b27de721d10ba62",
       "kind": 176,
       "children": [
         "98a58cb5b9734279",
         "07ee93ce4048c9ad",
         "b5373ffd07444029",
         "8701a925e96e4ed0",
-        "e5d840f38416ee57"
+        "5452aa52f5589adb"
       ]
     },
     "62560295c3ded6b6": {
@@ -687,41 +687,41 @@
         "32cd11979c3cbcde"
       ]
     },
-    "d1ffb240ea4eca0b": {
-      "id": "d1ffb240ea4eca0b",
+    "4c50e6a1d2645ffb": {
+      "id": "4c50e6a1d2645ffb",
       "kind": 352,
       "children": [
         "27c431a3fcd79041",
-        "801e7680cc0dd6a7",
+        "1b27de721d10ba62",
         "2ec89ce74f003513"
       ]
     },
-    "050d3323f8cf69f2": {
-      "id": "050d3323f8cf69f2",
+    "a1c5d091ac2f2a8d": {
+      "id": "a1c5d091ac2f2a8d",
       "kind": 263,
       "properties": {
         "name": "BaseService",
         "hasExtends": true
       },
       "children": [
-        "5d184d2a17dd1ffd",
+        "39eda36f6b89b969",
         "c46629f0b3fd379d",
         "122a84a2ad15fe17",
         "f7f74ff1885569ee",
         "827cd2eb29624f0a",
         "4713eebfd36a6d5e",
-        "d1ffb240ea4eca0b",
+        "4c50e6a1d2645ffb",
         "6e0340aa5cf0f794"
       ],
       "leadingComments": [
         {
           "kind": "MultiLineCommentTrivia",
-          "text": "/**\r\n * Abstract base class\r\n */"
+          "text": "/**\n * Abstract base class\n */"
         }
       ]
     },
-    "260fdbb6fd3b2a40": {
-      "id": "260fdbb6fd3b2a40",
+    "920fe06cf874542f": {
+      "id": "920fe06cf874542f",
       "kind": 320
     },
     "6a42b6a4321ea5e9": {
@@ -930,8 +930,8 @@
         "14f79f74e294ef7a"
       ]
     },
-    "542e17cd1d27f0e0": {
-      "id": "542e17cd1d27f0e0",
+    "766e42ced567007c": {
+      "id": "766e42ced567007c",
       "kind": 241,
       "children": [
         "4713eebfd36a6d5e",
@@ -939,8 +939,8 @@
         "6e0340aa5cf0f794"
       ]
     },
-    "7a4c5d6b1fdc2156": {
-      "id": "7a4c5d6b1fdc2156",
+    "40751bb8a5bf8dc0": {
+      "id": "40751bb8a5bf8dc0",
       "kind": 174,
       "children": [
         "19f9a5ee97ce8919",
@@ -950,7 +950,7 @@
         "8701a925e96e4ed0",
         "f05c96a2e9e9f31e",
         "2bf37948db14ac9e",
-        "542e17cd1d27f0e0"
+        "766e42ced567007c"
       ]
     },
     "c73395d20b56bf46": {
@@ -1196,8 +1196,8 @@
         "5c832175149d75d4"
       ]
     },
-    "f17f82e6b1f3cc5e": {
-      "id": "f17f82e6b1f3cc5e",
+    "9afe0f9d42bad154": {
+      "id": "9afe0f9d42bad154",
       "kind": 352,
       "children": [
         "13f115feae8fef0b",
@@ -1208,49 +1208,49 @@
         "7b240b050c264103"
       ]
     },
-    "77d8e8e61e91ac55": {
-      "id": "77d8e8e61e91ac55",
+    "1ae758cf51b0bc45": {
+      "id": "1ae758cf51b0bc45",
       "kind": 210,
       "children": [
         "4713eebfd36a6d5e",
-        "f17f82e6b1f3cc5e",
+        "9afe0f9d42bad154",
         "6e0340aa5cf0f794"
       ]
     },
-    "95622c950213f13d": {
-      "id": "95622c950213f13d",
+    "1c9fdb6a562c392e": {
+      "id": "1c9fdb6a562c392e",
       "kind": 253,
       "children": [
         "7edb62074756b3b6",
-        "77d8e8e61e91ac55",
+        "1ae758cf51b0bc45",
         "32cd11979c3cbcde"
       ]
     },
-    "bfd65bb5b4794de8": {
-      "id": "bfd65bb5b4794de8",
+    "a6ffcacd41c566d9": {
+      "id": "a6ffcacd41c566d9",
       "kind": 352,
       "children": [
-        "95622c950213f13d"
+        "1c9fdb6a562c392e"
       ]
     },
-    "65e3f483cde786f5": {
-      "id": "65e3f483cde786f5",
+    "405efad0db605721": {
+      "id": "405efad0db605721",
       "kind": 241,
       "children": [
         "4713eebfd36a6d5e",
-        "bfd65bb5b4794de8",
+        "a6ffcacd41c566d9",
         "6e0340aa5cf0f794"
       ]
     },
-    "4633d78cc81ee2a2": {
-      "id": "4633d78cc81ee2a2",
+    "d7b4e8d75cf5b48f": {
+      "id": "d7b4e8d75cf5b48f",
       "kind": 245,
       "children": [
         "04b0a0a60b9063cd",
         "07ee93ce4048c9ad",
         "396829a3d7c09a92",
         "8701a925e96e4ed0",
-        "65e3f483cde786f5"
+        "405efad0db605721"
       ]
     },
     "7ddc90025065ac57": {
@@ -1271,8 +1271,8 @@
         "666623d55f4af0a5"
       ]
     },
-    "23bad42f245d4d1f": {
-      "id": "23bad42f245d4d1f",
+    "c90d0e9616626fc4": {
+      "id": "c90d0e9616626fc4",
       "kind": 352,
       "children": [
         "7ddc90025065ac57",
@@ -1280,44 +1280,44 @@
         "c45c81de4f81d88b"
       ]
     },
-    "ac1fdb02f7cf1f5d": {
-      "id": "ac1fdb02f7cf1f5d",
+    "e9dc7a3afba56f69": {
+      "id": "e9dc7a3afba56f69",
       "kind": 210,
       "children": [
         "4713eebfd36a6d5e",
-        "23bad42f245d4d1f",
+        "c90d0e9616626fc4",
         "6e0340aa5cf0f794"
       ]
     },
-    "c5a32305cf394599": {
-      "id": "c5a32305cf394599",
+    "60cf4818ae65979f": {
+      "id": "60cf4818ae65979f",
       "kind": 253,
       "children": [
         "7edb62074756b3b6",
-        "ac1fdb02f7cf1f5d",
+        "e9dc7a3afba56f69",
         "32cd11979c3cbcde"
       ]
     },
-    "1213504a7df12766": {
-      "id": "1213504a7df12766",
+    "e6c36d87d2bafac1": {
+      "id": "e6c36d87d2bafac1",
       "kind": 352,
       "children": [
         "1aa77ed331ed8fd4",
-        "4633d78cc81ee2a2",
-        "c5a32305cf394599"
+        "d7b4e8d75cf5b48f",
+        "60cf4818ae65979f"
       ]
     },
-    "5f9856cd1e2cceb4": {
-      "id": "5f9856cd1e2cceb4",
+    "f9a0b50e7167ebfc": {
+      "id": "f9a0b50e7167ebfc",
       "kind": 241,
       "children": [
         "4713eebfd36a6d5e",
-        "1213504a7df12766",
+        "e6c36d87d2bafac1",
         "6e0340aa5cf0f794"
       ]
     },
-    "1be612c5a0597011": {
-      "id": "1be612c5a0597011",
+    "6034e37e6f32abb8": {
+      "id": "6034e37e6f32abb8",
       "kind": 174,
       "children": [
         "19f9a5ee97ce8919",
@@ -1327,7 +1327,7 @@
         "8701a925e96e4ed0",
         "f05c96a2e9e9f31e",
         "831f5819a49fcbfc",
-        "5f9856cd1e2cceb4"
+        "f9a0b50e7167ebfc"
       ]
     },
     "097b4c93139bfd50": {
@@ -1480,8 +1480,8 @@
         "82f88b5bdacf5854"
       ]
     },
-    "74ae9d9edab1cdca": {
-      "id": "74ae9d9edab1cdca",
+    "dc213c3bb2367b7b": {
+      "id": "dc213c3bb2367b7b",
       "kind": 352,
       "children": [
         "14e7f6c110c0d52b",
@@ -1491,17 +1491,17 @@
         "ad089dcadf459be8"
       ]
     },
-    "620f10657413a5e8": {
-      "id": "620f10657413a5e8",
+    "f81c690f56983ac1": {
+      "id": "f81c690f56983ac1",
       "kind": 210,
       "children": [
         "4713eebfd36a6d5e",
-        "74ae9d9edab1cdca",
+        "dc213c3bb2367b7b",
         "6e0340aa5cf0f794"
       ]
     },
-    "04ed95cce0a626e7": {
-      "id": "04ed95cce0a626e7",
+    "107892f1f017edec": {
+      "id": "107892f1f017edec",
       "kind": 260,
       "properties": {
         "name": "user",
@@ -1512,29 +1512,29 @@
         "f05c96a2e9e9f31e",
         "aa9c27aa6a852bf6",
         "ae59a5457d3f2a59",
-        "620f10657413a5e8"
+        "f81c690f56983ac1"
       ]
     },
-    "836cc713576da9ad": {
-      "id": "836cc713576da9ad",
+    "81f978f8c2dbfd01": {
+      "id": "81f978f8c2dbfd01",
       "kind": 352,
       "children": [
-        "04ed95cce0a626e7"
+        "107892f1f017edec"
       ]
     },
-    "aa0b0c7b56eeb526": {
-      "id": "aa0b0c7b56eeb526",
+    "0cc821bf4428bc95": {
+      "id": "0cc821bf4428bc95",
       "kind": 261,
       "children": [
         "617d70a2fe95ecaa",
-        "836cc713576da9ad"
+        "81f978f8c2dbfd01"
       ]
     },
-    "f20c698ebc2dac89": {
-      "id": "f20c698ebc2dac89",
+    "c9792cefc76e3251": {
+      "id": "c9792cefc76e3251",
       "kind": 243,
       "children": [
-        "aa0b0c7b56eeb526",
+        "0cc821bf4428bc95",
         "32cd11979c3cbcde"
       ]
     },
@@ -1588,26 +1588,26 @@
         "32cd11979c3cbcde"
       ]
     },
-    "4ab83491c89eb858": {
-      "id": "4ab83491c89eb858",
+    "9715ca2b7cae65d3": {
+      "id": "9715ca2b7cae65d3",
       "kind": 352,
       "children": [
-        "f20c698ebc2dac89",
+        "c9792cefc76e3251",
         "0013d40005b6decb",
-        "c5a32305cf394599"
+        "60cf4818ae65979f"
       ]
     },
-    "9b2402afd39ae29b": {
-      "id": "9b2402afd39ae29b",
+    "7e090d76335bb755": {
+      "id": "7e090d76335bb755",
       "kind": 241,
       "children": [
         "4713eebfd36a6d5e",
-        "4ab83491c89eb858",
+        "9715ca2b7cae65d3",
         "6e0340aa5cf0f794"
       ]
     },
-    "848eb194ba3adba3": {
-      "id": "848eb194ba3adba3",
+    "1f0a43b2c873f257": {
+      "id": "1f0a43b2c873f257",
       "kind": 174,
       "children": [
         "19f9a5ee97ce8919",
@@ -1620,40 +1620,40 @@
         "8701a925e96e4ed0",
         "f05c96a2e9e9f31e",
         "831f5819a49fcbfc",
-        "9b2402afd39ae29b"
+        "7e090d76335bb755"
       ]
     },
-    "17688cdb09a0d0db": {
-      "id": "17688cdb09a0d0db",
+    "b8b5a2c4b98d799e": {
+      "id": "b8b5a2c4b98d799e",
       "kind": 352,
       "children": [
         "7299320b8c084b45",
         "df30ed15458f0377",
-        "7a4c5d6b1fdc2156",
-        "1be612c5a0597011",
-        "848eb194ba3adba3"
+        "40751bb8a5bf8dc0",
+        "6034e37e6f32abb8",
+        "1f0a43b2c873f257"
       ]
     },
-    "c10b39edab9f71ff": {
-      "id": "c10b39edab9f71ff",
+    "58e1eb976a5810ca": {
+      "id": "58e1eb976a5810ca",
       "kind": 263,
       "properties": {
         "name": "UserService",
         "hasExtends": true
       },
       "children": [
-        "260fdbb6fd3b2a40",
+        "920fe06cf874542f",
         "122a84a2ad15fe17",
         "6a42b6a4321ea5e9",
         "48a39e9a1f5f1c2b",
         "4713eebfd36a6d5e",
-        "17688cdb09a0d0db",
+        "b8b5a2c4b98d799e",
         "6e0340aa5cf0f794"
       ],
       "leadingComments": [
         {
           "kind": "MultiLineCommentTrivia",
-          "text": "/**\r\n * User service implementation\r\n */"
+          "text": "/**\n * User service implementation\n */"
         }
       ]
     },
@@ -1748,15 +1748,15 @@
         "32cd11979c3cbcde"
       ]
     },
-    "5909bb137f9b00e4": {
-      "id": "5909bb137f9b00e4",
+    "10eaea4b9550e6af": {
+      "id": "10eaea4b9550e6af",
       "kind": 352,
       "children": [
         "abceadc7a659d0a1",
-        "2170892d7d06b62c",
-        "71b24b38465fd09a",
-        "050d3323f8cf69f2",
-        "c10b39edab9f71ff",
+        "5cff96a4414c32b6",
+        "8cae22981f169d3d",
+        "a1c5d091ac2f2a8d",
+        "58e1eb976a5810ca",
         "c5f4790c766dbc3d",
         "a98a84c431009f16"
       ],
@@ -1772,11 +1772,11 @@
       "kind": 1,
       "text": ""
     },
-    "b445ba295780f475": {
-      "id": "b445ba295780f475",
+    "0d99dc94b01272cf": {
+      "id": "0d99dc94b01272cf",
       "kind": 307,
       "children": [
-        "5909bb137f9b00e4",
+        "10eaea4b9550e6af",
         "e73ad5df286d28d6"
       ],
       "leadingComments": [

@@ -1,9 +1,9 @@
 {
-  "file_name": "src\\cli\\__tests__\\fixtures\\export-test.ts",
+  "file_name": "src/cli/__tests__/fixtures/export-test.ts",
   "versions": [
     {
-      "created_at": "2025-07-23T01:54:56.033Z",
-      "root_node_id": "2d7c6690f41ac941"
+      "created_at": "2025-07-26T03:51:56.124Z",
+      "root_node_id": "da9515791ffc8876"
     }
   ],
   "nodes": {
@@ -263,8 +263,8 @@
       "kind": 20,
       "text": "}"
     },
-    "b64c05f526491d65": {
-      "id": "b64c05f526491d65",
+    "424f1d7495aef3ef": {
+      "id": "424f1d7495aef3ef",
       "kind": 241,
       "children": [
         "4713eebfd36a6d5e",
@@ -272,8 +272,8 @@
         "6e0340aa5cf0f794"
       ]
     },
-    "77d64a68174802f4": {
-      "id": "77d64a68174802f4",
+    "8960f0f17e6f0420": {
+      "id": "8960f0f17e6f0420",
       "kind": 262,
       "properties": {
         "name": "functionExport",
@@ -287,7 +287,7 @@
         "07ee93ce4048c9ad",
         "5efa38399ae7872c",
         "8701a925e96e4ed0",
-        "b64c05f526491d65"
+        "424f1d7495aef3ef"
       ]
     },
     "122a84a2ad15fe17": {
@@ -376,8 +376,8 @@
         "4ce720a9012480f5"
       ]
     },
-    "382b88781b95f26b": {
-      "id": "382b88781b95f26b",
+    "8d4c9fa4be617cac": {
+      "id": "8d4c9fa4be617cac",
       "kind": 263,
       "properties": {
         "name": "ClassExport",
@@ -429,8 +429,8 @@
         "03221dd88d9ec216"
       ]
     },
-    "db4fcc2c847f7025": {
-      "id": "db4fcc2c847f7025",
+    "5f0d0c0c310f533b": {
+      "id": "5f0d0c0c310f533b",
       "kind": 264,
       "properties": {
         "name": "InterfaceExport",
@@ -498,8 +498,8 @@
         "efbd5dd5913c346b"
       ]
     },
-    "cfd6f59950309b3c": {
-      "id": "cfd6f59950309b3c",
+    "52e9fba9c900ff2c": {
+      "id": "52e9fba9c900ff2c",
       "kind": 352,
       "children": [
         "4139a4163a58e193",
@@ -507,15 +507,15 @@
         "2684ba92db76067a"
       ]
     },
-    "3a0aa6e24cb6329f": {
-      "id": "3a0aa6e24cb6329f",
+    "89a134ef7ef3fb45": {
+      "id": "89a134ef7ef3fb45",
       "kind": 266,
       "children": [
         "5ee9eea8efce01ca",
         "83eab5f0a682f127",
         "df51a2e96cc0c55d",
         "4713eebfd36a6d5e",
-        "cfd6f59950309b3c",
+        "52e9fba9c900ff2c",
         "6e0340aa5cf0f794"
       ]
     },
@@ -841,17 +841,17 @@
         "32cd11979c3cbcde"
       ]
     },
-    "b7eeff3fdef7d1a1": {
-      "id": "b7eeff3fdef7d1a1",
+    "454ae010c9007b3f": {
+      "id": "454ae010c9007b3f",
       "kind": 352,
       "children": [
         "4307c76b9dc533f5",
         "afca2b0ad04a52d2",
         "56bf5d02c8aa1cb6",
-        "77d64a68174802f4",
-        "382b88781b95f26b",
-        "db4fcc2c847f7025",
-        "3a0aa6e24cb6329f",
+        "8960f0f17e6f0420",
+        "8d4c9fa4be617cac",
+        "5f0d0c0c310f533b",
+        "89a134ef7ef3fb45",
         "33fdaf092de88814",
         "35ba1fe147863f76",
         "ed2964134ed4060f",
@@ -871,11 +871,11 @@
       "kind": 1,
       "text": ""
     },
-    "2d7c6690f41ac941": {
-      "id": "2d7c6690f41ac941",
+    "da9515791ffc8876": {
+      "id": "da9515791ffc8876",
       "kind": 307,
       "children": [
-        "b7eeff3fdef7d1a1",
+        "454ae010c9007b3f",
         "e73ad5df286d28d6"
       ],
       "leadingComments": [

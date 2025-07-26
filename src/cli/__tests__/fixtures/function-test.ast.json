@@ -1,9 +1,9 @@
 {
-  "file_name": "src\\cli\\__tests__\\fixtures\\function-test.ts",
+  "file_name": "src/cli/__tests__/fixtures/function-test.ts",
   "versions": [
     {
-      "created_at": "2025-07-23T01:54:54.186Z",
-      "root_node_id": "a8d72315888b0c08"
+      "created_at": "2025-07-26T03:51:55.506Z",
+      "root_node_id": "e18caa86a1b76d3c"
     }
   ],
   "nodes": {
@@ -133,8 +133,8 @@
       "kind": 20,
       "text": "}"
     },
-    "9ff2361fd38bce69": {
-      "id": "9ff2361fd38bce69",
+    "a79d2323ac7169a7": {
+      "id": "a79d2323ac7169a7",
       "kind": 241,
       "children": [
         "4713eebfd36a6d5e",
@@ -142,8 +142,8 @@
         "6e0340aa5cf0f794"
       ]
     },
-    "6fe97c9027fdc19c": {
-      "id": "6fe97c9027fdc19c",
+    "8c79c712c303a026": {
+      "id": "8c79c712c303a026",
       "kind": 262,
       "properties": {
         "name": "hello",
@@ -157,7 +157,7 @@
         "8701a925e96e4ed0",
         "f05c96a2e9e9f31e",
         "b39318c43f936282",
-        "9ff2361fd38bce69"
+        "a79d2323ac7169a7"
       ],
       "leadingComments": [
         {
@@ -325,11 +325,11 @@
         "32cd11979c3cbcde"
       ]
     },
-    "5458465766c504c2": {
-      "id": "5458465766c504c2",
+    "815f465e568494b5": {
+      "id": "815f465e568494b5",
       "kind": 352,
       "children": [
-        "6fe97c9027fdc19c",
+        "8c79c712c303a026",
         "4bf8327af1c99242",
         "0718a0b14fd3e9b2",
         "6f825a409fd58821"
@@ -346,11 +346,11 @@
       "kind": 1,
       "text": ""
     },
-    "a8d72315888b0c08": {
-      "id": "a8d72315888b0c08",
+    "e18caa86a1b76d3c": {
+      "id": "e18caa86a1b76d3c",
       "kind": 307,
       "children": [
-        "5458465766c504c2",
+        "815f465e568494b5",
         "e73ad5df286d28d6"
       ],
       "leadingComments": [

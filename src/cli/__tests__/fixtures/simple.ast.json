@@ -1,9 +1,9 @@
 {
-  "file_name": "src\\cli\\__tests__\\fixtures\\simple.ts",
+  "file_name": "src/cli/__tests__/fixtures/simple.ts",
   "versions": [
     {
-      "created_at": "2025-07-23T01:54:53.309Z",
-      "root_node_id": "d34879e61c10bc93"
+      "created_at": "2025-07-26T03:51:55.201Z",
+      "root_node_id": "5abe5dc8c795b94c"
     }
   ],
   "nodes": {
@@ -203,8 +203,8 @@
       "kind": 20,
       "text": "}"
     },
-    "9ff2361fd38bce69": {
-      "id": "9ff2361fd38bce69",
+    "a79d2323ac7169a7": {
+      "id": "a79d2323ac7169a7",
       "kind": 241,
       "children": [
         "4713eebfd36a6d5e",
@@ -212,8 +212,8 @@
         "6e0340aa5cf0f794"
       ]
     },
-    "9fcbd2fb482bad3d": {
-      "id": "9fcbd2fb482bad3d",
+    "73bc64330bbb02b7": {
+      "id": "73bc64330bbb02b7",
       "kind": 262,
       "properties": {
         "name": "greet",
@@ -227,7 +227,7 @@
         "8701a925e96e4ed0",
         "f05c96a2e9e9f31e",
         "b39318c43f936282",
-        "9ff2361fd38bce69"
+        "a79d2323ac7169a7"
       ]
     },
     "81d8d5ca18555a48": {
@@ -267,12 +267,12 @@
         "32cd11979c3cbcde"
       ]
     },
-    "e1bc1054054e0e2e": {
-      "id": "e1bc1054054e0e2e",
+    "0c24ecc9f9453f71": {
+      "id": "0c24ecc9f9453f71",
       "kind": 352,
       "children": [
         "e660bbd0b7acee95",
-        "9fcbd2fb482bad3d",
+        "73bc64330bbb02b7",
         "a83e1d8b7e768ff8"
       ],
       "leadingComments": [
@@ -287,11 +287,11 @@
       "kind": 1,
       "text": ""
     },
-    "d34879e61c10bc93": {
-      "id": "d34879e61c10bc93",
+    "5abe5dc8c795b94c": {
+      "id": "5abe5dc8c795b94c",
       "kind": 307,
       "children": [
-        "e1bc1054054e0e2e",
+        "0c24ecc9f9453f71",
         "e73ad5df286d28d6"
       ],
       "leadingComments": [

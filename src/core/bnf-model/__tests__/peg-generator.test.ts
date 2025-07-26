@@ -301,24 +301,30 @@ describe('PegGenerator', () => {
   });
 
   describe('Complex patterns', () => {
-    it('should warn about complex regex patterns', () => {
-      const complexModel: BNFModel = {
-        name: 'Complex',
+    it('should warn about problematic regex patterns', () => {
+      const problematicModel: BNFModel = {
+        name: 'Problematic',
         version: '1.0.0',
-        start: 'Complex',
+        start: 'VeryLongPattern',
         nodes: {
-          Complex: {
+          WhitespacePattern: {
             type: 'token',
-            description: 'Complex pattern',
-            pattern: { regex: '(?:complicated|regex|pattern)+' }
+            description: 'Pattern with problematic whitespace',
+            pattern: { regex: 'test\\s+pattern' } // Uses \s which may conflict with PEG.js
+          },
+          VeryLongPattern: {
+            type: 'token',
+            description: 'Very long pattern',
+            pattern: { regex: 'a'.repeat(250) } // Over 200 characters
           }
         }
       };
 
-      const result = generatePegGrammar(complexModel);
+      const result = generatePegGrammar(problematicModel);
 
       expect(result.warnings).toEqual(expect.arrayContaining([
-        expect.stringContaining('Complex regex pattern')
+        expect.stringContaining('uses \\s which may conflict with PEG.js'),
+        expect.stringContaining('very long regex pattern')
       ]));
     });
   });

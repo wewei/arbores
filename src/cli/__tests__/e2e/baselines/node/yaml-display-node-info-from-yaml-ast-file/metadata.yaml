@@ -1,12 +1,12 @@
 description: Execute node command
 command:
   - node
-  - src\cli\__tests__\fixtures\simple.ast.yaml
+  - src/cli\__tests__\fixtures\simple.ast.yaml
   - '-n'
   - d34879e61c10bc93
-exitCode: 0
+exitCode: 1
 environment:
   COLUMNS: '80'
   MOCK_TIMESTAMP: '2025-01-01T00:00:00.000Z'
 created: '2025-07-21T03:31:29.492Z'
-updated: '2025-07-23T01:55:03.392Z'
+updated: '2025-07-26T03:52:02.040Z'

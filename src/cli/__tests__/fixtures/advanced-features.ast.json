@@ -1,9 +1,9 @@
 {
-  "file_name": "src\\cli\\__tests__\\fixtures\\advanced-features.ts",
+  "file_name": "src/cli/__tests__/fixtures/advanced-features.ts",
   "versions": [
     {
-      "created_at": "2025-07-23T01:54:54.641Z",
-      "root_node_id": "efbc984ef09aff59"
+      "created_at": "2025-07-26T03:51:55.663Z",
+      "root_node_id": "9da30eb0ae2a0237"
     }
   ],
   "nodes": {
@@ -335,8 +335,8 @@
         "32cd11979c3cbcde"
       ]
     },
-    "c8a8879397070251": {
-      "id": "c8a8879397070251",
+    "908a53bbf9428579": {
+      "id": "908a53bbf9428579",
       "kind": 352,
       "children": [
         "6e24817168f73489",
@@ -348,17 +348,17 @@
       "kind": 20,
       "text": "}"
     },
-    "7dec7aa5678af5da": {
-      "id": "7dec7aa5678af5da",
+    "931be19134f5f043": {
+      "id": "931be19134f5f043",
       "kind": 241,
       "children": [
         "4713eebfd36a6d5e",
-        "c8a8879397070251",
+        "908a53bbf9428579",
         "6e0340aa5cf0f794"
       ]
     },
-    "d19a2abd31221d9e": {
-      "id": "d19a2abd31221d9e",
+    "ec717b4682fd0536": {
+      "id": "ec717b4682fd0536",
       "kind": 248,
       "children": [
         "0f02dbab4c250384",
@@ -369,27 +369,27 @@
         "32cd11979c3cbcde",
         "ad1746b44bc254e1",
         "8701a925e96e4ed0",
-        "7dec7aa5678af5da"
+        "931be19134f5f043"
       ]
     },
-    "f23b68f5d93d63a1": {
-      "id": "f23b68f5d93d63a1",
+    "38e58327c2591d3e": {
+      "id": "38e58327c2591d3e",
       "kind": 352,
       "children": [
-        "d19a2abd31221d9e"
+        "ec717b4682fd0536"
       ]
     },
-    "58fec598d8e852c8": {
-      "id": "58fec598d8e852c8",
+    "bb247887afd228fa": {
+      "id": "bb247887afd228fa",
       "kind": 241,
       "children": [
         "4713eebfd36a6d5e",
-        "f23b68f5d93d63a1",
+        "38e58327c2591d3e",
         "6e0340aa5cf0f794"
       ]
     },
-    "2e87fee159cd6eba": {
-      "id": "2e87fee159cd6eba",
+    "06365309c4c00170": {
+      "id": "06365309c4c00170",
       "kind": 262,
       "properties": {
         "name": "asyncGenerator",
@@ -406,7 +406,7 @@
         "8701a925e96e4ed0",
         "f05c96a2e9e9f31e",
         "27a2d1f3c018ff7e",
-        "58fec598d8e852c8"
+        "bb247887afd228fa"
       ],
       "leadingComments": [
         {
@@ -622,8 +622,8 @@
         "1d0bfa052a2006dd"
       ]
     },
-    "2fe22975c396a015": {
-      "id": "2fe22975c396a015",
+    "fbc16897c67a3242": {
+      "id": "fbc16897c67a3242",
       "kind": 241,
       "children": [
         "4713eebfd36a6d5e",
@@ -631,8 +631,8 @@
         "6e0340aa5cf0f794"
       ]
     },
-    "8138a373ea55e199": {
-      "id": "8138a373ea55e199",
+    "f27a177879939ebe": {
+      "id": "f27a177879939ebe",
       "kind": 219,
       "children": [
         "19f9a5ee97ce8919",
@@ -642,11 +642,11 @@
         "f05c96a2e9e9f31e",
         "9cfd3cf91ede1ec7",
         "1c520f9fb8606d5f",
-        "2fe22975c396a015"
+        "fbc16897c67a3242"
       ]
     },
-    "00a7ede3f19f403d": {
-      "id": "00a7ede3f19f403d",
+    "36adba280642ef99": {
+      "id": "36adba280642ef99",
       "kind": 260,
       "properties": {
         "name": "asyncArrowFunction",
@@ -655,30 +655,30 @@
       "children": [
         "be000e65fbc42197",
         "ae59a5457d3f2a59",
-        "8138a373ea55e199"
+        "f27a177879939ebe"
       ]
     },
-    "9112e77a517bb3b1": {
-      "id": "9112e77a517bb3b1",
+    "3b61e061132f7fdc": {
+      "id": "3b61e061132f7fdc",
       "kind": 352,
       "children": [
-        "00a7ede3f19f403d"
+        "36adba280642ef99"
       ]
     },
-    "9c4b5e346d3235e1": {
-      "id": "9c4b5e346d3235e1",
+    "000fbb552fe15122": {
+      "id": "000fbb552fe15122",
       "kind": 261,
       "children": [
         "617d70a2fe95ecaa",
-        "9112e77a517bb3b1"
+        "3b61e061132f7fdc"
       ]
     },
-    "a4a974dbe801401f": {
-      "id": "a4a974dbe801401f",
+    "b72d5b8a400865da": {
+      "id": "b72d5b8a400865da",
       "kind": 243,
       "children": [
         "5ee9eea8efce01ca",
-        "9c4b5e346d3235e1",
+        "000fbb552fe15122",
         "32cd11979c3cbcde"
       ]
     },
@@ -729,8 +729,8 @@
         "c119b8cc7558cfee"
       ]
     },
-    "c9bb9681e2a8ecf5": {
-      "id": "c9bb9681e2a8ecf5",
+    "cfe912cb18101e45": {
+      "id": "cfe912cb18101e45",
       "kind": 352,
       "children": [
         "2ba04ed3ee401f33",
@@ -740,12 +740,12 @@
         "9f165659955eb798"
       ]
     },
-    "a29b6fdc7c6fec49": {
-      "id": "a29b6fdc7c6fec49",
+    "f21cfba795c9210e": {
+      "id": "f21cfba795c9210e",
       "kind": 206,
       "children": [
         "4713eebfd36a6d5e",
-        "c9bb9681e2a8ecf5",
+        "cfe912cb18101e45",
         "6e0340aa5cf0f794"
       ]
     },
@@ -802,8 +802,8 @@
         "32cd11979c3cbcde"
       ]
     },
-    "ddf4028ec7d71c67": {
-      "id": "ddf4028ec7d71c67",
+    "95138129588ae817": {
+      "id": "95138129588ae817",
       "kind": 352,
       "children": [
         "aa5da43e014cb6b1",
@@ -811,29 +811,29 @@
         "a3e76c205503f5b6"
       ]
     },
-    "ad31340cabf5ab99": {
-      "id": "ad31340cabf5ab99",
+    "844b69e1347415e0": {
+      "id": "844b69e1347415e0",
       "kind": 187,
       "children": [
         "4713eebfd36a6d5e",
-        "ddf4028ec7d71c67",
+        "95138129588ae817",
         "6e0340aa5cf0f794"
       ]
     },
-    "609fe18d80301ad0": {
-      "id": "609fe18d80301ad0",
+    "a26504ebab091973": {
+      "id": "a26504ebab091973",
       "kind": 169,
       "children": [
-        "a29b6fdc7c6fec49",
+        "f21cfba795c9210e",
         "f05c96a2e9e9f31e",
-        "ad31340cabf5ab99"
+        "844b69e1347415e0"
       ]
     },
-    "3498f9ad27e33f7f": {
-      "id": "3498f9ad27e33f7f",
+    "bd5c9c1a801dfde4": {
+      "id": "bd5c9c1a801dfde4",
       "kind": 352,
       "children": [
-        "609fe18d80301ad0"
+        "a26504ebab091973"
       ]
     },
     "92a6a61e3b4570f7": {
@@ -900,8 +900,8 @@
         "feb1cbeab43155ad"
       ]
     },
-    "0d66833ddd678e01": {
-      "id": "0d66833ddd678e01",
+    "a1b546591031167e": {
+      "id": "a1b546591031167e",
       "kind": 241,
       "children": [
         "4713eebfd36a6d5e",
@@ -909,8 +909,8 @@
         "6e0340aa5cf0f794"
       ]
     },
-    "87aa4101dcacdbe0": {
-      "id": "87aa4101dcacdbe0",
+    "49cf248abc719eb5": {
+      "id": "49cf248abc719eb5",
       "kind": 262,
       "properties": {
         "name": "processData",
@@ -922,9 +922,9 @@
         "d58640a0128d853c",
         "00b8449cd1910c3f",
         "07ee93ce4048c9ad",
-        "3498f9ad27e33f7f",
+        "bd5c9c1a801dfde4",
         "8701a925e96e4ed0",
-        "0d66833ddd678e01"
+        "a1b546591031167e"
       ],
       "leadingComments": [
         {
@@ -1628,8 +1628,8 @@
         "0b0a2973392b1fac"
       ]
     },
-    "7cdbcc68dc835339": {
-      "id": "7cdbcc68dc835339",
+    "067d3c9b7d02572e": {
+      "id": "067d3c9b7d02572e",
       "kind": 241,
       "children": [
         "4713eebfd36a6d5e",
@@ -1637,15 +1637,15 @@
         "6e0340aa5cf0f794"
       ]
     },
-    "8b8e347109a43fc3": {
-      "id": "8b8e347109a43fc3",
+    "2cfd03fc260c8d4d": {
+      "id": "2cfd03fc260c8d4d",
       "kind": 245,
       "children": [
         "04b0a0a60b9063cd",
         "07ee93ce4048c9ad",
         "fc66e1ccdcfba58c",
         "8701a925e96e4ed0",
-        "7cdbcc68dc835339"
+        "067d3c9b7d02572e"
       ]
     },
     "351dad851de41bcd": {
@@ -1695,25 +1695,25 @@
         "32cd11979c3cbcde"
       ]
     },
-    "8a4dbe05046430c3": {
-      "id": "8a4dbe05046430c3",
+    "168ded8961a340d8": {
+      "id": "168ded8961a340d8",
       "kind": 352,
       "children": [
-        "8b8e347109a43fc3",
+        "2cfd03fc260c8d4d",
         "814d197408bd5653"
       ]
     },
-    "b5e730235d4bb994": {
-      "id": "b5e730235d4bb994",
+    "49ee700b401b9325": {
+      "id": "49ee700b401b9325",
       "kind": 241,
       "children": [
         "4713eebfd36a6d5e",
-        "8a4dbe05046430c3",
+        "168ded8961a340d8",
         "6e0340aa5cf0f794"
       ]
     },
-    "1ca247716cab7de0": {
-      "id": "1ca247716cab7de0",
+    "76d894e74dcb8332": {
+      "id": "76d894e74dcb8332",
       "kind": 174,
       "children": [
         "e1eecb9a695b9113",
@@ -1725,7 +1725,7 @@
         "8701a925e96e4ed0",
         "f05c96a2e9e9f31e",
         "080626274ec87f52",
-        "b5e730235d4bb994"
+        "49ee700b401b9325"
       ]
     },
     "50c30d79ea42adad": {
@@ -1841,8 +1841,8 @@
         "e3a646df2ee98200"
       ]
     },
-    "bf6320cd20a7f17b": {
-      "id": "bf6320cd20a7f17b",
+    "8b876d1c6cd32466": {
+      "id": "8b876d1c6cd32466",
       "kind": 241,
       "children": [
         "4713eebfd36a6d5e",
@@ -1850,8 +1850,8 @@
         "6e0340aa5cf0f794"
       ]
     },
-    "640e46b67b68c206": {
-      "id": "640e46b67b68c206",
+    "321346a7ea38d5f0": {
+      "id": "321346a7ea38d5f0",
       "kind": 174,
       "children": [
         "50c30d79ea42adad",
@@ -1863,20 +1863,20 @@
         "8701a925e96e4ed0",
         "f05c96a2e9e9f31e",
         "080626274ec87f52",
-        "bf6320cd20a7f17b"
+        "8b876d1c6cd32466"
       ]
     },
-    "32595c81a2ace1b0": {
-      "id": "32595c81a2ace1b0",
+    "8b11f231bbc78ba2": {
+      "id": "8b11f231bbc78ba2",
       "kind": 352,
       "children": [
         "a2fab90cc853abc0",
-        "1ca247716cab7de0",
-        "640e46b67b68c206"
+        "76d894e74dcb8332",
+        "321346a7ea38d5f0"
       ]
     },
-    "71c3af35cc68e3c5": {
-      "id": "71c3af35cc68e3c5",
+    "58d88534b285c803": {
+      "id": "58d88534b285c803",
       "kind": 263,
       "properties": {
         "name": "EventEmitter",
@@ -1890,21 +1890,21 @@
         "dc2a8a20ff204e8f",
         "3021576ac8313fb0",
         "4713eebfd36a6d5e",
-        "32595c81a2ace1b0",
+        "8b11f231bbc78ba2",
         "6e0340aa5cf0f794"
       ]
     },
-    "ed8b1f1e6a152699": {
-      "id": "ed8b1f1e6a152699",
+    "10ad5c7cf528fe99": {
+      "id": "10ad5c7cf528fe99",
       "kind": 352,
       "children": [
-        "2e87fee159cd6eba",
-        "a4a974dbe801401f",
-        "87aa4101dcacdbe0",
+        "06365309c4c00170",
+        "b72d5b8a400865da",
+        "49cf248abc719eb5",
         "e264e5a0560d7a14",
         "9329ca6a9920e55f",
         "032146b993ffecce",
-        "71c3af35cc68e3c5"
+        "58d88534b285c803"
       ],
       "leadingComments": [
         {
@@ -1918,11 +1918,11 @@
       "kind": 1,
       "text": ""
     },
-    "efbc984ef09aff59": {
-      "id": "efbc984ef09aff59",
+    "9da30eb0ae2a0237": {
+      "id": "9da30eb0ae2a0237",
       "kind": 307,
       "children": [
-        "ed8b1f1e6a152699",
+        "10ad5c7cf528fe99",
         "e73ad5df286d28d6"
       ],
       "leadingComments": [
