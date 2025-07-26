@@ -273,7 +273,7 @@ describe('BNF stringifier Generator', () => {
       expect(result.code).toContain('* Generated from BNF model: SimpleMath v1.0.0');
       expect(result.code).toContain('* @fileoverview This file is auto-generated. Do not edit manually.');
       expect(result.code).toContain('import type {');
-      expect(result.code).toContain('} from \'./index.js\';');
+      expect(result.code).toContain('} from \'../schema/index.js\';');
     });
   });
 

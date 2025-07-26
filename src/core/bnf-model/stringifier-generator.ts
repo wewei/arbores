@@ -212,7 +212,7 @@ export class StringifierGenerator<M = any> {
     // Import node types
     const nodeTypes = this.getUniqueNodeTypes();
     if (nodeTypes.length > 0) {
-      imports.push(`import type { ${nodeTypes.join(', ')} } from './index.js';`);
+      imports.push(`import type { ${nodeTypes.join(', ')} } from '../schema/index.js';`);
     }
 
     return imports.join('\n');

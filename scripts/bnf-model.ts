@@ -59,18 +59,29 @@ function cleanTarget(targetPath: string, bnfModelFile: string, verbose: boolean 
     // Check if BNF model file is inside the target directory
     const absoluteTargetPath = resolve(targetPath);
     const absoluteBnfModelFile = resolve(bnfModelFile);
+    const grammarBnfPath = join(absoluteTargetPath, 'grammar.bnf.yaml');
     const isModelFileInside = absoluteBnfModelFile.startsWith(absoluteTargetPath + sep) || 
                               absoluteBnfModelFile === absoluteTargetPath;
 
     let tempModelPath: string | null = null;
+    let tempGrammarPath: string | null = null;
 
+    // Backup original BNF model file if it's inside the target directory
     if (isModelFileInside && existsSync(absoluteBnfModelFile)) {
-      // Move BNF model file to temporary location
       tempModelPath = join(tmpdir(), `bnf-model-${Date.now()}-${basename(absoluteBnfModelFile)}`);
       if (verbose) {
         console.error(chalk.blue(`💾 Temporarily moving BNF model file to: ${tempModelPath}`));
       }
       copyFileSync(absoluteBnfModelFile, tempModelPath);
+    }
+
+    // Also backup grammar.bnf.yaml if it exists and is different from the original file
+    if (existsSync(grammarBnfPath) && grammarBnfPath !== absoluteBnfModelFile) {
+      tempGrammarPath = join(tmpdir(), `grammar-bnf-${Date.now()}-grammar.bnf.yaml`);
+      if (verbose) {
+        console.error(chalk.blue(`💾 Temporarily moving grammar.bnf.yaml to: ${tempGrammarPath}`));
+      }
+      copyFileSync(grammarBnfPath, tempGrammarPath);
     }
 
     // Clean the target directory
@@ -82,7 +93,7 @@ function cleanTarget(targetPath: string, bnfModelFile: string, verbose: boolean 
     // Recreate the target directory
     mkdirSync(targetPath, { recursive: true });
 
-    // Move BNF model file back if it was inside
+    // Restore original BNF model file if it was inside
     if (tempModelPath && isModelFileInside) {
       if (verbose) {
         console.error(chalk.blue(`📥 Restoring BNF model file to: ${absoluteBnfModelFile}`));
@@ -92,6 +103,16 @@ function cleanTarget(targetPath: string, bnfModelFile: string, verbose: boolean 
       copyFileSync(tempModelPath, absoluteBnfModelFile);
       // Clean up temp file
       rmSync(tempModelPath, { force: true });
+    }
+
+    // Restore grammar.bnf.yaml if it was backed up
+    if (tempGrammarPath) {
+      if (verbose) {
+        console.error(chalk.blue(`📥 Restoring grammar.bnf.yaml to: ${grammarBnfPath}`));
+      }
+      copyFileSync(tempGrammarPath, grammarBnfPath);
+      // Clean up temp file
+      rmSync(tempGrammarPath, { force: true });
     }
   } catch (error: any) {
     console.error(chalk.red(`❌ Failed to clean ${targetPath}: ${error?.message || error}`));
@@ -295,18 +316,41 @@ program
 
       // Copy BNF model file to output directory as grammar.bnf.yaml
       const bnfModelDestination = join(outputDir, 'grammar.bnf.yaml');
-      if (!options.dryRun) {
-        try {
-          copyFileSync(bnfModelFile, bnfModelDestination);
-          if (verbose) {
-            console.error(chalk.green(`✅ Copied BNF model: ${bnfModelDestination}`));
+      const absoluteBnfModelFile = resolve(bnfModelFile);
+      const absoluteBnfModelDestination = resolve(bnfModelDestination);
+      
+      // Only copy/rename if source and destination are different
+      if (absoluteBnfModelFile !== absoluteBnfModelDestination) {
+        if (!options.dryRun) {
+          try {
+            // If we're generating in the same directory and the source file has a different name,
+            // rename it instead of copying
+            const sourceDir = dirname(absoluteBnfModelFile);
+            const outputAbsoluteDir = resolve(outputDir);
+            
+            if (sourceDir === outputAbsoluteDir) {
+              // Same directory: rename the file
+              const fs = require('fs');
+              fs.renameSync(absoluteBnfModelFile, absoluteBnfModelDestination);
+              if (verbose) {
+                console.error(chalk.green(`✅ Renamed BNF model: ${basename(bnfModelFile)} → grammar.bnf.yaml`));
+              }
+            } else {
+              // Different directory: copy the file
+              copyFileSync(absoluteBnfModelFile, absoluteBnfModelDestination);
+              if (verbose) {
+                console.error(chalk.green(`✅ Copied BNF model: ${bnfModelDestination}`));
+              }
+            }
+          } catch (error: any) {
+            console.error(chalk.red(`❌ Failed to copy/rename BNF model file: ${error?.message || error}`));
+            process.exit(1);
           }
-        } catch (error: any) {
-          console.error(chalk.red(`❌ Failed to copy BNF model file: ${error?.message || error}`));
-          process.exit(1);
+        } else if (verbose) {
+          console.error(chalk.yellow(`📄 Would copy: ${bnfModelFile} → ${bnfModelDestination}`));
         }
       } else if (verbose) {
-        console.error(chalk.yellow(`📄 Would copy: ${bnfModelFile} → ${bnfModelDestination}`));
+        console.error(chalk.blue(`📄 BNF model file already named correctly: ${bnfModelDestination}`));
       }
 
       // Check dependencies (stringifier and parser depend on schema)
