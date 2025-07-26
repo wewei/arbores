@@ -293,6 +293,22 @@ program
         }
       }
 
+      // Copy BNF model file to output directory as grammar.bnf.yaml
+      const bnfModelDestination = join(outputDir, 'grammar.bnf.yaml');
+      if (!options.dryRun) {
+        try {
+          copyFileSync(bnfModelFile, bnfModelDestination);
+          if (verbose) {
+            console.error(chalk.green(`✅ Copied BNF model: ${bnfModelDestination}`));
+          }
+        } catch (error: any) {
+          console.error(chalk.red(`❌ Failed to copy BNF model file: ${error?.message || error}`));
+          process.exit(1);
+        }
+      } else if (verbose) {
+        console.error(chalk.yellow(`📄 Would copy: ${bnfModelFile} → ${bnfModelDestination}`));
+      }
+
       // Check dependencies (stringifier and parser depend on schema)
       const needsSchema = targets.includes('stringifier') || targets.includes('parser');
       if (needsSchema && !targets.includes('schema')) {
@@ -338,8 +354,9 @@ async function generateSchema(model: BNFModel, outputDir: string, verbose: boole
     console.error(chalk.blue('🏗️  Generating TypeScript schema...'));
   }
 
+  const schemaDir = join(outputDir, 'schema');
   const config: GenerationConfig = {
-    outputDir,
+    outputDir: schemaDir,
     separateFiles: true,
     includeDocumentation: true,
   };
@@ -355,7 +372,7 @@ async function generateSchema(model: BNFModel, outputDir: string, verbose: boole
   // Write generated files
   if (generationResult.files && !dryRun) {
     for (const [filePath, content] of generationResult.files) {
-      const fullPath = join(outputDir, filePath);
+      const fullPath = join(schemaDir, filePath);
       const dir = dirname(fullPath);
 
       // Ensure subdirectory exists
@@ -370,7 +387,7 @@ async function generateSchema(model: BNFModel, outputDir: string, verbose: boole
     }
   } else if (generationResult.files && dryRun) {
     for (const [filePath] of generationResult.files) {
-      const fullPath = join(outputDir, filePath);
+      const fullPath = join(schemaDir, filePath);
       console.error(chalk.yellow(`📄 Would generate: ${fullPath}`));
     }
   }
@@ -384,6 +401,8 @@ async function generateStringifier(model: BNFModel, outputDir: string, verbose: 
     console.error(chalk.blue('🔧 Generating stringifier functions...'));
   }
 
+  const stringifierDir = join(outputDir, 'stringifier');
+  
   const config: StringifierConfig = {
     functionPrefix: 'stringify',
     indentStyle: '  ',
@@ -399,17 +418,20 @@ async function generateStringifier(model: BNFModel, outputDir: string, verbose: 
     process.exit(1);
   }
 
-  const outputFile = join(outputDir, 'stringifier.ts');
-
   if (!dryRun) {
-    // Only use the code part, which already includes everything we need
-    // The types part contains duplicate definitions that cause conflicts
+    // Ensure stringifier directory exists
+    mkdirSync(stringifierDir, { recursive: true });
+
+    // For now, generate the main stringifier file
+    // TODO: Split into individual node files as specified in the prompt
+    const mainFile = join(stringifierDir, 'index.ts');
     const content = stringifyResult.code || '';
     
-    writeFileSync(outputFile, content, 'utf-8');
-    console.error(chalk.green(`✅ Generated: ${outputFile}`));
+    writeFileSync(mainFile, content, 'utf-8');
+    console.error(chalk.green(`✅ Generated: ${mainFile}`));
   } else {
-    console.error(chalk.yellow(`📄 Would generate: ${outputFile}`));
+    console.error(chalk.yellow(`📄 Would generate: ${join(stringifierDir, 'index.ts')}`));
+    // TODO: List individual node files that would be generated
   }
 }
 
@@ -422,6 +444,8 @@ async function generateParser(model: BNFModel, outputDir: string, verbose: boole
   }
 
   try {
+    const parserDir = join(outputDir, 'parser');
+    
     // Generate PEG.js grammar
     const pegResult = generatePegGrammar(model, {
       startRule: model.start,
@@ -443,9 +467,9 @@ async function generateParser(model: BNFModel, outputDir: string, verbose: boole
       }
     }
 
-    // Generate parser.ts file
+    // Generate parser index.ts file
     const parserContent = `/**
- * Parser generated from BNF model: ${model.name} v${model.version}
+ * Parser for ${model.name} v${model.version}
  * 
  * Generated from BNF model: ${model.name} v${model.version}
  * Generation time: ${new Date().toISOString()}
@@ -453,17 +477,31 @@ async function generateParser(model: BNFModel, outputDir: string, verbose: boole
  * @fileoverview This file is auto-generated. Do not edit manually.
  */
 
-// PEG.js grammar for ${model.name}
-export const GRAMMAR = \`${pegResult.grammar.replace(/`/g, '\\`')}\`;
+import { readFileSync } from 'fs';
+import { join, dirname } from 'path';
+import { fileURLToPath } from 'url';
+
+// Get current directory for ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 // Parser statistics
 export const PARSER_STATS = ${JSON.stringify(pegResult.stats, null, 2)} as const;
 
 /**
+ * Load the PEG.js grammar
+ */
+function loadGrammar(): string {
+  const grammarPath = join(__dirname, '${model.name.toLowerCase()}.syntax.pegjs');
+  return readFileSync(grammarPath, 'utf-8');
+}
+
+/**
  * Parse input text using the generated PEG.js grammar
  * 
  * Note: This requires PEG.js to be installed and the grammar to be compiled.
- * Run: npx pegjs --output parser-compiled.js <grammar-file>
+ * You need to compile the grammar first using:
+ * npx pegjs --output ${model.name.toLowerCase()}-parser.js ${model.name.toLowerCase()}.syntax.pegjs
  * 
  * @param input - The input text to parse
  * @returns The parsed AST
@@ -476,30 +514,42 @@ export function parse(input: string): any {
  * Get the raw PEG.js grammar string
  */
 export function getGrammar(): string {
-  return GRAMMAR;
+  return loadGrammar();
+}
+
+/**
+ * Get parser statistics
+ */
+export function getStats() {
+  return PARSER_STATS;
 }
 `;
 
-    const outputFile = join(outputDir, 'parser.ts');
-    
     if (dryRun) {
-      console.error(chalk.yellow(`📄 Would generate: ${outputFile}`));
+      console.error(chalk.yellow(`📄 Would generate: ${join(parserDir, 'index.ts')}`));
+      console.error(chalk.yellow(`📄 Would generate: ${join(parserDir, `${model.name.toLowerCase()}.syntax.pegjs`)}`));
       if (verbose) {
         console.error(chalk.blue('📝 Parser content preview:'));
         console.error(parserContent.split('\n').slice(0, 20).join('\n') + '\n...');
       }
     } else {
-      writeFileSync(outputFile, parserContent, 'utf-8');
-      console.error(chalk.green(`✅ Generated: ${outputFile}`));
+      // Ensure parser directory exists
+      mkdirSync(parserDir, { recursive: true });
       
-      // Also generate the raw PEG grammar file
-      const grammarFile = join(outputDir, 'grammar.pegjs');
+      // Write index.ts
+      const indexFile = join(parserDir, 'index.ts');
+      writeFileSync(indexFile, parserContent, 'utf-8');
+      console.error(chalk.green(`✅ Generated: ${indexFile}`));
+      
+      // Write PEG grammar file
+      const grammarFile = join(parserDir, `${model.name.toLowerCase()}.syntax.pegjs`);
       writeFileSync(grammarFile, pegResult.grammar, 'utf-8');
       console.error(chalk.green(`✅ Generated: ${grammarFile}`));
       
       if (verbose) {
         console.error(chalk.blue('💡 To compile the parser, run:'));
-        console.error(chalk.gray(`   npx pegjs --output ${join(outputDir, 'parser-compiled.js')} ${grammarFile}`));
+        console.error(chalk.gray(`   cd ${parserDir}`));
+        console.error(chalk.gray(`   npx pegjs --output ${model.name.toLowerCase()}-parser.js ${model.name.toLowerCase()}.syntax.pegjs`));
       }
     }
   } catch (error: any) {

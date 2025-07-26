@@ -19,3 +19,25 @@ stringifier 和 parser 都依赖 schema。
 * --verbose: 输出详细的生成过程信息。
 * --dry-run: 模拟生成过程，不实际创建文件。
 * --help: 显示帮助信息。
+
+### Output folder structure
+输出目结构
+```
+<output-dir>/
+|-- grammar.bnf.yaml     # BNF model file, copied from <bnf-model-file>
+├── schema/
+│   ├── nodes/           # For each deduction node, create a separate file for its type declaration
+│   │   ├── <deduction-node-name-a>.ts
+│   │   └── <deduction-node-name-b>.ts
+│   ├── constants.ts      # Contains all token patterns and constants
+│   ├── token-types.ts    # Contains all token types declarations
+│   ├── union-types.ts    # Contains all union types declarations
+│   └── index.ts
+├── stringifier/         # For each node, including tokens, deduction nodes, and unions, define a stringifier function
+│   ├── <node-name-a>.ts # Stringifier function for node a
+│   ├── <node-name-b>.ts # Stringifier function for node b
+│   └── index.ts
+└── parser/
+    ├── <language>.syntax.pegjsa # PEG.js parser file for the language
+    └── index.ts                 # Main parser entry point, it should read the PEG.js file and export the parser function
+```
