@@ -53,13 +53,7 @@
     "analyze:syntax-kinds": "bun run scripts/generate-syntax-kind-analysis.ts --generate-docs",
     "bnf-model": "bun run scripts/bnf-model.ts",
     "bnf-model:validate": "bun run scripts/bnf-model.ts validate",
-    "bnf-model:generate": "bun run scripts/bnf-model.ts generate",
-    "bnf-lang": "bun run scripts/bnf-lang.ts",
-    "bnf-lang:stringifier": "bun run scripts/bnf-lang.ts stringifier",
-    "bnf-lang:parser": "bun run scripts/bnf-lang.ts parser",
-    "bnf-lang:generate": "bun run scripts/bnf-lang.ts generate",
-    "bnf-lang:test": "bun run scripts/bnf-lang.ts test",
-    "bnf-lang:info": "bun run scripts/bnf-lang.ts info"
+    "bnf-model:generate": "bun run scripts/bnf-model.ts generate"
   },
   "bin": {
     "arbores": "./src/cli/index.ts"
