@@ -2,71 +2,136 @@
  * Token type definitions
  * 
  * Generated from BNF model: BNFGrammar v1.0.0
- * Generation time: 2025-07-25T09:51:40.599Z
+ * Generation time: 2025-07-26T03:15:19.145Z
  * 
  * @fileoverview This file is auto-generated. Do not edit manually.
  */
 
+/**
+ * An identifier (node name, property name, etc.)
+ *
+ * @pattern regex: [a-zA-Z_][a-zA-Z0-9_]*
+ */
 export interface IdentifierToken {
   readonly type: 'Identifier';
   readonly value: string;
 
 }
+/**
+ * A quoted string literal
+ *
+ * @pattern regex: '([^'\\]|\\.)*'
+ */
 export interface StringToken {
   readonly type: 'String';
   readonly value: string;
 
 }
+/**
+ * A regular expression pattern
+ *
+ * @pattern regex: /([^/\\\\]|\\\\.)+/
+ */
 export interface RegexToken {
   readonly type: 'Regex';
   readonly value: string;
 
 }
+/**
+ * A numeric value
+ *
+ * @pattern regex: \\d+(\\.\\d+)?
+ */
 export interface NumberToken {
   readonly type: 'Number';
   readonly value: string;
 
 }
+/**
+ * A comment line starting with
+ *
+ * @pattern regex: #[^\\n]*
+ */
 export interface CommentToken {
   readonly type: 'Comment';
   readonly value: string;
 
 }
+/**
+ * The "name:" keyword
+ *
+ * @pattern name:
+ */
 export interface NameKeywordToken {
   readonly type: 'NameKeyword';
   readonly value: string;
 
 }
+/**
+ * The "version:" keyword
+ *
+ * @pattern version:
+ */
 export interface VersionKeywordToken {
   readonly type: 'VersionKeyword';
   readonly value: string;
 
 }
+/**
+ * The "start:" keyword
+ *
+ * @pattern start:
+ */
 export interface StartKeywordToken {
   readonly type: 'StartKeyword';
   readonly value: string;
 
 }
+/**
+ * The "::" definition operator
+ *
+ * @pattern ::
+ */
 export interface DefineOperatorToken {
   readonly type: 'DefineOperator';
   readonly value: string;
 
 }
+/**
+ * The "|" union operator
+ *
+ * @pattern |
+ */
 export interface UnionOperatorToken {
   readonly type: 'UnionOperator';
   readonly value: string;
 
 }
+/**
+ * The ":" property assignment operator
+ *
+ * @pattern :
+ */
 export interface PropertyOperatorToken {
   readonly type: 'PropertyOperator';
   readonly value: string;
 
 }
+/**
+ * Whitespace characters
+ *
+ * @pattern regex: [ \\t]+
+ */
 export interface WhitespaceToken {
   readonly type: 'Whitespace';
   readonly value: string;
 
 }
+/**
+ * Line break character
+ *
+ * @pattern regex: \\r?\\n
+ */
 export interface NewlineToken {
   readonly type: 'Newline';
   readonly value: string;

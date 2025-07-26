@@ -7,14 +7,16 @@
  */
 
 import { Command } from 'commander';
-import { readFileSync, writeFileSync, mkdirSync, rmSync, existsSync } from 'fs';
-import { dirname, join, basename, extname } from 'path';
+import { readFileSync, writeFileSync, mkdirSync, rmSync, existsSync, copyFileSync } from 'fs';
+import { dirname, join, basename, extname, resolve, sep } from 'path';
+import { tmpdir } from 'os';
 import { load as loadYaml } from 'js-yaml';
 import chalk from 'chalk';
 
 import { parseBNF } from '../src/core/bnf-model/bnf-parser.js';
 import { generateCode, type GenerationConfig } from '../src/core/bnf-model/generator.js';
 import { generateStringifierFunctions, type StringifierConfig } from '../src/core/bnf-model/stringifier-generator.js';
+import { generatePegGrammar } from '../src/core/bnf-model/peg-generator.js';
 import type { BNFModel } from '../src/core/bnf-model/types.js';
 
 const program = new Command();
@@ -46,19 +48,54 @@ function loadBNFModel(filePath: string): any {
 }
 
 /**
- * Clean target directory or file if it exists
+ * Clean target directory while preserving the BNF model file if it's inside
  */
-function cleanTarget(targetPath: string, verbose: boolean = false): void {
-  if (existsSync(targetPath)) {
-    try {
-      rmSync(targetPath, { recursive: true, force: true });
+function cleanTarget(targetPath: string, bnfModelFile: string, verbose: boolean = false): void {
+  if (!existsSync(targetPath)) {
+    return;
+  }
+
+  try {
+    // Check if BNF model file is inside the target directory
+    const absoluteTargetPath = resolve(targetPath);
+    const absoluteBnfModelFile = resolve(bnfModelFile);
+    const isModelFileInside = absoluteBnfModelFile.startsWith(absoluteTargetPath + sep) || 
+                              absoluteBnfModelFile === absoluteTargetPath;
+
+    let tempModelPath: string | null = null;
+
+    if (isModelFileInside && existsSync(absoluteBnfModelFile)) {
+      // Move BNF model file to temporary location
+      tempModelPath = join(tmpdir(), `bnf-model-${Date.now()}-${basename(absoluteBnfModelFile)}`);
       if (verbose) {
-        console.error(chalk.yellow(`🗑️  Cleaned: ${targetPath}`));
+        console.error(chalk.blue(`💾 Temporarily moving BNF model file to: ${tempModelPath}`));
       }
-    } catch (error: any) {
-      console.error(chalk.red(`❌ Failed to clean ${targetPath}: ${error?.message || error}`));
-      process.exit(1);
+      copyFileSync(absoluteBnfModelFile, tempModelPath);
     }
+
+    // Clean the target directory
+    rmSync(targetPath, { recursive: true, force: true });
+    if (verbose) {
+      console.error(chalk.yellow(`🗑️  Cleaned: ${targetPath}`));
+    }
+
+    // Recreate the target directory
+    mkdirSync(targetPath, { recursive: true });
+
+    // Move BNF model file back if it was inside
+    if (tempModelPath && isModelFileInside) {
+      if (verbose) {
+        console.error(chalk.blue(`📥 Restoring BNF model file to: ${absoluteBnfModelFile}`));
+      }
+      // Ensure the directory structure exists for the model file
+      mkdirSync(dirname(absoluteBnfModelFile), { recursive: true });
+      copyFileSync(tempModelPath, absoluteBnfModelFile);
+      // Clean up temp file
+      rmSync(tempModelPath, { force: true });
+    }
+  } catch (error: any) {
+    console.error(chalk.red(`❌ Failed to clean ${targetPath}: ${error?.message || error}`));
+    process.exit(1);
   }
 }
 
@@ -183,307 +220,296 @@ program
   });
 
 // Generate command
-const generateCmd = program
+program
   .command('generate')
-  .description('Generate code from BNF model (schema, stringify, parser)');
-
-// Generate schema subcommand
-generateCmd
-  .command('schema')
-  .description('Generate TypeScript type definitions from BNF model')
-  .argument('<file>', 'Path to BNF model file (.json, .yaml, or .yml)')
-  .option('-o, --output <dir>', 'Output directory for generated files')
-  .option('-c, --clean', 'Clean output directory before generation')
-  .option('--include-docs', 'Include JSDoc documentation in generated code')
-  .action(async (file: string, options: GlobalOptions & {
-    includeDocs?: boolean;
+  .description('Generate code from BNF model (schema, stringifier, parser)')
+  .argument('<bnf-model-file>', 'Path to BNF model file (.json, .yaml, or .yml)')
+  .argument('<targets...>', 'Generation targets: schema, stringifier, parser')
+  .option('-o, --output <dir>', 'Output directory (default: bnf-model-file directory)')
+  .option('-t, --types <file>', 'BNFModel base types file', 'src/core/bnf-model/types.ts')
+  .option('-c, --clean', 'Clean output directory before generation (preserve bnf-model-file)')
+  .option('--verbose', 'Output detailed generation process information')
+  .option('--dry-run', 'Simulate generation process without creating files')
+  .action(async (bnfModelFile: string, targets: string[], options: GlobalOptions & {
+    types?: string;
     clean?: boolean;
+    dryRun?: boolean;
   }, command: any) => {
     try {
       // Get global options from parent command
       const globalOptions = command.parent.opts();
       const verbose = globalOptions.verbose || options.verbose;
-      if (verbose) {
-        console.error(chalk.blue(`🔍 Loading BNF model from: ${file}`));
+
+      // Validate targets
+      const validTargets = ['schema', 'stringifier', 'parser'];
+      const invalidTargets = targets.filter(target => !validTargets.includes(target));
+      if (invalidTargets.length > 0) {
+        console.error(chalk.red(`❌ Invalid targets: ${invalidTargets.join(', ')}`));
+        console.error(chalk.yellow(`💡 Valid targets: ${validTargets.join(', ')}`));
+        process.exit(1);
       }
 
-      const modelData = loadBNFModel(file);
+      if (targets.length === 0) {
+        console.error(chalk.red('❌ At least one target must be specified'));
+        console.error(chalk.yellow(`💡 Valid targets: ${validTargets.join(', ')}`));
+        process.exit(1);
+      }
+
+      // Determine output directory
+      const outputDir = options.output || dirname(bnfModelFile);
+
+      if (verbose || options.dryRun) {
+        console.error(chalk.blue(`🔍 Loading BNF model from: ${bnfModelFile}`));
+        console.error(chalk.blue(`📁 Output directory: ${outputDir}`));
+        console.error(chalk.blue(`📝 Types file: ${options.types}`));
+        console.error(chalk.blue(`🎯 Targets: ${targets.join(', ')}`));
+      }
+
+      // Load and validate BNF model
+      const modelData = loadBNFModel(bnfModelFile);
       const parseResult = parseBNF(modelData);
 
       if (!parseResult.success) {
         console.error(chalk.red('❌ BNF model validation failed:'));
         parseResult.errors?.forEach(error => console.error(chalk.red(`  - ${error}`)));
-        process.exit(1);
-      }
-
-      if (verbose) {
-        console.error(chalk.blue('🏗️  Generating TypeScript schema...'));
-      }
-
-      if (!options.output) {
-        console.error(chalk.red('❌ Output directory is required for schema generation'));
-        console.error(chalk.yellow('💡 Use -o <dir> to specify output directory'));
         process.exit(1);
       }
 
       // Clean output directory if requested
-      if (options.clean) {
-        cleanTarget(options.output, verbose);
+      if (options.clean && !options.dryRun) {
+        if (verbose) {
+          console.error(chalk.blue('🧹 Cleaning output directory...'));
+        }
+        cleanTarget(outputDir, bnfModelFile, verbose);
       }
 
       // Ensure output directory exists
+      if (!options.dryRun) {
+        try {
+          mkdirSync(outputDir, { recursive: true });
+        } catch (error: any) {
+          console.error(chalk.red(`❌ Failed to create output directory: ${error?.message || error}`));
+          process.exit(1);
+        }
+      }
+
+      // Check dependencies (stringifier and parser depend on schema)
+      const needsSchema = targets.includes('stringifier') || targets.includes('parser');
+      if (needsSchema && !targets.includes('schema')) {
+        if (verbose) {
+          console.error(chalk.yellow('⚠️  Adding schema target (required by stringifier/parser)'));
+        }
+        targets.unshift('schema');
+      }
+
+      // Process each target
+      for (const target of targets) {
+        if (verbose || options.dryRun) {
+          console.error(chalk.blue(`🏗️  Processing target: ${target}`));
+        }
+
+        switch (target) {
+          case 'schema':
+            await generateSchema(parseResult.model, outputDir, verbose, options.dryRun || false);
+            break;
+          case 'stringifier':
+            await generateStringifier(parseResult.model, outputDir, verbose, options.dryRun || false);
+            break;
+          case 'parser':
+            await generateParser(parseResult.model, outputDir, verbose, options.dryRun || false);
+            break;
+        }
+      }
+
+      if (verbose || options.dryRun) {
+        console.error(chalk.green('✅ Generation completed'));
+      }
+    } catch (error: any) {
+      console.error(chalk.red(`❌ Error: ${error?.message || error}`));
+      process.exit(1);
+    }
+  });
+
+/**
+ * Generate TypeScript schema from BNF model
+ */
+async function generateSchema(model: BNFModel, outputDir: string, verbose: boolean, dryRun: boolean): Promise<void> {
+  if (verbose) {
+    console.error(chalk.blue('🏗️  Generating TypeScript schema...'));
+  }
+
+  const config: GenerationConfig = {
+    outputDir,
+    separateFiles: true,
+    includeDocumentation: true,
+  };
+
+  const generationResult = generateCode(model, config);
+
+  if (!generationResult.success) {
+    console.error(chalk.red('❌ Schema generation failed:'));
+    generationResult.errors?.forEach(error => console.error(chalk.red(`  - ${error}`)));
+    process.exit(1);
+  }
+
+  // Write generated files
+  if (generationResult.files && !dryRun) {
+    for (const [filePath, content] of generationResult.files) {
+      const fullPath = join(outputDir, filePath);
+      const dir = dirname(fullPath);
+
+      // Ensure subdirectory exists
       try {
-        mkdirSync(options.output, { recursive: true });
-      } catch (error: any) {
-        console.error(chalk.red(`❌ Failed to create output directory: ${error?.message || error}`));
-        process.exit(1);
+        mkdirSync(dir, { recursive: true });
+      } catch {
+        // Directory already exists
       }
 
-      const config: GenerationConfig = {
-        outputDir: options.output,
-        separateFiles: true,
-        includeDocumentation: options.includeDocs || false,
-      };
-
-      const generationResult = generateCode(parseResult.model, config);
-
-      if (!generationResult.success) {
-        console.error(chalk.red('❌ Code generation failed:'));
-        generationResult.errors?.forEach(error => console.error(chalk.red(`  - ${error}`)));
-        process.exit(1);
-      }
-
-      // Write generated files
-      if (generationResult.files) {
-        for (const [filePath, content] of generationResult.files) {
-          const fullPath = join(options.output, filePath);
-          const dir = dirname(fullPath);
-
-          // Ensure subdirectory exists
-          try {
-            mkdirSync(dir, { recursive: true });
-          } catch {
-            // Directory already exists
-          }
-
-          writeFileSync(fullPath, content, 'utf-8');
-          console.error(chalk.green(`✅ Generated: ${fullPath}`));
-        }
-      }
-
-      if (verbose) {
-        console.error(chalk.green('✅ Schema generation completed'));
-      }
-    } catch (error: any) {
-      console.error(chalk.red(`❌ Error: ${error?.message || error}`));
-      process.exit(1);
+      writeFileSync(fullPath, content, 'utf-8');
+      console.error(chalk.green(`✅ Generated: ${fullPath}`));
     }
-  });
-
-// Generate stringifier subcommand
-generateCmd
-  .command('stringifier')
-  .description('Generate stringifier functions from BNF model')
-  .argument('<file>', 'Path to BNF model file (.json, .yaml, or .yml)')
-  .option('-o, --output <file>', 'Output file for generated stringifier functions (default: stdout)')
-  .option('-c, --clean', 'Clean output file before generation (only for file output)')
-  .option('--function-prefix <prefix>', 'Prefix for generated function names', 'stringifier')
-  .option('--indent-style <style>', 'Indentation style for generated code', '  ')
-  .option('--no-whitespace', 'Disable whitespace formatting in generated functions')
-  .option('--no-formatting', 'Disable advanced formatting options')
-  .option('--types-file', 'Generate separate .d.ts file for TypeScript definitions')
-  .action(async (file: string, options: GlobalOptions & {
-    functionPrefix?: string;
-    indentStyle?: string;
-    whitespace?: boolean;
-    formatting?: boolean;
-    typesFile?: boolean;
-    clean?: boolean;
-  }, command: any) => {
-    try {
-      // Get global options from parent command
-      const globalOptions = command.parent.opts();
-      const verbose = globalOptions.verbose || options.verbose;
-
-      if (verbose) {
-        console.error(chalk.blue(`🔍 Loading BNF model from: ${file}`));
-      }
-
-      const modelData = loadBNFModel(file);
-      const parseResult = parseBNF(modelData);
-
-      if (!parseResult.success) {
-        console.error(chalk.red('❌ BNF model validation failed:'));
-        parseResult.errors?.forEach(error => console.error(chalk.red(`  - ${error}`)));
-        process.exit(1);
-      }
-
-      if (verbose) {
-        console.error(chalk.blue('🔧 Generating stringify functions...'));
-      }
-
-      // Clean output file(s) if requested and output file is specified
-      if (options.clean && options.output) {
-        cleanTarget(options.output, verbose);
-
-        if (options.typesFile) {
-          const baseName = basename(options.output, extname(options.output));
-          const typesPath = join(dirname(options.output), `${baseName}.d.ts`);
-          cleanTarget(typesPath, verbose);
-        }
-      }
-
-      const config: StringifierConfig = {
-        functionPrefix: options.functionPrefix || 'stringify',
-        indentStyle: options.indentStyle || '  ',
-        includeWhitespace: options.whitespace !== false,
-        includeFormatting: options.formatting !== false,
-      };
-
-      const stringifyResult = generateStringifierFunctions(parseResult.model, config);
-
-      if (!stringifyResult.success) {
-        console.error(chalk.red('❌ Stringify generation failed:'));
-        stringifyResult.errors?.forEach(error => console.error(chalk.red(`  - ${error}`)));
-        process.exit(1);
-      }
-
-      if (options.typesFile && options.output) {
-        // Generate separate .d.ts file
-        const baseName = basename(options.output, extname(options.output));
-        const typesPath = join(dirname(options.output), `${baseName}.d.ts`);
-
-        writeFileSync(options.output, stringifyResult.code || '', 'utf-8');
-        writeFileSync(typesPath, stringifyResult.types || '', 'utf-8');
-
-        console.error(chalk.green(`✅ Stringify functions written to: ${options.output}`));
-        console.error(chalk.green(`✅ Type definitions written to: ${typesPath}`));
-      } else {
-        // Single file output
-        const combinedContent = [
-          stringifyResult.types || '',
-          stringifyResult.code || ''
-        ].filter(Boolean).join('\n\n');
-
-        outputResult(combinedContent, options, `${parseResult.model.name.toLowerCase()}-stringify.ts`);
-      }
-
-      if (verbose) {
-        console.error(chalk.green('✅ Stringify generation completed'));
-      }
-    } catch (error: any) {
-      console.error(chalk.red(`❌ Error: ${error?.message || error}`));
-      process.exit(1);
+  } else if (generationResult.files && dryRun) {
+    for (const [filePath] of generationResult.files) {
+      const fullPath = join(outputDir, filePath);
+      console.error(chalk.yellow(`📄 Would generate: ${fullPath}`));
     }
-  });
+  }
+}
 
-// Generate parser subcommand
-generateCmd
-  .command('parser')
-  .description('Generate PEG.js parser from BNF model')
-  .argument('<file>', 'Path to BNF model file (.json, .yaml, or .yml)')
-  .option('-o, --output <file>', 'Output file for generated parser (default: stdout)')
-  .option('-c, --clean', 'Clean output file before generation (only for file output)')
-  .option('--grammar-only', 'Generate only PEG.js grammar file (no compiled parser)')
-  .option('--function-prefix <prefix>', 'Prefix for generated parser functions', 'parse')
-  .option('--no-whitespace', 'Disable automatic whitespace handling in grammar')
-  .option('--no-formatting', 'Disable advanced parsing options')
-  .option('--types-file', 'Generate separate .d.ts file for TypeScript definitions')
-  .option('--start-rule <rule>', 'Override start rule for the parser')
-  .action(async (file: string, options: GlobalOptions & {
-    grammarOnly?: boolean;
-    functionPrefix?: string;
-    whitespace?: boolean;
-    formatting?: boolean;
-    typesFile?: boolean;
-    clean?: boolean;
-    startRule?: string;
-  }, command: any) => {
-    try {
-      // Get global options from parent command
-      const globalOptions = command.parent.opts();
-      const verbose = globalOptions.verbose || options.verbose;
+/**
+ * Generate stringifier functions from BNF model
+ */
+async function generateStringifier(model: BNFModel, outputDir: string, verbose: boolean, dryRun: boolean): Promise<void> {
+  if (verbose) {
+    console.error(chalk.blue('🔧 Generating stringifier functions...'));
+  }
 
-      if (verbose) {
-        console.error(chalk.blue(`🔍 Loading BNF model from: ${file}`));
-      }
+  const config: StringifierConfig = {
+    functionPrefix: 'stringify',
+    indentStyle: '  ',
+    includeWhitespace: true,
+    includeFormatting: true,
+  };
 
-      const modelData = loadBNFModel(file);
-      const parseResult = parseBNF(modelData);
+  const stringifyResult = generateStringifierFunctions(model, config);
 
-      if (!parseResult.success) {
-        console.error(chalk.red('❌ BNF model validation failed:'));
-        parseResult.errors?.forEach(error => console.error(chalk.red(`  - ${error}`)));
-        process.exit(1);
-      }
+  if (!stringifyResult.success) {
+    console.error(chalk.red('❌ Stringifier generation failed:'));
+    stringifyResult.errors?.forEach(error => console.error(chalk.red(`  - ${error}`)));
+    process.exit(1);
+  }
 
-      if (verbose) {
-        console.error(chalk.blue('🔧 Generating PEG.js parser...'));
-      }
+  const outputFile = join(outputDir, 'stringifier.ts');
 
-      // Clean output file(s) if requested and output file is specified
-      if (options.clean && options.output) {
-        cleanTarget(options.output, verbose);
+  if (!dryRun) {
+    // Only use the code part, which already includes everything we need
+    // The types part contains duplicate definitions that cause conflicts
+    const content = stringifyResult.code || '';
+    
+    writeFileSync(outputFile, content, 'utf-8');
+    console.error(chalk.green(`✅ Generated: ${outputFile}`));
+  } else {
+    console.error(chalk.yellow(`📄 Would generate: ${outputFile}`));
+  }
+}
 
-        if (options.typesFile) {
-          const baseName = basename(options.output, extname(options.output));
-          const typesPath = join(dirname(options.output), `${baseName}.d.ts`);
-          cleanTarget(typesPath, verbose);
-        }
-      }
+/**
+ * Generate parser from BNF model
+ */
+async function generateParser(model: BNFModel, outputDir: string, verbose: boolean, dryRun: boolean): Promise<void> {
+  if (verbose) {
+    console.error(chalk.blue('🔧 Generating parser...'));
+  }
 
-      // TODO: Implement PEG.js parser generation
-      // This will be implemented in Phase 3.1
-      console.error(chalk.yellow('⚠️  Parser generation not yet implemented'));
-      console.error(chalk.blue('💡 This feature will be available in Phase 3.1'));
-      console.error(chalk.blue('   Current available commands: validate, generate schema, generate stringify'));
+  try {
+    // Generate PEG.js grammar
+    const pegResult = generatePegGrammar(model, {
+      startRule: model.start,
+      includeWhitespace: true,
+      includeLocation: true,
+      includeDebugInfo: verbose
+    });
 
-      /*
-      const config: ParserConfig = {
-        functionPrefix: options.functionPrefix || 'parse',
-        startRule: options.startRule || parseResult.model.start,
-        includeWhitespace: options.whitespace !== false,
-        includeFormatting: options.formatting !== false,
-        grammarOnly: options.grammarOnly || false,
-      };
-
-      const parserResult = generateParser(parseResult.model, config);
-
-      if (!parserResult.success) {
-        console.error(chalk.red('❌ Parser generation failed:'));
-        parserResult.errors?.forEach(error => console.error(chalk.red(`  - ${error}`)));
-        process.exit(1);
-      }
-
-      if (options.typesFile && options.output) {
-        // Generate separate .d.ts file
-        const baseName = basename(options.output, extname(options.output));
-        const typesPath = join(dirname(options.output), `${baseName}.d.ts`);
-
-        writeFileSync(options.output, parserResult.code || '', 'utf-8');
-        writeFileSync(typesPath, parserResult.types || '', 'utf-8');
-
-        console.error(chalk.green(`✅ Parser written to: ${options.output}`));
-        console.error(chalk.green(`✅ Type definitions written to: ${typesPath}`));
-      } else {
-        // Single file output
-        const combinedContent = [
-          parserResult.types || '',
-          parserResult.code || ''
-        ].filter(Boolean).join('\n\n');
-
-        outputResult(combinedContent, options, `${parseResult.model.name.toLowerCase()}-parser.ts`);
-      }
-
-      if (verbose) {
-        console.error(chalk.green('✅ Parser generation completed'));
-      }
-      */
-    } catch (error: any) {
-      console.error(chalk.red(`❌ Error: ${error?.message || error}`));
-      process.exit(1);
+    if (pegResult.warnings.length > 0) {
+      pegResult.warnings.forEach(warning => {
+        console.error(chalk.yellow(`⚠️  ${warning}`));
+      });
     }
-  });
+
+    if (verbose) {
+      console.error(chalk.blue(`📊 Parser stats: ${pegResult.stats.totalRules} rules (${pegResult.stats.tokenRules} tokens, ${pegResult.stats.deductionRules} deductions, ${pegResult.stats.unionRules} unions)`));
+      if (pegResult.stats.leftRecursiveRules.length > 0) {
+        console.error(chalk.yellow(`⚠️  Left recursive rules detected: ${pegResult.stats.leftRecursiveRules.join(', ')}`));
+      }
+    }
+
+    // Generate parser.ts file
+    const parserContent = `/**
+ * Parser generated from BNF model: ${model.name} v${model.version}
+ * 
+ * Generated from BNF model: ${model.name} v${model.version}
+ * Generation time: ${new Date().toISOString()}
+ * 
+ * @fileoverview This file is auto-generated. Do not edit manually.
+ */
+
+// PEG.js grammar for ${model.name}
+export const GRAMMAR = \`${pegResult.grammar.replace(/`/g, '\\`')}\`;
+
+// Parser statistics
+export const PARSER_STATS = ${JSON.stringify(pegResult.stats, null, 2)} as const;
+
+/**
+ * Parse input text using the generated PEG.js grammar
+ * 
+ * Note: This requires PEG.js to be installed and the grammar to be compiled.
+ * Run: npx pegjs --output parser-compiled.js <grammar-file>
+ * 
+ * @param input - The input text to parse
+ * @returns The parsed AST
+ */
+export function parse(input: string): any {
+  throw new Error('Parser not compiled. Please compile the PEG.js grammar first.');
+}
+
+/**
+ * Get the raw PEG.js grammar string
+ */
+export function getGrammar(): string {
+  return GRAMMAR;
+}
+`;
+
+    const outputFile = join(outputDir, 'parser.ts');
+    
+    if (dryRun) {
+      console.error(chalk.yellow(`📄 Would generate: ${outputFile}`));
+      if (verbose) {
+        console.error(chalk.blue('📝 Parser content preview:'));
+        console.error(parserContent.split('\n').slice(0, 20).join('\n') + '\n...');
+      }
+    } else {
+      writeFileSync(outputFile, parserContent, 'utf-8');
+      console.error(chalk.green(`✅ Generated: ${outputFile}`));
+      
+      // Also generate the raw PEG grammar file
+      const grammarFile = join(outputDir, 'grammar.pegjs');
+      writeFileSync(grammarFile, pegResult.grammar, 'utf-8');
+      console.error(chalk.green(`✅ Generated: ${grammarFile}`));
+      
+      if (verbose) {
+        console.error(chalk.blue('💡 To compile the parser, run:'));
+        console.error(chalk.gray(`   npx pegjs --output ${join(outputDir, 'parser-compiled.js')} ${grammarFile}`));
+      }
+    }
+  } catch (error: any) {
+    console.error(chalk.red(`❌ Parser generation failed: ${error?.message || error}`));
+    if (verbose && error?.stack) {
+      console.error(chalk.gray(error.stack));
+    }
+    process.exit(1);
+  }
+}
 
 // Main execution
 program.parseAsync(process.argv).catch((error: any) => {

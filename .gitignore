@@ -47,6 +47,7 @@ report.[0-9]_.[0-9]_.[0-9]_.[0-9]_.json
 debug-*
 test-*
 temp-*
+temp/
 *.tmp
 *.temp
 inspect-*

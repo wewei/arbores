@@ -2,12 +2,10 @@
  * stringifier functions for BNFGrammar grammar
  * 
  * Generated from BNF model: BNFGrammar v1.0.0
- * Generation time: 2025-07-25T09:51:40.635Z
+ * Generation time: 2025-07-26T03:15:19.149Z
  * 
  * @fileoverview This file is auto-generated. Do not edit manually.
  */
-
-import type { AdditionalMembersNode, CommentToken, DeductionRuleNode, DefineOperatorToken, ElementListNode, ElementNode, GrammarNode, HeaderNode, IdentifierToken, NameDeclarationNode, NameKeywordToken, NewlineToken, NumberToken, OptionalCommentNode, OptionalPropertyNode, PropertyOperatorToken, RegexToken, RuleBody, RuleDefinitionNode, RuleListNode, RuleNode, StartDeclarationNode, StartKeywordToken, StringToken, TokenPattern, TokenRuleNode, UnionMemberListNode, UnionOperatorToken, UnionRuleNode, VersionDeclarationNode, VersionKeywordToken, WhitespaceToken } from './index.js';
 
 /**
  * Options for stringifier functions
@@ -33,9 +31,19 @@ export interface StringifierOptions {
 }
 
 /**
+ * Main stringifier function type
+ */
+export type StringifyBNFGrammarFunction = (
+  node: GrammarNode, 
+  options?: StringifierOptions
+) => string;
+
+import type { AdditionalMembersNode, CommentToken, DeductionRuleNode, DefineOperatorToken, ElementListNode, ElementNode, GrammarNode, HeaderNode, IdentifierToken, NameDeclarationNode, NameKeywordToken, NewlineToken, NumberToken, OptionalCommentNode, OptionalPropertyNode, PropertyOperatorToken, RegexToken, RuleBody, RuleDefinitionNode, RuleListNode, RuleNode, StartDeclarationNode, StartKeywordToken, StringToken, TokenPattern, TokenRuleNode, UnionMemberListNode, UnionOperatorToken, UnionRuleNode, VersionDeclarationNode, VersionKeywordToken, WhitespaceToken } from './index.js';
+
+/**
  * Main stringifier function for BNFGrammar nodes
  */
-export function stringifierBNFGrammar(node: GrammarNode, options: StringifierOptions = {}): string {
+export function stringifyBNFGrammar(node: GrammarNode, options: StringifierOptions = {}): string {
   const opts = {
     indent: 0,
     indentString: '  ',
@@ -44,82 +52,82 @@ export function stringifierBNFGrammar(node: GrammarNode, options: StringifierOpt
     ...options,
   };
 
-  return stringifierNode(node, opts);
+  return stringifyNode(node, opts);
 }
 
 /**
  * Generic node stringifier function that dispatches to specific node types
  */
-function stringifierNode(node: any, options: StringifierOptions): string {
+function stringifyNode(node: any, options: StringifierOptions): string {
   if (!node || typeof node !== 'object' || !node.type) {
     throw new Error('Invalid node: must have a type property');
   }
 
   switch (node.type) {
     case 'Identifier':
-      return stringifierIdentifier(node, options);
+      return stringifyIdentifier(node, options);
     case 'String':
-      return stringifierString(node, options);
+      return stringifyString(node, options);
     case 'Regex':
-      return stringifierRegex(node, options);
+      return stringifyRegex(node, options);
     case 'Number':
-      return stringifierNumber(node, options);
+      return stringifyNumber(node, options);
     case 'Comment':
-      return stringifierComment(node, options);
+      return stringifyComment(node, options);
     case 'NameKeyword':
-      return stringifierNameKeyword(node, options);
+      return stringifyNameKeyword(node, options);
     case 'VersionKeyword':
-      return stringifierVersionKeyword(node, options);
+      return stringifyVersionKeyword(node, options);
     case 'StartKeyword':
-      return stringifierStartKeyword(node, options);
+      return stringifyStartKeyword(node, options);
     case 'DefineOperator':
-      return stringifierDefineOperator(node, options);
+      return stringifyDefineOperator(node, options);
     case 'UnionOperator':
-      return stringifierUnionOperator(node, options);
+      return stringifyUnionOperator(node, options);
     case 'PropertyOperator':
-      return stringifierPropertyOperator(node, options);
+      return stringifyPropertyOperator(node, options);
     case 'Whitespace':
-      return stringifierWhitespace(node, options);
+      return stringifyWhitespace(node, options);
     case 'Newline':
-      return stringifierNewline(node, options);
+      return stringifyNewline(node, options);
     case 'Grammar':
-      return stringifierGrammar(node, options);
+      return stringifyGrammar(node, options);
     case 'Header':
-      return stringifierHeader(node, options);
+      return stringifyHeader(node, options);
     case 'NameDeclaration':
-      return stringifierNameDeclaration(node, options);
+      return stringifyNameDeclaration(node, options);
     case 'VersionDeclaration':
-      return stringifierVersionDeclaration(node, options);
+      return stringifyVersionDeclaration(node, options);
     case 'StartDeclaration':
-      return stringifierStartDeclaration(node, options);
+      return stringifyStartDeclaration(node, options);
     case 'RuleList':
-      return stringifierRuleList(node, options);
+      return stringifyRuleList(node, options);
     case 'Rule':
-      return stringifierRule(node, options);
+      return stringifyRule(node, options);
     case 'OptionalComment':
-      return stringifierOptionalComment(node, options);
+      return stringifyOptionalComment(node, options);
     case 'RuleDefinition':
-      return stringifierRuleDefinition(node, options);
+      return stringifyRuleDefinition(node, options);
     case 'TokenRule':
-      return stringifierTokenRule(node, options);
+      return stringifyTokenRule(node, options);
     case 'DeductionRule':
-      return stringifierDeductionRule(node, options);
+      return stringifyDeductionRule(node, options);
     case 'UnionRule':
-      return stringifierUnionRule(node, options);
+      return stringifyUnionRule(node, options);
     case 'ElementList':
-      return stringifierElementList(node, options);
+      return stringifyElementList(node, options);
     case 'Element':
-      return stringifierElement(node, options);
+      return stringifyElement(node, options);
     case 'OptionalProperty':
-      return stringifierOptionalProperty(node, options);
+      return stringifyOptionalProperty(node, options);
     case 'UnionMemberList':
-      return stringifierUnionMemberList(node, options);
+      return stringifyUnionMemberList(node, options);
     case 'AdditionalMembers':
-      return stringifierAdditionalMembers(node, options);
+      return stringifyAdditionalMembers(node, options);
     case 'TokenPattern':
-      return stringifierTokenPattern(node, options);
+      return stringifyTokenPattern(node, options);
     case 'RuleBody':
-      return stringifierRuleBody(node, options);
+      return stringifyRuleBody(node, options);
     default:
       throw new Error(`Unknown node type: ${node.type}`);
   }
@@ -129,7 +137,7 @@ function stringifierNode(node: any, options: StringifierOptions): string {
  * stringifier Identifier token
  * An identifier (node name, property name, etc.)
  */
-function stringifierIdentifier(node: IdentifierToken, options: StringifierOptions): string {
+function stringifyIdentifier(node: IdentifierToken, options: StringifierOptions): string {
   return node.value;
 }
 
@@ -137,7 +145,7 @@ function stringifierIdentifier(node: IdentifierToken, options: StringifierOption
  * stringifier String token
  * A quoted string literal
  */
-function stringifierString(node: StringToken, options: StringifierOptions): string {
+function stringifyString(node: StringToken, options: StringifierOptions): string {
   return node.value;
 }
 
@@ -145,7 +153,7 @@ function stringifierString(node: StringToken, options: StringifierOptions): stri
  * stringifier Regex token
  * A regular expression pattern
  */
-function stringifierRegex(node: RegexToken, options: StringifierOptions): string {
+function stringifyRegex(node: RegexToken, options: StringifierOptions): string {
   return node.value;
 }
 
@@ -153,7 +161,7 @@ function stringifierRegex(node: RegexToken, options: StringifierOptions): string
  * stringifier Number token
  * A numeric value
  */
-function stringifierNumber(node: NumberToken, options: StringifierOptions): string {
+function stringifyNumber(node: NumberToken, options: StringifierOptions): string {
   return node.value;
 }
 
@@ -161,7 +169,7 @@ function stringifierNumber(node: NumberToken, options: StringifierOptions): stri
  * stringifier Comment token
  * A comment line starting with
  */
-function stringifierComment(node: CommentToken, options: StringifierOptions): string {
+function stringifyComment(node: CommentToken, options: StringifierOptions): string {
   return node.value;
 }
 
@@ -169,7 +177,7 @@ function stringifierComment(node: CommentToken, options: StringifierOptions): st
  * stringifier NameKeyword token
  * The "name:" keyword
  */
-function stringifierNameKeyword(node: NameKeywordToken, options: StringifierOptions): string {
+function stringifyNameKeyword(node: NameKeywordToken, options: StringifierOptions): string {
   return node.value;
 }
 
@@ -177,7 +185,7 @@ function stringifierNameKeyword(node: NameKeywordToken, options: StringifierOpti
  * stringifier VersionKeyword token
  * The "version:" keyword
  */
-function stringifierVersionKeyword(node: VersionKeywordToken, options: StringifierOptions): string {
+function stringifyVersionKeyword(node: VersionKeywordToken, options: StringifierOptions): string {
   return node.value;
 }
 
@@ -185,7 +193,7 @@ function stringifierVersionKeyword(node: VersionKeywordToken, options: Stringifi
  * stringifier StartKeyword token
  * The "start:" keyword
  */
-function stringifierStartKeyword(node: StartKeywordToken, options: StringifierOptions): string {
+function stringifyStartKeyword(node: StartKeywordToken, options: StringifierOptions): string {
   return node.value;
 }
 
@@ -193,7 +201,7 @@ function stringifierStartKeyword(node: StartKeywordToken, options: StringifierOp
  * stringifier DefineOperator token
  * The "::" definition operator
  */
-function stringifierDefineOperator(node: DefineOperatorToken, options: StringifierOptions): string {
+function stringifyDefineOperator(node: DefineOperatorToken, options: StringifierOptions): string {
   return node.value;
 }
 
@@ -201,7 +209,7 @@ function stringifierDefineOperator(node: DefineOperatorToken, options: Stringifi
  * stringifier UnionOperator token
  * The "|" union operator
  */
-function stringifierUnionOperator(node: UnionOperatorToken, options: StringifierOptions): string {
+function stringifyUnionOperator(node: UnionOperatorToken, options: StringifierOptions): string {
   return node.value;
 }
 
@@ -209,7 +217,7 @@ function stringifierUnionOperator(node: UnionOperatorToken, options: Stringifier
  * stringifier PropertyOperator token
  * The ":" property assignment operator
  */
-function stringifierPropertyOperator(node: PropertyOperatorToken, options: StringifierOptions): string {
+function stringifyPropertyOperator(node: PropertyOperatorToken, options: StringifierOptions): string {
   return node.value;
 }
 
@@ -217,7 +225,7 @@ function stringifierPropertyOperator(node: PropertyOperatorToken, options: Strin
  * stringifier Whitespace token
  * Whitespace characters
  */
-function stringifierWhitespace(node: WhitespaceToken, options: StringifierOptions): string {
+function stringifyWhitespace(node: WhitespaceToken, options: StringifierOptions): string {
   return node.value;
 }
 
@@ -225,7 +233,7 @@ function stringifierWhitespace(node: WhitespaceToken, options: StringifierOption
  * stringifier Newline token
  * Line break character
  */
-function stringifierNewline(node: NewlineToken, options: StringifierOptions): string {
+function stringifyNewline(node: NewlineToken, options: StringifierOptions): string {
   return node.value;
 }
 
@@ -233,20 +241,20 @@ function stringifierNewline(node: NewlineToken, options: StringifierOptions): st
  * stringifier Grammar deduction node
  * Complete BNF grammar definition
  */
-function stringifierGrammar(node: GrammarNode, options: StringifierOptions): string {
+function stringifyGrammar(node: GrammarNode, options: StringifierOptions): string {
   const parts: string[] = [];
   const indent = getIndentation(options);
   
   // Property: header (Header)
   if (node.header) {
-    parts.push(stringifierNode(node.header, options));
+    parts.push(stringifyNode(node.header, options));
   }
   if (options.format && options.includeWhitespace) {
     parts.push(' ');
   }
   // Property: rules (RuleList)
   if (node.rules) {
-    parts.push(stringifierNode(node.rules, options));
+    parts.push(stringifyNode(node.rules, options));
   }
 
   return parts.join('');
@@ -256,27 +264,27 @@ function stringifierGrammar(node: GrammarNode, options: StringifierOptions): str
  * stringifier Header deduction node
  * Grammar header with metadata
  */
-function stringifierHeader(node: HeaderNode, options: StringifierOptions): string {
+function stringifyHeader(node: HeaderNode, options: StringifierOptions): string {
   const parts: string[] = [];
   const indent = getIndentation(options);
   
   // Property: name (NameDeclaration)
   if (node.name) {
-    parts.push(stringifierNode(node.name, options));
+    parts.push(stringifyNode(node.name, options));
   }
   if (options.format && options.includeWhitespace) {
     parts.push(' ');
   }
   // Property: version (VersionDeclaration)
   if (node.version) {
-    parts.push(stringifierNode(node.version, options));
+    parts.push(stringifyNode(node.version, options));
   }
   if (options.format && options.includeWhitespace) {
     parts.push(' ');
   }
   // Property: start (StartDeclaration)
   if (node.start) {
-    parts.push(stringifierNode(node.start, options));
+    parts.push(stringifyNode(node.start, options));
   }
 
   return parts.join('');
@@ -286,22 +294,22 @@ function stringifierHeader(node: HeaderNode, options: StringifierOptions): strin
  * stringifier NameDeclaration deduction node
  * Grammar name declaration
  */
-function stringifierNameDeclaration(node: NameDeclarationNode, options: StringifierOptions): string {
+function stringifyNameDeclaration(node: NameDeclarationNode, options: StringifierOptions): string {
   const parts: string[] = [];
   const indent = getIndentation(options);
   
   // Token reference: NameKeyword
-  parts.push(stringifierNode(node, options));
+  parts.push(stringifyNode(node, options));
   // Property: value (Identifier)
   if (node.value) {
-    parts.push(stringifierNode(node.value, options));
+    parts.push(stringifyNode(node.value, options));
   }
   if (options.format && options.includeWhitespace) {
     parts.push(' ');
   }
   // Property: newline (Newline)
   if (node.newline) {
-    parts.push(stringifierNode(node.newline, options));
+    parts.push(stringifyNode(node.newline, options));
   }
 
   return parts.join('');
@@ -311,22 +319,22 @@ function stringifierNameDeclaration(node: NameDeclarationNode, options: Stringif
  * stringifier VersionDeclaration deduction node
  * Grammar version declaration
  */
-function stringifierVersionDeclaration(node: VersionDeclarationNode, options: StringifierOptions): string {
+function stringifyVersionDeclaration(node: VersionDeclarationNode, options: StringifierOptions): string {
   const parts: string[] = [];
   const indent = getIndentation(options);
   
   // Token reference: VersionKeyword
-  parts.push(stringifierNode(node, options));
+  parts.push(stringifyNode(node, options));
   // Property: value (Identifier)
   if (node.value) {
-    parts.push(stringifierNode(node.value, options));
+    parts.push(stringifyNode(node.value, options));
   }
   if (options.format && options.includeWhitespace) {
     parts.push(' ');
   }
   // Property: newline (Newline)
   if (node.newline) {
-    parts.push(stringifierNode(node.newline, options));
+    parts.push(stringifyNode(node.newline, options));
   }
 
   return parts.join('');
@@ -336,22 +344,22 @@ function stringifierVersionDeclaration(node: VersionDeclarationNode, options: St
  * stringifier StartDeclaration deduction node
  * Grammar start rule declaration
  */
-function stringifierStartDeclaration(node: StartDeclarationNode, options: StringifierOptions): string {
+function stringifyStartDeclaration(node: StartDeclarationNode, options: StringifierOptions): string {
   const parts: string[] = [];
   const indent = getIndentation(options);
   
   // Token reference: StartKeyword
-  parts.push(stringifierNode(node, options));
+  parts.push(stringifyNode(node, options));
   // Property: value (Identifier)
   if (node.value) {
-    parts.push(stringifierNode(node.value, options));
+    parts.push(stringifyNode(node.value, options));
   }
   if (options.format && options.includeWhitespace) {
     parts.push(' ');
   }
   // Property: newline (Newline)
   if (node.newline) {
-    parts.push(stringifierNode(node.newline, options));
+    parts.push(stringifyNode(node.newline, options));
   }
 
   return parts.join('');
@@ -361,13 +369,13 @@ function stringifierStartDeclaration(node: StartDeclarationNode, options: String
  * stringifier RuleList deduction node
  * List of grammar rules
  */
-function stringifierRuleList(node: RuleListNode, options: StringifierOptions): string {
+function stringifyRuleList(node: RuleListNode, options: StringifierOptions): string {
   const parts: string[] = [];
   const indent = getIndentation(options);
   
   // Property: rules (Rule)
   if (node.rules) {
-    parts.push(stringifierNode(node.rules, options));
+    parts.push(stringifyNode(node.rules, options));
   }
 
   return parts.join('');
@@ -377,27 +385,27 @@ function stringifierRuleList(node: RuleListNode, options: StringifierOptions): s
  * stringifier Rule deduction node
  * A single grammar rule definition
  */
-function stringifierRule(node: RuleNode, options: StringifierOptions): string {
+function stringifyRule(node: RuleNode, options: StringifierOptions): string {
   const parts: string[] = [];
   const indent = getIndentation(options);
   
   // Property: comment (OptionalComment)
   if (node.comment) {
-    parts.push(stringifierNode(node.comment, options));
+    parts.push(stringifyNode(node.comment, options));
   }
   if (options.format && options.includeWhitespace) {
     parts.push(' ');
   }
   // Property: definition (RuleDefinition)
   if (node.definition) {
-    parts.push(stringifierNode(node.definition, options));
+    parts.push(stringifyNode(node.definition, options));
   }
   if (options.format && options.includeWhitespace) {
     parts.push(' ');
   }
   // Property: newline (Newline)
   if (node.newline) {
-    parts.push(stringifierNode(node.newline, options));
+    parts.push(stringifyNode(node.newline, options));
   }
 
   return parts.join('');
@@ -407,20 +415,20 @@ function stringifierRule(node: RuleNode, options: StringifierOptions): string {
  * stringifier OptionalComment deduction node
  * Optional comment before rule
  */
-function stringifierOptionalComment(node: OptionalCommentNode, options: StringifierOptions): string {
+function stringifyOptionalComment(node: OptionalCommentNode, options: StringifierOptions): string {
   const parts: string[] = [];
   const indent = getIndentation(options);
   
   // Property: comment (Comment)
   if (node.comment) {
-    parts.push(stringifierNode(node.comment, options));
+    parts.push(stringifyNode(node.comment, options));
   }
   if (options.format && options.includeWhitespace) {
     parts.push(' ');
   }
   // Property: newline (Newline)
   if (node.newline) {
-    parts.push(stringifierNode(node.newline, options));
+    parts.push(stringifyNode(node.newline, options));
   }
 
   return parts.join('');
@@ -430,22 +438,22 @@ function stringifierOptionalComment(node: OptionalCommentNode, options: Stringif
  * stringifier RuleDefinition deduction node
  * Rule name and body definition
  */
-function stringifierRuleDefinition(node: RuleDefinitionNode, options: StringifierOptions): string {
+function stringifyRuleDefinition(node: RuleDefinitionNode, options: StringifierOptions): string {
   const parts: string[] = [];
   const indent = getIndentation(options);
   
   // Property: name (Identifier)
   if (node.name) {
-    parts.push(stringifierNode(node.name, options));
+    parts.push(stringifyNode(node.name, options));
   }
   if (options.format && options.includeWhitespace) {
     parts.push(' ');
   }
   // Token reference: DefineOperator
-  parts.push(stringifierNode(node, options));
+  parts.push(stringifyNode(node, options));
   // Property: body (RuleBody)
   if (node.body) {
-    parts.push(stringifierNode(node.body, options));
+    parts.push(stringifyNode(node.body, options));
   }
 
   return parts.join('');
@@ -455,13 +463,13 @@ function stringifierRuleDefinition(node: RuleDefinitionNode, options: Stringifie
  * stringifier TokenRule deduction node
  * Token rule with string or regex pattern
  */
-function stringifierTokenRule(node: TokenRuleNode, options: StringifierOptions): string {
+function stringifyTokenRule(node: TokenRuleNode, options: StringifierOptions): string {
   const parts: string[] = [];
   const indent = getIndentation(options);
   
   // Property: pattern (TokenPattern)
   if (node.pattern) {
-    parts.push(stringifierNode(node.pattern, options));
+    parts.push(stringifyNode(node.pattern, options));
   }
 
   return parts.join('');
@@ -471,13 +479,13 @@ function stringifierTokenRule(node: TokenRuleNode, options: StringifierOptions):
  * stringifier DeductionRule deduction node
  * Deduction rule with sequence of elements
  */
-function stringifierDeductionRule(node: DeductionRuleNode, options: StringifierOptions): string {
+function stringifyDeductionRule(node: DeductionRuleNode, options: StringifierOptions): string {
   const parts: string[] = [];
   const indent = getIndentation(options);
   
   // Property: sequence (ElementList)
   if (node.sequence) {
-    parts.push(stringifierNode(node.sequence, options));
+    parts.push(stringifyNode(node.sequence, options));
   }
 
   return parts.join('');
@@ -487,13 +495,13 @@ function stringifierDeductionRule(node: DeductionRuleNode, options: StringifierO
  * stringifier UnionRule deduction node
  * Union rule with alternative choices
  */
-function stringifierUnionRule(node: UnionRuleNode, options: StringifierOptions): string {
+function stringifyUnionRule(node: UnionRuleNode, options: StringifierOptions): string {
   const parts: string[] = [];
   const indent = getIndentation(options);
   
   // Property: members (UnionMemberList)
   if (node.members) {
-    parts.push(stringifierNode(node.members, options));
+    parts.push(stringifyNode(node.members, options));
   }
 
   return parts.join('');
@@ -503,13 +511,13 @@ function stringifierUnionRule(node: UnionRuleNode, options: StringifierOptions):
  * stringifier ElementList deduction node
  * Sequence of elements in a deduction rule
  */
-function stringifierElementList(node: ElementListNode, options: StringifierOptions): string {
+function stringifyElementList(node: ElementListNode, options: StringifierOptions): string {
   const parts: string[] = [];
   const indent = getIndentation(options);
   
   // Property: elements (Element)
   if (node.elements) {
-    parts.push(stringifierNode(node.elements, options));
+    parts.push(stringifyNode(node.elements, options));
   }
 
   return parts.join('');
@@ -519,20 +527,20 @@ function stringifierElementList(node: ElementListNode, options: StringifierOptio
  * stringifier Element deduction node
  * Single element in a sequence
  */
-function stringifierElement(node: ElementNode, options: StringifierOptions): string {
+function stringifyElement(node: ElementNode, options: StringifierOptions): string {
   const parts: string[] = [];
   const indent = getIndentation(options);
   
   // Property: node (Identifier)
   if (node.node) {
-    parts.push(stringifierNode(node.node, options));
+    parts.push(stringifyNode(node.node, options));
   }
   if (options.format && options.includeWhitespace) {
     parts.push(' ');
   }
   // Property: property (OptionalProperty)
   if (node.property) {
-    parts.push(stringifierNode(node.property, options));
+    parts.push(stringifyNode(node.property, options));
   }
 
   return parts.join('');
@@ -542,15 +550,15 @@ function stringifierElement(node: ElementNode, options: StringifierOptions): str
  * stringifier OptionalProperty deduction node
  * Optional property assignment
  */
-function stringifierOptionalProperty(node: OptionalPropertyNode, options: StringifierOptions): string {
+function stringifyOptionalProperty(node: OptionalPropertyNode, options: StringifierOptions): string {
   const parts: string[] = [];
   const indent = getIndentation(options);
   
   // Token reference: PropertyOperator
-  parts.push(stringifierNode(node, options));
+  parts.push(stringifyNode(node, options));
   // Property: name (Identifier)
   if (node.name) {
-    parts.push(stringifierNode(node.name, options));
+    parts.push(stringifyNode(node.name, options));
   }
 
   return parts.join('');
@@ -560,20 +568,20 @@ function stringifierOptionalProperty(node: OptionalPropertyNode, options: String
  * stringifier UnionMemberList deduction node
  * List of union members separated by |
  */
-function stringifierUnionMemberList(node: UnionMemberListNode, options: StringifierOptions): string {
+function stringifyUnionMemberList(node: UnionMemberListNode, options: StringifierOptions): string {
   const parts: string[] = [];
   const indent = getIndentation(options);
   
   // Property: first (Identifier)
   if (node.first) {
-    parts.push(stringifierNode(node.first, options));
+    parts.push(stringifyNode(node.first, options));
   }
   if (options.format && options.includeWhitespace) {
     parts.push(' ');
   }
   // Property: rest (AdditionalMembers)
   if (node.rest) {
-    parts.push(stringifierNode(node.rest, options));
+    parts.push(stringifyNode(node.rest, options));
   }
 
   return parts.join('');
@@ -583,15 +591,15 @@ function stringifierUnionMemberList(node: UnionMemberListNode, options: Stringif
  * stringifier AdditionalMembers deduction node
  * Additional union members
  */
-function stringifierAdditionalMembers(node: AdditionalMembersNode, options: StringifierOptions): string {
+function stringifyAdditionalMembers(node: AdditionalMembersNode, options: StringifierOptions): string {
   const parts: string[] = [];
   const indent = getIndentation(options);
   
   // Token reference: UnionOperator
-  parts.push(stringifierNode(node, options));
+  parts.push(stringifyNode(node, options));
   // Property: member (Identifier)
   if (node.member) {
-    parts.push(stringifierNode(node.member, options));
+    parts.push(stringifyNode(node.member, options));
   }
 
   return parts.join('');
@@ -601,18 +609,18 @@ function stringifierAdditionalMembers(node: AdditionalMembersNode, options: Stri
  * stringifier TokenPattern union node
  * Either a string literal or regex pattern
  */
-function stringifierTokenPattern(node: TokenPattern, options: StringifierOptions): string {
+function stringifyTokenPattern(node: TokenPattern, options: StringifierOptions): string {
   // Union nodes delegate to their actual type
-  return stringifierNode(node, options);
+  return stringifyNode(node, options);
 }
 
 /**
  * stringifier RuleBody union node
  * Body of a rule - can be token, deduction, or union
  */
-function stringifierRuleBody(node: RuleBody, options: StringifierOptions): string {
+function stringifyRuleBody(node: RuleBody, options: StringifierOptions): string {
   // Union nodes delegate to their actual type
-  return stringifierNode(node, options);
+  return stringifyNode(node, options);
 }
 
 /**

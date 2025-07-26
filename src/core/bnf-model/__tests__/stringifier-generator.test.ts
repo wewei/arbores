@@ -158,11 +158,14 @@ describe('BNF stringifier Generator', () => {
       const result = generator.generate();
 
       expect(result.success).toBe(true);
-      expect(result.types).toContain('export interface StringifierOptions');
-      expect(result.types).toContain('indent?: number;');
-      expect(result.types).toContain('includeWhitespace?: boolean;');
-      expect(result.types).toContain('export type StringifierSimpleMathFunction');
-      expect(result.types).toContain('export declare const stringifierSimpleMath');
+      // Types are now included in the code section to avoid duplicates
+      expect(result.code).toContain('export interface StringifierOptions');
+      expect(result.code).toContain('indent?: number;');
+      expect(result.code).toContain('includeWhitespace?: boolean;');
+      expect(result.code).toContain('export type StringifierSimpleMathFunction');
+      expect(result.code).toContain('@fileoverview This file is auto-generated. Do not edit manually.');
+      // The types section should now be empty or deprecated
+      expect(result.types).toBe('');
     });
 
     it('should handle custom configuration', () => {

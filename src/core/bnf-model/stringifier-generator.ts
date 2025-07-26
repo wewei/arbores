@@ -161,10 +161,16 @@ export class StringifierGenerator<M = any> {
     parts.push(this.generateFileHeader());
     parts.push('');
 
-    // Add imports and type definitions
-    parts.push(this.generateImports());
-    parts.push('');
+    // Add type definitions at the top
     parts.push(this.generateStringifierOptionsType());
+    parts.push('');
+
+    // Add main function type
+    parts.push(this.generateMainFunctionType());
+    parts.push('');
+
+    // Add imports
+    parts.push(this.generateImports());
     parts.push('');
 
     // Generate main stringifier function
@@ -238,6 +244,22 @@ export interface StringifierOptions {
     compact?: boolean;
   };
 }`;
+  }
+
+  /**
+   * Generate the main function type definition
+   */
+  private generateMainFunctionType(): string {
+    const mainFunctionName = `${this.config.functionPrefix}${this.model.name}`;
+    const rootType = this.getNodeTypeName(this.model.start);
+
+    return `/**
+ * Main stringifier function type
+ */
+export type ${this.capitalize(mainFunctionName)}Function = (
+  node: ${rootType}, 
+  options?: StringifierOptions
+) => string;`;
   }
 
   /**
@@ -460,47 +482,12 @@ function formatToken(value: string, options: StringifierOptions, context?: strin
 
   /**
    * Generate TypeScript type definitions for the stringifier functions
+   * (Deprecated: types are now included in the main code output)
    */
   private generateTypeDefinitions(): string {
-    const mainFunctionName = `${this.config.functionPrefix}${this.model.name}`;
-    const rootType = this.getNodeTypeName(this.model.start);
-
-    return `/**
- * Type definitions for stringifier functions
- */
-
-export interface StringifierOptions {
-  /** Current indentation level */
-  indent?: number;
-  /** Indentation string (spaces or tabs) */
-  indentString?: string;
-  /** Whether to include whitespace */
-  includeWhitespace?: boolean;
-  /** Whether to format output */
-  format?: boolean;
-  /** Custom formatting rules */
-  formatting?: {
-    /** Insert newlines after certain tokens */
-    newlineAfter?: string[];
-    /** Insert spaces around certain tokens */
-    spaceAround?: string[];
-    /** Compact mode (minimal whitespace) */
-    compact?: boolean;
-  };
-}
-
-/**
- * Main stringifier function type
- */
-export type ${this.capitalize(mainFunctionName)}Function = (
-  node: ${rootType}, 
-  options?: StringifierOptions
-) => string;
-
-/**
- * Export the main stringifier function
- */
-export declare const ${mainFunctionName}: ${this.capitalize(mainFunctionName)}Function;`;
+    // This method is kept for backward compatibility but is no longer used
+    // Types are now generated inline with the code to avoid duplicates
+    return '';
   }
 
   // Utility methods

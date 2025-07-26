@@ -182,7 +182,7 @@ export class BNFCodeGenerator<M = any> {
         : '';
 
       // Generate token interface
-      const tokenInterface = `${docs}export interface ${typeName} {
+      const tokenInterface = `${docs}${docs ? '\n' : ''}export interface ${typeName} {
   readonly type: '${name}';
   readonly value: string;
 ${this.generateMetadataProperty(node)}
@@ -340,7 +340,7 @@ export type ${this.model.name}Token = ${tokenUnion.join(' | ')};`;
       })
       : '';
 
-    return `${docs}export interface ${typeName} {
+    return `${docs}${docs ? '\n' : ''}export interface ${typeName} {
   ${properties.join('\n  ')}
 }`;
   }
@@ -389,7 +389,7 @@ export type ${this.model.name}Token = ${tokenUnion.join(' | ')};`;
         ? this.generateJSDoc(node.description, { members: node.members })
         : '';
 
-      const unionType = `${docs}export type ${typeName} = ${memberTypes.join(' | ')};`;
+      const unionType = `${docs}${docs ? '\n' : ''}export type ${typeName} = ${memberTypes.join(' | ')};`;
       unionTypes.push(unionType);
     }
 
@@ -478,9 +478,16 @@ export type ${this.model.name}Root = ${this.getElementType(this.model.start)};`;
     constants.push('export const TOKEN_PATTERNS = {');
 
     for (const [name, node] of tokenNodes) {
-      const pattern = typeof node.pattern === 'string'
-        ? `'${node.pattern}'`
-        : `{ regex: '${node.pattern.regex}' }`;
+      let pattern: string;
+      if (typeof node.pattern === 'string') {
+        // Escape single quotes in string literals
+        const escapedPattern = node.pattern.replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+        pattern = `'${escapedPattern}'`;
+      } else {
+        // Escape single quotes and backslashes in regex patterns
+        const escapedRegex = node.pattern.regex.replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+        pattern = `{ regex: '${escapedRegex}' }`;
+      }
       constants.push(`  ${name}: ${pattern},`);
     }
     constants.push('} as const;');
