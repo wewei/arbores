@@ -94,8 +94,12 @@ export function parseBNF<M = any>(input: any): ParseResult<M> {
   // Check for orphan nodes (warnings only)
   const orphanNodes = findOrphanNodes(model);
   if (orphanNodes.length > 0) {
-    warnings.push(`Found ${orphanNodes.length} orphan (unreferenced) node(s): ${orphanNodes.join(', ')}`);
-    warnings.push('Consider removing orphan nodes if they are not needed, or check if references are missing');
+    // Add one warning per orphan node
+    orphanNodes.forEach(nodeName => {
+      warnings.push(`Orphan node (unreferenced): ${nodeName}`);
+    });
+    // Add summary line
+    warnings.push(`Found ${orphanNodes.length} orphan node(s) total. Consider removing if not needed, or check if references are missing.`);
   }
 
   return { 
