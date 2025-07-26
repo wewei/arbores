@@ -2,7 +2,7 @@ description: Stringify specific node from AST
 command:
   - stringify
   - /tmp/function-test.ast.json
-  - '--node-id'
+  - '--node'
   - some-node-id
 exitCode: 1
 environment:

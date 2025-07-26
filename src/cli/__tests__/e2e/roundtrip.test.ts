@@ -36,7 +36,7 @@ function discoverTestFiles(): string[] {
 /**
  * 已知问题文件（暂时跳过的文件）
  */
-const knownIssues = new Set([
+const knownIssues = new Set<string>([
   'complex.ts', // JSDoc子节点问题 - 已知issue，之后修复
   // 'optional-chain-test.ts', // 双重可选链问题 - 需要修复CallExpression处理 (暂时取消跳过来测试修复)
 ]);
