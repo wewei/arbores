@@ -60,9 +60,11 @@ export interface StringifierOptions {
 export interface StringifierGenerationResult {
   /** Whether generation was successful */
   success: boolean;
-  /** Generated function code */
+  /** Generated file paths and their contents */
+  files?: Map<string, string>;
+  /** Deprecated: Combined code for backward compatibility */
   code?: string;
-  /** Type definitions for the stringifier functions */
+  /** Deprecated: Type definitions for backward compatibility */
   types?: string;
   /** Warnings during generation */
   warnings?: string[];
@@ -106,12 +108,16 @@ export class StringifierGenerator<M = any> {
         };
       }
 
-      // Generate function code
-      const code = this.generateStringifierFunctions();
+      // Generate files
+      const files = this.generateStringifierFiles();
+
+      // For backward compatibility, merge all files into a single code string
+      const code = this.mergeFilesForBackwardCompatibility(files);
       const types = this.generateTypeDefinitions();
 
       return {
         success: this.errors.length === 0,
+        files,
         code,
         types,
         warnings: [...this.warnings],
@@ -281,13 +287,13 @@ export function ${functionName}(node: ${rootType}, options: StringifierOptions =
     ...options,
   };
 
-  return ${this.config.functionPrefix}Node(node, opts);
+  return stringifyNode(node, opts);
 }
 
 /**
  * Generic node stringifier function that dispatches to specific node types
  */
-function ${this.config.functionPrefix}Node(node: any, options: StringifierOptions): string {
+export function stringifyNode(node: any, options: StringifierOptions): string {
   if (!node || typeof node !== 'object' || !node.type) {
     throw new Error('Invalid node: must have a type property');
   }
@@ -348,7 +354,7 @@ function ${this.config.functionPrefix}Node(node: any, options: StringifierOption
  * stringifier ${nodeName} token
  * ${node.description}
  */
-function ${functionName}(node: ${nodeType}, options: StringifierOptions): string {
+export function ${functionName}(node: ${nodeType}, options: StringifierOptions): string {
   return node.value;
 }`;
   }
@@ -368,7 +374,7 @@ function ${functionName}(node: ${nodeType}, options: StringifierOptions): string
  * stringifier ${nodeName} deduction node
  * ${node.description}
  */
-function ${functionName}(node: ${nodeType}, options: StringifierOptions): string {
+export function ${functionName}(node: ${nodeType}, options: StringifierOptions): string {
   const parts: string[] = [];
   const indent = getIndentation(options);
   
@@ -391,9 +397,9 @@ ${sequenceCode}
  * stringifier ${nodeName} union node
  * ${node.description}
  */
-function ${functionName}(node: ${nodeType}, options: StringifierOptions): string {
+export function ${functionName}(node: ${nodeType}, options: StringifierOptions): string {
   // Union nodes delegate to their actual type
-  return ${this.config.functionPrefix}Node(node, options);
+  return stringifyNode(node, options);
 }`;
   }
 
@@ -411,7 +417,7 @@ function ${functionName}(node: ${nodeType}, options: StringifierOptions): string
         const referencedNode = this.model.nodes[element];
         if (referencedNode?.type === 'token') {
           parts.push(`  // Token reference: ${element}`);
-          parts.push(`  parts.push(${this.config.functionPrefix}Node(node, options));`);
+          parts.push(`  parts.push(stringifyNode(node, options));`);
         } else {
           this.warnings.push(`String reference "${element}" in sequence should point to a token node`);
         }
@@ -421,7 +427,7 @@ function ${functionName}(node: ${nodeType}, options: StringifierOptions): string
         if (referencedNode) {
           parts.push(`  // Property: ${element.prop} (${element.node})`);
           parts.push(`  if (node.${element.prop}) {`);
-          parts.push(`    parts.push(${this.config.functionPrefix}Node(node.${element.prop}, options));`);
+          parts.push(`    parts.push(stringifyNode(node.${element.prop}, options));`);
           parts.push(`  }`);
 
           // Add formatting logic
@@ -444,16 +450,16 @@ function ${functionName}(node: ${nodeType}, options: StringifierOptions): string
     return `/**
  * Get indentation string based on options
  */
-function getIndentation(options: StringifierOptions): string {
+export function getIndentation(options: StringifierOptions): string {
   const level = options.indent || 0;
-  const indentStr = options.indentString || '${this.config.indentStyle}';
+  const indentStr = options.indentString || '  ';
   return indentStr.repeat(level);
 }
 
 /**
  * Add formatting whitespace if enabled
  */
-function addWhitespace(parts: string[], options: StringifierOptions, type: 'space' | 'newline' = 'space'): void {
+export function addWhitespace(parts: string[], options: StringifierOptions, type: 'space' | 'newline' = 'space'): void {
   if (options.format && options.includeWhitespace) {
     if (type === 'newline') {
       parts.push('\\n');
@@ -466,7 +472,7 @@ function addWhitespace(parts: string[], options: StringifierOptions, type: 'spac
 /**
  * Format token output with optional spacing
  */
-function formatToken(value: string, options: StringifierOptions, context?: string): string {
+export function formatToken(value: string, options: StringifierOptions, context?: string): string {
   if (!options.format || !options.includeWhitespace) {
     return value;
   }
@@ -481,13 +487,203 @@ function formatToken(value: string, options: StringifierOptions, context?: strin
   }
 
   /**
-   * Generate TypeScript type definitions for the stringifier functions
-   * (Deprecated: types are now included in the main code output)
+   * Merge multiple files into a single code string for backward compatibility
+   */
+  private mergeFilesForBackwardCompatibility(files: Map<string, string>): string {
+    const parts: string[] = [];
+
+    // Add main index file content (which contains the main function and utilities)
+    const indexFile = files.get('index.ts');
+    if (indexFile) {
+      parts.push(indexFile);
+    }
+
+    return parts.join('\n');
+  }
+
+  /**
+   * Generate type definitions (for backward compatibility)
    */
   private generateTypeDefinitions(): string {
-    // This method is kept for backward compatibility but is no longer used
-    // Types are now generated inline with the code to avoid duplicates
-    return '';
+    return `// Type definitions are now included in the generated code files`;
+  }
+
+  /**
+   * Generate stringifier files for all nodes
+   */
+  private generateStringifierFiles(): Map<string, string> {
+    const files = new Map<string, string>();
+
+    // Generate shared types file
+    const typesContent = this.generateSharedTypesFile();
+    files.set('types.ts', typesContent);
+
+    // Generate utility functions file
+    const utilsContent = this.generateUtilityFunctionsFile();
+    files.set('utils.ts', utilsContent);
+
+    // Generate individual node stringifier files in nodes/ directory
+    for (const [nodeName, node] of Object.entries(this.model.nodes)) {
+      const fileName = `nodes/${nodeName}.ts`;
+      const content = this.generateNodeStringifierFile(nodeName, node);
+      files.set(fileName, content);
+    }
+
+    // Generate main index file
+    const indexContent = this.generateStringifierIndexFile();
+    files.set('index.ts', indexContent);
+
+    return files;
+  }
+
+  /**
+   * Generate stringifier file for a single node
+   */
+  private generateNodeStringifierFile(nodeName: string, node: BNFNode): string {
+    const parts: string[] = [];
+
+    // Add file header
+    parts.push(`/**
+ * Stringifier for ${nodeName} node
+ * 
+ * Generated from BNF model: ${this.model.name} v${this.model.version}
+ * Generation time: ${new Date().toISOString()}
+ * 
+ * @fileoverview This file is auto-generated. Do not edit manually.
+ */`);
+    parts.push('');
+
+    // Add imports - only import the specific node type and any referenced types
+    const requiredTypes = this.getRequiredTypesForNode(nodeName, node);
+    if (requiredTypes.length > 0) {
+      parts.push(`import type { ${requiredTypes.join(', ')} } from '../../schema/index.js';`);
+    }
+    
+    parts.push(`import type { StringifierOptions } from '../types.js';`);
+    
+    // Import utility functions and stringifyNode if needed
+    if (node.type === 'deduction' || node.type === 'union') {
+      parts.push(`import { stringifyNode } from '../index.js';`);
+    }
+    
+    // Import utility functions if this is a deduction node
+    if (node.type === 'deduction') {
+      parts.push(`import { getIndentation, addWhitespace, formatToken } from '../utils.js';`);
+    }
+    
+    parts.push('');
+
+    // Generate the node stringifier function
+    parts.push(this.generateNodestringifierFunction(nodeName, node));
+
+    return parts.join('\n');
+  }
+
+  /**
+   * Generate the main index file that exports all stringifiers
+   */
+  private generateStringifierIndexFile(): string {
+    const parts: string[] = [];
+
+    // Add file header
+    parts.push(`/**
+ * Stringifier functions for ${this.model.name} grammar
+ * 
+ * Generated from BNF model: ${this.model.name} v${this.model.version}
+ * Generation time: ${new Date().toISOString()}
+ * 
+ * @fileoverview This file is auto-generated. Do not edit manually.
+ */`);
+    parts.push('');
+
+    // Add imports for schema types
+    parts.push(this.generateImports());
+    parts.push('');
+    
+    // Import StringifierOptions type
+    parts.push(`import type { StringifierOptions } from './types.js';`);
+    parts.push('');
+
+    // Add imports for all node stringifiers from nodes/ directory
+    const nodeNames = Object.keys(this.model.nodes);
+    for (const nodeName of nodeNames) {
+      const functionName = `${this.config.functionPrefix}${nodeName}`;
+      parts.push(`import { ${functionName} } from './nodes/${nodeName}.js';`);
+    }
+    parts.push('');
+
+    // Re-export all stringifier functions
+    for (const nodeName of nodeNames) {
+      const functionName = `${this.config.functionPrefix}${nodeName}`;
+      parts.push(`export { ${functionName} };`);
+    }
+    parts.push('');
+
+    // Re-export types and utilities
+    parts.push(`export type { StringifierOptions } from './types.js';`);
+    parts.push(`export { getIndentation, addWhitespace, formatToken } from './utils.js';`);
+    parts.push('');
+
+    // Add main stringifier function type
+    parts.push(this.generateMainFunctionType());
+    parts.push('');
+
+    // Generate main dispatch stringifier function
+    parts.push(this.generateMainstringifierFunction());
+
+    return parts.join('\n');
+  }
+
+  /**
+   * Generate imports for individual node files
+   */
+  private generateNodeFileImports(): string {
+    return this.generateImports();
+  }
+
+  /**
+   * Generate shared types file
+   */
+  private generateSharedTypesFile(): string {
+    const parts: string[] = [];
+
+    parts.push(`/**
+ * Shared types for ${this.model.name} stringifier
+ * 
+ * Generated from BNF model: ${this.model.name} v${this.model.version}
+ * Generation time: ${new Date().toISOString()}
+ * 
+ * @fileoverview This file is auto-generated. Do not edit manually.
+ */`);
+    parts.push('');
+
+    parts.push(this.generateStringifierOptionsType());
+
+    return parts.join('\n');
+  }
+
+  /**
+   * Generate utility functions file
+   */
+  private generateUtilityFunctionsFile(): string {
+    const parts: string[] = [];
+
+    parts.push(`/**
+ * Utility functions for ${this.model.name} stringifier
+ * 
+ * Generated from BNF model: ${this.model.name} v${this.model.version}
+ * Generation time: ${new Date().toISOString()}
+ * 
+ * @fileoverview This file is auto-generated. Do not edit manually.
+ */`);
+    parts.push('');
+
+    parts.push(`import type { StringifierOptions } from './types.js';`);
+    parts.push('');
+
+    parts.push(this.generateUtilityFunctions());
+
+    return parts.join('\n');
   }
 
   // Utility methods
@@ -526,6 +722,29 @@ function formatToken(value: string, options: StringifierOptions, context?: strin
 
   private capitalize(str: string): string {
     return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+
+  /**
+   * Get the types required for a specific node
+   */
+  private getRequiredTypesForNode(nodeName: string, node: BNFNode): string[] {
+    const types = new Set<string>();
+    
+    // Always include the node's own type
+    types.add(this.getNodeTypeName(nodeName));
+
+    // For deduction nodes, include types of referenced properties
+    if (node.type === 'deduction') {
+      const deductionNode = node as DeductionNode;
+      for (const element of deductionNode.sequence) {
+        if (typeof element === 'object' && element.prop) {
+          const referencedNodeType = this.getNodeTypeName(element.node);
+          types.add(referencedNodeType);
+        }
+      }
+    }
+
+    return Array.from(types).sort();
   }
 }
 

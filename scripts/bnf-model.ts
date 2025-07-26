@@ -462,20 +462,38 @@ async function generateStringifier(model: BNFModel, outputDir: string, verbose: 
     process.exit(1);
   }
 
-  if (!dryRun) {
+  if (dryRun) {
+    console.error(chalk.yellow(`📄 Would generate: ${join(stringifierDir, 'index.ts')}`));
+    if (stringifyResult.files) {
+      for (const [filePath, _] of stringifyResult.files) {
+        console.error(chalk.yellow(`📄 Would generate: ${join(stringifierDir, filePath)}`));
+      }
+    }
+    if (verbose) {
+      console.error(chalk.blue('📝 Stringifier files preview:'));
+      console.error(chalk.gray(`   Generated ${stringifyResult.files?.size || 0} files`));
+    }
+  } else {
     // Ensure stringifier directory exists
     mkdirSync(stringifierDir, { recursive: true });
-
-    // For now, generate the main stringifier file
-    // TODO: Split into individual node files as specified in the prompt
-    const mainFile = join(stringifierDir, 'index.ts');
-    const content = stringifyResult.code || '';
     
-    writeFileSync(mainFile, content, 'utf-8');
-    console.error(chalk.green(`✅ Generated: ${mainFile}`));
-  } else {
-    console.error(chalk.yellow(`📄 Would generate: ${join(stringifierDir, 'index.ts')}`));
-    // TODO: List individual node files that would be generated
+    // Ensure nodes subdirectory exists
+    const nodesDir = join(stringifierDir, 'nodes');
+    mkdirSync(nodesDir, { recursive: true });
+
+    // Write all generated files
+    if (stringifyResult.files) {
+      for (const [filePath, content] of stringifyResult.files) {
+        const fullPath = join(stringifierDir, filePath);
+        
+        // Ensure the directory for this file exists
+        const fileDir = dirname(fullPath);
+        mkdirSync(fileDir, { recursive: true });
+        
+        writeFileSync(fullPath, content, 'utf-8');
+        console.error(chalk.green(`✅ Generated: ${fullPath}`));
+      }
+    }
   }
 }
 
