@@ -7,13 +7,11 @@
  */
 
 /**
- * Base interface for all BNF nodes with optional metadata support
+ * Base interface for all BNF nodes
  */
-export interface BaseNode<M = any> {
+export interface BaseNode {
   /** Human-readable description of the rule */
   description: string;
-  /** Optional metadata for extensibility */
-  metadata?: M;
 }
 
 /**
@@ -26,7 +24,7 @@ export type TokenPattern =
 /**
  * Token node - represents terminal symbols in the grammar
  */
-export interface TokenNode<M = any> extends BaseNode<M> {
+export interface TokenNode extends BaseNode {
   type: 'token';
   pattern: TokenPattern;
 }
@@ -44,7 +42,7 @@ export type DeductionElement =
 /**
  * Deduction node - represents production rules with sequences
  */
-export interface DeductionNode<M = any> extends BaseNode<M> {
+export interface DeductionNode extends BaseNode {
   type: 'deduction';
   sequence: DeductionElement[];
   precedence?: number;        // Operator precedence
@@ -54,7 +52,7 @@ export interface DeductionNode<M = any> extends BaseNode<M> {
 /**
  * Union node - represents alternative choices in the grammar
  */
-export interface UnionNode<M = any> extends BaseNode<M> {
+export interface UnionNode extends BaseNode {
   type: 'union';
   members: string[];          // List of member node names
 }
@@ -62,12 +60,12 @@ export interface UnionNode<M = any> extends BaseNode<M> {
 /**
  * Union type for all possible BNF nodes
  */
-export type BNFNode<M = any> = TokenNode<M> | DeductionNode<M> | UnionNode<M>;
+export type BNFNode = TokenNode | DeductionNode | UnionNode;
 
 /**
  * Complete BNF model definition
  */
-export interface BNFModel<M = any> {
+export interface BNFModel {
   /** Model name for identification */
   name: string;
   /** Version string */
@@ -75,40 +73,15 @@ export interface BNFModel<M = any> {
   /** Starting node name for the grammar */
   start: string;
   /** Collection of all node definitions, keyed by node name */
-  nodes: Record<string, BNFNode<M>>;
+  nodes: Record<string, BNFNode>;
 }
 
 /**
  * Result type for BNF parsing operations
  */
-export type ParseResult<M> =
-  | { success: true; model: BNFModel<M>; warnings?: string[] }
+export type ParseResult =
+  | { success: true; model: BNFModel; warnings?: string[] }
   | { success: false; errors: string[]; warnings?: string[] };
-
-/**
- * Metadata specifically for TypeScript SyntaxKind mapping
- */
-export interface TypeScriptMetadata {
-  /** TypeScript SyntaxKind enum value */
-  syntaxKind: number;
-  /** Human-readable SyntaxKind name */
-  syntaxKindName: string;
-}
-
-/**
- * Type alias for BNF models with TypeScript metadata
- */
-export type TypeScriptBNFModel = BNFModel<TypeScriptMetadata>;
-
-/**
- * Helper type to extract the metadata type from a BNF model
- */
-export type ExtractMetadata<T> = T extends BNFModel<infer M> ? M : never;
-
-/**
- * Utility type for strongly typed node lookups
- */
-export type NodeLookup<M = any> = Record<string, BNFNode<M>>;
 
 /**
  * Options for code generation

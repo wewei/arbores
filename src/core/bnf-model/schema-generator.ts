@@ -62,14 +62,14 @@ export interface GeneratedFile {
 /**
  * Main generator class for BNF models
  */
-export class BNFCodeGenerator<M = any> {
-  private model: BNFModel<M>;
+export class BNFCodeGenerator {
+  private model: BNFModel;
   private config: GenerationConfig;
   private files: Map<string, string> = new Map();
   private warnings: string[] = [];
   private errors: string[] = [];
 
-  constructor(model: BNFModel<M>, config: GenerationConfig) {
+  constructor(model: BNFModel, config: GenerationConfig) {
     this.model = model;
     this.config = {
       separateFiles: true,
@@ -184,7 +184,6 @@ export class BNFCodeGenerator<M = any> {
       const tokenInterface = `${docs}${docs ? '\n' : ''}export interface ${typeName} {
   readonly type: '${name}';
   readonly value: string;
-${this.generateMetadataProperty(node)}
 }`;
 
       tokenTypes.push(tokenInterface);
@@ -324,11 +323,6 @@ export type ${this.model.name}Token = ${tokenUnion.join(' | ')};`;
         const propType = this.getElementType(element.node);
         properties.push(`readonly ${element.prop}: ${propType};`);
       }
-    }
-
-    // Add metadata if present
-    if (node.metadata) {
-      properties.push(this.generateMetadataProperty(node));
     }
 
     const docs = this.config.includeDocumentation
@@ -616,13 +610,6 @@ export type ${this.model.name}Root = ${this.getElementType(this.model.start)};`;
     return lines.join('\n');
   }
 
-  private generateMetadataProperty(node: BNFNode): string {
-    if (!node.metadata) return '';
-
-    return `  /** Node metadata */
-  readonly metadata?: any;`;
-  }
-
   /**
    * Convert string to kebab-case
    * @deprecated No longer used - file names now match node names exactly
@@ -688,8 +675,8 @@ export type ${this.model.name}Root = ${this.getElementType(this.model.start)};`;
 /**
  * Convenience function to generate code from a BNF model
  */
-export function generateCode<M = any>(
-  model: BNFModel<M>,
+export function generateCode(
+  model: BNFModel,
   config: GenerationConfig
 ): GenerationResult {
   const generator = new BNFCodeGenerator(model, config);

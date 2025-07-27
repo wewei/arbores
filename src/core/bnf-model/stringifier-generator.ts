@@ -75,13 +75,13 @@ export interface StringifierGenerationResult {
 /**
  * Main generator class for stringifier functions
  */
-export class StringifierGenerator<M = any> {
-  private model: BNFModel<M>;
+export class StringifierGenerator {
+  private model: BNFModel;
   private config: StringifierConfig;
   private warnings: string[] = [];
   private errors: string[] = [];
 
-  constructor(model: BNFModel<M>, config: StringifierConfig = {}) {
+  constructor(model: BNFModel, config: StringifierConfig = {}) {
     this.model = model;
     this.config = {
       functionPrefix: 'stringifier',
@@ -751,8 +751,8 @@ export function formatToken(value: string, options: StringifierOptions, context?
 /**
  * Convenience function to generate stringifier functions
  */
-export function generateStringifierFunctions<M = any>(
-  model: BNFModel<M>,
+export function generateStringifierFunctions(
+  model: BNFModel,
   config: StringifierConfig = {}
 ): StringifierGenerationResult {
   const generator = new StringifierGenerator(model, config);

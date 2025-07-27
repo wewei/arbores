@@ -23,12 +23,8 @@ export type {
   DeductionElement,
   TokenPattern,
   ParseResult,
-  TypeScriptMetadata,
-  TypeScriptBNFModel,
   GenerationOptions,
-  GenerationResult,
-  NodeLookup,
-  ExtractMetadata
+  GenerationResult
 } from './types.js';
 
 // BNF Model Parser

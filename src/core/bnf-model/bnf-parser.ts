@@ -21,7 +21,7 @@ import type {
  * @param input - Raw input data (typically from JSON.parse() or YAML.parse())
  * @returns ParseResult with either the validated model or errors
  */
-export function parseBNF<M = any>(input: any): ParseResult<M> {
+export function parseBNF(input: any): ParseResult {
   const errors: string[] = [];
   const warnings: string[] = [];
 
@@ -77,7 +77,7 @@ export function parseBNF<M = any>(input: any): ParseResult<M> {
   }
 
   // Create the model
-  const model: BNFModel<M> = {
+  const model: BNFModel = {
     name: input.name,
     version: input.version,
     start: input.start,
@@ -408,7 +408,7 @@ function validateRegexPattern(pattern: string, nodeName: string): string[] {
 /**
  * Finds orphan (unreferenced) nodes in the model
  */
-function findOrphanNodes<M>(model: BNFModel<M>): string[] {
+function findOrphanNodes(model: BNFModel): string[] {
   const allNodeNames = new Set(Object.keys(model.nodes));
   const referencedNodes = new Set<string>();
 
@@ -437,7 +437,7 @@ function findOrphanNodes<M>(model: BNFModel<M>): string[] {
 /**
  * Validates structural integrity of the parsed model
  */
-function validateModelStructure<M>(model: BNFModel<M>): string[] {
+function validateModelStructure(model: BNFModel): string[] {
   const errors: string[] = [];
 
   // Validate token node references in deduction sequences
@@ -458,7 +458,7 @@ function isValidPropertyName(name: string): boolean {
 /**
  * Validates that string references in deduction sequences point to TokenNodes with string patterns
  */
-function validateTokenNodeReferences<M>(model: BNFModel<M>): string[] {
+function validateTokenNodeReferences(model: BNFModel): string[] {
   const errors: string[] = [];
 
   for (const [nodeName, node] of Object.entries(model.nodes)) {
@@ -516,7 +516,7 @@ function getNodeDependencies(node: BNFNode): string[] {
 /**
  * Utility function to find unreachable nodes (for warnings/analysis)
  */
-export function findUnreachableNodes<M>(model: BNFModel<M>): string[] {
+export function findUnreachableNodes(model: BNFModel): string[] {
   const reachable = new Set<string>();
 
   function dfs(nodeName: string): void {
