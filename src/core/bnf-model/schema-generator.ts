@@ -13,7 +13,6 @@
  */
 
 import type { BNFModel, BNFNode, TokenNode, DeductionNode, UnionNode } from './types.js';
-import { pascalCaseToCamelCase } from '../utils/string-case.js';
 
 /**
  * Configuration for code generation

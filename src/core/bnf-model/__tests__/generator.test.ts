@@ -8,7 +8,7 @@ import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { load as loadYaml } from 'js-yaml';
 import { parseBNF } from '../bnf-parser.js';
-import { BNFCodeGenerator, generateCode, type GenerationConfig } from '../generator.js';
+import { BNFCodeGenerator, generateCode, type GenerationConfig } from '../schema-generator.js';
 import type { BNFModel } from '../types.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -59,8 +59,8 @@ describe('BNF Code Generator', () => {
 
       // Check that deduction node files are generated
       expect(fileNames).toEqual(expect.arrayContaining([
-        'nodes/binary-expression.ts',
-        'nodes/paren-expression.ts',
+        'nodes/BinaryExpression.ts',
+        'nodes/ParenExpression.ts',
       ]));
     });
 
@@ -132,7 +132,7 @@ describe('BNF Code Generator', () => {
 
       expect(result.success).toBe(true);
 
-      const binaryExpr = result.files!.get('nodes/binary-expression.ts');
+      const binaryExpr = result.files!.get('nodes/BinaryExpression.ts');
       expect(binaryExpr).toBeDefined();
       expect(binaryExpr).toContain('export interface BinaryExpressionNode');
       expect(binaryExpr).toContain('readonly type: \'BinaryExpression\'');
@@ -221,7 +221,7 @@ describe('BNF Code Generator', () => {
       expect(tokenTypes).toContain('export interface IdentifierTok');
       expect(tokenTypes).toContain('export interface NumberTok');
 
-      const binaryExpr = result.files!.get('nodes/binary-expression.ts');
+      const binaryExpr = result.files!.get('nodes/BinaryExpression.ts');
       expect(binaryExpr).toContain('export interface BinaryExpressionDef');
     });
 

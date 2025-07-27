@@ -15,7 +15,7 @@ import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { load as loadYaml } from 'js-yaml';
 import { parseBNF } from '../src/core/bnf-model/bnf-parser.js';
-import { generateCode, type GenerationConfig } from '../src/core/bnf-model/generator.js';
+import { generateCode, type GenerationConfig } from '../src/core/bnf-model/schema-generator.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);

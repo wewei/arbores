@@ -43,7 +43,7 @@ export {
   generateCode,
   type GenerationConfig,
   type GenerationResult as CodeGenerationResult
-} from './generator.js';
+} from './schema-generator.js';
 
 // Stringifier Generation  
 export {
