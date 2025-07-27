@@ -58,9 +58,25 @@ export interface UnionNode extends BaseNode {
 }
 
 /**
+ * List node - represents a sequence of items separated by an optional specific separator
+ */
+export interface ListNode extends BaseNode {
+  type: 'list';
+  item: string;     // Name of the item node type
+  separator?: {
+    node: string;   // Name of the separator node type
+    last:
+      | 'required'  // The separator after the last item is required
+      | 'optional'  // The separator after the last item is optional
+      | 'none';     // The last item must not have a separator
+
+  };
+}
+
+/**
  * Union type for all possible BNF nodes
  */
-export type BNFNode = TokenNode | DeductionNode | UnionNode;
+export type BNFNode = TokenNode | DeductionNode | UnionNode | ListNode;
 
 /**
  * Complete BNF model definition

@@ -1,0 +1,87 @@
+name: SimpleMath
+version: 1.0.0
+start: Expression
+
+nodes:
+  # Token nodes - basic building blocks
+  Identifier:
+    type: token
+    description: A variable identifier
+    pattern:
+      regex: "[a-zA-Z_][a-zA-Z0-9_]*"
+
+  Number:
+    type: token
+    description: A numeric literal
+    pattern:
+      regex: "\\d+"
+
+  Plus:
+    type: token
+    description: Addition operator
+    pattern: "+"
+
+  Minus:
+    type: token
+    description: Subtraction operator
+    pattern: "-"
+
+  LeftParen:
+    type: token
+    description: Left parenthesis
+    pattern: "("
+
+  RightParen:
+    type: token
+    description: Right parenthesis
+    pattern: ")"
+
+  # Union nodes - alternatives
+  Term:
+    type: union
+    description: A basic term in an expression
+    members:
+      - Identifier
+      - Number
+      - ParenExpression
+
+  Operator:
+    type: union
+    description: Arithmetic operators
+    members:
+      - Plus
+      - Minus
+
+  Expression:
+    type: union
+    description: Any valid expression
+    members:
+      - Term
+      - BinaryExpression
+
+  # Deduction nodes - structured rules
+  BinaryExpression:
+    type: deduction
+    description: Binary arithmetic expression
+    sequence:
+      - node: Expression
+        prop: left
+      - node: Operator
+        prop: operator
+      - node: Expression
+        prop: right
+    precedence: 1
+    associativity: left
+
+  ParenExpression:
+    type: deduction
+    description: Parenthesized expression
+    sequence:
+      - LeftParen
+      - node: Expression
+        prop: expression
+      - RightParen
+
+metadata:
+  language: SimpleMath
+  description: A simple arithmetic expression grammar for testing BNF parser

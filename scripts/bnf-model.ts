@@ -15,7 +15,7 @@ import chalk from 'chalk';
 
 import { parseBNF } from '../src/core/bnf-model/bnf-parser.js';
 import { generateCode, type GenerationConfig } from '../src/core/bnf-model/schema-generator.js';
-import { generateStringifierFunctions, type StringifierConfig } from '../src/core/bnf-model/stringifier-generator.js';
+import { generateStringifierFunctions, type StringifierConfig } from '../src/core/bnf-model/stringifier-generator/index';
 import { generatePegGrammar } from '../src/core/bnf-model/peg-generator.js';
 import type { BNFModel } from '../src/core/bnf-model/types.js';
 

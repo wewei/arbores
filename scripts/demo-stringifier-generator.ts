@@ -9,7 +9,7 @@ import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { load as loadYaml } from 'js-yaml';
 import { parseBNF } from '../src/core/bnf-model/bnf-parser.js';
-import { generateStringifierFunctions } from '../src/core/bnf-model/stringifier-generator.js';
+import { generateStringifierFunctions } from '../src/core/bnf-model/stringifier-generator/index';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);

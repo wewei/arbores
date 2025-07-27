@@ -25,13 +25,13 @@ export type {
   ParseResult,
   GenerationOptions,
   GenerationResult
-} from './types.js';
+} from './types';
 
 // BNF Model Parser
 export {
   parseBNF,
   findUnreachableNodes
-} from './bnf-parser.js';
+} from './bnf-parser';
 
 // Code Generation
 export {
@@ -39,15 +39,17 @@ export {
   generateCode,
   type GenerationConfig,
   type GenerationResult as CodeGenerationResult
-} from './schema-generator.js';
+} from './schema-generator';
 
 // Stringifier Generation  
 export {
-  StringifierGenerator,
   generateStringifierFunctions,
   type StringifierConfig,
-  type StringifierOptions
-} from './stringifier-generator.js';
+  type StringifierOptions,
+  type StringifierGeneratorState,
+  createStringifierGenerator,
+  generate as generateStringifier
+} from './stringifier-generator/index';
 
 // PEG.js Parser Generation
 export {
