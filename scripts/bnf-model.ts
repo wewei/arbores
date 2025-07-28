@@ -246,7 +246,7 @@ program
   .description('Generate code from BNF model (schema, stringifier, parser)')
   .argument('<bnf-model-file>', 'Path to BNF model file (.json, .yaml, or .yml)')
   .argument('<targets...>', 'Generation targets: schema, stringifier, parser')
-  .option('-o, --output <dir>', 'Output directory (default: bnf-model-file directory)')
+  .option('-o, --output <dir>', 'Output directory (default: bnf-model-file directory/generated)')
   .option('-t, --types <file>', 'BNFModel base types file', 'src/core/bnf-model/types.ts')
   .option('-c, --clean', 'Clean output directory before generation (preserve bnf-model-file)')
   .option('--verbose', 'Output detailed generation process information')
@@ -276,8 +276,8 @@ program
         process.exit(1);
       }
 
-      // Determine output directory
-      const outputDir = options.output || dirname(bnfModelFile);
+      // Determine output directory - default to generated/ subdirectory
+      const outputDir = options.output || join(dirname(bnfModelFile), 'generated');
 
       if (verbose || options.dryRun) {
         console.error(chalk.blue(`🔍 Loading BNF model from: ${bnfModelFile}`));
