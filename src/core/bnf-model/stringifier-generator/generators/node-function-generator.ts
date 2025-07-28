@@ -163,10 +163,10 @@ export function ${functionName}(node: ${nodeType}, options: StringifierOptions):
     
     // Add separator if it exists and is needed
     if (node.separators && i < node.separators.length) {
-      ${node.separator?.last === 'none' 
-        ? '// Only add separator if not the last item\n      if (i < node.items.length - 1) {'
-        : '// Add separator'
-      }
+      ${node.separator?.last === 'none'
+      ? '// Only add separator if not the last item\n      if (i < node.items.length - 1) {'
+      : '// Add separator'
+    }
       ${node.separator?.last === 'none' ? '  ' : ''}parts.push(stringifyNode(node.separators[i], options));
       ${node.separator?.last === 'none' ? '      }' : ''}
     }

@@ -5,7 +5,7 @@
 import type { SchemaGeneratorState, GenerationResult } from './types';
 import { reset, validateModel, addErrors } from './state';
 import { validateGeneratedCode } from './utils';
-import { 
+import {
   generateTokenTypes,
   generateDeductionNodes,
   generateListNodes,

@@ -4,12 +4,12 @@
 
 import type { ListNode } from '../../types';
 import type { SchemaGeneratorState } from '../types';
-import { 
-  getNodesByType, 
-  getNodeTypeName, 
+import {
+  getNodesByType,
+  getNodeTypeName,
   getElementType,
-  generateFileHeader, 
-  generateJSDoc 
+  generateFileHeader,
+  generateJSDoc
 } from '../utils';
 import { addFile, addWarning } from '../state';
 
@@ -71,7 +71,7 @@ export const generateListNodeImports = (
   const itemNode = state.model.nodes[node.item];
   if (itemNode) {
     const itemType = getElementType(state, node.item);
-    
+
     if (itemNode.type === 'token') {
       imports.add(itemType);
     } else if (itemNode.type === 'union') {
@@ -88,7 +88,7 @@ export const generateListNodeImports = (
     const separatorNode = state.model.nodes[node.separator.node];
     if (separatorNode) {
       const separatorType = getElementType(state, node.separator.node);
-      
+
       if (separatorNode.type === 'token') {
         imports.add(separatorType);
       } else if (separatorNode.type === 'union') {
@@ -130,7 +130,7 @@ export const generateListNodeInterface = (
   // Add separators property if separator is defined
   if (node.separator) {
     const separatorType = getElementType(state, node.separator.node);
-    
+
     // The separator array length depends on the 'last' setting
     switch (node.separator.last) {
       case 'required':
