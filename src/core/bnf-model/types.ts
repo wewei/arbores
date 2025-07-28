@@ -66,9 +66,9 @@ export interface ListNode extends BaseNode {
   separator?: {
     node: string;   // Name of the separator node type
     last:
-      | 'required'  // The separator after the last item is required
-      | 'optional'  // The separator after the last item is optional
-      | 'none';     // The last item must not have a separator
+    | 'required'  // The separator after the last item is required
+    | 'optional'  // The separator after the last item is optional
+    | 'none';     // The last item must not have a separator
 
   };
 }

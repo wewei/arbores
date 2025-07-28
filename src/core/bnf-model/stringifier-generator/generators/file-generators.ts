@@ -4,7 +4,7 @@
 
 import type { BNFNode } from '../../types';
 import type { StringifierGeneratorState } from '../types';
-import { generateFileHeader, generateImports, generateStringifierOptionsType } from './header-generator';
+import { generateFileHeader, generateImports, generateStringifierOptionsType, generateSimpleFileHeader } from './header-generator';
 import { generateMainFunctionType, generateMainStringifierFunction } from './main-function-generator';
 import { generateNodeStringifierFunction } from './node-function-generator';
 import { generateUtilityFunctions } from './utility-generator';
@@ -55,14 +55,7 @@ export const generateNodeStringifierFile = (
   const parts: string[] = [];
 
   // Add file header
-  parts.push(`/**
- * Stringifier for ${nodeName} node
- * 
- * Generated from BNF model: ${state.model.name} v${state.model.version}
- * Generation time: ${new Date().toISOString()}
- * 
- * @fileoverview This file is auto-generated. Do not edit manually.
- */`);
+  parts.push(generateSimpleFileHeader(state, `Stringifier for ${nodeName} node`));
   parts.push('');
 
   // Add imports - only import the specific node type and any referenced types
@@ -70,19 +63,19 @@ export const generateNodeStringifierFile = (
   if (requiredTypes.length > 0) {
     parts.push(`import type { ${requiredTypes.join(', ')} } from '../../schema/index';`);
   }
-  
+
   parts.push(`import type { StringifierOptions } from '../types';`);
-  
+
   // Import utility functions and stringifyNode if needed
   if (node.type === 'deduction' || node.type === 'union') {
     parts.push(`import { stringifyNode } from '../index';`);
   }
-  
+
   // Import utility functions if this is a deduction node
   if (node.type === 'deduction') {
     parts.push(`import { getIndentation, addWhitespace, formatToken } from '../utils';`);
   }
-  
+
   parts.push('');
 
   // Generate the node stringifier function
@@ -98,20 +91,13 @@ export const generateStringifierIndexFile = (state: StringifierGeneratorState): 
   const parts: string[] = [];
 
   // Add file header
-  parts.push(`/**
- * Stringifier functions for ${state.model.name} grammar
- * 
- * Generated from BNF model: ${state.model.name} v${state.model.version}
- * Generation time: ${new Date().toISOString()}
- * 
- * @fileoverview This file is auto-generated. Do not edit manually.
- */`);
+  parts.push(generateFileHeader(state));
   parts.push('');
 
   // Add imports for schema types
   parts.push(generateImports(state));
   parts.push('');
-  
+
   // Import StringifierOptions type
   parts.push(`import type { StringifierOptions } from './types';`);
   parts.push('');
@@ -152,14 +138,7 @@ export const generateStringifierIndexFile = (state: StringifierGeneratorState): 
 export const generateSharedTypesFile = (state: StringifierGeneratorState): string => {
   const parts: string[] = [];
 
-  parts.push(`/**
- * Shared types for ${state.model.name} stringifier
- * 
- * Generated from BNF model: ${state.model.name} v${state.model.version}
- * Generation time: ${new Date().toISOString()}
- * 
- * @fileoverview This file is auto-generated. Do not edit manually.
- */`);
+  parts.push(generateSimpleFileHeader(state, `Shared types for ${state.model.name} stringifier`));
   parts.push('');
 
   parts.push(generateStringifierOptionsType());
@@ -173,14 +152,7 @@ export const generateSharedTypesFile = (state: StringifierGeneratorState): strin
 export const generateUtilityFunctionsFile = (state: StringifierGeneratorState): string => {
   const parts: string[] = [];
 
-  parts.push(`/**
- * Utility functions for ${state.model.name} stringifier
- * 
- * Generated from BNF model: ${state.model.name} v${state.model.version}
- * Generation time: ${new Date().toISOString()}
- * 
- * @fileoverview This file is auto-generated. Do not edit manually.
- */`);
+  parts.push(generateSimpleFileHeader(state, `Utility functions for ${state.model.name} stringifier`));
   parts.push('');
 
   parts.push(`import type { StringifierOptions } from './types';`);

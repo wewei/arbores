@@ -4,6 +4,7 @@
  * Pure utility functions for schema generation.
  */
 
+import { createHash } from 'crypto';
 import type { BNFModel, BNFNode, TokenNode, DeductionNode, UnionNode } from '../types';
 import type { SchemaGeneratorState } from './types';
 
@@ -60,17 +61,45 @@ export const getElementType = (state: SchemaGeneratorState, nodeName: string): s
 };
 
 /**
+ * Calculate SHA256 hash of BNF model for stable versioning
+ */
+export const calculateModelHash = (model: BNFModel): string => {
+  // Create a stable, deterministic representation of the model
+  const normalizedModel = {
+    name: model.name,
+    version: model.version,
+    start: model.start,
+    nodes: Object.keys(model.nodes)
+      .sort() // Ensure consistent ordering
+      .reduce((sorted, key) => {
+        const node = model.nodes[key];
+        if (node) {
+          sorted[key] = node;
+        }
+        return sorted;
+      }, {} as Record<string, BNFNode>)
+  };
+
+  // Convert to JSON with consistent formatting
+  const modelJson = JSON.stringify(normalizedModel, null, 2);
+
+  // Calculate SHA256 hash
+  return createHash('sha256').update(modelJson, 'utf8').digest('hex').substring(0, 12);
+};
+
+/**
  * Generate file header with metadata
  */
 export const generateFileHeader = (
   state: SchemaGeneratorState,
   description: string
 ): string => {
+  const modelHash = calculateModelHash(state.model);
   return `/**
  * ${description}
  * 
  * Generated from BNF model: ${state.model.name} v${state.model.version}
- * Generation time: ${new Date().toISOString()}
+ * Model hash: ${modelHash}
  * 
  * @fileoverview This file is auto-generated. Do not edit manually.
  */`;

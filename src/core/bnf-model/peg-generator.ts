@@ -419,17 +419,17 @@ export class PegGenerator {
         // Pattern: item (separator item)*
         // This ensures no separator after the last item
         return `${node.item} (${separatorRef} ${node.item})*`;
-      
+
       case 'optional':
         // Pattern: item (separator item)* separator?
         // Allows optional separator after last item
         return `${node.item} (${separatorRef} ${node.item})* ${separatorRef}?`;
-      
+
       case 'required':
         // Pattern: (item separator)+
         // Requires separator after every item including the last
         return `(${node.item} ${separatorRef})+`;
-      
+
       default:
         throw new PegGenerationError(`Unsupported separator.last value: ${separator.last}`);
     }
@@ -445,12 +445,12 @@ export class PegGenerator {
 
         // Only warn about patterns that are likely to cause actual problems
         // Rather than warning about any "complex" patterns, we focus on specific issues
-        
+
         // Check for patterns that might conflict with PEG.js whitespace handling
         if (pattern.includes('\\s') && !pattern.includes('\\\\s')) {
           warnings.push(`Token "${nodeName}" uses \\s which may conflict with PEG.js whitespace handling. Consider using [ \\t\\r\\n] instead.`);
         }
-        
+
         // Check for very long patterns that might be hard to debug
         if (pattern.length > 200) {
           warnings.push(`Token "${nodeName}" has a very long regex pattern (${pattern.length} characters) which may be hard to debug.`);
