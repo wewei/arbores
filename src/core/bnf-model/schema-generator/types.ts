@@ -6,6 +6,7 @@
  */
 
 import type { BNFModel } from '../types';
+import type { GenerationResult } from '../shared-types';
 
 /**
  * Configuration for code generation
@@ -26,31 +27,8 @@ export interface GenerationConfig {
   };
 }
 
-/**
- * Result of code generation
- */
-export interface GenerationResult {
-  /** Whether generation was successful */
-  success: boolean;
-  /** Generated file paths and their contents */
-  files?: Map<string, string>;
-  /** Warnings during generation */
-  warnings?: string[];
-  /** Errors during generation */
-  errors?: string[];
-}
-
-/**
- * Information about a generated file
- */
-export interface GeneratedFile {
-  /** Relative file path */
-  path: string;
-  /** File contents */
-  content: string;
-  /** File type for organization */
-  type: 'token' | 'node' | 'union' | 'constants' | 'index';
-}
+// Re-export shared type
+export type { GenerationResult };
 
 /**
  * Schema generator state (immutable)

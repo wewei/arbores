@@ -9,7 +9,6 @@
 export type {
   GenerationConfig,
   GenerationResult,
-  GeneratedFile,
   SchemaGeneratorState,
   SchemaGenerationOptions
 } from './types';

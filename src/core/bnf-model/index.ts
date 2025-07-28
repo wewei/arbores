@@ -23,9 +23,11 @@ export type {
   DeductionElement,
   TokenPattern,
   ParseResult,
-  GenerationOptions,
-  GenerationResult
+  GenerationOptions
 } from './types';
+
+// Shared types
+export type { GenerationResult } from './shared-types';
 
 // BNF Model Parser
 export {

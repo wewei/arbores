@@ -113,21 +113,4 @@ export interface GenerationOptions {
   generateDeclarations?: boolean;
 }
 
-/**
- * Code generation result
- */
-export interface GenerationResult {
-  /** Generated files as a map of relative paths to content */
-  files: Record<string, string>;
-  /** Any warnings during generation */
-  warnings: string[];
-  /** Statistics about generation */
-  stats: {
-    totalFiles: number;
-    totalNodes: number;
-    tokenNodes: number;
-    deductionNodes: number;
-    unionNodes: number;
-    listNodes: number;
-  };
-}
+

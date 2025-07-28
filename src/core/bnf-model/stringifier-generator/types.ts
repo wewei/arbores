@@ -3,6 +3,7 @@
  */
 
 import type { BNFModel } from '../types';
+import type { GenerationResult } from '../shared-types';
 
 /**
  * Configuration for stringifier function generation
@@ -44,22 +45,17 @@ export interface StringifierOptions {
 }
 
 /**
- * Result of stringifier generation
+ * Result of stringifier generation (extends shared GenerationResult)
  */
-export interface StringifierGenerationResult {
-  /** Whether generation was successful */
-  success: boolean;
-  /** Generated file paths and their contents */
-  files?: Map<string, string>;
+export interface StringifierGenerationResult extends GenerationResult {
   /** Deprecated: Combined code for backward compatibility */
   code?: string;
   /** Deprecated: Type definitions for backward compatibility */
   types?: string;
-  /** Warnings during generation */
-  warnings?: string[];
-  /** Errors during generation */
-  errors?: string[];
 }
+
+// Re-export shared type
+export type { GenerationResult };
 
 /**
  * State type that replaces the StringifierGenerator class

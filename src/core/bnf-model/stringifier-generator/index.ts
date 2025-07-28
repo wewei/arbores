@@ -10,6 +10,7 @@ export type {
   StringifierConfig,
   StringifierOptions,
   StringifierGenerationResult,
+  GenerationResult,
   StringifierGeneratorState
 } from './types';
 
