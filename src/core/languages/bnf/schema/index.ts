@@ -2,7 +2,7 @@
  * BNFGrammar grammar type definitions
  * 
  * Generated from BNF model: BNFGrammar v1.0.0
- * Generation time: 2025-07-26T09:37:45.220Z
+ * Generation time: 2025-07-28T02:32:27.904Z
  * 
  * @fileoverview This file is auto-generated. Do not edit manually.
  */

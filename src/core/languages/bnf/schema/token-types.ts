@@ -2,7 +2,7 @@
  * Token type definitions
  * 
  * Generated from BNF model: BNFGrammar v1.0.0
- * Generation time: 2025-07-26T09:37:45.219Z
+ * Generation time: 2025-07-28T02:32:27.901Z
  * 
  * @fileoverview This file is auto-generated. Do not edit manually.
  */
@@ -15,7 +15,6 @@
 export interface IdentifierToken {
   readonly type: 'Identifier';
   readonly value: string;
-
 }
 /**
  * A quoted string literal
@@ -25,7 +24,6 @@ export interface IdentifierToken {
 export interface StringToken {
   readonly type: 'String';
   readonly value: string;
-
 }
 /**
  * A regular expression pattern
@@ -35,7 +33,6 @@ export interface StringToken {
 export interface RegexToken {
   readonly type: 'Regex';
   readonly value: string;
-
 }
 /**
  * A numeric value
@@ -45,7 +42,6 @@ export interface RegexToken {
 export interface NumberToken {
   readonly type: 'Number';
   readonly value: string;
-
 }
 /**
  * A comment line starting with
@@ -55,7 +51,6 @@ export interface NumberToken {
 export interface CommentToken {
   readonly type: 'Comment';
   readonly value: string;
-
 }
 /**
  * The "name:" keyword
@@ -65,7 +60,6 @@ export interface CommentToken {
 export interface NameKeywordToken {
   readonly type: 'NameKeyword';
   readonly value: string;
-
 }
 /**
  * The "version:" keyword
@@ -75,7 +69,6 @@ export interface NameKeywordToken {
 export interface VersionKeywordToken {
   readonly type: 'VersionKeyword';
   readonly value: string;
-
 }
 /**
  * The "start:" keyword
@@ -85,7 +78,6 @@ export interface VersionKeywordToken {
 export interface StartKeywordToken {
   readonly type: 'StartKeyword';
   readonly value: string;
-
 }
 /**
  * The "::" definition operator
@@ -95,7 +87,6 @@ export interface StartKeywordToken {
 export interface DefineOperatorToken {
   readonly type: 'DefineOperator';
   readonly value: string;
-
 }
 /**
  * The "|" union operator
@@ -105,7 +96,6 @@ export interface DefineOperatorToken {
 export interface UnionOperatorToken {
   readonly type: 'UnionOperator';
   readonly value: string;
-
 }
 /**
  * The ":" property assignment operator
@@ -115,7 +105,6 @@ export interface UnionOperatorToken {
 export interface PropertyOperatorToken {
   readonly type: 'PropertyOperator';
   readonly value: string;
-
 }
 /**
  * Whitespace characters
@@ -125,7 +114,6 @@ export interface PropertyOperatorToken {
 export interface WhitespaceToken {
   readonly type: 'Whitespace';
   readonly value: string;
-
 }
 /**
  * Line break character
@@ -135,7 +123,6 @@ export interface WhitespaceToken {
 export interface NewlineToken {
   readonly type: 'Newline';
   readonly value: string;
-
 }
 
 /**
