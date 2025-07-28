@@ -35,7 +35,6 @@ export {
 
 // Code Generation
 export {
-  BNFCodeGenerator,
   generateCode,
   type GenerationConfig,
   type GenerationResult as CodeGenerationResult
