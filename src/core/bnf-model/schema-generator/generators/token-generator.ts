@@ -31,7 +31,7 @@ export const generateTokenTypes = (state: SchemaGeneratorState): SchemaGenerator
     const typeName = getTokenTypeName(state, name);
     tokenUnion.push(typeName);
 
-    const docs = state.config.includeDocumentation
+    const docs = true // Always include documentation
       ? generateJSDoc(state, node.description, {
         pattern: typeof node.pattern === 'string'
           ? node.pattern

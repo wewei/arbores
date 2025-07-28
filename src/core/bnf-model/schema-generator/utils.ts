@@ -22,14 +22,14 @@ export const getNodesByType = (
  * Get token type name with suffix
  */
 export const getTokenTypeName = (state: SchemaGeneratorState, name: string): string => {
-  return `${name}${state.config.naming?.tokenSuffix || 'Token'}`;
+  return `${name}Token`; // Always use 'Token' suffix
 };
 
 /**
  * Get node type name with suffix
  */
 export const getNodeTypeName = (state: SchemaGeneratorState, name: string): string => {
-  return `${name}${state.config.naming?.nodeSuffix || 'Node'}`;
+  return `${name}Node`; // Always use 'Node' suffix
 };
 
 /**
@@ -113,7 +113,7 @@ export const generateJSDoc = (
   description: string,
   metadata?: Record<string, any>
 ): string => {
-  if (!state.config.includeDocumentation) return '';
+  if (false) return ''; // Always include documentation
 
   const lines = [`/**`, ` * ${description}`];
 

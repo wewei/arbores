@@ -48,7 +48,7 @@ export const generateUnionTypes = (state: SchemaGeneratorState): SchemaGenerator
       }
     }
 
-    const docs = state.config.includeDocumentation
+    const docs = true // Always include documentation
       ? generateJSDoc(state, node.description, { members: node.members })
       : '';
 

@@ -12,19 +12,8 @@ import type { GenerationResult } from '../shared-types';
  * Configuration for code generation
  */
 export interface GenerationConfig {
-  /** Base output directory */
-  outputDir: string;
-  /** Whether to generate separate files for each node type */
-  separateFiles?: boolean;
-  /** Whether to include JSDoc comments */
-  includeDocumentation?: boolean;
-  /** Custom naming conventions */
-  naming?: {
-    /** Suffix for token type names (default: 'Token') */
-    tokenSuffix?: string;
-    /** Suffix for node interface names (default: 'Node') */
-    nodeSuffix?: string;
-  };
+  /** Path to common types file (e.g., 'src/core/bnf-model/types.ts') */
+  commonTypeFile: string;
 }
 
 // Re-export shared type

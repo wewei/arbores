@@ -37,9 +37,7 @@ describe('BNF Schema Generator (Functional)', () => {
       if (!parseResult.success) return;
 
       const config: GenerationConfig = {
-        outputDir: './output',
-        separateFiles: true,
-        includeDocumentation: true,
+        commonTypeFile: 'src/core/bnf-model/types.ts',
       };
 
       const result = generateCode(parseResult.model, config);
@@ -71,8 +69,7 @@ describe('BNF Schema Generator (Functional)', () => {
       if (!parseResult.success) return;
 
       const config: GenerationConfig = {
-        outputDir: './output',
-        includeDocumentation: false,
+        commonTypeFile: 'src/core/bnf-model/types.ts',
       };
 
       const result = generateCode(parseResult.model, config);
@@ -97,7 +94,7 @@ describe('BNF Schema Generator (Functional)', () => {
       if (!parseResult.success) return;
 
       const config: GenerationConfig = {
-        outputDir: './output',
+        commonTypeFile: 'src/core/bnf-model/types.ts',
       };
 
       const result = generateCode(parseResult.model, config);
@@ -120,8 +117,7 @@ describe('BNF Schema Generator (Functional)', () => {
       if (!parseResult.success) return;
 
       const config: GenerationConfig = {
-        outputDir: './output',
-        separateFiles: true,
+        commonTypeFile: 'src/core/bnf-model/types.ts',
       };
 
       const result = generateCode(parseResult.model, config);
@@ -145,7 +141,7 @@ describe('BNF Schema Generator (Functional)', () => {
       if (!parseResult.success) return;
 
       const config: GenerationConfig = {
-        outputDir: './output',
+        commonTypeFile: 'src/core/bnf-model/types.ts',
       };
 
       const result = generateCode(parseResult.model, config);
@@ -171,7 +167,7 @@ describe('BNF Schema Generator (Functional)', () => {
       if (!parseResult.success) return;
 
       const config: GenerationConfig = {
-        outputDir: './output',
+        commonTypeFile: 'src/core/bnf-model/types.ts',
       };
 
       const result = generateCode(parseResult.model, config);
@@ -199,23 +195,20 @@ describe('BNF Schema Generator (Functional)', () => {
       if (!parseResult.success) return;
 
       const config: GenerationConfig = {
-        outputDir: './output',
-        naming: {
-          tokenSuffix: 'Tok',
-          nodeSuffix: 'Def',
-        },
+        commonTypeFile: 'src/core/bnf-model/types.ts',
       };
 
       const result = generateCode(parseResult.model, config);
 
       expect(result.success).toBe(true);
 
+      // Test that default naming is used (Token suffix for tokens, Node suffix for nodes)
       const tokenTypes = result.files!.get('token-types.ts');
-      expect(tokenTypes).toContain('export interface IdentifierTok');
-      expect(tokenTypes).toContain('export interface NumberTok');
+      expect(tokenTypes).toContain('export interface IdentifierToken');
+      expect(tokenTypes).toContain('export interface NumberToken');
 
       const binaryExpr = result.files!.get('nodes/BinaryExpression.ts');
-      expect(binaryExpr).toContain('export interface BinaryExpressionDef');
+      expect(binaryExpr).toContain('export interface BinaryExpressionNode');
     });
 
     it('should validate model before generation', () => {
@@ -227,7 +220,7 @@ describe('BNF Schema Generator (Functional)', () => {
       };
 
       const config: GenerationConfig = {
-        outputDir: './output',
+        commonTypeFile: 'src/core/bnf-model/types.ts',
       };
 
       const result = generateCode(invalidModel, config);
@@ -249,7 +242,7 @@ describe('BNF Schema Generator (Functional)', () => {
       if (!parseResult.success) return;
 
       const config: GenerationConfig = {
-        outputDir: './output',
+        commonTypeFile: 'src/core/bnf-model/types.ts',
       };
 
       const result = generateCode(parseResult.model, config);
@@ -269,7 +262,7 @@ describe('BNF Schema Generator (Functional)', () => {
       if (!parseResult.success) return;
 
       const config: GenerationConfig = {
-        outputDir: './output',
+        commonTypeFile: 'src/core/bnf-model/types.ts',
       };
 
       const result = generateCode(parseResult.model, config);
@@ -296,7 +289,7 @@ describe('BNF Schema Generator (Functional)', () => {
       };
 
       const config: GenerationConfig = {
-        outputDir: './output',
+        commonTypeFile: 'src/core/bnf-model/types.ts',
       };
 
       const result = generateCode(model, config);
@@ -324,7 +317,7 @@ describe('BNF Schema Generator (Functional)', () => {
       };
 
       const config: GenerationConfig = {
-        outputDir: './output',
+        commonTypeFile: 'src/core/bnf-model/types.ts',
       };
 
       const result = generateCode(model, config);

@@ -20,12 +20,6 @@ export const createSchemaGenerator = (
   options: SchemaGenerationOptions = {}
 ): SchemaGeneratorState => {
   const mergedConfig: GenerationConfig = {
-    separateFiles: true,
-    includeDocumentation: true,
-    naming: {
-      tokenSuffix: 'Token',
-      nodeSuffix: 'Node',
-    },
     ...config,
   };
 

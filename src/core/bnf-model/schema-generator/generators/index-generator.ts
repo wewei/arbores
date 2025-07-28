@@ -25,7 +25,7 @@ export const generateIndexFile = (state: SchemaGeneratorState): SchemaGeneratorS
 
   // Export deduction nodes
   const deductionNodes = getNodesByType(state, 'deduction');
-  if (state.config.separateFiles && deductionNodes.length > 0) {
+  if (deductionNodes.length > 0) { // Always generate separate files
     for (const [name] of deductionNodes) {
       exports.push(`export * from './nodes/${name}.js';`);
     }
@@ -33,7 +33,7 @@ export const generateIndexFile = (state: SchemaGeneratorState): SchemaGeneratorS
 
   // Export list nodes
   const listNodes = getNodesByType(state, 'list');
-  if (state.config.separateFiles && listNodes.length > 0) {
+  if (listNodes.length > 0) { // Always generate separate files
     for (const [name] of listNodes) {
       exports.push(`export * from './nodes/${name}.js';`);
     }

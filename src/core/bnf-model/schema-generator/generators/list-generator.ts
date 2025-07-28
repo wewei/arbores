@@ -23,7 +23,7 @@ export const generateListNodes = (state: SchemaGeneratorState): SchemaGeneratorS
     return state; // No warning needed - lists are optional
   }
 
-  if (state.config.separateFiles) {
+  if (true) { // Always generate separate files
     // Generate separate file for each list node
     let currentState = state;
     for (const [name, node] of listNodes) {
@@ -148,7 +148,7 @@ export const generateListNodeInterface = (
     }
   }
 
-  const docs = state.config.includeDocumentation
+  const docs = true // Always include documentation
     ? generateJSDoc(state, node.description, {
       item: node.item,
       separator: node.separator?.node,

@@ -23,7 +23,7 @@ export const generateDeductionNodes = (state: SchemaGeneratorState): SchemaGener
     return addWarning(state, 'No deduction nodes found in BNF model');
   }
 
-  if (state.config.separateFiles) {
+  if (true) { // Always generate separate files
     // Generate separate file for each deduction node
     let currentState = state;
     for (const [name, node] of deductionNodes) {
@@ -134,7 +134,7 @@ export const generateDeductionNodeInterface = (
     }
   }
 
-  const docs = state.config.includeDocumentation
+  const docs = true // Always include documentation
     ? generateJSDoc(state, node.description, {
       precedence: node.precedence,
       associativity: node.associativity,

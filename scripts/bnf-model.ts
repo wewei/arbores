@@ -311,9 +311,7 @@ async function generateSchema(model: BNFModel, outputDir: string, verbose: boole
 
   const schemaDir = join(outputDir, 'schema');
   const config: GenerationConfig = {
-    outputDir: schemaDir,
-    separateFiles: true,
-    includeDocumentation: true,
+    commonTypeFile: 'src/core/bnf-model/types.ts',
   };
 
   const generationResult = generateCode(model, config);
