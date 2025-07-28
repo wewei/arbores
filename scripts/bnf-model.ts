@@ -13,11 +13,11 @@ import { tmpdir } from 'os';
 import { load as loadYaml } from 'js-yaml';
 import chalk from 'chalk';
 
-import { parseBNF } from '../src/core/bnf-model/bnf-parser.js';
-import { generateCode, type GenerationConfig } from '../src/core/bnf-model/schema-generator.js';
-import { generateStringifierFunctions, type StringifierConfig } from '../src/core/bnf-model/stringifier-generator/index';
-import { generatePegGrammar } from '../src/core/bnf-model/peg-generator.js';
-import type { BNFModel } from '../src/core/bnf-model/types.js';
+import { parseBNF } from '../src/core/bnf-model/bnf-parser';
+import { generateCode, type GenerationConfig } from '../src/core/bnf-model/schema-generator';
+import { generateStringifierFunctions, type StringifierConfig } from '../src/core/bnf-model/stringifier-generator';
+import { generatePegGrammar } from '../src/core/bnf-model/peg-generator';
+import type { BNFModel } from '../src/core/bnf-model/types';
 
 const program = new Command();
 
@@ -60,8 +60,8 @@ function cleanTarget(targetPath: string, bnfModelFile: string, verbose: boolean 
     const absoluteTargetPath = resolve(targetPath);
     const absoluteBnfModelFile = resolve(bnfModelFile);
     const grammarBnfPath = join(absoluteTargetPath, 'grammar.bnf.yaml');
-    const isModelFileInside = absoluteBnfModelFile.startsWith(absoluteTargetPath + sep) || 
-                              absoluteBnfModelFile === absoluteTargetPath;
+    const isModelFileInside = absoluteBnfModelFile.startsWith(absoluteTargetPath + sep) ||
+      absoluteBnfModelFile === absoluteTargetPath;
 
     let tempModelPath: string | null = null;
     let tempGrammarPath: string | null = null;
@@ -318,7 +318,7 @@ program
       const bnfModelDestination = join(outputDir, 'grammar.bnf.yaml');
       const absoluteBnfModelFile = resolve(bnfModelFile);
       const absoluteBnfModelDestination = resolve(bnfModelDestination);
-      
+
       // Only copy/rename if source and destination are different
       if (absoluteBnfModelFile !== absoluteBnfModelDestination) {
         if (!options.dryRun) {
@@ -327,7 +327,7 @@ program
             // rename it instead of copying
             const sourceDir = dirname(absoluteBnfModelFile);
             const outputAbsoluteDir = resolve(outputDir);
-            
+
             if (sourceDir === outputAbsoluteDir) {
               // Same directory: rename the file
               const fs = require('fs');
@@ -446,7 +446,7 @@ async function generateStringifier(model: BNFModel, outputDir: string, verbose: 
   }
 
   const stringifierDir = join(outputDir, 'stringifier');
-  
+
   const config: StringifierConfig = {
     functionPrefix: 'stringify',
     indentStyle: '  ',
@@ -476,7 +476,7 @@ async function generateStringifier(model: BNFModel, outputDir: string, verbose: 
   } else {
     // Ensure stringifier directory exists
     mkdirSync(stringifierDir, { recursive: true });
-    
+
     // Ensure nodes subdirectory exists
     const nodesDir = join(stringifierDir, 'nodes');
     mkdirSync(nodesDir, { recursive: true });
@@ -485,11 +485,11 @@ async function generateStringifier(model: BNFModel, outputDir: string, verbose: 
     if (stringifyResult.files) {
       for (const [filePath, content] of stringifyResult.files) {
         const fullPath = join(stringifierDir, filePath);
-        
+
         // Ensure the directory for this file exists
         const fileDir = dirname(fullPath);
         mkdirSync(fileDir, { recursive: true });
-        
+
         writeFileSync(fullPath, content, 'utf-8');
         console.error(chalk.green(`✅ Generated: ${fullPath}`));
       }
@@ -507,7 +507,7 @@ async function generateParser(model: BNFModel, outputDir: string, verbose: boole
 
   try {
     const parserDir = join(outputDir, 'parser');
-    
+
     // Generate PEG.js grammar
     const pegResult = generatePegGrammar(model, {
       startRule: model.start,
@@ -597,17 +597,17 @@ export function getStats() {
     } else {
       // Ensure parser directory exists
       mkdirSync(parserDir, { recursive: true });
-      
+
       // Write index.ts
       const indexFile = join(parserDir, 'index.ts');
       writeFileSync(indexFile, parserContent, 'utf-8');
       console.error(chalk.green(`✅ Generated: ${indexFile}`));
-      
+
       // Write PEG grammar file
       const grammarFile = join(parserDir, 'grammar.pegjs');
       writeFileSync(grammarFile, pegResult.grammar, 'utf-8');
       console.error(chalk.green(`✅ Generated: ${grammarFile}`));
-      
+
       if (verbose) {
         console.error(chalk.blue('💡 To compile the parser, run:'));
         console.error(chalk.gray(`   cd ${parserDir}`));
