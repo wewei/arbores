@@ -1,4 +1,4 @@
-import type { BNFModel, BNFNode, TokenNode, DeductionNode, UnionNode, DeductionElement } from "./types";
+import type { BNFModel, BNFNode, TokenNode, DeductionNode, UnionNode, ListNode, DeductionElement } from "./types";
 
 export interface PegGeneratorOptions {
   startRule?: string;
@@ -22,6 +22,7 @@ export interface PegGenerationResult {
     tokenRules: number;
     deductionRules: number;
     unionRules: number;
+    listRules: number;
     leftRecursiveRules: string[];
   };
 }
@@ -351,6 +352,8 @@ export class PegGenerator {
         return this.generateDeduction(node);
       case 'union':
         return this.generateUnion(node);
+      case 'list':
+        return this.generateList(node);
       default:
         throw new PegGenerationError(`Unsupported node type: ${(node as any).type}`);
     }
@@ -401,6 +404,37 @@ export class PegGenerator {
     return node.members.join(' / ');
   }
 
+  private generateList(node: ListNode): string {
+    // Generate PEG.js list pattern based on separator configuration
+    if (!node.separator) {
+      // Simple repetition without separator: item*
+      return `${node.item}*`;
+    }
+
+    const { separator } = node;
+    const separatorRef = separator.node;
+
+    switch (separator.last) {
+      case 'none':
+        // Pattern: item (separator item)*
+        // This ensures no separator after the last item
+        return `${node.item} (${separatorRef} ${node.item})*`;
+      
+      case 'optional':
+        // Pattern: item (separator item)* separator?
+        // Allows optional separator after last item
+        return `${node.item} (${separatorRef} ${node.item})* ${separatorRef}?`;
+      
+      case 'required':
+        // Pattern: (item separator)+
+        // Requires separator after every item including the last
+        return `(${node.item} ${separatorRef})+`;
+      
+      default:
+        throw new PegGenerationError(`Unsupported separator.last value: ${separator.last}`);
+    }
+  }
+
   /**
    * Check for problematic patterns that might cause PEG.js issues
    */
@@ -432,6 +466,7 @@ export class PegGenerator {
     let tokenRules = 0;
     let deductionRules = 0;
     let unionRules = 0;
+    let listRules = 0;
 
     for (const node of Object.values(model.nodes)) {
       switch (node.type) {
@@ -444,6 +479,9 @@ export class PegGenerator {
         case 'union':
           unionRules++;
           break;
+        case 'list':
+          listRules++;
+          break;
       }
     }
 
@@ -452,6 +490,7 @@ export class PegGenerator {
       tokenRules,
       deductionRules,
       unionRules,
+      listRules,
       leftRecursiveRules
     };
   }

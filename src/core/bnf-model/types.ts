@@ -128,5 +128,6 @@ export interface GenerationResult {
     tokenNodes: number;
     deductionNodes: number;
     unionNodes: number;
+    listNodes: number;
   };
 }

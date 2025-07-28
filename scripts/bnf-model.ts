@@ -523,7 +523,7 @@ async function generateParser(model: BNFModel, outputDir: string, verbose: boole
     }
 
     if (verbose) {
-      console.error(chalk.blue(`📊 Parser stats: ${pegResult.stats.totalRules} rules (${pegResult.stats.tokenRules} tokens, ${pegResult.stats.deductionRules} deductions, ${pegResult.stats.unionRules} unions)`));
+      console.error(chalk.blue(`📊 Parser stats: ${pegResult.stats.totalRules} rules (${pegResult.stats.tokenRules} tokens, ${pegResult.stats.deductionRules} deductions, ${pegResult.stats.unionRules} unions, ${pegResult.stats.listRules} lists)`));
       if (pegResult.stats.leftRecursiveRules.length > 0) {
         console.error(chalk.yellow(`⚠️  Left recursive rules detected: ${pegResult.stats.leftRecursiveRules.join(', ')}`));
       }

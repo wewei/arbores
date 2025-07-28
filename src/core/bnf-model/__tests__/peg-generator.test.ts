@@ -214,6 +214,7 @@ describe('PegGenerator', () => {
       expect(result.stats.tokenRules).toBe(6); // Number, Identifier, Plus, Minus, LeftParen, RightParen
       expect(result.stats.deductionRules).toBe(2); // BinaryExpression, ParenExpression
       expect(result.stats.unionRules).toBe(3); // Term, Operator, Expression
+      expect(result.stats.listRules).toBe(0); // No list rules in this model
     });
   });
 
