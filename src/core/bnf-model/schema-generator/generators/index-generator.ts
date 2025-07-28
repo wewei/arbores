@@ -31,6 +31,14 @@ export const generateIndexFile = (state: SchemaGeneratorState): SchemaGeneratorS
     }
   }
 
+  // Export list nodes
+  const listNodes = getNodesByType(state, 'list');
+  if (state.config.separateFiles && listNodes.length > 0) {
+    for (const [name] of listNodes) {
+      exports.push(`export * from './nodes/${name}.js';`);
+    }
+  }
+
   // Export constants
   exports.push("export * from './constants.js';");
 

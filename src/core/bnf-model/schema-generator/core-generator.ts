@@ -5,15 +5,14 @@
 import type { SchemaGeneratorState, GenerationResult } from './types';
 import { reset, validateModel, addErrors } from './state';
 import { validateGeneratedCode } from './utils';
-import {
+import { 
   generateTokenTypes,
   generateDeductionNodes,
+  generateListNodes,
   generateUnionTypes,
   generateConstants,
   generateIndexFile
-} from './generators';
-
-/**
+} from './generators';/**
  * Generate all schema files for the BNF model
  */
 export const generate = (state: SchemaGeneratorState): GenerationResult => {
@@ -34,6 +33,7 @@ export const generate = (state: SchemaGeneratorState): GenerationResult => {
     let currentState = validationResult.state;
     currentState = generateTokenTypes(currentState);
     currentState = generateDeductionNodes(currentState);
+    currentState = generateListNodes(currentState);
     currentState = generateUnionTypes(currentState);
     currentState = generateConstants(currentState);
     currentState = generateIndexFile(currentState);

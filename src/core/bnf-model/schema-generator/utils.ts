@@ -52,6 +52,8 @@ export const getElementType = (state: SchemaGeneratorState, nodeName: string): s
       return getNodeTypeName(state, nodeName);
     case 'union':
       return getUnionTypeName(state, nodeName);
+    case 'list':
+      return getNodeTypeName(state, nodeName);
     default:
       return 'unknown';
   }

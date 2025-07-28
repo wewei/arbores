@@ -2,7 +2,7 @@
  * Node-specific stringifier function generation
  */
 
-import type { BNFNode, TokenNode, DeductionNode, UnionNode } from '../../types';
+import type { BNFNode, TokenNode, DeductionNode, UnionNode, ListNode } from '../../types';
 import type { StringifierGeneratorState } from '../types';
 import { getNodeTypeName } from '../utils';
 
@@ -24,6 +24,8 @@ export const generateNodeStringifierFunction = (
       return generateDeductionStringifierFunction(state, functionName, nodeName, nodeType, node as DeductionNode);
     case 'union':
       return generateUnionStringifierFunction(state, functionName, nodeName, nodeType, node as UnionNode);
+    case 'list':
+      return generateListStringifierFunction(state, functionName, nodeName, nodeType, node as ListNode);
     default:
       // Return updated state with error - but for now just return empty string
       return '';
@@ -134,4 +136,42 @@ export const generateSequenceStringification = (
   }
 
   return parts.join('\n');
+};
+
+/**
+ * Generate stringifier function for a list node
+ */
+export const generateListStringifierFunction = (
+  state: StringifierGeneratorState,
+  functionName: string,
+  nodeName: string,
+  nodeType: string,
+  node: ListNode
+): string => {
+  return `/**
+ * stringifier ${nodeName} list node
+ * ${node.description}
+ */
+export function ${functionName}(node: ${nodeType}, options: StringifierOptions): string {
+  const parts: string[] = [];
+  const indent = getIndentation(options);
+  
+  // Stringify items with separators
+  for (let i = 0; i < node.items.length; i++) {
+    // Add the item
+    parts.push(stringifyNode(node.items[i], options));
+    
+    // Add separator if it exists and is needed
+    if (node.separators && i < node.separators.length) {
+      ${node.separator?.last === 'none' 
+        ? '// Only add separator if not the last item\n      if (i < node.items.length - 1) {'
+        : '// Add separator'
+      }
+      ${node.separator?.last === 'none' ? '  ' : ''}parts.push(stringifyNode(node.separators[i], options));
+      ${node.separator?.last === 'none' ? '      }' : ''}
+    }
+  }
+
+  return parts.join('');
+}`;
 };

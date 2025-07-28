@@ -70,6 +70,10 @@ export const generateUnionTypes = (state: SchemaGeneratorState): SchemaGenerator
       const typeName = getNodeTypeName(state, name);
       allNodeTypes.push(typeName);
       allNodeImports.add(`nodes/${name}`);
+    } else if (node.type === 'list') {
+      const typeName = getNodeTypeName(state, name);
+      allNodeTypes.push(typeName);
+      allNodeImports.add(`nodes/${name}`);
     } else if (node.type === 'union') {
       const typeName = getUnionTypeName(state, name);
       allNodeTypes.push(typeName);
