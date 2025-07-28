@@ -4,11 +4,11 @@
 
 import type { TokenNode } from '../../types';
 import type { SchemaGeneratorState } from '../types';
-import { 
-  getNodesByType, 
-  getTokenTypeName, 
-  generateFileHeader, 
-  generateJSDoc 
+import {
+  getNodesByType,
+  getTokenTypeName,
+  generateFileHeader,
+  generateJSDoc
 } from '../utils';
 import { addFile, addWarning } from '../state';
 

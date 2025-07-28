@@ -3,9 +3,9 @@
  */
 
 import type { SchemaGeneratorState } from '../types';
-import { 
+import {
   getNodesByType,
-  generateFileHeader 
+  generateFileHeader
 } from '../utils';
 import { addFile } from '../state';
 

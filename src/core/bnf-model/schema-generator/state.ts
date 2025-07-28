@@ -5,10 +5,10 @@
  */
 
 import type { BNFModel } from '../types';
-import type { 
-  SchemaGeneratorState, 
-  GenerationConfig, 
-  SchemaGenerationOptions 
+import type {
+  SchemaGeneratorState,
+  GenerationConfig,
+  SchemaGenerationOptions
 } from './types';
 
 /**

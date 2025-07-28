@@ -4,12 +4,12 @@
 
 import type { DeductionNode } from '../../types';
 import type { SchemaGeneratorState } from '../types';
-import { 
-  getNodesByType, 
-  getNodeTypeName, 
+import {
+  getNodesByType,
+  getNodeTypeName,
   getElementType,
-  generateFileHeader, 
-  generateJSDoc 
+  generateFileHeader,
+  generateJSDoc
 } from '../utils';
 import { addFile, addWarning } from '../state';
 

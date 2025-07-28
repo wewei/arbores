@@ -4,14 +4,14 @@
 
 import type { UnionNode } from '../../types';
 import type { SchemaGeneratorState } from '../types';
-import { 
-  getNodesByType, 
+import {
+  getNodesByType,
   getUnionTypeName,
   getTokenTypeName,
   getNodeTypeName,
   getElementType,
-  generateFileHeader, 
-  generateJSDoc 
+  generateFileHeader,
+  generateJSDoc
 } from '../utils';
 import { addFile, addWarning } from '../state';
 

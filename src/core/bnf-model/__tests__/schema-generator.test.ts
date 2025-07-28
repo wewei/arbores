@@ -8,7 +8,7 @@ import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { load as loadYaml } from 'js-yaml';
 import { parseBNF } from '../bnf-parser.js';
-import { BNFCodeGenerator, generateCode, type GenerationConfig } from '../schema-generator.js';
+import { generateCode, type GenerationConfig } from '../schema-generator';
 import type { BNFModel } from '../types.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -27,8 +27,8 @@ const loadFixture = (filename: string): any => {
   }
 };
 
-describe('BNF Code Generator', () => {
-  describe('BNFCodeGenerator class', () => {
+describe('BNF Schema Generator (Functional)', () => {
+  describe('generateCode function', () => {
     it('should generate code for simple math grammar', () => {
       const input = loadFixture('simple-math.bnf.yaml');
       const parseResult = parseBNF(input);
@@ -42,8 +42,7 @@ describe('BNF Code Generator', () => {
         includeDocumentation: true,
       };
 
-      const generator = new BNFCodeGenerator(parseResult.model, config);
-      const result = generator.generate();
+      const result = generateCode(parseResult.model, config);
 
       expect(result.success).toBe(true);
       expect(result.errors?.length || 0).toBe(0);
@@ -76,8 +75,7 @@ describe('BNF Code Generator', () => {
         includeDocumentation: false,
       };
 
-      const generator = new BNFCodeGenerator(parseResult.model, config);
-      const result = generator.generate();
+      const result = generateCode(parseResult.model, config);
 
       expect(result.success).toBe(true);
 
@@ -102,8 +100,7 @@ describe('BNF Code Generator', () => {
         outputDir: './output',
       };
 
-      const generator = new BNFCodeGenerator(parseResult.model, config);
-      const result = generator.generate();
+      const result = generateCode(parseResult.model, config);
 
       expect(result.success).toBe(true);
 
@@ -127,8 +124,7 @@ describe('BNF Code Generator', () => {
         separateFiles: true,
       };
 
-      const generator = new BNFCodeGenerator(parseResult.model, config);
-      const result = generator.generate();
+      const result = generateCode(parseResult.model, config);
 
       expect(result.success).toBe(true);
 
@@ -152,8 +148,7 @@ describe('BNF Code Generator', () => {
         outputDir: './output',
       };
 
-      const generator = new BNFCodeGenerator(parseResult.model, config);
-      const result = generator.generate();
+      const result = generateCode(parseResult.model, config);
 
       expect(result.success).toBe(true);
 
@@ -179,8 +174,7 @@ describe('BNF Code Generator', () => {
         outputDir: './output',
       };
 
-      const generator = new BNFCodeGenerator(parseResult.model, config);
-      const result = generator.generate();
+      const result = generateCode(parseResult.model, config);
 
       expect(result.success).toBe(true);
 
@@ -212,8 +206,7 @@ describe('BNF Code Generator', () => {
         },
       };
 
-      const generator = new BNFCodeGenerator(parseResult.model, config);
-      const result = generator.generate();
+      const result = generateCode(parseResult.model, config);
 
       expect(result.success).toBe(true);
 
@@ -237,8 +230,7 @@ describe('BNF Code Generator', () => {
         outputDir: './output',
       };
 
-      const generator = new BNFCodeGenerator(invalidModel, config);
-      const result = generator.generate();
+      const result = generateCode(invalidModel, config);
 
       expect(result.success).toBe(false);
       expect(result.errors).toEqual(expect.arrayContaining([
@@ -260,8 +252,7 @@ describe('BNF Code Generator', () => {
         outputDir: './output',
       };
 
-      const generator = new BNFCodeGenerator(parseResult.model, config);
-      const result = generator.generate();
+      const result = generateCode(parseResult.model, config);
 
       expect(result.success).toBe(true);
       // If there were syntax errors, they would be in result.errors
